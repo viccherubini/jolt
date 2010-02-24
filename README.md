@@ -1,4 +1,4 @@
-== Jolt PHP Framework ==
+# Jolt PHP Framework
 
 Jolt is a brand new PHP5 framework. It was originally named Artisan System, but the name recently changed to Jolt. A brand new repository was started because the architecture is changing entirely.
 
