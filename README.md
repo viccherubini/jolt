@@ -1,9 +1,16 @@
-# Jolt PHP Framework
+# Welcome to Jolt
+## Energize Your Application
 
-Jolt is a brand new PHP5 framework. It was originally named Artisan System, but the name recently changed to Jolt. A brand new repository was started because the architecture is changing entirely.
+Jolt is a new PHP5.3+ framework aimed at fast and efficient web app development. Originally named Artisan System, Jolt was renamed to be more concise and easier to speak. Many of the ideas of Artisan System will be used in Jolt, but a lot of new ideas will be implemented as well.
 
-Jolt is a fully featured MVC framework. It has influences from many different frameworks, and includes some new features itself. Building new web software in Jolt will be simple and straightforward, with an emphasis on good design, Test Driven Development, and building RESTful interfaces.
+Jolt is hosted at [Joltcore.org](http://joltcore.org).
 
-Please follow this project or browse to http://joltcore.org to see more.
+Issues and bugs can be found at [http://issues.joltcore.org](http://issues.joltcore.org).
 
--Vic Cherubini
+Wiki and documentation can be found at [http://wiki.joltcore.org](http://wiki.joltcore.org).
+
+## Team Members
+* Vic Cherubini <vmc@leftnode.com>
+
+## Sponsored By
+* Leftnode Software, Inc. <http://leftnodesoftware.com>
