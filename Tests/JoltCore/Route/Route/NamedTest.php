@@ -1,8 +1,8 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+require_once 'JoltCore/TestCase.php';
 
-class JoltCore_Route_Route_NamedTest extends PHPUnit_Framework_TestCase {
+class JoltCore_Route_Route_NamedTest extends JoltCore_TestCase {
 	
 	public function testInit() {
 		$this->assertEquals(1, 1);

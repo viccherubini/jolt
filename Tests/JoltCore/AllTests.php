@@ -1,6 +1,7 @@
 <?php
 
 require_once 'PHPUnit/Framework.php';
+
 require_once 'Router/RouterTest.php';
 require_once 'Controller/ControllerTest.php';
 require_once 'Route/AllTests.php';

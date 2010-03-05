@@ -1,22 +1,26 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+require_once 'JoltCore/TestCase.php';
+
+/**
+ * @see Jolt_Router
+ */
 require_once 'Jolt/Router.php';
 
-class JoltCore_Router_RouterTest extends PHPUnit_Framework_TestCase {
+class JoltCore_Router_RouterTest extends JoltCore_TestCase {
 
 	public function testEmptyNamedRouteList() {
 		$router = new Router();
 		
-		$this->assertTrue(is_array($router->getNamedRouteList()));
-		$this->assertEquals(0, count($router->getNamedRouteList()));
+		$this->assertArray($router->getNamedRouteList());
+		$this->assertEmptyArray($router->getNamedRouteList());
 	}
 	
 	public function testEmptyRestfulRouteList() {
 		$router = new Router();
 		
-		$this->assertTrue(is_array($router->getRestfulRouteList()));
-		$this->assertEquals(0, count($router->getRestfulRouteList()));
+		$this->assertArray($router->getRestfulRouteList());
+		$this->assertEmptyArray($router->getRestfulRouteList());
 	}
 	
 	
