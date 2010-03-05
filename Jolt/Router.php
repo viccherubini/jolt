@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Exception.php';
+
 class Router {
 
 	private $named_list = array();
@@ -10,6 +12,22 @@ class Router {
 	}
 	
 	public function __destruct() {
+		
+	}
+	
+	public function setNamedRouteList(array $named_list) {
+		if ( 0 === count($named_list) ) {
+			throw new Jolt_Exception('router_named_list_empty');
+		}
+		
+		array_walk($named_list, function(&$v, $k) {
+			if ( false === $v instanceof Jolt_Route ) {
+				throw new Jolt_Exception('router_named_list_element_not_route');
+			}
+		});
+	}
+	
+	public function setRestfulRouteList(array $restful_list) {
 		
 	}
 	
