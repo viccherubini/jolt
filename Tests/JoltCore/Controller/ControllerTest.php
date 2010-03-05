@@ -8,7 +8,7 @@ class JoltCore_Controller_ControllerTest extends PHPUnit_Framework_TestCase {
 	public function testConfigIsEmpty() {
 		$controller = $this->buildController();
 		
-		$this->assertEquals(is_array(array()), is_array($controller->getConfig()));
+		$this->assertTrue(is_array($controller->getConfig()));
 		$this->assertEquals(0, count($controller->getConfig()));
 	}
 
