@@ -1,13 +1,11 @@
 <?php
 
-require_once 'JoltCore/TestCase.php';
+namespace JoltTest;
+use \Jolt\Router;
 
-/**
- * @see Jolt_Router
- */
 require_once 'Jolt/Router.php';
 
-class JoltCore_Router_RouterTest extends JoltCore_TestCase {
+class JoltCore_Router_RouterTest extends TestCase {
 
 	public function testEmptyNamedRouteList() {
 		$router = new Router();
@@ -31,7 +29,7 @@ class JoltCore_Router_RouterTest extends JoltCore_TestCase {
 		$router->setNamedRouteList('string');
 		$router->setNamedRouteList(10);
 		$router->setNamedRouteList(10.45);
-		$router->setNamedRouteList(new stdClass());
+		$router->setNamedRouteList(new \stdClass());
 	}
 	
 	/**
@@ -42,16 +40,16 @@ class JoltCore_Router_RouterTest extends JoltCore_TestCase {
 		$router->setRestfulRouteList('string');
 		$router->setRestfulRouteList(10);
 		$router->setRestfulRouteList(10.45);
-		$router->setRestfulRouteList(new stdClass());
+		$router->setRestfulRouteList(new \stdClass());
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testNameListMustBeRouteObjects() {
 		$router = new Router();
 		
-		$name_list = array(new stdClass());
+		$name_list = array(new \stdClass());
 		$router->setNamedRouteList($name_list);
 	}
 

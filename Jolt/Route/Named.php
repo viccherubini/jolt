@@ -1,8 +1,11 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt\Route;
+
 require_once 'Jolt/Route.php';
 
-class Jolt_Route_Named extends Jolt_Route {
+class Named extends \Jolt\Route {
 
 	
 

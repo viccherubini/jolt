@@ -1,5 +1,7 @@
 <?php
 
+namespace Jolt;
+
 require_once 'PHPUnit/Framework.php';
 
 require_once 'Router/RouterTest.php';

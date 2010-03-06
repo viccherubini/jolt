@@ -1,5 +1,8 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Exception.php';
 
 class Router {
@@ -22,7 +25,7 @@ class Router {
 		
 		array_walk($named_list, function(&$v, $k) {
 			if ( false === $v instanceof Jolt_Route ) {
-				throw new Jolt_Exception('router_named_list_element_not_route');
+				throw new \Jolt\Exception('router_named_list_element_not_route');
 			}
 		});
 	}

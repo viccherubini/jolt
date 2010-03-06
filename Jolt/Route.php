@@ -1,6 +1,9 @@
 <?php
 
-abstract class Jolt_Route {
+declare(encoding='UTF-8');
+namespace Jolt;
+
+abstract class Route {
 
 	private $config = array();
 

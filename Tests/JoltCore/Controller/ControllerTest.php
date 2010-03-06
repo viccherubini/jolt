@@ -1,13 +1,11 @@
 <?php
 
-require_once 'JoltCore/TestCase.php';
+namespace JoltTest;
+use \Jolt\Controller;
 
-/**
- * @see Jolt_Controller
- */
 require_once 'Jolt/Controller.php';
 
-class JoltCore_Controller_ControllerTest extends JoltCore_TestCase {
+class JoltCore_Controller_ControllerTest extends TestCase {
 	
 	public function testConfigIsEmpty() {
 		$controller = $this->buildController();
@@ -17,7 +15,7 @@ class JoltCore_Controller_ControllerTest extends JoltCore_TestCase {
 	}
 
 	protected function buildController() {
-		$controller = $this->getMockForAbstractClass('Jolt_Controller');
+		$controller = $this->getMockForAbstractClass('\Jolt\Controller');
 		return $controller;
 	}
 }

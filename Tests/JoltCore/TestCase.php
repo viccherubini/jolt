@@ -1,19 +1,9 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
+namespace JoltTest;
 
-class JoltCore_TestCase extends PHPUnit_Framework_TestCase {
-
-	/*public function testAssertIsArrayWorksForArrays() {
-		$this->assertIsArray(array());
-	}
+class TestCase extends \PHPUnit_Framework_TestCase {
 	
-	public function testAssertIsArrayFailsForNonArrays() {
-		$this->assertIsArray('abc');
-		$this->assertIsArray(10.45);
-		$this->assertIsArray(new stdClass());
-	}*/
-
 	public static function assertArray($a, $message = '') {
 		self::assertThat(is_array($a), self::isTrue(), $message);
 	}
@@ -22,4 +12,5 @@ class JoltCore_TestCase extends PHPUnit_Framework_TestCase {
 		self::assertArray($a);
 		self::assertEquals(count($a), 0, $message);
 	}
+	
 }
