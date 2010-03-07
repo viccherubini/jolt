@@ -1,11 +1,11 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Route;
+namespace Jolt;
 
 require_once 'Jolt/Route.php';
 
-class Restful extends \Jolt\Route {
+class Route_Restful extends \Jolt\Route {
 
 	
 	public function isValid() {
