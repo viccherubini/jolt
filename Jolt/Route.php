@@ -5,7 +5,7 @@ namespace Jolt;
 
 abstract class Route {
 
-	private $config = array();
+	
 
 	public function __construct() {
 		
@@ -17,5 +17,5 @@ abstract class Route {
 	
 
 	
-
+	abstract public function isValid();
 }
