@@ -53,10 +53,61 @@ class JoltCore_Router_RouterTest extends TestCase {
 		$router->setNamedRouteList($name_list);
 	}
 
-
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testNameListCanNotBeEmpty() {
+		$router = new Router();
+		
+		$name_list = array();
+		$router->setNamedRouteList($name_list);
+	}
 	
+	public function testConfigCanBeSet() {
+		$router = new Router();
+		$config = $this->buildConfig();
+		
+		$this->assertEquals($router, $router->setConfig($config));
+	}
+	
+	public function testConfigIsSet() {
+		$router = new Router();
+		$config = $this->buildConfig();
+		
+		$this->assertEquals($config, $router->setConfig($config)->getConfig());
+	}
+	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testConfigCanNotBeMalformed() {
+		$router = new Router();
+		$router->setConfig(array());
+	}
+	
+	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testDispatchMustHaveAtLeastOneRoute() {
+		$router = new Router();
+		$router->dispatch();
+	}
+	
+	
+
 	protected function buildRouteObject() {
-		
-		
+
+	}
+	
+	protected function buildConfig() {
+		return array(
+			'site_root' => 'http://joltcore.org/',
+			'site_root_secure' => 'https://joltcore.org/',
+			'app_dir' => 'app',
+			'layout_dir' => '/public/layout',
+			'default_layout' => 'index',
+			'rewrite' => true
+		);
 	}
 }
