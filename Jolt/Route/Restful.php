@@ -8,5 +8,7 @@ require_once 'Jolt/Route.php';
 class Restful extends \Jolt\Route {
 
 	
-
+	public function isValid() {
+		return false;
+	}
 }
