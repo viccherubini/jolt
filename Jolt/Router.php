@@ -57,6 +57,9 @@ class Router {
 				throw new \Jolt\Exception('router_named_list_element_not_route');
 			}
 		});
+		
+		$this->named_list = $named_list;
+		return $this;
 	}
 	
 	public function setRestfulRouteList(array $restful_list) {
