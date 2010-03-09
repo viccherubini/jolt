@@ -23,44 +23,20 @@ class JoltCore_Router_RouterTest extends TestCase {
 	
 	/**
 	 * @expectedException PHPUnit_Framework_Error
+	 * @provider providerNamedRoute
 	 */
-	public function testSetNamedRouteList() {
+	public function testSetNamedRouteList($route_list) {
 		$router = new Router();
-		$router->setNamedRouteList('string');
-		$router->setNamedRouteList(10);
-		$router->setNamedRouteList(10.45);
-		$router->setNamedRouteList(new \stdClass());
+		$router->setNamedRouteList($route_list);
 	}
 	
 	/**
 	 * @expectedException PHPUnit_Framework_Error
+	 * @provider providerInvalidRouteList
 	 */
-	public function testSetRestfulRouteList() {
+	public function testSetRestfulRouteList($route_list) {
 		$router = new Router();
-		$router->setRestfulRouteList('string');
-		$router->setRestfulRouteList(10);
-		$router->setRestfulRouteList(10.45);
-		$router->setRestfulRouteList(new \stdClass());
-	}
-	
-	/**
-	 * @expectedException \Jolt\Exception
-	 */
-	public function testNameListMustBeRouteObjects() {
-		$router = new Router();
-		
-		$name_list = array(new \stdClass());
-		$router->setNamedRouteList($name_list);
-	}
-
-	/**
-	 * @expectedException \Jolt\Exception
-	 */
-	public function testNameListCanNotBeEmpty() {
-		$router = new Router();
-		
-		$name_list = array();
-		$router->setNamedRouteList($name_list);
+		$router->setRestfulRouteList($route_list);
 	}
 	
 	public function testConfigCanBeSet() {
@@ -70,7 +46,7 @@ class JoltCore_Router_RouterTest extends TestCase {
 		$this->assertEquals($router, $router->setConfig($config));
 	}
 	
-	public function testConfigIsSet() {
+	public function testSettingConfigReturnsSelf() {
 		$router = new Router();
 		$config = $this->buildConfig();
 		
@@ -85,7 +61,6 @@ class JoltCore_Router_RouterTest extends TestCase {
 		$router->setConfig(array());
 	}
 	
-	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
@@ -94,10 +69,14 @@ class JoltCore_Router_RouterTest extends TestCase {
 		$router->dispatch();
 	}
 	
-	
-
-	protected function buildRouteObject() {
-
+	public function providerInvalidRouteList() {
+		return array(
+			array('string'),
+			array(10),
+			array(10.45),
+			array(new \stdClass()),
+			array(array())
+		);
 	}
 	
 	protected function buildConfig() {
