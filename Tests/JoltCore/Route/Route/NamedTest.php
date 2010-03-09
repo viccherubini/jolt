@@ -44,32 +44,54 @@ class JoltCore_Route_Route_NamedTest extends TestCase {
 		$this->assertEquals('Action', $route->getAction());
 	}
 	
-	public function testRouteNamesAreValid() {
+	/**
+	 * @dataProvider providerValidRoute
+	 */
+	public function testRouteNameIsValid($route_name) {
 		$route = new Route_Named('/', 'Controller', 'Action');
 		
-		$this->assertTrue($route->setRoute('/')->isValid());
-		$this->assertTrue($route->setRoute('/abc')->isValid());
-		$this->assertTrue($route->setRoute('/abc9')->isValid());
-		$this->assertTrue($route->setRoute('/long_route')->isValid());
-		$this->assertTrue($route->setRoute('/long-route')->isValid());
-		$this->assertTrue($route->setRoute('/abc99')->isValid());
-		$this->assertTrue($route->setRoute('/long_route/')->isValid());
-		$this->assertTrue($route->setRoute('/abc/')->isValid());
-		$this->assertTrue($route->setRoute('/abc0/')->isValid());
-		$this->assertTrue($route->setRoute('/abc/def')->isValid());
-		$this->assertTrue($route->setRoute('/abc/def/')->isValid());
-		$this->assertTrue($route->setRoute('/abc/%d/')->isValid());
-		$this->assertTrue($route->setRoute('/abc/def/efg/%d')->isValid());
-		$this->assertTrue($route->setRoute('/abc/def/%s/%d')->isValid());
-		$this->assertTrue($route->setRoute('/abc.def/%s/%d')->isValid());
-		$this->assertTrue($route->setRoute('/abc./')->isValid());
-		$this->assertTrue($route->setRoute('/abc.')->isValid());
-		
-		$this->assertFalse($route->setRoute('//')->isValid());
-		$this->assertFalse($route->setRoute('///')->isValid());
-		$this->assertFalse($route->setRoute('/abc/*')->isValid());
-		$this->assertFalse($route->setRoute('/abc/*/')->isValid());
-		$this->assertFalse($route->setRoute('/abc/*/d')->isValid());
-		$this->assertFalse($route->setRoute('/abc/*/d/')->isValid());
+		$this->assertTrue($route->setRoute($route_name)->isValid());
+	}
+	
+	/**
+	 * @dataProvider providerInvalidRoute
+	 */
+	public function testRouteNameIsInvalid($route_name) {
+		$route = new Route_named('/', 'Controller', 'Action');
+	
+		$this->assertFalse($route->setRoute($route_name)->isValid());
+	}
+	
+	public function providerValidRoute() {
+		return array(
+			array('/'),
+			array('/abc'),
+			array('/abc9'),
+			array('/long_route'),
+			array('/long-route'),
+			array('/abc99'),
+			array('/long_route/'),
+			array('/abc/'),
+			array('/abc0/'),
+			array('/abc/def'),
+			array('/abc/def/'),
+			array('/abc/%d/'),
+			array('/abc/def/efg/%d'),
+			array('/abc/def/%s/%d'),
+			array('/abc.def/%s/%d'),
+			array('/abc./'),
+			array('/abc.')
+		);
+	}
+	
+	public function providerInvalidRoute() {
+		return array(
+			array('//'),
+			array('///'),
+			array('/abc/*'),
+			array('/abc/*/'),
+			array('/abc/*/d'),
+			array('/abc/*/d/')
+		);
 	}
 }
