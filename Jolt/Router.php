@@ -10,7 +10,10 @@ class Router {
 	private $config = array();
 	private $named_list = array();
 	private $restful_list = array();
-
+	
+	
+	const URI_PARAM = '_u';
+	
 	public function __construct() {
 		$this->reset();
 	}
@@ -53,8 +56,14 @@ class Router {
 		}
 		
 		array_walk($named_list, function(&$v, $k) {
-			if ( false === $v instanceof \Jolt\Route ) {
-				throw new \Jolt\Exception('router_named_list_element_not_route');
+			if ( false === is_object($v) ) {
+				$type_name = gettype($v);
+				throw new \Jolt\Exception("router_named_list_element_not_object: '{$type_name}'");
+			}
+			
+			if ( false === $v instanceof \Jolt\Route_Named ) {
+				$class_name = get_class($v);
+				throw new \Jolt\Exception("router_named_list_element_not_named_route: '{$class_name}'");
 			}
 		});
 		
@@ -63,7 +72,19 @@ class Router {
 	}
 	
 	public function setRestfulRouteList(array $restful_list) {
+		if ( 0 === count($restful_list) ) {
+			throw new \Jolt\Exception('router_restful_list_empty');
+		}
 		
+		array_walk($restful_list, function(&$v, $k) {
+			if ( false === $v instanceof \Jolt\Route_Restful ) {
+				$class_name = get_class($v);
+				throw new \Jolt\Exception("router_restful_list_element_not_restful_route: '{$class_name}'");
+			}
+		});
+		
+		$this->restful_list = $restful_list;
+		return $this;
 	}
 	
 	
@@ -91,12 +112,27 @@ class Router {
 			throw new \Jolt\Exception('router_lists_empty');
 		}
 		
-		
+		$this->parseUri();
 	}
 	
 	
 	private function reset() {
 		$this->named_list = array();
 		$this->restful_list = array();
+	}
+	
+	private function parseUri() {
+		$uri = er(self::URI_PARAM, $REQUEST);
+	
+		$match_route = function(&$v, $k) {
+			echo $uri . PHP_EOL;
+		};
+		
+		/* Check the named list first for a matching route. */
+		$named_list = $this->getNamedRouteList();
+		if ( count($named_list) > 0 ) {
+			array_walk($named_list, $match_route);
+		}
+
 	}
 }
