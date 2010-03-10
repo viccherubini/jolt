@@ -21,23 +21,31 @@ class JoltCore_Router_RouterTest extends TestCase {
 		$this->assertEmptyArray($router->getRestfulRouteList());
 	}
 	
+
 	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 * @provider providerNamedRoute
+	 * @dataProvider providerValidNamedRouteList
 	 */
-	public function testSetNamedRouteList($route_list) {
+	public function testSettingValidNamedRouteList($named_route) {
 		$router = new Router();
-		$router->setNamedRouteList($route_list);
+		$router->setNamedRouteList(array($named_route));
 	}
 	
 	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 * @provider providerInvalidRouteList
+	 * @expectedException \Jolt\Exception
+	 * @dataProvider providerInvalidRouteList
 	 */
-	public function testSetRestfulRouteList($route_list) {
+	public function testSettingInvalidNamedRouteList($named_route) {
 		$router = new Router();
-		$router->setRestfulRouteList($route_list);
+		$router->setNamedRouteList(array($named_route));
 	}
+	
+	/*public function testSettingValidRestfulRouteList($restful_route) {
+		
+	}
+	
+	public function testSettingInvalidRestfulRouteList($restful_route) {
+		
+	}*/
 	
 	public function testConfigCanBeSet() {
 		$router = new Router();
@@ -69,6 +77,16 @@ class JoltCore_Router_RouterTest extends TestCase {
 		$router->dispatch();
 	}
 	
+	/**
+	 * @dataProvider providerValidNamedRouteList
+	 */
+	public function testDispatchFindsCorrectRoute($named_route) {
+		$router = new Router();
+		$router->setConfig($this->buildConfig());
+
+		$router->setNamedRouteList(array($named_route));
+	}
+	
 	public function providerInvalidRouteList() {
 		return array(
 			array('string'),
@@ -77,6 +95,19 @@ class JoltCore_Router_RouterTest extends TestCase {
 			array(new \stdClass()),
 			array(array())
 		);
+	}
+	
+	public function providerValidNamedRouteList() {
+		return array(
+			array($this->buildNamedRoute('/', 'User', 'viewall')),
+			array($this->buildNamedRoute('/user/', 'User', 'viewall')),
+			array($this->buildNamedRoute('/user/%d', 'User', 'view')),
+			array($this->buildNamedRoute('/user/delete/%d', 'User', 'delete'))
+		);
+	}
+	
+	public function providerValidRestfulRouteList() {
+		return array(array());
 	}
 	
 	protected function buildConfig() {
@@ -88,5 +119,26 @@ class JoltCore_Router_RouterTest extends TestCase {
 			'default_layout' => 'index',
 			'rewrite' => true
 		);
+	}
+	
+	protected function buildNamedRoute($route, $controller, $action) {
+		$mock = $this->getMock('\Jolt\Route_Named',
+			array('getRoute', 'getController', 'getAction'),
+			array($route, $controller, $action)
+		);
+		
+		$mock->expects($this->any())
+			->method('getRoute')
+			->will($this->returnValue($route));
+
+		$mock->expects($this->any())
+			->method('getController')
+			->will($this->returnValue($controller));
+			
+		$mock->expects($this->any())
+			->method('getAction')
+			->will($this->returnValue($action));
+			
+		return $mock;
 	}
 }
