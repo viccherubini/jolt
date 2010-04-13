@@ -5,6 +5,7 @@ Jolt is a new PHP5.2+ and PHP5.3+ framework aimed at fast and efficient web app 
 
 ## Why *another* PHP framework?
 There are plenty of competent frameworks already in existence out there. So why am I building another one?
+
 * I think some of the other frameworks are too large and get in the way of doing things.
 * I enjoy programming and doing web development.
 * I actually like PHP development and think you can build powerful stuff with it.
@@ -18,7 +19,7 @@ Issues and bugs can be found at [http://issues.joltcore.org](http://issues.joltc
 Wiki and documentation can be found at [http://wiki.joltcore.org](http://wiki.joltcore.org).
 
 ## Team Members
-* Vic Cherubini <vmc@leftnode.com>
+* Vic Cherubini <vmc@leftnodesoftware.com>
 
 ## Sponsored By
 * Leftnode Software, Inc. <http://leftnodesoftware.com>
