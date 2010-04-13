@@ -1,6 +1,8 @@
 <?php
 
-abstract class App {
+namespace Jolt;
+
+class App {
 
 
 }
