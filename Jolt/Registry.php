@@ -1,8 +1,5 @@
 <?php
 
-declare(encoding='UTF-8');
-namespace Jolt;
-
 require_once 'Jolt/Lib/Library.php';
 
 /**
@@ -13,7 +10,7 @@ require_once 'Jolt/Lib/Library.php';
  * 
  * @author vmc <vmc@joltcore.org>
  */
-class Registry {
+class Jolt_Registry {
 	
 	/**
 	 * @var The list of elements in the registry.

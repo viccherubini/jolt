@@ -1,8 +1,5 @@
 <?php
 
-declare(encoding='UTF-8');
-namespace Jolt;
-
 function db_create_field_list($table, $fields, $table_alias = NULL) {
 	$field_list = array();
 	

@@ -1,8 +1,5 @@
 <?php
 
-declare(encoding='UTF-8');
-namespace Jolt;
-
 function array_exists_all($key_list, $array) {
 	if ( false === is_array($key_list) ) {
 		return false;

@@ -1,8 +1,6 @@
 <?php
 
-namespace JoltTest;
-
-class TestCase extends \PHPUnit_Framework_TestCase {
+class Jolt_TestCase extends PHPUnit_Framework_TestCase {
 	
 	public static function assertArray($a, $message = '') {
 		self::assertThat(is_array($a), self::isTrue(), $message);

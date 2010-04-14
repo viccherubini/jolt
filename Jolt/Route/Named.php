@@ -1,11 +1,8 @@
 <?php
 
-declare(encoding='UTF-8');
-namespace Jolt;
-
 require_once 'Jolt/Route.php';
 
-class Route_Named extends \Jolt\Route {
+class Jolt_Route_Named extends Jolt_Route {
 
 	private $controller = NULL;
 	private $action = NULL;
@@ -24,7 +21,7 @@ class Route_Named extends \Jolt\Route {
 	public function setController($controller) {
 		$controller = trim($controller);
 		if ( true === empty($controller) ) {
-			throw new \Jolt\Exception('route_named_controller_empty');
+			throw new Jolt_Exception('route_named_controller_empty');
 		}
 		
 		$this->controller = $controller;
@@ -35,7 +32,7 @@ class Route_Named extends \Jolt\Route {
 	public function setAction($action) {
 		$action = trim($action);
 		if ( true === empty($action) ) {
-			throw new \Jolt\Exception('route_named_action_empty');
+			throw new Jolt_Exception('route_named_action_empty');
 		}
 		
 		$this->action = $action;

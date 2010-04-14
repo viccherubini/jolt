@@ -1,9 +1,6 @@
 <?php
 
-declare(encoding='UTF-8');
-namespace Jolt;
-
-abstract class Route {
+abstract class Jolt_Route {
 
 	private $route = NULL;
 
@@ -18,7 +15,7 @@ abstract class Route {
 	public function setRoute($route) {
 		$route = trim($route);
 		if ( true === empty($route) ) {
-			throw new \Jolt\Exception('route_empty');
+			throw new Jolt_Exception('route_empty');
 		}
 		
 		$this->route = $route;
