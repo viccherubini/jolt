@@ -16,7 +16,7 @@ require_once 'Route/AllTests.php';
 class Jolt_AllTests {
 	
 	public static function suite() {
-		$suite = new PHPUnit_Framework_TestSuite('Jolt');
+		$suite = new PHPUnit_Framework_TestSuite('Jolt All Tests');
 		
 		$suite->addTestSuite('Jolt_Router_RouterTest');
 		$suite->addTestSuite('Jolt_Controller_ControllerTest');
