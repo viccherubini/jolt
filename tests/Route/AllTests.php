@@ -9,7 +9,7 @@ require_once 'Route/RestfulTest.php';
 class Jolt_Route_AllTests {
 	
 	public static function suite() {
-		$suite = new PHPUnit_Framework_TestSuite('Jolt');
+		$suite = new PHPUnit_Framework_TestSuite('Jolt_Route');
 		
 		$suite->addTestSuite('Jolt_Route_RouteTest');
 		$suite->addTestSuite('Jolt_Route_NamedTest');
