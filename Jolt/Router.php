@@ -63,13 +63,17 @@ class Jolt_Router {
 			}
 		}
 		
+		if ( false === $this->isRouteListUnqiue($named_list) ) {
+			throw new Jolt_Exception("router_named_list_duplicate_route");
+		}
+		
 		$this->named_list = $named_list;
 		return $this;
 	}
 	
 	public function setRestfulRouteList(array $restful_list) {
 		if ( 0 === count($restful_list) ) {
-			throw new Jolt_Exception('router_restful_list_empty');
+			throw new Jolt_Exception("router_restful_list_empty");
 		}
 		
 		foreach ( $restful_list as $route ) {
@@ -82,6 +86,10 @@ class Jolt_Router {
 				$class_name = get_class($route);
 				throw new Jolt_Exception("router_restful_list_element_not_named_route: '{$class_name}'");
 			}
+		}
+		
+		if ( false === $this->isRouteListUnqiue($restful_list) ) {
+			throw new Jolt_Exception("router_restful_list_duplicate_route");
 		}
 		
 		$this->restful_list = $restful_list;
@@ -135,5 +143,17 @@ class Jolt_Router {
 			//array_walk($named_list, $match_route);
 		}
 
+	}
+	
+	private function isRouteListUnqiue(array $route_list) {
+		$route_uri_list = array();
+		
+		foreach ( $route_list as $route ) {
+			$route_uri_list[] = $route->getRoute();
+		}
+		
+		$route_uri_list_unique = array_unique($route_uri_list);
+		
+		return ( count($route_uri_list) === count($route_uri_list_unique) );
 	}
 }
