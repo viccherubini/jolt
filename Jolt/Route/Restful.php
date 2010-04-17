@@ -32,4 +32,8 @@ class Jolt_Route_Restful extends Jolt_Route {
 	public function isValid() {
 		return false;
 	}
+	
+	public function isValidUri($uri) {
+		return false;
+	}
 }
