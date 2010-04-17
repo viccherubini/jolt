@@ -1,16 +1,12 @@
 <?php
 
-declare(encoding='UTF-8');
-namespace Jolt;
-
 require_once 'Exception.php';
 
-class Router {
+class Jolt_Router {
 
 	private $config = array();
 	private $named_list = array();
 	private $restful_list = array();
-	
 	
 	const URI_PARAM = '_u';
 	
@@ -24,7 +20,7 @@ class Router {
 	
 	public function setConfig(array $config) {
 		if ( 0 === count($config) ) {
-			throw new \Jolt\Exception('router_config_empty');
+			throw new Jolt_Exception('router_config_empty');
 		}
 		
 		/**
@@ -43,7 +39,7 @@ class Router {
 		$field_difference = array_diff_key($required_fields, $config);
 		
 		if ( count($field_difference) > 0 ) {
-			throw new \Jolt\Exception('router_config_malformed');
+			throw new Jolt_Exception('router_config_malformed');
 		}
 		
 		$this->config = $config;
@@ -52,20 +48,24 @@ class Router {
 	
 	public function setNamedRouteList(array $named_list) {
 		if ( 0 === count($named_list) ) {
-			throw new \Jolt\Exception('router_named_list_empty');
+			throw new Jolt_Exception('router_named_list_empty');
 		}
 		
-		array_walk($named_list, function(&$v, $k) {
-			if ( false === is_object($v) ) {
-				$type_name = gettype($v);
-				throw new \Jolt\Exception("router_named_list_element_not_object: '{$type_name}'");
+		foreach ( $named_list as $route ) {
+			if ( false === is_object($route) ) {
+				$type_name = gettype($route);
+				throw new Jolt_Exception("router_named_list_element_not_object: '{$type_name}'");
 			}
 			
-			if ( false === $v instanceof \Jolt\Route_Named ) {
-				$class_name = get_class($v);
-				throw new \Jolt\Exception("router_named_list_element_not_named_route: '{$class_name}'");
+			if ( false === $route instanceof Jolt_Route_Named ) {
+				$class_name = get_class($route);
+				throw new Jolt_Exception("router_named_list_element_not_named_route: '{$class_name}'");
 			}
-		});
+		}
+		
+		if ( false === $this->isRouteListUnqiue($named_list) ) {
+			throw new Jolt_Exception("router_named_list_duplicate_route");
+		}
 		
 		$this->named_list = $named_list;
 		return $this;
@@ -73,15 +73,24 @@ class Router {
 	
 	public function setRestfulRouteList(array $restful_list) {
 		if ( 0 === count($restful_list) ) {
-			throw new \Jolt\Exception('router_restful_list_empty');
+			throw new Jolt_Exception("router_restful_list_empty");
 		}
 		
-		array_walk($restful_list, function(&$v, $k) {
-			if ( false === $v instanceof \Jolt\Route_Restful ) {
-				$class_name = get_class($v);
-				throw new \Jolt\Exception("router_restful_list_element_not_restful_route: '{$class_name}'");
+		foreach ( $restful_list as $route ) {
+			if ( false === is_object($route) ) {
+				$type_name = gettype($route);
+				throw new Jolt_Exception("router_restful_list_element_not_object: '{$type_name}'");
 			}
-		});
+			
+			if ( false === $route instanceof Jolt_Route_Restful ) {
+				$class_name = get_class($route);
+				throw new Jolt_Exception("router_restful_list_element_not_named_route: '{$class_name}'");
+			}
+		}
+		
+		if ( false === $this->isRouteListUnqiue($restful_list) ) {
+			throw new Jolt_Exception("router_restful_list_duplicate_route");
+		}
 		
 		$this->restful_list = $restful_list;
 		return $this;
@@ -109,7 +118,7 @@ class Router {
 		$restful_list = $this->getRestfulRouteList();
 		
 		if ( 0 === count($named_list) && 0 === count($restful_list) ) {
-			throw new \Jolt\Exception('router_lists_empty');
+			throw new Jolt_Exception('router_lists_empty');
 		}
 		
 		$this->parseUri();
@@ -124,15 +133,27 @@ class Router {
 	private function parseUri() {
 		$uri = er(self::URI_PARAM, $REQUEST);
 	
-		$match_route = function(&$v, $k) {
+		/*$match_route = function(&$v, $k) {
 			echo $uri . PHP_EOL;
-		};
+		};*/
 		
 		/* Check the named list first for a matching route. */
 		$named_list = $this->getNamedRouteList();
 		if ( count($named_list) > 0 ) {
-			array_walk($named_list, $match_route);
+			//array_walk($named_list, $match_route);
 		}
 
+	}
+	
+	private function isRouteListUnqiue(array $route_list) {
+		$route_uri_list = array();
+		
+		foreach ( $route_list as $route ) {
+			$route_uri_list[] = $route->getRoute();
+		}
+		
+		$route_uri_list_unique = array_unique($route_uri_list);
+		
+		return ( count($route_uri_list) === count($route_uri_list_unique) );
 	}
 }

@@ -1,8 +1,5 @@
 <?php
 
-declare(encoding='UTF-8');
-namespace Jolt;
-
 function input_get_ipv4() {
 	$ip = NULL;
 	if ( true === isset($_SERVER) ) {

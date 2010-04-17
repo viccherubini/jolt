@@ -1,14 +1,11 @@
 <?php
 
-namespace JoltTest;
-use \Jolt\Route;
-
 require_once 'Jolt/Route.php';
 
-class JoltCore_Route_RouteTest extends TestCase {
+class Jolt_Route_RouteTest extends Jolt_TestCase {
 	
 	/**
-	 * @expectedException \Jolt\Exception
+	 * @expectedException Jolt_Exception
 	 */
 	public function testRouteCanNotBeEmpty() {
 		$route = $this->buildRouteObject();
@@ -16,7 +13,7 @@ class JoltCore_Route_RouteTest extends TestCase {
 	}
 	
 	protected function buildRouteObject() {
-		$mock = $this->getMockForAbstractClass('\Jolt\Route');
+		$mock = $this->getMockForAbstractClass('Jolt_Route');
 		return $mock;
 	}
 }
