@@ -28,4 +28,5 @@ abstract class Jolt_Route {
 	}
 	
 	abstract public function isValid();
+	abstract public function isValidUri($uri);
 }
