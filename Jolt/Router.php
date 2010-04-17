@@ -11,7 +11,7 @@ class Jolt_Router {
 	private $uri = array();
 	
 	const URI_PARAM = '_u';
-	
+	const ROUTE_REPLACE_CHAR = '%';
 	
 	public function __construct() {
 		$this->reset();
@@ -100,6 +100,11 @@ class Jolt_Router {
 	}
 	
 	public function setUri($uri) {
+		/* Add a / to the first character of the URI if it isn't already there. Routes require them. */
+		if ( '/' !== $uri{0} ) {
+			$uri = "/{$uri}";
+		}
+		
 		$this->uri = $uri;
 		return $this;
 	}
@@ -128,13 +133,16 @@ class Jolt_Router {
 	
 	public function execute() {
 		$named_list = $this->getNamedRouteList();
-		//$restful_list = $this->getRestfulRouteList();
+		$restful_list = $this->getRestfulRouteList();
 		
-		if ( 0 === count($named_list) ) {
+		if ( 0 === count($named_list) && 0 === count($restful_list) ) {
 			throw new Jolt_Exception('router_lists_empty');
 		}
 		
 		$this->parseUri();
+		
+		$uri = $this->getUri();
+		
 	}
 	
 	
@@ -146,6 +154,7 @@ class Jolt_Router {
 	private function parseUri() {
 		$uri = er(self::URI_PARAM, $REQUEST);
 	
+		/* Special case. */
 		if ( true === empty($uri) ) {
 			$uri = '/';
 		}
