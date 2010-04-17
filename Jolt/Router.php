@@ -8,7 +8,10 @@ class Jolt_Router {
 	private $named_list = array();
 	private $restful_list = array();
 	
+	private $uri = array();
+	
 	const URI_PARAM = '_u';
+	
 	
 	public function __construct() {
 		$this->reset();
@@ -96,6 +99,13 @@ class Jolt_Router {
 		return $this;
 	}
 	
+	public function setUri($uri) {
+		$this->uri = $uri;
+		return $this;
+	}
+	
+	
+	
 	
 	
 	
@@ -111,13 +121,16 @@ class Jolt_Router {
 		return (array)$this->restful_list;
 	}
 	
+	public function getUri() {
+		return $this->uri;
+	}
 	
 	
-	public function dispatch() {
+	public function execute() {
 		$named_list = $this->getNamedRouteList();
-		$restful_list = $this->getRestfulRouteList();
+		//$restful_list = $this->getRestfulRouteList();
 		
-		if ( 0 === count($named_list) && 0 === count($restful_list) ) {
+		if ( 0 === count($named_list) ) {
 			throw new Jolt_Exception('router_lists_empty');
 		}
 		
@@ -133,15 +146,22 @@ class Jolt_Router {
 	private function parseUri() {
 		$uri = er(self::URI_PARAM, $REQUEST);
 	
+		if ( true === empty($uri) ) {
+			$uri = '/';
+		}
+		
+		$this->setUri($uri);
+		
+		return true;
 		/*$match_route = function(&$v, $k) {
 			echo $uri . PHP_EOL;
 		};*/
 		
 		/* Check the named list first for a matching route. */
-		$named_list = $this->getNamedRouteList();
-		if ( count($named_list) > 0 ) {
+		//$named_list = $this->getNamedRouteList();
+		//if ( count($named_list) > 0 ) {
 			//array_walk($named_list, $match_route);
-		}
+		//}
 
 	}
 	
