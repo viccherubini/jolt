@@ -118,7 +118,11 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 		$this->assertEquals('/user/1', $router->setUri('/user/1')->getUri());
 	}
 	
-	
+	public function test_Uri_Must_Start_With_Slash() {
+		$router = new Jolt_Router();
+		$router->setUri('abc');
+		$this->assertEquals('/abc', $router->getUri());
+	}
 	
 	
 	public function providerInvalidRouteList() {
