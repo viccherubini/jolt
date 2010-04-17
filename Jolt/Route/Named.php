@@ -65,12 +65,54 @@ class Jolt_Route_Named extends Jolt_Route {
 		 * Jolt is more restrictive about routes than the normal Internet RFC
 		 * standards. This is to keep them clean, legible and readible.
 		 * 
-		 * @see Tests/JoltCore/Route/Route/NamedTest.php
+		 * @see tests/Jolt/Route/Route/NamedTest.php
 		 */
 		if ( 0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.]*)$#i', $r) ) {
 			return false;
 		}
 		
 		return true;
+	}
+	
+	public function isValidUri($uri) {
+		/* Remove the beginning / from the URI and route. */
+		$uri = ltrim($uri, '/');
+		$uri_chunk_list = explode('/', $uri);
+		$uri_chunk_count = count($uri_chunk_list);
+		
+		$route = $this->getRoute();
+		$route = ltrim($route, '/');
+		$route_chunk_list = explode('/', $route);
+		$route_chunk_count = count($route_chunk_list);
+		
+		/* If all of the chunks eventually match, we have a matched route. */
+		$matched_chunk_count = 0;
+		
+		if ( $uri_chunk_list === $route_chunk_list ) {
+			for ( $i=0; $i<$uri_chunk_count; $i++ ) {
+				/* ucv == uri chunk value */
+				$ucv = $uri_chunk_list[$i];
+				
+				/* rcv = route chunk value */
+				$rcv = $route_chunk_list[$i];
+				
+				if ( $ucv === $rcv ) {
+					/* If the two are exactly the same, no expansion is needed. */
+					$matched_chunk_count++;
+				} else {
+					/**
+					 * More investigation is required. See if there is a % character followed by a (d|s|f), and if so, expand it.
+					 * A limitation is that only a single % replacement can exist in a chunk at once, for now.
+					 */
+					if ( 1 === preg_match('/\%(d|s|f)/i', $rcv) ) {
+						/* Strip out everything around the %(d|s|f). */
+						
+						
+					}
+				}
+			}
+		}
+	
+		return ( $matched_chunk_count === $route_chunk_count );
 	}
 }
