@@ -80,13 +80,13 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 			array('/abc0/'),
 			array('/abc/def'),
 			array('/abc/def/'),
-			array('/abc/%d/'),
-			array('/abc/def/efg/%d'),
-			array('/abc/def/%s/%d'),
-			array('/abc.def/%s/%d'),
-			array('/abc/usr/%d/blah/%s'),
+			array('/abc/%n/'),
+			array('/abc/def/efg/%n'),
+			array('/abc/def/%s/%n'),
+			array('/abc.def/%s/%n'),
+			array('/abc/usr/%n/blah/%s'),
 			array('/tutorial/%s.html'),
-			array('/search/result-%d.html'),
+			array('/search/result-%n.html'),
 			array('/abc./'),
 			array('/abc.')
 		);
@@ -109,16 +109,18 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 			array('/abc', '/abc'),
 			array('/user/view', '/user/view'),
 			array('/user-long-route', '/user-long-route'),
-			array('/abc/usr/%d/blah/%s', '/abc/usr/10/blah/hello'),
-			array('/abc/usr/%d/blah/%s', '/abc/usr/1/blah/hello-world'),
-			array('/abc/usr/%d/blah/%s', '/abc/usr/1/blah/hello world'),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/10/blah/hello'),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/1/blah/hello-world'),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/1/blah/hello world'),
 			array('/tutorial/%s.html', '/tutorial/opengl-tutorial.html'),
 			array('/tutorial/%s.html', '/tutorial/the-#named#-tutorial.html'),
 			array('/tutorial/%s.html', "/tutorial/a tutorial about %s's.html"),
-			array('/user/%d.html', '/user/10.html'),
-			array('/user/%d.html', '/user/1.html'),
-			array('/search/result-%d.html', '/search/result-10.html'),
-			array('/search/result-%d.html', '/search/result-101345.html')
+			array('/user/%n.html', '/user/10.html'),
+			array('/user/%n.html', '/user/1.html'),
+			array('/search/result-%n.html', '/search/result-10.html'),
+			array('/search/result-%n.html', '/search/result-101345.html'),
+			array('/add/balance/%n', '/add/balance/10.45'),
+			
 		);
 	}
 }
