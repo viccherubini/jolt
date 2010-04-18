@@ -130,7 +130,7 @@ class Jolt_Route_Named extends Jolt_Route {
 							}
 							
 							case 's': {
-								$matched = is_string($ucv);
+								$matched = is_string($ucv) && !is_numeric($ucv);
 								break;
 							}
 						}
