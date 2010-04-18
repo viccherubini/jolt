@@ -61,10 +61,19 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 	/**
 	 * @dataProvider providerValidRouteAndUri
 	 */
-	public function test_Route_Uri_Is_Valid($route_name, $uri) {
+	public function test_Route_Will_Allow_Valid_Uris($route_name, $uri) {
 		$route = new Jolt_Route_Named($route_name, 'Controller', 'action');
 		
 		$this->assertTrue($route->isValidUri($uri));
+	}
+	
+	/**
+	 * @dataProvider providerInvalidRouteAndUri
+	 */
+	public function test_Route_Will_Not_Allow_In_Valid_Uris($route_name, $uri) {
+		$route = new Jolt_Route_Named($route_name, 'Controller', 'action');
+
+		$this->assertFalse($route->isValidUri($uri));
 	}
 	
 	public function providerValidRoute() {
@@ -119,8 +128,23 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 			array('/user/%n.html', '/user/1.html'),
 			array('/search/result-%n.html', '/search/result-10.html'),
 			array('/search/result-%n.html', '/search/result-101345.html'),
-			array('/add/balance/%n', '/add/balance/10.45'),
-			
+			array('/add/balance/%n', '/add/balance/10.45')
+		);
+	}
+	
+	public function providerInvalidRouteAndUri() {
+		return array(
+			array('/abc', '/def'),
+			array('/user/view', '/usr/view'),
+			array('/user-long-route', '/user_long_route'),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/hello/blah/10'),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/hello-world/blah/10'),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/hello world/blah/1'),
+			array('/tutorial/%s.html', '/tutorial/10.html'),
+			array('/user/%n.html', '/user/user-vic.html'),
+			array('/user/%s.html', '/user/1.html'),
+			array('/search/result-%n.html', '/search/result-search-string.html'),
+			array('/add/balance/%n', '/add/balance/some-amount')
 		);
 	}
 }
