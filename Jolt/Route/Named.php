@@ -87,26 +87,57 @@ class Jolt_Route_Named extends Jolt_Route {
 		
 		/* If all of the chunks eventually match, we have a matched route. */
 		$matched_chunk_count = 0;
-		
-		if ( $uri_chunk_list === $route_chunk_list ) {
-			for ( $i=0; $i<$uri_chunk_count; $i++ ) {
+
+		if ( $uri_chunk_count === $route_chunk_count ) {
+			for ( $i=0; $i<$route_chunk_count; $i++ ) {
 				/* ucv == uri chunk value */
 				$ucv = $uri_chunk_list[$i];
 				
 				/* rcv = route chunk value */
 				$rcv = $route_chunk_list[$i];
-				
-				if ( $ucv === $rcv ) {
+
+				if ( $ucv == $rcv ) {
 					/* If the two are exactly the same, no expansion is needed. */
 					$matched_chunk_count++;
 				} else {
 					/**
-					 * More investigation is required. See if there is a % character followed by a (d|s|f), and if so, expand it.
+					 * More investigation is required. See if there is a % character followed by a (n|s), and if so, expand it.
 					 * A limitation is that only a single % replacement can exist in a chunk at once, for now.
+					 * 
+					 * @todo Allow multiple %n or %s characters in a chunk at once.
 					 */
-					if ( 1 === preg_match('/\%(d|s|f)/i', $rcv) ) {
-						/* Strip out everything around the %(d|s|f). */
+					$offset = stripos($rcv, '%');
+					if ( false !== $offset && true === isset($rcv[$offset+1]) ) {
+						$rcv_type = $rcv[$offset+1];
+						$rcv_length = strlen($rcv);
 						
+						if ( 0 !== $offset ) {
+							$ucv = trim(substr_replace($ucv, NULL, 0, $offset));
+						}
+						
+						if ( ($offset+2) < $rcv_length ) {
+							$goto = strlen(substr($rcv, $offset+2));
+							$ucv = substr_replace($ucv, NULL, -$goto);
+						}
+						
+						/* Now that we have the correct $ucv values, let's make sure they're types are correct. */
+						$matched = false;
+						
+						switch ( $rcv_type ) {
+							case 'n': {
+								$matched = is_numeric($ucv);
+								break;
+							}
+							
+							case 's': {
+								$matched = is_string($ucv);
+								break;
+							}
+						}
+						
+						if ( true === $matched ) {
+							$matched_chunk_count++;
+						}
 						
 					}
 				}
