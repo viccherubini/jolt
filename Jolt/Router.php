@@ -143,7 +143,22 @@ class Jolt_Router {
 		
 		$uri = $this->getUri();
 		
+		
+		
+		foreach ( $named_list as $named_route ) {
+			if ( true === $named_route->isValidUri($uri) ) {
+				/* Get a Jolt_Dispatcher and dispatch the route. */
+				
+			}
+		}
+		
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	private function reset() {
@@ -162,16 +177,6 @@ class Jolt_Router {
 		$this->setUri($uri);
 		
 		return true;
-		/*$match_route = function(&$v, $k) {
-			echo $uri . PHP_EOL;
-		};*/
-		
-		/* Check the named list first for a matching route. */
-		//$named_list = $this->getNamedRouteList();
-		//if ( count($named_list) > 0 ) {
-			//array_walk($named_list, $match_route);
-		//}
-
 	}
 	
 	private function isRouteListUnqiue(array $route_list) {
