@@ -138,7 +138,6 @@ class Jolt_Route_Named extends Jolt_Route {
 						if ( true === $matched ) {
 							$matched_chunk_count++;
 						}
-						
 					}
 				}
 			}
