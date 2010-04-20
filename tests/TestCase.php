@@ -11,4 +11,41 @@ class Jolt_TestCase extends PHPUnit_Framework_TestCase {
 		self::assertEquals(count($a), 0, $message);
 	}
 	
+	protected function buildNamedRoute($route, $controller, $action) {
+		$mock = $this->getMock('Jolt_Route_Named',
+			array('getRoute', 'getController', 'getAction'),
+			array($route, $controller, $action)
+		);
+		
+		$mock->expects($this->any())
+			->method('getRoute')
+			->will($this->returnValue($route));
+
+		$mock->expects($this->any())
+			->method('getController')
+			->will($this->returnValue($controller));
+			
+		$mock->expects($this->any())
+			->method('getAction')
+			->will($this->returnValue($action));
+			
+		return $mock;
+	}
+	
+	protected function buildRestfulRoute($route, $resource) {
+		$mock = $this->getMock('Jolt_Route_Restful',
+			array('getRoute', 'getResource'),
+			array($route, $resource)
+		);
+		
+		$mock->expects($this->any())
+			->method('getRoute')
+			->will($this->returnValue($route));
+		
+		$mock->expects($this->any())
+			->method('getResource')
+			->will($this->returnValue($resource));
+			
+		return $mock;
+	}
 }
