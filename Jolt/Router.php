@@ -21,6 +21,55 @@ class Jolt_Router {
 		
 	}
 	
+	
+	public function execute() {
+		$named_list = $this->getNamedRouteList();
+		$restful_list = $this->getRestfulRouteList();
+		
+		if ( 0 === $this->getRouteCount() ) {
+			throw new Jolt_Exception('router_lists_empty');
+		}
+		
+		$this->parseUri();
+		
+		$uri = $this->getUri();
+		
+		
+		
+		foreach ( $named_list as $named_route ) {
+			if ( true === $named_route->isValidUri($uri) ) {
+				/* Get a Jolt_Dispatcher and dispatch the route. */
+				
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	
+	public function getConfig() {
+		return (array)$this->config;
+	}
+	
+	public function getNamedRouteList() {
+		return (array)$this->named_list;
+	}
+	
+	public function getRestfulRouteList() {
+		return (array)$this->restful_list;
+	}
+	
+	public function getRouteCount() {
+		return ( count($this->getNamedRouteList()) + count($this->getRestfulRouteList()) );
+	}
+	
+	public function getUri() {
+		return $this->uri;
+	}
+	
+	
 	public function setConfig(array $config) {
 		if ( 0 === count($config) ) {
 			throw new Jolt_Exception('router_config_empty');
@@ -114,49 +163,6 @@ class Jolt_Router {
 	
 	
 	
-	public function getConfig() {
-		return (array)$this->config;
-	}
-	
-	public function getNamedRouteList() {
-		return (array)$this->named_list;
-	}
-	
-	public function getRestfulRouteList() {
-		return (array)$this->restful_list;
-	}
-	
-	public function getUri() {
-		return $this->uri;
-	}
-	
-	
-	public function execute() {
-		$named_list = $this->getNamedRouteList();
-		$restful_list = $this->getRestfulRouteList();
-		
-		if ( 0 === count($named_list) && 0 === count($restful_list) ) {
-			throw new Jolt_Exception('router_lists_empty');
-		}
-		
-		$this->parseUri();
-		
-		$uri = $this->getUri();
-		
-		
-		
-		foreach ( $named_list as $named_route ) {
-			if ( true === $named_route->isValidUri($uri) ) {
-				/* Get a Jolt_Dispatcher and dispatch the route. */
-				
-			}
-		}
-		
-	}
-	
-	
-	
-	
 	
 	
 	
@@ -165,6 +171,8 @@ class Jolt_Router {
 		$this->named_list = array();
 		$this->restful_list = array();
 	}
+	
+	
 	
 	private function parseUri() {
 		$uri = er(self::URI_PARAM, $REQUEST);
