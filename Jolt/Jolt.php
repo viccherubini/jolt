@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Exception.php';
+
 /**
  * This class is an entrance for building an application. It is entirely
  * static and gives you access to building new objects, starting the 
@@ -8,20 +10,28 @@
  * @author vmc <vmc@leftnode.com>
  */
 class Jolt {
-	//private static $named_route_list = array();
-	//private static $restful_route_list = array();
+	private static $router = NULL;
+	private static $dispatcher = NULL;
+	private static $client = NULL;
 	
-	public static function setRouter(Jolt_Router $router) {
+	private $config = array();
+	
+	public static function attachRouter(Jolt_Router $router) {
+		if ( 0 === $router->getRouteCount() ) {
+			throw new Jolt_Exception('jolt_router_empty');
+		}
 		
+		self::$router = $router;
 	}
 	
-	//public static function setNamedRouteList($route_list) {
-	//	
-	//}
+	public static function attachDispatcher(Jolt_Dispatcher $dispatcher) {
+		self::$dispatcher = $dispatcher;
+	}
 	
-	//public static function setRestfulRouteList($route_list) {
-	//	
-	//}
+	public static function attachClient(Jolt_Client $client) {
+		self::$client = $client;
+	}
+	
 	
 	
 	public static function buildJoltObject($object) {
@@ -29,5 +39,18 @@ class Jolt {
 	}
 	
 	
+	
+	public static function execute() {
+		
+	}
 
+	public static function setApplicationConfig(array $config) {
+		
+	}
+	
+	/*
+	public static function startSession() {
+		
+	}
+	*/
 }
