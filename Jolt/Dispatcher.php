@@ -16,7 +16,10 @@ class Jolt_Dispatcher {
 			throw new Jolt_Exception('dispatcher_route_is_null');
 		}
 		
-		
+		$controller_file = $route->getControllerFile();
+		if ( true === empty($controller_file) ) {
+			throw new Jolt_Exception('dispatcher_route_controller_file_is_null');
+		}
 	}
 	
 	public function getControllerPath() {

@@ -13,6 +13,7 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 		$this->assertEquals($controller_path, $dispatcher->getControllerPath());
 	}
 	
+	
 	public function test_Route_Is_Set() {
 		$dispatcher = new Jolt_Dispatcher();
 		
@@ -27,6 +28,18 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 	 */
 	public function test_Dispatcher_Must_Have_Route_Before_Executing() {
 		$dispatcher = new Jolt_Dispatcher();
+		$dispatcher->dispatch();
+	}
+	
+	/**
+	 * @expectedException Jolt_Exception
+	 */
+	public function test_Dispatcher_Route_Must_Have_Controller_File_Set_Before_Executing() {
+		$dispatcher = new Jolt_Dispatcher();
+		
+		$route = $this->buildAbstractRoute();
+		
+		$dispatcher->setRoute($route);
 		$dispatcher->dispatch();
 	}
 }
