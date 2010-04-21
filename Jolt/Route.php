@@ -27,6 +27,9 @@ abstract class Jolt_Route {
 		return $this->route;
 	}
 	
+	abstract public function isEqual(Jolt_Route $route);
+	
 	abstract public function isValid();
+	
 	abstract public function isValidUri($uri);
 }

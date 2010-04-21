@@ -49,6 +49,15 @@ class Jolt_Route_Named extends Jolt_Route {
 	}
 	
 	
+	public function isEqual(Jolt_Route $route) {
+		return (
+			$route->getRoute() === $this->getRoute() &&
+			$route->getController() === $this->getController() &&
+			$route->getAction() === $this->getAction()
+		);
+	}
+	
+	
 	public function isValid() {
 		$r = $this->getRoute();
 		

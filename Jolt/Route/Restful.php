@@ -29,6 +29,10 @@ class Jolt_Route_Restful extends Jolt_Route {
 		return $this->resource;
 	}
 	
+	public function isEqual(Jolt_Route $route) {
+		return false;
+	}
+	
 	public function isValid() {
 		return false;
 	}
