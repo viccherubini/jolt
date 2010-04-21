@@ -3,6 +3,7 @@
 abstract class Jolt_Route {
 
 	private $route = NULL;
+	private $controller_file = NULL;
 
 	public function __construct() {
 		
@@ -10,6 +11,22 @@ abstract class Jolt_Route {
 
 	public function __destruct() {
 		
+	}
+	
+	
+	public function getControllerFile() {
+		return $this->controller_file;
+	}
+	
+	public function getRoute() {
+		return $this->route;
+	}
+	
+	
+	
+	public function setControllerFile($controller_file) {
+		$this->controller_file = trim($controller_file);
+		return $this;
 	}
 	
 	public function setRoute($route) {
@@ -23,9 +40,7 @@ abstract class Jolt_Route {
 		return $this;
 	}
 	
-	public function getRoute() {
-		return $this->route;
-	}
+	
 	
 	abstract public function isEqual(Jolt_Route $route);
 	
