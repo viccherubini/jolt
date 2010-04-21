@@ -76,6 +76,20 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 		$this->assertFalse($route->isValidUri($uri));
 	}
 	
+	public function test_Route_Is_Equal() {
+		$route1 = $this->buildNamedRoute('/user/%d', 'User', 'viewAction');
+		$route2 = $this->buildNamedRoute('/user/%d', 'User', 'viewAction');
+		
+		$this->assertTrue($route1->isEqual($route2));
+	}
+	
+	public function test_Route_Is_Not_Equal() {
+		$route1 = $this->buildNamedRoute('/user/%d', 'User', 'viewAction');
+		$route2 = $this->buildNamedRoute('/user/%d', 'User', 'view');
+		
+		$this->assertFalse($route1->isEqual($route2));
+	}
+	
 	public function providerValidRoute() {
 		return array(
 			array('/'),
