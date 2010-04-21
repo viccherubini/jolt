@@ -11,6 +11,11 @@ class Jolt_TestCase extends PHPUnit_Framework_TestCase {
 		self::assertEquals(count($a), 0, $message);
 	}
 	
+	protected function buildAbstractRoute() {
+		$mock = $this->getMockForAbstractClass('Jolt_Route');
+		return $mock;
+	}
+	
 	protected function buildNamedRoute($route, $controller, $action) {
 		$mock = $this->getMock('Jolt_Route_Named',
 			array('getRoute', 'getController', 'getAction'),

@@ -21,10 +21,5 @@ class Jolt_Route_RouteTest extends Jolt_TestCase {
 		
 		$this->assertEquals($controller_file, $route->getControllerFile());
 	}
-	
-	
-	protected function buildAbstractRoute() {
-		$mock = $this->getMockForAbstractClass('Jolt_Route');
-		return $mock;
-	}
+
 }
