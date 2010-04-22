@@ -82,3 +82,10 @@ function lib_peak_memory() {
 	$memory = round($memory, 4);
 	return $memory;
 }
+
+function lib_throw_if($value, $exception) {
+	if ( true === $value ) {
+		throw new Jolt_Exception($exception);
+	}
+	return true;
+}
