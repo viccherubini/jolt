@@ -12,8 +12,8 @@ abstract class Jolt_Controller {
 		
 	}
 	
-	public function setConfig(array $cfg) {
-		$this->config = $cfg;
+	public function setConfig(array $config) {
+		$this->config = $config;
 		return $this;
 	}
 	
