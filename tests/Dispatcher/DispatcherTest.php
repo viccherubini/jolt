@@ -68,10 +68,8 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 	 * @expectedException Jolt_Exception
 	 */
 	public function test_Dispatcher_Must_Have_Application_Path_Before_Executing() {
-		$dispatcher = new Jolt_Dispatcher();
-		$dispatcher->setControllerPath(getcwd())
-			->setLayoutPath(getcwd());
-			
+		$dispatcher->setApplicationPath(NULL);
+		
 		$route = $this->buildAbstractRoute();
 		$route->setControllerFile('User.php');
 		
@@ -79,4 +77,28 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 		$dispatcher->dispatch();
 	}
 	
+	/**
+	 * @expectedException Jolt_Exception
+	 */
+	public function test_Dispatcher_Must_Have_Correct_Controller_Path_Before_Executing() {
+		$dispatcher = $this->buildDispatcher();
+		
+		$route = $this->buildNamedRoute('/user', 'User', 'viewAction');
+		$route->setControllerFile('User.php');
+		
+		$dispatcher->setRoute($route);
+		$dispatcher->dispatch();
+	}
+	
+	
+	
+	
+	protected function buildDispatcher() {
+		$dispatcher = new Jolt_Dispatcher();
+		$dispatcher->setApplicationPath(getcwd())
+			->setControllerPath(getcwd())
+			->setLayoutPath(getcwd());
+		
+		return $dispatcher;	
+	}
 }
