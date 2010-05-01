@@ -90,6 +90,16 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 		$this->assertFalse($route1->isEqual($route2));
 	}
 	
+	/**
+	 * @dataProvider providerValidRouteUriAndActionArguments
+	 */
+	public function test_Route_Argv_Is_Set($route_name, $uri, $argv) {
+		$route = new Jolt_Route_Named($route_name, 'Controller', 'actionMethod');
+		$route->isValidUri($uri);
+		
+		$this->assertEquals($argv, array_values($route->getArgv()));
+	}
+	
 	public function providerValidRoute() {
 		return array(
 			array('/'),
@@ -159,6 +169,24 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 			array('/user/%s.html', '/user/1.html'),
 			array('/search/result-%n.html', '/search/result-search-string.html'),
 			array('/add/balance/%n', '/add/balance/some-amount')
+		);
+	}
+	
+	public function providerValidRouteUriAndActionArguments() {
+		return array(
+			array('/abc', '/abc', array()),
+			array('/user/view', '/user/view', array()),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/10/blah/hello', array(10, 'hello')),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/1/blah/hello-world', array(1, 'hello-world')),
+			array('/abc/usr/%n/blah/%s', '/abc/usr/1/blah/hello world', array(1, 'hello world')),
+			array('/tutorial/%s.html', '/tutorial/opengl-tutorial.html', array('opengl-tutorial')),
+			array('/tutorial/%s.html', '/tutorial/the-#named#-tutorial.html', array('the-#named#-tutorial')),
+			array('/tutorial/%s.html', "/tutorial/a tutorial about %s's.html", array("a tutorial about %s's")),
+			array('/user/%n.html', '/user/10.html', array(10)),
+			array('/user/%n.html', '/user/1.html', array(1)),
+			array('/search/result-%n.html', '/search/result-10.html', array(10)),
+			array('/search/result-%n.html', '/search/result-101345.html', array(101345)),
+			array('/add/balance/%n', '/add/balance/10.45', array(10.45))
 		);
 	}
 }

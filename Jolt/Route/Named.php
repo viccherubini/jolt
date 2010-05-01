@@ -7,15 +7,33 @@ class Jolt_Route_Named extends Jolt_Route {
 	private $controller = NULL;
 	private $action = NULL;
 	
+	private $argv = array();
 	
 	public function __construct($route, $controller, $action) {
 		$this->setRoute($route)
 			->setController($controller)
-			->setAction($action);
+			->setAction($action)
+			->setArgv(array());
 	}
 	
 	public function __destruct() {
 		$this->route = $this->controller = $this->action = NULL;
+	}
+	
+	public function setAction($action) {
+		$action = trim($action);
+		if ( true === empty($action) ) {
+			throw new Jolt_Exception('route_named_action_empty');
+		}
+		
+		$this->action = $action;
+		
+		return $this;
+	}
+	
+	public function setArgv(array $argv) {
+		$this->argv = $argv;
+		return $this;
 	}
 	
 	public function setController($controller) {
@@ -29,24 +47,23 @@ class Jolt_Route_Named extends Jolt_Route {
 		return $this;
 	}
 	
-	public function setAction($action) {
-		$action = trim($action);
-		if ( true === empty($action) ) {
-			throw new Jolt_Exception('route_named_action_empty');
-		}
-		
-		$this->action = $action;
-		
-		return $this;
-	}
-
-	public function getController() {
-		return $this->controller;
-	}
+	
+	
+	
 	
 	public function getAction() {
 		return $this->action;
 	}
+	
+	public function getArgv() {
+		return $this->argv;
+	}
+	
+	public function getController() {
+		return $this->controller;
+	}
+	
+	
 	
 	
 	public function isEqual(Jolt_Route $route) {
@@ -97,6 +114,9 @@ class Jolt_Route_Named extends Jolt_Route {
 		/* If all of the chunks eventually match, we have a matched route. */
 		$matched_chunk_count = 0;
 
+		/* List of arguments to pass to the action method. */
+		$argv = array();
+
 		if ( $uri_chunk_count === $route_chunk_count ) {
 			for ( $i=0; $i<$route_chunk_count; $i++ ) {
 				/* ucv == uri chunk value */
@@ -146,11 +166,14 @@ class Jolt_Route_Named extends Jolt_Route {
 						
 						if ( true === $matched ) {
 							$matched_chunk_count++;
+							$argv[$rcv] = $ucv;
 						}
 					}
 				}
 			}
 		}
+		
+		$this->setArgv($argv);
 	
 		return ( $matched_chunk_count === $route_chunk_count );
 	}
