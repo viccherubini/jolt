@@ -34,14 +34,10 @@ class Jolt_Dispatcher {
 		
 		
 		$controller_file = $route->getControllerFile();
-		//lib_throw_if(empty($controller_file), 'dispatcher_route_controller_file_is_null');
 		
 		$application_path = $this->getApplicationPath();
-		//lib_throw_if(empty($application_path), 'dispatcher_application_path_is_null');
-		
 		$controller_path = $this->getControllerPath();
-		//lib_throw_if(empty($application_path), 'dispatcher_controller_path_is_null');
-		
+
 		$ds = DIRECTORY_SEPARATOR;
 		$controller_path = implode($ds, array($application_path, $controller_path, $controller_file));
 		
@@ -79,7 +75,14 @@ class Jolt_Dispatcher {
 		
 		lib_throw_if(false === $success, 'dispatcher_controller_failed_to_execute');
 		
-		/* Controller has it's own rendered view stored within it, and knows if it has a layout. */
+		/**
+		 * Controller has it's own rendered view stored within it, and knows if it has a layout.
+		 * The Controller has already rendered both of these, so we just need to
+		 * collect the rendered view data and return it to the client.
+		 * 1. Build a Jolt_Client object.
+		 * 2. Pass the data to the Client from the Controller.
+		 * 3. The Client takes over and returns the data to the main application file with correct headers.
+		 */
 		
 	}
 	
