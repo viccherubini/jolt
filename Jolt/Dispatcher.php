@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Jolt/Jolt.php';
+
 class Jolt_Dispatcher {
 	
 	private $application_path = NULL;
@@ -43,13 +45,6 @@ class Jolt_Dispatcher {
 		$ds = DIRECTORY_SEPARATOR;
 		$controller_path = implode($ds, array($application_path, $controller_path, $controller_file));
 		
-		//lib_throw_if(false === is_file($execution_path), 'dispatcher_controller_file_does_not_exist');
-		
-		//require_once $execution_path;
-		
-		//$controller = $route->getController();
-		//$jolt_controller = new $controller();
-		
 		$controller = Jolt::buildClass($controller_path, $route->getController());
 		if ( false === $controller ) {
 			throw new Jolt_Exception("dispatcher_controller_can_not_be_loaded: {$controller_path}");
@@ -84,7 +79,7 @@ class Jolt_Dispatcher {
 		
 		lib_throw_if(false === $success, 'dispatcher_controller_failed_to_execute');
 		
-		
+		/* Controller has it's own rendered view stored within it, and knows if it has a layout. */
 		
 	}
 	
