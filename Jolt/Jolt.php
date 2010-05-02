@@ -33,8 +33,28 @@ class Jolt {
 	}
 	
 	
+	public static function buildClass($path, $class, $argv=array()) {
+		if ( false === is_file($path) ) {
+			return false;
+		}
+		
+		try {
+			require_once $path;
+		
+			if ( false === class_exists($class) ) {
+				return false;
+			}
+		
+			$reflection_class = new ReflectionClass($class);
+			$object = $reflection_class->newInstanceArgs($argv);
+		
+			return $object;
+		} catch ( Exception $e ) { }
+		
+		return false;
+	}
 	
-	public static function buildJoltObject($object) {
+	public static function buildJoltClass($object) {
 		
 	}
 	
