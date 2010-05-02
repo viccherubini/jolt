@@ -10,27 +10,80 @@ class Jolt_Dispatcher {
 	
 	private $route = NULL;
 	
+	private $controller = NULL;
+	
 	public function __construct() {
 		
 	}
-	
+
+	/**
+	 * Dispatches routes based on the controllers and actions they specify.
+	 * 
+	 * @todo Currently this only works with Jolt_Route_Named objects, needs to work with Jolt_Route_Restful ones.
+	 * 
+	 */
 	public function dispatch() {
+		/* Must have a route before dispatching. */
 		$route = $this->getRoute();
-		if ( NULL === $route ) {
-			throw new Jolt_Exception('dispatcher_route_is_null');
-		}
+		lib_throw_if(is_null($route), 'dispatcher_route_is_null');
+		
+		
+		
+		
 		
 		$controller_file = $route->getControllerFile();
-		lib_throw_if(empty($controller_file), 'dispatcher_route_controller_file_is_null');
+		//lib_throw_if(empty($controller_file), 'dispatcher_route_controller_file_is_null');
 		
 		$application_path = $this->getApplicationPath();
-		lib_throw_if(empty($application_path), 'dispatcher_application_path_is_null');
+		//lib_throw_if(empty($application_path), 'dispatcher_application_path_is_null');
 		
 		$controller_path = $this->getControllerPath();
-		lib_throw_if(empty($application_path), 'dispatcher_controller_path_is_null');
+		//lib_throw_if(empty($application_path), 'dispatcher_controller_path_is_null');
 		
 		$ds = DIRECTORY_SEPARATOR;
-		$execution_path = $application_path . $ds . $controller_path . $ds . $controller_file;
+		$controller_path = implode($ds, array($application_path, $controller_path, $controller_file));
+		
+		//lib_throw_if(false === is_file($execution_path), 'dispatcher_controller_file_does_not_exist');
+		
+		//require_once $execution_path;
+		
+		//$controller = $route->getController();
+		//$jolt_controller = new $controller();
+		
+		$controller = Jolt::buildClass($controller_path, $route->getController());
+		if ( false === $controller ) {
+			throw new Jolt_Exception("dispatcher_controller_can_not_be_loaded: {$controller_path}");
+		}
+		
+		$this->setController($controller);
+		
+		/* Now that we have an active controller, ensure it has the action specified by the route. */
+		$action = $route->getAction();
+		
+		/* The action needs to be a 1:1 to the method in the controller, no appending/prepending words to it. */
+		$action_method = new ReflectionMethod($controller, $action);
+
+		/* Determine if any additional fake parameters need to be added to avoid any warnings. */
+		$param_count = $action_method->getNumberOfRequiredParameters();
+		$argv = $route->getArgv();
+		$argc = count($argv);
+		if ( $param_count !== $argc ) {
+			if ( $param_count > $argc ) {
+				$argv = array_pad($argv, $param_count, NULL);
+			}
+		}
+
+		/* Invoke the method, generally static methods should not be used. */
+		if ( true === $action_method->isPublic() ) {
+			if ( true === $action_method->isStatic() ) {
+				$success = $action_method->invokeArgs(NULL, $argv);
+			} else {
+				$success = $action_method->invokeArgs($controller, $argv);
+			}
+		}
+		
+		lib_throw_if(false === $success, 'dispatcher_controller_failed_to_execute');
+		
 		
 		
 	}
@@ -39,6 +92,10 @@ class Jolt_Dispatcher {
 	
 	public function getApplicationPath() {
 		return $this->application_path;
+	}
+	
+	public function getController() {
+		return $this->controller;
 	}
 	
 	public function getControllerPath() {
@@ -58,6 +115,11 @@ class Jolt_Dispatcher {
 	
 	public function setApplicationPath($application_path) {
 		$this->application_path = rtrim($application_path, DIRECTORY_SEPARATOR);
+		return $this;
+	}
+	
+	public function setController(Jolt_Controller $controller) {
+		$this->controller = $controller;
 		return $this;
 	}
 	
