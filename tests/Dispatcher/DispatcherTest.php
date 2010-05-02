@@ -1,5 +1,7 @@
 <?php
 
+require_once 'vfsStream/vfsStream.php';
+
 require_once 'Jolt/Dispatcher.php';
 
 class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
@@ -32,7 +34,7 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 	}
 	
 	
-	public function test_Route_Is_Set() {
+	public function test_Dispatcher_Route_Is_Set() {
 		$dispatcher = new Jolt_Dispatcher();
 		
 		$route = $this->buildNamedRoute('/user/%n', 'User', 'viewAction');
@@ -49,46 +51,18 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 		$dispatcher->dispatch();
 	}
 	
-	/**
-	 * @expectedException Jolt_Exception
-	 */
-	public function test_Dispatcher_Route_Must_Have_Controller_File_Set_Before_Executing() {
-		$dispatcher = new Jolt_Dispatcher();
-		$dispatcher->setApplicationPath(getcwd())
-			->setControllerPath(getcwd())
-			->setLayoutPath(getcwd());
-		
-		$route = $this->buildAbstractRoute();
-		
-		$dispatcher->setRoute($route);
-		$dispatcher->dispatch();
-	}
 	
-	/**
-	 * @expectedException Jolt_Exception
-	 */
-	public function test_Dispatcher_Must_Have_Application_Path_Before_Executing() {
-		$dispatcher->setApplicationPath(NULL);
-		
-		$route = $this->buildAbstractRoute();
-		$route->setControllerFile('User.php');
-		
-		$dispatcher->setRoute($route);		
-		$dispatcher->dispatch();
-	}
 	
-	/**
-	 * @expectedException Jolt_Exception
-	 */
-	public function test_Dispatcher_Must_Have_Correct_Controller_Path_Before_Executing() {
-		$dispatcher = $this->buildDispatcher();
+	
+	
+	//public function test_Dispatcher_Builds_Controller_Object() {
+		//vfsStreamWrapper::register();
+		//vfsStreamWrapper::setRoot(new vfsStreamDirectory('controllers'));
 		
-		$route = $this->buildNamedRoute('/user', 'User', 'viewAction');
-		$route->setControllerFile('User.php');
 		
-		$dispatcher->setRoute($route);
-		$dispatcher->dispatch();
-	}
+		
+	//}
+	
 	
 	
 	
