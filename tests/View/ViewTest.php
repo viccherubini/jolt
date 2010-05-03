@@ -18,6 +18,27 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 		$this->assertEquals('blocks', $view->getBlockDirectory());
 	}
 	
+	/**
+	 * @dataProvider providerViewVariable
+	 */
+	public function test_View_Magic_Getter_And_Setter($k, $v) {
+		$view = new Jolt_View();
+		$view->$k = $v;
+		
+		$value_list = array($k => $v);
+		
+		$this->assertEquals($value_list, $view->getVariableList());
+	}
 	
+	
+	
+	
+	public function providerViewVariable() {
+		return array(
+			array('variable', 'value'),
+			array('array_variable', array(1, 2, 3, 4, 5)),
+			array('object_variable', new stdClass())
+		);
+	}
 	
 }
