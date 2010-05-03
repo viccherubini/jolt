@@ -89,3 +89,7 @@ function lib_throw_if($value, $exception) {
 	}
 	return true;
 }
+
+function lib_throw_if_not($value, $exception) {
+	return lib_throw_if(false === $value, $exception);
+}
