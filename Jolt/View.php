@@ -7,11 +7,13 @@
  */
 class Jolt_View {
 	
+	///< The directory where view files are held.
 	const VIEW_DIR = 'view';
+	
+	///< The extension view files must have.
 	const VIEW_EXT = '.phtml';
 	
 	private $replacement_list = array();
-	
 	
 	private $application_path = NULL; 
 	
