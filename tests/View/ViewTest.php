@@ -34,7 +34,7 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 	public function test_View_Renders_When_View_File_Exists($view_name, $replacement_list) {
 		$view = new Jolt_View();
 		
-		$app_path = rtrim(getcwd(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . APPLICATION_DIRECTORY;
+		$app_path = rtrim(TEST_DIRECTORY, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . APPLICATION_DIRECTORY;
 		
 		$view->setApplicationPath($app_path)->setReplacementList($replacement_list);
 		$view->render($view_name);
