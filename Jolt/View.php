@@ -41,7 +41,7 @@ class Jolt_View {
 	
 	public function render($controller, $view) {
 		/**
-		 * 1. Determine the path to the controller file.
+		 * 1. Determine the path to the view file.
 		 * 2. Get all of the variables to replace.
 		 * 3. Require the file, and ob() it.
 		 * 4. Any calls to insertBlock() are processed.
@@ -56,6 +56,10 @@ class Jolt_View {
 	
 	public function getBlockDirectory() {
 		return $this->block_directory;
+	}
+	
+	public function getVariableList() {
+		return $this->variable_list;
 	}
 	
 	
