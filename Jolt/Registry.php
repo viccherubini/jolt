@@ -12,14 +12,10 @@ require_once 'Jolt/Lib/Library.php';
  */
 class Jolt_Registry {
 	
-	/**
-	 * @var The list of elements in the registry.
-	 */
+	/// The list of elements in the registry.
 	private static $registry = array();
 	
-	/**
-	 * @var Store a list of variables that are allowed to be overwritten.
-	 */
+	/// Store a list of variables that are allowed to be overwritten.
 	private static $overwrite_list = array();
 
 	/**
@@ -27,7 +23,7 @@ class Jolt_Registry {
 	 * 
 	 * @retval bool Returns true.
 	 */
-	public function reset() {
+	public static function reset() {
 		self::$registry = array();
 		return true;
 	}
