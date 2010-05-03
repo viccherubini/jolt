@@ -7,35 +7,58 @@
  */
 class Jolt_View {
 	
-	///< The directory where view files are held.
+	/// The directory where view files are held.
 	const VIEW_DIR = 'view';
 	
-	///< The extension view files must have.
+	/// The extension view files must have.
 	const VIEW_EXT = '.phtml';
 	
+	/// Variables that will be replaced in the view. Must be a key=>value pair hash.
 	private $replacement_list = array();
 	
+	/// Full path to the application without the Jolt_View::VIEW_DIR directory.
 	private $application_path = NULL; 
 	
+	/// Directory where Jolt_Block objects will be held.
 	private $block_directory = NULL;
 	
+	/// The final rendering data.
 	private $rendering = NULL;
 	
+	/// File where the view is located.
 	private $view_file = NULL;
 	
+	/**
+	 * Build a new Jolt_View.
+	 */
 	public function __construct() {
 		
 	}
 	
 	public function __destruct() {
-		
-		
+		$this->rendering = NULL;
+		$this->replacement_list = array();
 	}
 	
+	/**
+	 * Get a variable from the replacement list.
+	 * 
+	 * @param $k The key to return from the replacement_list.
+	 * 
+	 * @retval mixed Returns the value from the replacement_list, NULL otherwise.
+	 */
 	public function __get($k) {
-		return er($k, $this->variable_list, NULL);
+		return er($k, $this->replacement_list, NULL);
 	}
 	
+	/**
+	 * Set a variable into the replacement_list.
+	 * 
+	 * @param $k The key to set in the replacement_list.
+	 * @param $v The value of the key.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function __set($k, $v) {
 		$this->replacement_list[$k] = $v;
 		return true;
@@ -48,10 +71,12 @@ class Jolt_View {
 	
 	public function render($view) {
 		/**
+		 * @code
 		 * 1. Determine the path to the view file.
 		 * 2. Get all of the variables to replace.
 		 * 3. Require the file, and ob() it.
 		 * 4. Any calls to insertBlock() are processed.
+		 * @endcode
 		 */
 		$application_path = $this->getApplicationPath();
 		
