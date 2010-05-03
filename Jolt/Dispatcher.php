@@ -17,6 +17,12 @@ class Jolt_Dispatcher {
 	public function __construct() {
 		
 	}
+	
+	public function __destruct() {
+		$this->controller = NULL;
+		$this->route = NULL;
+	}
+	
 
 	/**
 	 * Dispatches routes based on the controllers and actions they specify.
@@ -117,7 +123,7 @@ class Jolt_Dispatcher {
 	}
 	
 	public function setController(Jolt_Controller $controller) {
-		$this->controller = $controller;
+		$this->controller = clone $controller;
 		return $this;
 	}
 	
@@ -132,7 +138,7 @@ class Jolt_Dispatcher {
 	}
 	
 	public function setRoute(Jolt_Route $route) {
-		$this->route = $route;
+		$this->route = clone $route;
 		return $this;
 	}
 	
