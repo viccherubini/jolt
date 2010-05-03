@@ -15,6 +15,7 @@ require_once 'Registry/RegistryTest.php';
 require_once 'Route/AllTests.php';
 require_once 'Router/RouterTest.php';
 require_once 'TestCase/TestCase.php';
+require_once 'View/ViewTest.php';
 
 class Jolt_AllTests {
 	
@@ -28,6 +29,7 @@ class Jolt_AllTests {
 		$suite->addTestSuite(Jolt_Route_AllTests::suite());
 		$suite->addTestSuite('Jolt_Router_RouterTest');
 		$suite->addTestSuite('Jolt_TestCase_TestCaseTest');
+		$suite->addTestSuite('Jolt_View_ViewTest');
 
 		return $suite;
 	}
