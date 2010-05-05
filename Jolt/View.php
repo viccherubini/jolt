@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The basic class for rendering views.
+ * The basic class for rendering Views and inserting blocks/widgets into a view.
  * 
  * @author vmc <vmc@leftnode.com>
  */
@@ -35,6 +35,9 @@ class Jolt_View {
 		
 	}
 	
+	/**
+	 * Destroy the View.
+	 */
 	public function __destruct() {
 		$this->rendering = NULL;
 		$this->replacement_list = array();
@@ -64,11 +67,26 @@ class Jolt_View {
 		return true;
 	}
 	
-	
+	/**
+	 * Build a new block and then insert it into the view. Not entirely sure
+	 * I want to put this here.
+	 * 
+	 * @param $block_name The name of the block to load and execute.
+	 * @param $n All other parameters are passed to the loaded block.
+	 * 
+	 * @retval string Returns the rendered block.
+	 */
 	public function insertBlock($block_name) {
 		
 	}
 	
+	/**
+	 * Renders a view.
+	 * 
+	 * @param $view The name of the view to load and render.
+	 * 
+	 * @retval Jolt_View Returns this for chaining.
+	 */
 	public function render($view) {
 		/**
 		 * @code
