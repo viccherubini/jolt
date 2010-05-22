@@ -78,10 +78,6 @@ class Jolt_Route_Named extends Jolt_Route {
 	public function isValid() {
 		$r = $this->getRoute();
 		
-		if ( true === empty($r) ) {
-			return false;
-		}
-		
 		/* Special case of a valid route. */
 		if ( '/' == $r ) {
 			return true;

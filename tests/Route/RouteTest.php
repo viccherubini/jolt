@@ -7,13 +7,13 @@ class Jolt_Route_RouteTest extends Jolt_TestCase {
 	/**
 	 * @expectedException Jolt_Exception
 	 */
-	public function test_Route_Can_Not_Be_Empty() {
+	public function testRouteCanNotBeEmpty() {
 		$route = $this->buildAbstractRoute();
 		$route->setRoute(NULL);
 	}
 	
 	
-	public function test_Controller_File_Is_Set() {
+	public function testControllerFileIsSet() {
 		$route = $this->buildAbstractRoute();
 		
 		$controller_file = 'ControllerFile.php';

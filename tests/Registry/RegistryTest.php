@@ -7,7 +7,7 @@ class Jolt_Registry_RegistryTest extends Jolt_TestCase {
 		Jolt_Registry::reset();
 	}
 	
-	public function testScalarElements() {
+	public function testPushingScalarElements() {
 		Jolt_Registry::reset();
 		
 		Jolt_Registry::push('string', 'value');
@@ -20,7 +20,7 @@ class Jolt_Registry_RegistryTest extends Jolt_TestCase {
 		$this->assertEquals(10.45, Jolt_Registry::pop('float'));
 	}
 	
-	public function testComplexElements() {
+	public function testPushingComplexElements() {
 		Jolt_Registry::reset();
 		
 		$std_class = new stdClass();
@@ -33,7 +33,7 @@ class Jolt_Registry_RegistryTest extends Jolt_TestCase {
 		$this->assertEquals($array, Jolt_Registry::pop('array'));
 	}
 	
-	public function testDeletingElements() {
+	public function testPoppingElements() {
 		Jolt_Registry::reset();
 		
 		Jolt_Registry::push('delete_me', 'delete me please');
@@ -41,7 +41,7 @@ class Jolt_Registry_RegistryTest extends Jolt_TestCase {
 		$this->assertEquals(NULL, Jolt_Registry::pop('delete_me'));
 	}
 	
-	public function testOverwritingElements() {
+	public function testUpdatingElements() {
 		Jolt_Registry::reset();
 		
 		/* Disallowing overwrites. */

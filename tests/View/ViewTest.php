@@ -4,14 +4,14 @@ require_once 'Jolt/View.php';
 
 class Jolt_View_ViewTest extends Jolt_TestCase {
 	
-	public function test_View_Application_Path_Is_Set() {
+	public function testApplicationPathIsSetCorrectly() {
 		$view = new Jolt_View();
 		$view->setApplicationPath(getcwd());
 		
 		$this->assertEquals(getcwd(), $view->getApplicationPath());
 	}
 	
-	public function test_View_Block_Directory_Is_Set() {
+	public function testBlockDirectoryIsSetCorrectly() {
 		$view = new Jolt_View();
 		$view->setBlockDirectory('blocks/'); // The / should be trimmed off
 		
@@ -21,17 +21,18 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 	/**
 	 * @dataProvider providerReplacementList
 	 */
-	public function test_View_Magic_Getter_And_Setter($k, $v) {
+	public function testMagicGetterAndSetter($k, $v) {
 		$view = new Jolt_View();
 		$view->$k = $v;
 		
 		$this->assertEquals(array($k => $v), $view->getReplacementList());
+		$this->assertEquals($v, $view->$k);
 	}
 	
 	/**
 	 * @dataProvider providerRenderableViewList
 	 */
-	public function test_View_Renders_When_View_File_Exists($view_name, $replacement_list) {
+	public function testViewRendersCorrectlyWhenViewFileExists($view_name, $replacement_list) {
 		$view = new Jolt_View();
 		
 		$app_path = rtrim(TEST_DIRECTORY, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . APPLICATION_DIRECTORY;
@@ -45,8 +46,6 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 		
 		$this->assertEquals(file_get_contents($view_file_rendered), $view->getRendering());
 	}
-	
-	
 	
 	
 	public function providerReplacementList() {
@@ -70,5 +69,4 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 			array('object', array('human' => $human))
 		);
 	}
-	
 }

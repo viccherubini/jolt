@@ -18,12 +18,12 @@ class Jolt_Route_RestfulTest extends Jolt_TestCase {
 		$route = new Jolt_Route_Restful('/user', NULL);
 	}
 
-	public function testRouteIsSet() {
+	public function testRouteIsSetCorrectly() {
 		$route = new Jolt_Route_Restful('/user', 'Resource');
 		$this->assertEquals('/user', $route->getRoute());
 	}
 	
-	public function testResourceIsSet() {
+	public function testResourceIsSetCorrectly() {
 		$route = new Jolt_Route_Restful('/user', 'Resource');
 		$this->assertEquals('Resource', $route->getResource());
 	}

@@ -4,7 +4,7 @@ require_once 'Jolt/Router.php';
 
 class Jolt_Router_RouterTest extends Jolt_TestCase {
 
-	public function test_Named_Route_List_Is_Initially_Empty() {
+	public function testNamedRouteListIsInitiallyEmpty() {
 		$router = new Jolt_Router();
 		
 		$this->assertArray($router->getNamedRouteList());
@@ -14,7 +14,7 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	/**
 	 * @dataProvider providerValidNamedRouteList
 	 */
-	public function test_Named_Route_List_Can_Have_Valid_Routes($named_route) {
+	public function testNamedRouteListCanHaveValidRoutes($named_route) {
 		$router = new Jolt_Router();
 		$router->setNamedRouteList(array($named_route));
 	}
@@ -23,7 +23,7 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	 * @expectedException Jolt_Exception
 	 * @dataProvider providerInvalidRouteList
 	 */
-	public function test_Named_Route_List_Cannot_Have_Invalid_Routes($named_route) {
+	public function testNamedRouteListCannotHaveInvalidRoutes($named_route) {
 		$router = new Jolt_Router();
 		$router->setNamedRouteList(array($named_route));
 	}
@@ -31,7 +31,7 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	/**
 	 * @expectedException Jolt_Exception
 	 */
-	public function test_Named_Route_List_Cannot_Have_Duplicates() {
+	public function testNamedRouteListCannotHaveDuplicates() {
 		$router = new Jolt_Router();
 		
 		$route1 = $this->buildNamedRoute('/user', 'User', 'view');
@@ -40,10 +40,7 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 		$router->setNamedRouteList(array($route1, $route2));
 	}
 	
-	
-	
-	
-	public function test_Restful_Route_List_Is_Initially_Empty() {
+	public function testRestfulRouteListIsInitiallyEmpty() {
 		$router = new Jolt_Router();
 		
 		$this->assertArray($router->getRestfulRouteList());
@@ -53,7 +50,7 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	/**
 	 * @expectedException Jolt_Exception
 	 */
-	public function test_Restful_Route_List_Cannot_Have_Duplicates() {
+	public function test_RestfulRouteListCannotHaveDuplicates() {
 		$router = new Jolt_Router();
 		
 		$route1 = $this->buildRestfulRoute('/user', 'User');
@@ -62,15 +59,14 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 		$router->setRestfulRouteList(array($route1, $route2));
 	}
 	
-	
-	public function test_Config_Can_Be_Set() {
+	public function testConfigCanBeSetCorrectly() {
 		$router = new Jolt_Router();
 		$config = $this->buildConfig();
 		
 		$this->assertEquals($router, $router->setConfig($config));
 	}
 	
-	public function test_Config_Is_Set() {
+	public function testConfigIsSetCorrectly() {
 		$router = new Jolt_Router();
 		$config = $this->buildConfig();
 		
@@ -80,7 +76,7 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	/**
 	 * @expectedException Jolt_Exception
 	 */
-	public function test_Config_Can_Not_Be_Malformed() {
+	public function testConfigCanNotBeMalformed() {
 		$router = new Jolt_Router();
 		$router->setConfig(array());
 	}
@@ -88,7 +84,7 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	/**
 	 * @expectedException Jolt_Exception
 	 */
-	public function test_Execute_Must_Have_At_Least_One_Route() {
+	public function testExecuteMustHaveAtLeastOneRoute() {
 		$router = new Jolt_Router();
 		$router->execute();
 	}
@@ -103,26 +99,22 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 		$router->setNamedRouteList(array($named_route));
 	}
 	
-
-	
-	
-	
-	
-	public function test_Uri_Can_Be_Set() {
+	public function testUriCanBeSetCorrectly() {
 		$router = new Jolt_Router();
 		$this->assertEquals($router, $router->setUri('/user/1'));
 	}
 	
-	public function test_Uri_Is_Set() {
+	public function testUriIsSetCorrectly() {
 		$router = new Jolt_Router();
 		$this->assertEquals('/user/1', $router->setUri('/user/1')->getUri());
 	}
 	
-	public function test_Uri_Must_Start_With_Slash() {
+	public function testUriMustStartWithForwardSlash() {
 		$router = new Jolt_Router();
 		$router->setUri('abc');
 		$this->assertEquals('/abc', $router->getUri());
 	}
+	
 	
 	
 	public function providerInvalidRouteList() {

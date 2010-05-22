@@ -6,7 +6,7 @@ require_once 'Jolt/Dispatcher.php';
 
 class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 	
-	public function test_Dispatcher_Controller_Path_Is_Set() {
+	public function testControllerPathIsSetCorrectly() {
 		$dispatcher = new Jolt_Dispatcher();
 		
 		$controller_path = getcwd();
@@ -15,7 +15,7 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 		$this->assertEquals($controller_path, $dispatcher->getControllerPath());
 	}
 	
-	public function test_Dispatcher_Application_Path_Is_Set() {
+	public function testApplicationPathIsSetCorrectly() {
 		$dispatcher = new Jolt_Dispatcher();
 		
 		$application_path = getcwd();
@@ -24,7 +24,7 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 		$this->assertEquals($application_path, $dispatcher->getApplicationPath());
 	}
 	
-	public function test_Dispatcher_Layout_Path_Is_Set() {
+	public function testLayoutPathIsSetCorrectly() {
 		$dispatcher = new Jolt_Dispatcher();
 		
 		$layout_path = getcwd();
@@ -34,7 +34,7 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 	}
 	
 	
-	public function test_Dispatcher_Route_Is_Set() {
+	public function testRouteIsSetCorrectly() {
 		$dispatcher = new Jolt_Dispatcher();
 		
 		$route = $this->buildNamedRoute('/user/%n', 'User', 'viewAction');
@@ -46,25 +46,10 @@ class Jolt_Dispatcher_DispatcherTest extends Jolt_TestCase {
 	/**
 	 * @expectedException Jolt_Exception
 	 */
-	public function test_Dispatcher_Must_Have_Route_Before_Executing() {
+	public function testDispatcherMustHaveRouteBeforeExecuting() {
 		$dispatcher = new Jolt_Dispatcher();
 		$dispatcher->dispatch();
 	}
-	
-	
-	
-	
-	
-	//public function test_Dispatcher_Builds_Controller_Object() {
-		//vfsStreamWrapper::register();
-		//vfsStreamWrapper::setRoot(new vfsStreamDirectory('controllers'));
-		
-		
-		
-	//}
-	
-	
-	
 	
 	
 	protected function buildDispatcher() {

@@ -7,13 +7,10 @@ class Jolt_JoltTest extends Jolt_TestCase {
 	/**
 	 * @expectedException Jolt_Exception
 	 */
-	public function test_Attached_Router_Has_At_Least_One_Route() {
+	public function testAttachedRouterMustHaveAtLeastOneRoute() {
 		$router = $this->buildEmptyRouter();
 		Jolt::attachRouter($router);
 	}
-	
-	
-	
 	
 	
 	protected function buildEmptyRouter() {
@@ -37,5 +34,4 @@ class Jolt_JoltTest extends Jolt_TestCase {
 		
 		return $mock;
 	}
-	
 }

@@ -4,14 +4,14 @@ require_once 'Jolt/Controller.php';
 
 class Jolt_Controller_ControllerTest extends Jolt_TestCase {
 	
-	public function test_Controller_Config_Is_Empty() {
+	public function testConfigIsEmpty() {
 		$controller = $this->buildController();
 		$this->assertArray($controller->getConfig());
 		$this->assertEmptyArray($controller->getConfig());
 	}
 	
 	
-	public function test_Controller_Layout_Is_Set() {
+	public function testLayoutIsSet() {
 		$controller = $this->buildController();
 		$controller->setLayout('default');
 		
