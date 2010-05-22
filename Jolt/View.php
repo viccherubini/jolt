@@ -79,9 +79,11 @@ class View {
 	 * 
 	 * @retval string Returns the rendered block.
 	 */
+	/*
 	public function insertBlock($block_name) {
 		
 	}
+	*/
 	
 	/**
 	 * Renders a view.
