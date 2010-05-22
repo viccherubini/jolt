@@ -1,6 +1,9 @@
 <?php
 
-abstract class Jolt_Route {
+declare(encoding='UTF-8');
+namespace Jolt;
+
+abstract class Route {
 
 	private $route = NULL;
 	private $controller_file = NULL;
@@ -32,7 +35,7 @@ abstract class Jolt_Route {
 	public function setRoute($route) {
 		$route = trim($route);
 		if ( true === empty($route) ) {
-			throw new Jolt_Exception('route_empty');
+			throw new \Jolt\Exception('route_empty');
 		}
 		
 		$this->route = $route;
@@ -42,7 +45,7 @@ abstract class Jolt_Route {
 	
 	
 	
-	abstract public function isEqual(Jolt_Route $route);
+	abstract public function isEqual(Route $route);
 	
 	abstract public function isValid();
 	

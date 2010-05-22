@@ -1,6 +1,9 @@
 <?php
 
-class Jolt_TestCase extends PHPUnit_Framework_TestCase {
+declare(encoding='UTF-8');
+namespace Jolt;
+
+class TestCase extends \PHPUnit_Framework_TestCase {
 	public static function assertArray($a, $message = '') {
 		self::assertThat(is_array($a), self::isTrue(), $message);
 	}
@@ -11,12 +14,12 @@ class Jolt_TestCase extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function buildAbstractRoute() {
-		$mock = $this->getMockForAbstractClass('Jolt_Route');
+		$mock = $this->getMockForAbstractClass('\Jolt\Route');
 		return $mock;
 	}
 	
 	protected function buildNamedRoute($route, $controller, $action) {
-		$mock = $this->getMock('Jolt_Route_Named',
+		$mock = $this->getMock('\Jolt\Route_Named',
 			array('getRoute', 'getController', 'getAction'),
 			array($route, $controller, $action)
 		);
@@ -37,7 +40,7 @@ class Jolt_TestCase extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function buildRestfulRoute($route, $resource) {
-		$mock = $this->getMock('Jolt_Route_Restful',
+		$mock = $this->getMock('\Jolt\Route_Restful',
 			array('getRoute', 'getResource'),
 			array($route, $resource)
 		);

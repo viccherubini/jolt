@@ -1,8 +1,11 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Route.php';
 
-class Jolt_Route_Restful extends Jolt_Route {
+class Route_Restful extends Route {
 	
 	private $resource = NULL;
 	
@@ -15,7 +18,7 @@ class Jolt_Route_Restful extends Jolt_Route {
 	public function setResource($resource) {
 		$resource = trim($resource);
 		if ( true === empty($resource) ) {
-			throw new Jolt_Exception('route_restful_resource_empty');
+			throw new \Jolt\Exception('route_restful_resource_empty');
 		}
 		
 		$this->resource = $resource;
@@ -29,7 +32,7 @@ class Jolt_Route_Restful extends Jolt_Route {
 		return $this->resource;
 	}
 	
-	public function isEqual(Jolt_Route $route) {
+	public function isEqual(Route $route) {
 		return false;
 	}
 	

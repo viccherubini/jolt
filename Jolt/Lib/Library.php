@@ -1,5 +1,8 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Lib/Array.php';
 require_once 'Jolt/Lib/Crypt.php';
 require_once 'Jolt/Lib/Db.php';
@@ -81,15 +84,4 @@ function lib_peak_memory() {
 	$memory = memory_get_peak_usage() / $one_mb;
 	$memory = round($memory, 4);
 	return $memory;
-}
-
-function lib_throw_if($value, $exception) {
-	if ( true === $value ) {
-		throw new Jolt_Exception($exception);
-	}
-	return true;
-}
-
-function lib_throw_if_not($value, $exception) {
-	return lib_throw_if(false === $value, $exception);
 }

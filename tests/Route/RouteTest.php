@@ -1,11 +1,14 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Route.php';
 
-class Jolt_Route_RouteTest extends Jolt_TestCase {
+class RouteTest extends TestCase {
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteCanNotBeEmpty() {
 		$route = $this->buildAbstractRoute();

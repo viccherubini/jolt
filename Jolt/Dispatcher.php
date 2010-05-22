@@ -1,8 +1,11 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Jolt.php';
 
-class Jolt_Dispatcher {
+class Dispatcher {
 	
 	private $application_path = NULL;
 	
@@ -33,10 +36,9 @@ class Jolt_Dispatcher {
 	public function dispatch() {
 		/* Must have a route before dispatching. */
 		$route = $this->getRoute();
-		lib_throw_if(is_null($route), 'dispatcher_route_is_null');
-		
-		
-		
+		if ( true === is_null($route) ) {
+			throw new \Jolt\Exception('dispatcher_route_is_null');
+		}
 		
 		
 		$controller_file = $route->getControllerFile();
@@ -49,7 +51,7 @@ class Jolt_Dispatcher {
 		
 		$controller = Jolt::buildClass($controller_path, $route->getController());
 		if ( false === $controller ) {
-			throw new Jolt_Exception("dispatcher_controller_can_not_be_loaded: {$controller_path}");
+			throw new \Jolt\Exception("dispatcher_controller_can_not_be_loaded: {$controller_path}");
 		}
 		
 		$this->setController($controller);
@@ -58,7 +60,7 @@ class Jolt_Dispatcher {
 		$action = $route->getAction();
 		
 		/* The action needs to be a 1:1 to the method in the controller, no appending/prepending words to it. */
-		$action_method = new ReflectionMethod($controller, $action);
+		$action_method = new \ReflectionMethod($controller, $action);
 
 		/* Determine if any additional fake parameters need to be added to avoid any warnings. */
 		$param_count = $action_method->getNumberOfRequiredParameters();
@@ -79,7 +81,9 @@ class Jolt_Dispatcher {
 			}
 		}
 		
-		lib_throw_if(false === $success, 'dispatcher_controller_failed_to_execute');
+		if ( false === $success ) {
+			throw new \Jolt\Exception('dispatcher_controller_failed_to_execute');
+		}
 		
 		/**
 		 * Controller has it's own rendered view stored within it, and knows if it has a layout.
@@ -137,7 +141,7 @@ class Jolt_Dispatcher {
 		return $this;
 	}
 	
-	public function setRoute(Jolt_Route $route) {
+	public function setRoute(Route $route) {
 		$this->route = clone $route;
 		return $this;
 	}

@@ -1,5 +1,8 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 /**
  * The client is what is responsible for sending rendered views, errors,
  * and/or headers back to the actual client. It should generally be initiated
@@ -7,6 +10,6 @@
  * 
  * @author vmc <vmc@leftnode.com>
  */
-class Jolt_Client {
+class Client {
 
 }

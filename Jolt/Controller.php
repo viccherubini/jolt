@@ -1,6 +1,9 @@
 <?php
 
-abstract class Jolt_Controller {
+declare(encoding='UTF-8');
+namespace Jolt;
+
+abstract class Controller {
 	
 	private $layout = NULL;
 	

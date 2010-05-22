@@ -1,5 +1,8 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Exception.php';
 
 /**
@@ -16,19 +19,19 @@ class Jolt {
 	
 	private $config = array();
 	
-	public static function attachRouter(Jolt_Router $router) {
+	public static function attachRouter(Router $router) {
 		if ( 0 === $router->getRouteCount() ) {
-			throw new Jolt_Exception('jolt_router_empty');
+			throw new \Jolt\Exception('jolt_router_empty');
 		}
 		
 		self::$router = $router;
 	}
 	
-	public static function attachDispatcher(Jolt_Dispatcher $dispatcher) {
+	public static function attachDispatcher(Dispatcher $dispatcher) {
 		self::$dispatcher = $dispatcher;
 	}
 	
-	public static function attachClient(Jolt_Client $client) {
+	public static function attachClient(Client $client) {
 		self::$client = $client;
 	}
 	
@@ -45,7 +48,7 @@ class Jolt {
 				return false;
 			}
 		
-			$reflection_class = new ReflectionClass($class);
+			$reflection_class = new \ReflectionClass($class);
 			$object = $reflection_class->newInstanceArgs($argv);
 		
 			return $object;

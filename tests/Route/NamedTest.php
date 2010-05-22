@@ -1,42 +1,45 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Route/Named.php';
 
-class Jolt_Route_NamedTest extends Jolt_TestCase {
+class Route_NamedTest extends TestCase {
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteCanNotBeEmpty() {
-		$route = new Jolt_Route_Named(NULL, 'Controller', 'Action');
+		$route = new Route_Named(NULL, 'Controller', 'Action');
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteMustHaveController() {
-		$route = new Jolt_Route_Named('/users/', NULL, 'Action');
+		$route = new Route_Named('/users/', NULL, 'Action');
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteMustHaveAction() {
-		$route = new Jolt_Route_Named('/users/', 'Controller', NULL);
+		$route = new Route_Named('/users/', 'Controller', NULL);
 	}
 	
 	public function testRouteIsSetCorrectly() {
-		$route = new Jolt_Route_Named('/route/', 'Controller', 'Action');
+		$route = new Route_Named('/route/', 'Controller', 'Action');
 		$this->assertEquals('/route/', $route->getRoute());
 	}
 	
 	public function testControllerIsSetCorrectly() {
-		$route = new Jolt_Route_Named('/route/', 'Controller', 'Action');
+		$route = new Route_Named('/route/', 'Controller', 'Action');
 		$this->assertEquals('Controller', $route->getController());
 	}
 	
 	public function testActionIsSetCorrectly() {
-		$route = new Jolt_Route_Named('/route/', 'Controller', 'Action');
+		$route = new Route_Named('/route/', 'Controller', 'Action');
 		$this->assertEquals('Action', $route->getAction());
 	}
 	
@@ -44,7 +47,7 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 	 * @dataProvider providerValidRoute
 	 */
 	public function testRouteWillAllowValidRoutes($route_name) {
-		$route = new Jolt_Route_Named('/', 'Controller', 'Action');
+		$route = new Route_Named('/', 'Controller', 'Action');
 		
 		$this->assertTrue($route->setRoute($route_name)->isValid());
 	}
@@ -53,7 +56,7 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 	 * @dataProvider providerInvalidRoute
 	 */
 	public function testRouteWillNotAllowInvalidRoutes($route_name) {
-		$route = new Jolt_Route_Named('/', 'Controller', 'Action');
+		$route = new Route_Named('/', 'Controller', 'Action');
 	
 		$this->assertFalse($route->setRoute($route_name)->isValid());
 	}
@@ -62,7 +65,7 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 	 * @dataProvider providerValidRouteAndUri
 	 */
 	public function testRouteWillAllowValidUris($route_name, $uri) {
-		$route = new Jolt_Route_Named($route_name, 'Controller', 'action');
+		$route = new Route_Named($route_name, 'Controller', 'action');
 		
 		$this->assertTrue($route->isValidUri($uri));
 	}
@@ -71,7 +74,7 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 	 * @dataProvider providerInvalidRouteAndUri
 	 */
 	public function testRouteWillNotAllowInvalidUris($route_name, $uri) {
-		$route = new Jolt_Route_Named($route_name, 'Controller', 'action');
+		$route = new Route_Named($route_name, 'Controller', 'action');
 
 		$this->assertFalse($route->isValidUri($uri));
 	}
@@ -94,7 +97,7 @@ class Jolt_Route_NamedTest extends Jolt_TestCase {
 	 * @dataProvider providerValidRouteUriAndActionArguments
 	 */
 	public function testRouteArgvIsSet($route_name, $uri, $argv) {
-		$route = new Jolt_Route_Named($route_name, 'Controller', 'actionMethod');
+		$route = new Route_Named($route_name, 'Controller', 'actionMethod');
 		$route->isValidUri($uri);
 		
 		$this->assertEquals($argv, array_values($route->getArgv()));

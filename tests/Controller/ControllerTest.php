@@ -1,8 +1,11 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Controller.php';
 
-class Jolt_Controller_ControllerTest extends Jolt_TestCase {
+class ControllerTest extends TestCase {
 	
 	public function testConfigIsEmpty() {
 		$controller = $this->buildController();
@@ -10,18 +13,16 @@ class Jolt_Controller_ControllerTest extends Jolt_TestCase {
 		$this->assertEmptyArray($controller->getConfig());
 	}
 	
-	
 	public function testLayoutIsSet() {
 		$controller = $this->buildController();
 		$controller->setLayout('default');
 		
 		$this->assertEquals('default', $controller->getLayout());
 	}
-	
-	
+
 
 	protected function buildController() {
-		$controller = $this->getMockForAbstractClass('Jolt_Controller');
+		$controller = $this->getMockForAbstractClass('\Jolt\Controller');
 		return $controller;
 	}
 }

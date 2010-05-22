@@ -1,8 +1,11 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Route.php';
 
-class Jolt_Route_Named extends Jolt_Route {
+class Route_Named extends Route {
 
 	private $controller = NULL;
 	private $action = NULL;
@@ -23,7 +26,7 @@ class Jolt_Route_Named extends Jolt_Route {
 	public function setAction($action) {
 		$action = trim($action);
 		if ( true === empty($action) ) {
-			throw new Jolt_Exception('route_named_action_empty');
+			throw new \Jolt\Exception('route_named_action_empty');
 		}
 		
 		$this->action = $action;
@@ -39,17 +42,13 @@ class Jolt_Route_Named extends Jolt_Route {
 	public function setController($controller) {
 		$controller = trim($controller);
 		if ( true === empty($controller) ) {
-			throw new Jolt_Exception('route_named_controller_empty');
+			throw new \Jolt\Exception('route_named_controller_empty');
 		}
 		
 		$this->controller = $controller;
 		
 		return $this;
 	}
-	
-	
-	
-	
 	
 	public function getAction() {
 		return $this->action;
@@ -63,17 +62,13 @@ class Jolt_Route_Named extends Jolt_Route {
 		return $this->controller;
 	}
 	
-	
-	
-	
-	public function isEqual(Jolt_Route $route) {
+	public function isEqual(Route $route) {
 		return (
 			$route->getRoute() === $this->getRoute() &&
 			$route->getController() === $this->getController() &&
 			$route->getAction() === $this->getAction()
 		);
 	}
-	
 	
 	public function isValid() {
 		$r = $this->getRoute();

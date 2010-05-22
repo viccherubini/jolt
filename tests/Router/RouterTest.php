@@ -1,11 +1,14 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Router.php';
 
-class Jolt_Router_RouterTest extends Jolt_TestCase {
+class RouterTest extends TestCase {
 
 	public function testNamedRouteListIsInitiallyEmpty() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		
 		$this->assertArray($router->getNamedRouteList());
 		$this->assertEmptyArray($router->getNamedRouteList());
@@ -15,24 +18,24 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	 * @dataProvider providerValidNamedRouteList
 	 */
 	public function testNamedRouteListCanHaveValidRoutes($named_route) {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$router->setNamedRouteList(array($named_route));
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 * @dataProvider providerInvalidRouteList
 	 */
 	public function testNamedRouteListCannotHaveInvalidRoutes($named_route) {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$router->setNamedRouteList(array($named_route));
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testNamedRouteListCannotHaveDuplicates() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		
 		$route1 = $this->buildNamedRoute('/user', 'User', 'view');
 		$route2 = $this->buildNamedRoute('/user', 'User', 'view');
@@ -41,17 +44,17 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	}
 	
 	public function testRestfulRouteListIsInitiallyEmpty() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		
 		$this->assertArray($router->getRestfulRouteList());
 		$this->assertEmptyArray($router->getRestfulRouteList());
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function test_RestfulRouteListCannotHaveDuplicates() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		
 		$route1 = $this->buildRestfulRoute('/user', 'User');
 		$route2 = $this->buildRestfulRoute('/user', 'User');
@@ -60,57 +63,57 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 	}
 	
 	public function testConfigCanBeSetCorrectly() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$config = $this->buildConfig();
 		
 		$this->assertEquals($router, $router->setConfig($config));
 	}
 	
 	public function testConfigIsSetCorrectly() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$config = $this->buildConfig();
 		
 		$this->assertEquals($config, $router->setConfig($config)->getConfig());
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testConfigCanNotBeMalformed() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$router->setConfig(array());
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testExecuteMustHaveAtLeastOneRoute() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$router->execute();
 	}
 	
 	/**
 	 * @dataProvider providerValidNamedRouteList
 	 */
-	public function test_Execute_Finds_Correct_Route($named_route) {
-		$router = new Jolt_Router();
+	public function testExecuteFindsCorrectRoute($named_route) {
+		$router = new Router();
 		$router->setConfig($this->buildConfig());
 
 		$router->setNamedRouteList(array($named_route));
 	}
 	
 	public function testUriCanBeSetCorrectly() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$this->assertEquals($router, $router->setUri('/user/1'));
 	}
 	
 	public function testUriIsSetCorrectly() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$this->assertEquals('/user/1', $router->setUri('/user/1')->getUri());
 	}
 	
 	public function testUriMustStartWithForwardSlash() {
-		$router = new Jolt_Router();
+		$router = new Router();
 		$router->setUri('abc');
 		$this->assertEquals('/abc', $router->getUri());
 	}
@@ -122,7 +125,7 @@ class Jolt_Router_RouterTest extends Jolt_TestCase {
 			array('string'),
 			array(10),
 			array(10.45),
-			array(new stdClass()),
+			array(new \stdClass()),
 			array(array())
 		);
 	}

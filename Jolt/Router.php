@@ -1,8 +1,9 @@
 <?php
 
-require_once 'Exception.php';
+declare(encoding='UTF-8');
+namespace Jolt;
 
-class Jolt_Router {
+class Router {
 
 	private $config = array();
 	private $named_list = array();
@@ -27,14 +28,12 @@ class Jolt_Router {
 		$restful_list = $this->getRestfulRouteList();
 		
 		if ( 0 === $this->getRouteCount() ) {
-			throw new Jolt_Exception('router_lists_empty');
+			throw new \Jolt\Exception('router_lists_empty');
 		}
 		
 		$this->parseUri();
 		
 		$uri = $this->getUri();
-		
-		
 		
 		foreach ( $named_list as $named_route ) {
 			if ( true === $named_route->isValidUri($uri) ) {
@@ -72,7 +71,7 @@ class Jolt_Router {
 	
 	public function setConfig(array $config) {
 		if ( 0 === count($config) ) {
-			throw new Jolt_Exception('router_config_empty');
+			throw new \Jolt\Exception('router_config_empty');
 		}
 		
 		/**
@@ -91,7 +90,7 @@ class Jolt_Router {
 		$field_difference = array_diff_key($required_fields, $config);
 		
 		if ( count($field_difference) > 0 ) {
-			throw new Jolt_Exception('router_config_malformed');
+			throw new \Jolt\Exception('router_config_malformed');
 		}
 		
 		$this->config = $config;
@@ -100,23 +99,17 @@ class Jolt_Router {
 	
 	public function setNamedRouteList(array $named_list) {
 		if ( 0 === count($named_list) ) {
-			throw new Jolt_Exception('router_named_list_empty');
+			throw new \Jolt\Exception('router_named_list_empty');
 		}
 		
-		foreach ( $named_list as $route ) {
-			if ( false === is_object($route) ) {
-				$type_name = gettype($route);
-				throw new Jolt_Exception("router_named_list_element_not_object: '{$type_name}'");
+		array_walk($named_list, function(&$v, $k) {
+			if ( false === $v instanceof \Jolt\Route_Named ) {
+				throw new \Jolt\Exception("router_named_list_element_not_named_route");
 			}
-			
-			if ( false === $route instanceof Jolt_Route_Named ) {
-				$class_name = get_class($route);
-				throw new Jolt_Exception("router_named_list_element_not_named_route: '{$class_name}'");
-			}
-		}
+		});
 		
-		if ( false === $this->isRouteListUnqiue($named_list) ) {
-			throw new Jolt_Exception("router_named_list_duplicate_route");
+		if ( false === $this->isRouteListEntirelyUnqiue($named_list) ) {
+			throw new \Jolt\Exception("router_named_list_duplicate_route");
 		}
 		
 		$this->named_list = $named_list;
@@ -125,23 +118,17 @@ class Jolt_Router {
 	
 	public function setRestfulRouteList(array $restful_list) {
 		if ( 0 === count($restful_list) ) {
-			throw new Jolt_Exception("router_restful_list_empty");
+			throw new \Jolt\Exception("router_restful_list_empty");
 		}
 		
-		foreach ( $restful_list as $route ) {
-			if ( false === is_object($route) ) {
-				$type_name = gettype($route);
-				throw new Jolt_Exception("router_restful_list_element_not_object: '{$type_name}'");
+		array_walk($restful_list, function(&$v, $k) {
+			if ( false === $v instanceof \Jolt\Route_Restful ) {
+				throw new \Jolt\Exception("router_restful_list_element_not_restful_route");
 			}
-			
-			if ( false === $route instanceof Jolt_Route_Restful ) {
-				$class_name = get_class($route);
-				throw new Jolt_Exception("router_restful_list_element_not_named_route: '{$class_name}'");
-			}
-		}
+		});
 		
-		if ( false === $this->isRouteListUnqiue($restful_list) ) {
-			throw new Jolt_Exception("router_restful_list_duplicate_route");
+		if ( false === $this->isRouteListEntirelyUnqiue($restful_list) ) {
+			throw new \Jolt\Exception("router_restful_list_duplicate_route");
 		}
 		
 		$this->restful_list = $restful_list;
@@ -163,16 +150,10 @@ class Jolt_Router {
 	
 	
 	
-	
-	
-	
-	
 	private function reset() {
 		$this->named_list = array();
 		$this->restful_list = array();
 	}
-	
-	
 	
 	private function parseUri() {
 		$uri = er(self::URI_PARAM, $REQUEST);
@@ -187,7 +168,7 @@ class Jolt_Router {
 		return true;
 	}
 	
-	private function isRouteListUnqiue(array $route_list) {
+	private function isRouteListEntirelyUnqiue(array $route_list) {
 		$route_uri_list = array();
 		
 		foreach ( $route_list as $route ) {

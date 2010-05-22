@@ -1,3 +1,6 @@
 <?php
 
-class Jolt_Exception extends Exception { }
+declare(encoding='UTF-8');
+namespace Jolt;
+
+class Exception extends \Exception { }

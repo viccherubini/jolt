@@ -1,30 +1,33 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/Route/Restful.php';
 
-class Jolt_Route_RestfulTest extends Jolt_TestCase {
+class Route_RestfulTest extends TestCase {
 
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteCanNotBeEmpty() {
-		$route = new Jolt_Route_Restful(NULL, 'Resource');
+		$route = new Route_Restful(NULL, 'Resource');
 	}
 	
 	/**
-	 * @expectedException Jolt_Exception
+	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteMustHaveResource() {
-		$route = new Jolt_Route_Restful('/user', NULL);
+		$route = new Route_Restful('/user', NULL);
 	}
 
 	public function testRouteIsSetCorrectly() {
-		$route = new Jolt_Route_Restful('/user', 'Resource');
+		$route = new Route_Restful('/user', 'Resource');
 		$this->assertEquals('/user', $route->getRoute());
 	}
 	
 	public function testResourceIsSetCorrectly() {
-		$route = new Jolt_Route_Restful('/user', 'Resource');
+		$route = new Route_Restful('/user', 'Resource');
 		$this->assertEquals('Resource', $route->getResource());
 	}
 }

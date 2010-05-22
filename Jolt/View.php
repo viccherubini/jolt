@@ -1,11 +1,14 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 /**
  * The basic class for rendering Views and inserting blocks/widgets into a view.
  * 
  * @author vmc <vmc@leftnode.com>
  */
-class Jolt_View {
+class View {
 	
 	/// The directory where view files are held.
 	const VIEW_DIR = 'view';

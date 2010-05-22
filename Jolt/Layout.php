@@ -1,5 +1,8 @@
 <?php
 
-class Jolt_Layout {
+declare(encoding='UTF-8');
+namespace Jolt;
+
+class Layout {
 	
 }

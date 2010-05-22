@@ -1,18 +1,21 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'Jolt/View.php';
 
-class Jolt_View_ViewTest extends Jolt_TestCase {
+class ViewTest extends TestCase {
 	
 	public function testApplicationPathIsSetCorrectly() {
-		$view = new Jolt_View();
+		$view = new View();
 		$view->setApplicationPath(getcwd());
 		
 		$this->assertEquals(getcwd(), $view->getApplicationPath());
 	}
 	
 	public function testBlockDirectoryIsSetCorrectly() {
-		$view = new Jolt_View();
+		$view = new View();
 		$view->setBlockDirectory('blocks/'); // The / should be trimmed off
 		
 		$this->assertEquals('blocks', $view->getBlockDirectory());
@@ -22,7 +25,7 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 	 * @dataProvider providerReplacementList
 	 */
 	public function testMagicGetterAndSetter($k, $v) {
-		$view = new Jolt_View();
+		$view = new View();
 		$view->$k = $v;
 		
 		$this->assertEquals(array($k => $v), $view->getReplacementList());
@@ -33,7 +36,7 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 	 * @dataProvider providerRenderableViewList
 	 */
 	public function testViewRendersCorrectlyWhenViewFileExists($view_name, $replacement_list) {
-		$view = new Jolt_View();
+		$view = new View();
 		
 		$app_path = rtrim(TEST_DIRECTORY, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . APPLICATION_DIRECTORY;
 		
@@ -42,7 +45,7 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 		
 		/* Cheap way to get the rendered view file. */
 		$view_file = $view->getViewFile();
-		$view_file_rendered = str_replace(Jolt_View::VIEW_EXT, '-rendered' . Jolt_View::VIEW_EXT, $view_file);
+		$view_file_rendered = str_replace(View::VIEW_EXT, '-rendered' . View::VIEW_EXT, $view_file);
 		
 		$this->assertEquals(file_get_contents($view_file_rendered), $view->getRendering());
 	}
@@ -52,12 +55,12 @@ class Jolt_View_ViewTest extends Jolt_TestCase {
 		return array(
 			array('variable', 'value'),
 			array('array_variable', array(1, 2, 3, 4, 5)),
-			array('object_variable', new stdClass())
+			array('object_variable', new \stdClass())
 		);
 	}
 	
 	public function providerRenderableViewList() {
-		$human = new stdClass();
+		$human = new \stdClass();
 		$human->name = 'Victor Cherubini';
 		$human->age = 25;
 		

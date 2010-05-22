@@ -1,5 +1,8 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt;
+
 require_once 'PHPUnit/Framework.php';
 
 require_once 'TestCase.php';
@@ -13,19 +16,19 @@ require_once 'Router/RouterTest.php';
 require_once 'TestCase/TestCase.php';
 require_once 'View/ViewTest.php';
 
-class Jolt_AllTests {
+class AllTests {
 	
 	public static function suite() {
-		$suite = new PHPUnit_Framework_TestSuite('Jolt All Tests');
+		$suite = new \PHPUnit_Framework_TestSuite('Jolt All Tests');
 		
-		$suite->addTestSuite('Jolt_Controller_ControllerTest');
-		$suite->addTestSuite('Jolt_Dispatcher_DispatcherTest');
-		$suite->addTestSuite('Jolt_JoltTest');
-		$suite->addTestSuite('Jolt_Registry_RegistryTest');
-		$suite->addTestSuite(Jolt_Route_AllTests::suite());
-		$suite->addTestSuite('Jolt_Router_RouterTest');
-		$suite->addTestSuite('Jolt_TestCase_TestCaseTest');
-		$suite->addTestSuite('Jolt_View_ViewTest');
+		$suite->addTestSuite('\Jolt\ControllerTest');
+		$suite->addTestSuite('\Jolt\DispatcherTest');
+		$suite->addTestSuite('\Jolt\JoltTest');
+		$suite->addTestSuite('\Jolt\RegistryTest');
+		$suite->addTestSuite(Route_AllTests::suite());
+		$suite->addTestSuite('\Jolt\RouterTest');
+		$suite->addTestSuite('\Jolt\TestCaseTest');
+		$suite->addTestSuite('\Jolt\ViewTest');
 
 		return $suite;
 	}
