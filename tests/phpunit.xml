@@ -1,0 +1,18 @@
+<phpunit bootstrap="Bootstrap.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnFailure="true" syntaxCheck="true">
+	
+	<testsuites>
+		<testsuite name="Jolt All Tests">
+			<file>AllTests.php</file>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../Jolt/</directory>
+		</whitelist>
+	</filter>
+	
+	<logging>
+		<log type="coverage-html" target="../docs/coverage/" charset="UTF-8" yui="true" highlight="true" />
+	</logging>
+</phpunit>
