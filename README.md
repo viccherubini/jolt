@@ -11,6 +11,8 @@ There are plenty of competent frameworks already in existence out there. So why 
 * I actually like PHP development and think you can build powerful stuff with it.
 * There are few frameworks in the PHP5.3 world of things. Jolt will be PHP5.3+ only.
 * I have a bit of NIH syndrome and like to write my own frameworks for building applications.
+* I want tight integration with NoSQL databases such as Redis and MongoDB.
+* Learning TDD really well.
 
 Jolt is hosted at [Joltcore.org](http://joltcore.org).
 
@@ -19,7 +21,7 @@ Issues and bugs can be found at [http://issues.joltcore.org](http://issues.joltc
 Wiki and documentation can be found at [http://wiki.joltcore.org](http://wiki.joltcore.org).
 
 ## Team Members
-* Vic Cherubini <vmc@leftnodesoftware.com>
+* Vic Cherubini <vmc@codegroove.net>
 
 ## Sponsored By
 * Leftnode Software, Inc. <http://leftnodesoftware.com>
