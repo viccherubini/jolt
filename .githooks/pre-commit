@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ../tests/
+cd ./tests/
 phpunit
