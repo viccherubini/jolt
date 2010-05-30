@@ -10,6 +10,8 @@ namespace Jolt;
  * @author vmc <vmc@leftnode.com>
  */
 class Session {
+	private $instance = NULL;
+
 
 	private function __construct() {
 		
@@ -20,5 +22,7 @@ class Session {
 	}
 	
 	
-
+	public static function getInstance() {
+		
+	}
 }
