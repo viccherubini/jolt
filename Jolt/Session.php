@@ -21,8 +21,12 @@ class Session {
 		
 	}
 	
-	
 	public static function getInstance() {
-		
+		if ( NULL === self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
 	}
+	
+	
 }
