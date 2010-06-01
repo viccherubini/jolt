@@ -25,7 +25,7 @@ class Router {
 		$route_list = $this->getRouteList();
 		
 		if ( 0 === $this->getRouteCount() ) {
-			throw new \Jolt\Exception('route_list_empty');
+			throw new \Jolt\Exception('router_route_list_empty');
 		}
 		
 		$this->parseUri();
@@ -42,7 +42,12 @@ class Router {
 			}
 		}
 		
+		if ( NULL === $matched_route ) {
+			throw new \Jolt\Exception('router_no_matched_route');
+		}
 		
+		//$dispatcher->setRoute($matched_route);
+		//$dispatcher->dispatch();
 		
 	}
 	
