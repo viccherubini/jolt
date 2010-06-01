@@ -80,15 +80,15 @@ class Route_NamedTest extends TestCase {
 	}
 	
 	public function testTwoIdenticalRoutesAreEqual() {
-		$route1 = $this->buildNamedRoute('/user/%d', 'User', 'viewAction');
-		$route2 = $this->buildNamedRoute('/user/%d', 'User', 'viewAction');
+		$route1 = $this->buildMockNamedRoute('/user/%d', 'User', 'viewAction');
+		$route2 = $this->buildMockNamedRoute('/user/%d', 'User', 'viewAction');
 		
 		$this->assertTrue($route1->isEqual($route2));
 	}
 	
 	public function testRouteTwoDifferentRoutesAreNotEqual() {
-		$route1 = $this->buildNamedRoute('/user/%d', 'User', 'viewAction');
-		$route2 = $this->buildNamedRoute('/user/%d', 'User', 'view');
+		$route1 = $this->buildMockNamedRoute('/user/%d', 'User', 'viewAction');
+		$route2 = $this->buildMockNamedRoute('/user/%d', 'User', 'view');
 		
 		$this->assertFalse($route1->isEqual($route2));
 	}

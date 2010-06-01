@@ -38,7 +38,7 @@ class DispatcherTest extends TestCase {
 	public function testRouteIsSetCorrectly() {
 		$dispatcher = new Dispatcher();
 		
-		$route = $this->buildNamedRoute('/user/%n', 'User', 'viewAction');
+		$route = $this->buildMockNamedRoute('/user/%n', 'User', 'viewAction');
 		$dispatcher->setRoute($route);
 		
 		$this->assertTrue($route->isEqual($dispatcher->getRoute()));
@@ -49,16 +49,8 @@ class DispatcherTest extends TestCase {
 	 */
 	public function testDispatcherMustHaveRouteBeforeExecuting() {
 		$dispatcher = new Dispatcher();
-		$dispatcher->dispatch();
-	}
-	
-	
-	protected function buildDispatcher() {
-		$dispatcher = new Dispatcher();
-		$dispatcher->setApplicationPath(getcwd())
-			->setControllerPath(getcwd())
-			->setLayoutPath(getcwd());
 		
-		return $dispatcher;	
+		$dispatcher->dispatch($this->buildMockClient());
 	}
+	
 }

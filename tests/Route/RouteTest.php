@@ -11,13 +11,13 @@ class RouteTest extends TestCase {
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteCanNotBeEmpty() {
-		$route = $this->buildAbstractRoute();
+		$route = $this->buildMockAbstractRoute();
 		$route->setRoute(NULL);
 	}
 	
 	
 	public function testControllerFileIsSet() {
-		$route = $this->buildAbstractRoute();
+		$route = $this->buildMockAbstractRoute();
 		
 		$controller_file = 'ControllerFile.php';
 		$route->setControllerFile($controller_file);
