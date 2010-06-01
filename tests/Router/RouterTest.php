@@ -7,59 +7,53 @@ require_once 'Jolt/Router.php';
 
 class RouterTest extends TestCase {
 
-	public function testNamedRouteListIsInitiallyEmpty() {
+	public function testRouteListIsInitiallyEmpty() {
 		$router = new Router();
 		
-		$this->assertArray($router->getNamedRouteList());
-		$this->assertEmptyArray($router->getNamedRouteList());
+		$this->assertArray($router->getRouteList());
+		$this->assertEmptyArray($router->getRouteList());
 	}
 	
 	/**
-	 * @dataProvider providerValidNamedRouteList
+	 * @dataProvider providerValidRouteList
 	 */
-	public function testNamedRouteListCanHaveValidRoutes($named_route) {
+	public function testRouteListMustHaveValidRoutes($route) {
 		$router = new Router();
-		$router->setNamedRouteList(array($named_route));
+		$router->setRouteList(array($route));
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 * @dataProvider providerInvalidRouteList
 	 */
-	public function testNamedRouteListCannotHaveInvalidRoutes($named_route) {
+	public function testRouteListCannotHaveInvalidRoutes($route) {
 		$router = new Router();
-		$router->setNamedRouteList(array($named_route));
+		$router->setRouteList(array($route));
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testNamedRouteListCannotHaveDuplicates() {
+	public function testRouteListCannotHaveDuplicateNamedRoutes() {
 		$router = new Router();
 		
 		$route1 = $this->buildNamedRoute('/user', 'User', 'view');
 		$route2 = $this->buildNamedRoute('/user', 'User', 'view');
 		
-		$router->setNamedRouteList(array($route1, $route2));
+		$router->setRouteList(array($route1, $route2));
 	}
 	
-	public function testRestfulRouteListIsInitiallyEmpty() {
-		$router = new Router();
-		
-		$this->assertArray($router->getRestfulRouteList());
-		$this->assertEmptyArray($router->getRestfulRouteList());
-	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function test_RestfulRouteListCannotHaveDuplicates() {
+	public function testRouteListCannotHaveDuplicateRestfulRoutes() {
 		$router = new Router();
 		
 		$route1 = $this->buildRestfulRoute('/user', 'User');
 		$route2 = $this->buildRestfulRoute('/user', 'User');
 		
-		$router->setRestfulRouteList(array($route1, $route2));
+		$router->setRouteList(array($route1, $route2));
 	}
 	
 	public function testConfigCanBeSetCorrectly() {
@@ -89,17 +83,17 @@ class RouterTest extends TestCase {
 	 */
 	public function testExecuteMustHaveAtLeastOneRoute() {
 		$router = new Router();
-		$router->execute();
+		$router->execute($this->buildDispatcher());
 	}
 	
 	/**
-	 * @dataProvider providerValidNamedRouteList
+	 * @dataProvider providerValidRouteList
 	 */
-	public function testExecuteFindsCorrectRoute($named_route) {
+	public function testExecuteFindsCorrectRoute($route) {
 		$router = new Router();
 		$router->setConfig($this->buildConfig());
 
-		$router->setNamedRouteList(array($named_route));
+		$router->setRouteList(array($route));
 	}
 	
 	public function testUriCanBeSetCorrectly() {
@@ -130,21 +124,20 @@ class RouterTest extends TestCase {
 		);
 	}
 	
-	public function providerValidNamedRouteList() {
+	public function providerValidRouteList() {
 		return array(
 			array($this->buildNamedRoute('/', 'User', 'viewall')),
 			array($this->buildNamedRoute('/user/', 'User', 'viewall')),
 			array($this->buildNamedRoute('/user/%d', 'User', 'view')),
-			array($this->buildNamedRoute('/user/delete/%d', 'User', 'delete'))
-		);
-	}
-	
-	public function providerValidRestfulRouteList() {
-		return array(
+			array($this->buildNamedRoute('/user/delete/%d', 'User', 'delete')),
 			array($this->buildRestfulRoute('/user', 'User')),
 			array($this->buildRestfulRoute('/user_product', 'User_Product')),
 			array($this->buildRestfulRoute('/order', 'Order'))
 		);
+	}
+	
+	protected function buildDispatcher() {
+		return $this->getMock('\Jolt\Dispatcher');
 	}
 	
 	protected function buildConfig() {
