@@ -10,37 +10,19 @@ namespace Jolt;
  */
 class View {
 	
-	/// The directory where view files are held.
 	const VIEW_DIR = 'view';
-	
-	/// The extension view files must have.
 	const VIEW_EXT = '.phtml';
 	
-	/// Variables that will be replaced in the view. Must be a key=>value pair hash.
 	private $replacement_list = array();
-	
-	/// Full path to the application without the Jolt_View::VIEW_DIR directory.
 	private $application_path = NULL; 
-	
-	/// Directory where Jolt_Block objects will be held.
 	private $block_directory = NULL;
-	
-	/// The final rendering data.
 	private $rendering = NULL;
-	
-	/// File where the view is located.
 	private $view_file = NULL;
 	
-	/**
-	 * Build a new Jolt_View.
-	 */
 	public function __construct() {
 		
 	}
 	
-	/**
-	 * Destroy the View.
-	 */
 	public function __destruct() {
 		$this->rendering = NULL;
 		$this->replacement_list = array();
@@ -51,14 +33,14 @@ class View {
 	 * 
 	 * @param $k The key to return from the replacement_list.
 	 * 
-	 * @retval mixed Returns the value from the replacement_list, NULL otherwise.
+	 * @retval mixed Returns the value from the list of key/value pairs if found, NULL otherwise.
 	 */
 	public function __get($k) {
 		return er($k, $this->replacement_list, NULL);
 	}
 	
 	/**
-	 * Set a variable into the replacement_list.
+	 * Set a variable into the list of key/value pairs.
 	 * 
 	 * @param $k The key to set in the replacement_list.
 	 * @param $v The value of the key.
@@ -70,28 +52,7 @@ class View {
 		return true;
 	}
 	
-	/**
-	 * Build a new block and then insert it into the view. Not entirely sure
-	 * I want to put this here.
-	 * 
-	 * @param $block_name The name of the block to load and execute.
-	 * @param $n All other parameters are passed to the loaded block.
-	 * 
-	 * @retval string Returns the rendered block.
-	 */
-	/*
-	public function insertBlock($block_name) {
-		
-	}
-	*/
-	
-	/**
-	 * Renders a view.
-	 * 
-	 * @param $view The name of the view to load and render.
-	 * 
-	 * @retval Jolt_View Returns this for chaining.
-	 */
+
 	public function render($view) {
 		/**
 		 * @code
@@ -125,18 +86,22 @@ class View {
 	public function getApplicationPath() {
 		return $this->application_path;
 	}
+
 	
 	public function getBlockDirectory() {
 		return $this->block_directory;
 	}
+
 	
 	public function getRendering() {
 		return $this->rendering;
 	}
+
 	
 	public function getReplacementList() {
 		return $this->replacement_list;
 	}
+
 	
 	public function getViewFile() {
 		return $this->view_file;
@@ -147,25 +112,28 @@ class View {
 		$this->application_path = rtrim($application_path, DIRECTORY_SEPARATOR);
 		return $this;
 	}
+
 	
 	public function setBlockDirectory($block_directory) {
 		$this->block_directory = rtrim($block_directory, DIRECTORY_SEPARATOR);
 		return $this;
 	}
+
 	
 	public function setRendering($rendering) {
 		$this->rendering = $rendering;
 		return $this;
 	}
+
 	
 	public function setReplacementList(array $replacement_list) {
 		$this->replacement_list = (array)$replacement_list;
 		return $this;
 	}
+
 	
 	public function setViewFile($view_file) {
 		$this->view_file = $view_file;
 		return $this;
 	}
-	
 }
