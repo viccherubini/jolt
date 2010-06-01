@@ -12,4 +12,19 @@ namespace Jolt;
  */
 class Client {
 
+	private $status;
+	private $header_list = array();
+	private $content = NULL;
+	
+	public function __construct() {
+		$this->status = 200;
+		$this->header_list = array();
+	}
+
+	public function __destruct() {
+		
+	}
+	
+	
+	
 }
