@@ -3,10 +3,7 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-require_once 'PHPUnit/Framework.php';
-
-require_once 'TestCase.php';
-
+require_once 'Client/ClientTest.php';
 require_once 'Controller/ControllerTest.php';
 require_once 'Dispatcher/DispatcherTest.php';
 require_once 'Jolt/JoltTest.php';
@@ -21,6 +18,7 @@ class AllTests {
 	public static function suite() {
 		$suite = new \PHPUnit_Framework_TestSuite('Jolt All Tests');
 		
+		$suite->addTestSuite('\Jolt\ClientTest');
 		$suite->addTestSuite('\Jolt\ControllerTest');
 		$suite->addTestSuite('\Jolt\DispatcherTest');
 		$suite->addTestSuite('\Jolt\JoltTest');
