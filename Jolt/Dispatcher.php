@@ -3,38 +3,26 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-require_once 'Jolt/Jolt.php';
-
 class Dispatcher {
 	
 	private $application_path = NULL;
-	
 	private $controller_path = NULL;
-	
 	private $layout_path = NULL;
-	
 	private $route = NULL;
-	
 	private $controller = NULL;
 	
 	public function __construct() {
 		
 	}
 	
+	
 	public function __destruct() {
 		$this->controller = NULL;
 		$this->route = NULL;
 	}
 	
-
-	/**
-	 * Dispatches routes based on the controllers and actions they specify.
-	 * 
-	 * @todo Currently this only works with Jolt_Route_Named objects, needs to work with Jolt_Route_Restful ones.
-	 * 
-	 */
-	public function dispatch() {
-		/* Must have a route before dispatching. */
+	
+	public function dispatch(\Jolt\Client $client) {
 		$route = $this->getRoute();
 		if ( true === is_null($route) ) {
 			throw new \Jolt\Exception('dispatcher_route_is_null');
@@ -102,17 +90,21 @@ class Dispatcher {
 		return $this->application_path;
 	}
 	
+	
 	public function getController() {
 		return $this->controller;
 	}
+	
 	
 	public function getControllerPath() {
 		return $this->controller_path;
 	}
 	
+	
 	public function getLayoutPath() {
 		return $this->layout_path;
 	}
+	
 	
 	public function getRoute() {
 		return $this->route;
@@ -126,22 +118,26 @@ class Dispatcher {
 		return $this;
 	}
 	
-	public function setController(Jolt_Controller $controller) {
+	
+	public function setController(\Jolt\Controller $controller) {
 		$this->controller = clone $controller;
 		return $this;
 	}
+	
 	
 	public function setControllerPath($controller_path) {
 		$this->controller_path = rtrim($controller_path, DIRECTORY_SEPARATOR);
 		return $this;
 	}
 	
+	
 	public function setLayoutPath($layout_path) {
 		$this->layout_path = rtrim($layout_path, DIRECTORY_SEPARATOR);
 		return $this;
 	}
 	
-	public function setRoute(Route $route) {
+	
+	public function setRoute(\Jolt\Route $route) {
 		$this->route = clone $route;
 		return $this;
 	}
