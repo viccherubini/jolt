@@ -6,16 +6,14 @@ namespace Jolt;
 class Router {
 
 	private $config = array();
-	private $named_list = array();
-	private $restful_list = array();
-	
+	private $route_list = array();
 	private $uri = array();
 	
 	const URI_PARAM = '_u';
 	const ROUTE_REPLACE_CHAR = '%';
 	
 	public function __construct() {
-		$this->reset();
+		$this->route_list = array();
 	}
 	
 	public function __destruct() {
@@ -23,46 +21,46 @@ class Router {
 	}
 	
 	
-	public function execute() {
-		$named_list = $this->getNamedRouteList();
-		$restful_list = $this->getRestfulRouteList();
+	public function execute(\Jolt\Dispatcher $dispatcher) {
+		$route_list = $this->getRouteList();
 		
 		if ( 0 === $this->getRouteCount() ) {
-			throw new \Jolt\Exception('router_lists_empty');
+			throw new \Jolt\Exception('route_list_empty');
 		}
 		
 		$this->parseUri();
 		
 		$uri = $this->getUri();
 		
-		foreach ( $named_list as $named_route ) {
-			if ( true === $named_route->isValidUri($uri) ) {
-				/* Get a Jolt_Dispatcher and dispatch the route. */
-				
+		$matched_route = NULL;
+		
+		foreach ( $route_list as $route ) {
+			if ( true === $route->isValidUri($uri) ) {
+				// Set the route, break, and execute it with the dispatcher.
+				$matched_route = $route;
+				break;
 			}
 		}
 		
+		
+		
 	}
 	
-	
-	
-	
-	
+
 	public function getConfig() {
 		return (array)$this->config;
 	}
+
 	
-	public function getNamedRouteList() {
-		return (array)$this->named_list;
+	public function getRouteList() {
+		return (array)$this->route_list;
 	}
 	
-	public function getRestfulRouteList() {
-		return (array)$this->restful_list;
-	}
 	
 	public function getRouteCount() {
-		return ( count($this->getNamedRouteList()) + count($this->getRestfulRouteList()) );
+		return count($this->getRouteList());
 	}
+
 	
 	public function getUri() {
 		return $this->uri;
@@ -96,48 +94,27 @@ class Router {
 		$this->config = $config;
 		return $this;
 	}
+
 	
-	public function setNamedRouteList(array $named_list) {
-		if ( 0 === count($named_list) ) {
-			throw new \Jolt\Exception('router_named_list_empty');
-		}
-		
-		array_walk($named_list, function(&$v, $k) {
-			if ( false === $v instanceof \Jolt\Route_Named ) {
-				throw new \Jolt\Exception("router_named_list_element_not_named_route");
+	public function setRouteList(array $route_list) {
+		array_walk($route_list, function($v, $k) {
+			if ( false === $v instanceof \Jolt\Route_Named && false === $v instanceof \Jolt\Route_Restful ) {
+				throw new \Jolt\Exception("router_named_list_element_not_valid_route");
 			}
 		});
 		
-		if ( false === $this->isRouteListEntirelyUnqiue($named_list) ) {
+		if ( false === $this->isRouteListEntirelyUnqiue($route_list) ) {
 			throw new \Jolt\Exception("router_named_list_duplicate_route");
 		}
 		
-		$this->named_list = $named_list;
+		$this->route_list = $route_list;
 		return $this;
 	}
 	
-	public function setRestfulRouteList(array $restful_list) {
-		if ( 0 === count($restful_list) ) {
-			throw new \Jolt\Exception("router_restful_list_empty");
-		}
-		
-		array_walk($restful_list, function(&$v, $k) {
-			if ( false === $v instanceof \Jolt\Route_Restful ) {
-				throw new \Jolt\Exception("router_restful_list_element_not_restful_route");
-			}
-		});
-		
-		if ( false === $this->isRouteListEntirelyUnqiue($restful_list) ) {
-			throw new \Jolt\Exception("router_restful_list_duplicate_route");
-		}
-		
-		$this->restful_list = $restful_list;
-		return $this;
-	}
 	
 	public function setUri($uri) {
 		/* Add a / to the first character of the URI if it isn't already there. Routes require them. */
-		if ( '/' !== $uri{0} ) {
+		if ( '/' !== $uri[0] ) {
 			$uri = "/{$uri}";
 		}
 		
@@ -148,15 +125,8 @@ class Router {
 	
 	
 	
-	
-	
-	private function reset() {
-		$this->named_list = array();
-		$this->restful_list = array();
-	}
-	
 	private function parseUri() {
-		$uri = er(self::URI_PARAM, $REQUEST);
+		$uri = er(self::URI_PARAM, $_REQUEST);
 	
 		/* Special case. */
 		if ( true === empty($uri) ) {
@@ -167,6 +137,7 @@ class Router {
 		
 		return true;
 	}
+	
 	
 	private function isRouteListEntirelyUnqiue(array $route_list) {
 		$route_uri_list = array();
