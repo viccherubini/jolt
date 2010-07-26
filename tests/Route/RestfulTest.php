@@ -3,7 +3,8 @@
 declare(encoding='UTF-8');
 namespace JoltTest\Route;
 
-use \Jolt\Route\Restful, \JoltTest\TestCase;
+use \Jolt\Route\Restful,
+	\JoltTest\TestCase;
 
 require_once 'Jolt/Route.php';
 require_once 'Jolt/Route/Restful.php';
@@ -83,6 +84,24 @@ class RestfulTest extends TestCase {
 		$this->assertFalse($route->isValid());
 	}
 	
+	/**
+	 * @dataProvider providerValidRouteAndUri
+	 */
+	public function testIsValidUri_ReturnsTrueForValidRouteAndUri($route, $uri) {
+		$route = new Restful($route, 'Resource');
+		
+		$this->assertTrue($route->isValidUri($uri));
+	}
+	
+	/**
+	 * @dataProvider providerInvalidRouteAndUri
+	 */
+	public function testIsValidUri_ReturnsFalseForInvalidRouteAndUri($route, $uri) {
+		$route = new Restful($route, 'Resource');
+		
+		$this->assertFalse($route->isValidUri($uri));
+	}
+	
 	public function providerValidRoute() {
 		return array(
 			array('/'),
@@ -130,5 +149,25 @@ class RestfulTest extends TestCase {
 			array('/abc./'),
 			array('/abc.')
 		);
+	}
+	
+	public function providerValidRouteAndUri() {
+		return array(
+			array('/abc', '/abc'),
+			array('/user', '/user'),
+			array('/user-long-route', '/user-long-route'),
+			array('/ABC_99', '/ABC_99')
+		);
+	}
+	
+	public function providerInvalidRouteAndUri() {
+		return array(
+			array('/abc', '/Abc'),
+			array('/user', '/usr'),
+			array('/user-long-route', '/user_long_route'),
+			array('/ABC_99', '/ABC-99'),
+			array('/ABC_99', '/abc_99')
+		);
+		
 	}
 }
