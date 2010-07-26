@@ -7,19 +7,21 @@ use \JoltTest\TestCase;
 
 class TestCaseTest extends TestCase {
 	
-	public function testBuildingAbstractRouteReturnsJoltRouteObject() {
-		$abstract_route = $this->buildMockAbstractRoute();
-		$this->assertTrue($abstract_route instanceof \Jolt\Route);
+	public function testBuildMockAbstractRoute_ReturnsJoltRouteObject() {
+		$abstractRoute = $this->buildMockAbstractRoute();
+		$this->assertTrue($abstractRoute instanceof \Jolt\Route);
 	}
 	
-	public function testBuildingNamedRouteReturnsJoltRouteNamedObject() {
-		$named_route = $this->buildMockNamedRoute('/user', 'User', 'addAction');
-		$this->assertTrue($named_route instanceof \Jolt\Route\Named);
+	public function testBuildMockNamedRoute_ReturnsJoltRouteNamedObject() {
+		$namedRoute = $this->buildMockNamedRoute('/user', 'User', 'addAction');
+		$this->assertTrue($namedRoute instanceof \Jolt\Route\Named);
+		$this->assertFalse($namedRoute instanceof \Jolt\Route\Restful);
 	}
 	
-	public function testBuildingRestfulRouteReturnsJoltRestfulNamedObject() {
-		$restful_route = $this->buildMockRestfulRoute('/user', 'User');
-		$this->assertTrue($restful_route instanceof \Jolt\Route\Restful);
+	public function testBuildMockRestfulRoute_ReturnsJoltRouteRestfulObject() {
+		$restfulRoute = $this->buildMockRestfulRoute('/user', 'User');
+		$this->assertTrue($restfulRoute instanceof \Jolt\Route\Restful);
+		$this->assertFalse($restfulRoute instanceof \Jolt\Route\Named);
 	}
 	
 }
