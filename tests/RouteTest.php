@@ -15,14 +15,4 @@ class RouteTest extends TestCase {
 		$route->setRoute(NULL);
 	}
 	
-	
-	public function testControllerFileIsSet() {
-		$route = $this->buildMockAbstractRoute();
-		
-		$controller_file = 'ControllerFile.php';
-		$route->setControllerFile($controller_file);
-		
-		$this->assertEquals($controller_file, $route->getControllerFile());
-	}
-
 }
