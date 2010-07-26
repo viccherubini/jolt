@@ -5,17 +5,19 @@ namespace Jolt;
 
 class Router {
 
-	private $inputVariables = array();
-	private $routeList = array();
+	private $requestMethod = NULL;
 	private $uri = NULL;
 	private $uriParam = '__';
+	
+	private $inputVariables = array();
+	private $routeList = array();
 	
 	public function __construct() {
 		$this->routeList = array();
 	}
 	
 	public function __destruct() {
-		
+		unset($this->routeList);
 	}
 	
 	public function addRoute(\Jolt\Route $route) {
@@ -35,9 +37,25 @@ class Router {
 		return $this;
 	}
 	
+	public function execute() {
+		if ( 0 === count($this->routeList) ) {
+			throw new \Jolt\Exception('router_no_routes');
+		}
+		
+	}
+	
 	public function setInputVariables(array $inputVariables) {
 		$this->inputVariables = $inputVariables;
 		return $this;
+	}
+	
+	public function setRequestMethod($requestMethod) {
+		$this->requestMethod = strtoupper(trim($requestMethod));
+		return $this;
+	}
+	
+	public function getRequestMethod() {
+		return $this->requestMethod;
 	}
 	
 	public function getRouteList() {
