@@ -64,6 +64,7 @@ class Named extends Route {
 	
 	public function isEqual(Route $route) {
 		return (
+			$route instanceof \Jolt\Route\Named &&
 			$route->getRoute() === $this->getRoute() &&
 			$route->getController() === $this->getController() &&
 			$route->getAction() === $this->getAction()
@@ -71,10 +72,10 @@ class Named extends Route {
 	}
 	
 	public function isValid() {
-		$r = $this->getRoute();
+		$route = $this->getRoute();
 		
 		/* Special case of a valid route. */
-		if ( '/' == $r ) {
+		if ( '/' == $route ) {
 			return true;
 		}
 		
@@ -84,7 +85,7 @@ class Named extends Route {
 		 * 
 		 * @see tests/Jolt/Route/Route/NamedTest.php
 		 */
-		if ( 0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.]*)$#i', $r) ) {
+		if ( 0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.]*)$#i', $route) ) {
 			return false;
 		}
 		
@@ -92,33 +93,33 @@ class Named extends Route {
 	}
 	
 	public function isValidUri($uri) {
-		/* Remove the beginning / from the URI and route. */
+		// Remove the beginning / from the URI and route.
 		$uri = ltrim($uri, '/');
-		$uri_chunk_list = explode('/', $uri);
-		$uri_chunk_count = count($uri_chunk_list);
+		$uriChunkList = explode('/', $uri);
+		$uriChunkCount = count($uriChunkList);
 		
 		$route = $this->getRoute();
 		$route = ltrim($route, '/');
-		$route_chunk_list = explode('/', $route);
-		$route_chunk_count = count($route_chunk_list);
+		$routeChunkList = explode('/', $route);
+		$routeChunkCount = count($routeChunkList);
 		
-		/* If all of the chunks eventually match, we have a matched route. */
-		$matched_chunk_count = 0;
+		// If all of the chunks eventually match, we have a matched route.
+		$matchedChunkCount = 0;
 
-		/* List of arguments to pass to the action method. */
+		// List of arguments to pass to the action method.
 		$argv = array();
 
-		if ( $uri_chunk_count === $route_chunk_count ) {
-			for ( $i=0; $i<$route_chunk_count; $i++ ) {
-				/* ucv == uri chunk value */
-				$ucv = $uri_chunk_list[$i];
+		if ( $uriChunkCount === $routeChunkCount ) {
+			for ( $i=0; $i<$routeChunkCount; $i++ ) {
+				// ucv == uri chunk value
+				$ucv = $uriChunkList[$i];
 				
-				/* rcv = route chunk value */
-				$rcv = $route_chunk_list[$i];
+				// rcv = route chunk value
+				$rcv = $routeChunkList[$i];
 
 				if ( $ucv == $rcv ) {
-					/* If the two are exactly the same, no expansion is needed. */
-					$matched_chunk_count++;
+					// If the two are exactly the same, no expansion is needed.
+					$matchedChunkCount++;
 				} else {
 					/**
 					 * More investigation is required. See if there is a % character followed by a (n|s), and if so, expand it.
@@ -128,22 +129,22 @@ class Named extends Route {
 					 */
 					$offset = stripos($rcv, '%');
 					if ( false !== $offset && true === isset($rcv[$offset+1]) ) {
-						$rcv_type = $rcv[$offset+1];
-						$rcv_length = strlen($rcv);
+						$rcvType = $rcv[$offset+1];
+						$rcvLength = strlen($rcv);
 						
 						if ( 0 !== $offset ) {
 							$ucv = trim(substr_replace($ucv, NULL, 0, $offset));
 						}
 						
-						if ( ($offset+2) < $rcv_length ) {
+						if ( ($offset+2) < $rcvLength ) {
 							$goto = strlen(substr($rcv, $offset+2));
 							$ucv = substr_replace($ucv, NULL, -$goto);
 						}
 						
-						/* Now that we have the correct $ucv values, let's make sure they're types are correct. */
+						// Now that we have the correct $ucv values, let's make sure they're types are correct.
 						$matched = false;
 						
-						switch ( $rcv_type ) {
+						switch ( $rcvType ) {
 							case 'n': {
 								$matched = is_numeric($ucv);
 								break;
@@ -156,7 +157,7 @@ class Named extends Route {
 						}
 						
 						if ( true === $matched ) {
-							$matched_chunk_count++;
+							$matchedChunkCount++;
 							$argv[$rcv] = $ucv;
 						}
 					}
@@ -164,8 +165,8 @@ class Named extends Route {
 			}
 		}
 		
-		$this->setArgv($argv);
+		$this->argv = $argv;
 	
-		return ( $matched_chunk_count === $route_chunk_count );
+		return ( $matchedChunkCount === $routeChunkCount );
 	}
 }
