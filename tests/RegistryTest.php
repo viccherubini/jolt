@@ -28,10 +28,10 @@ class RegistryTest extends TestCase {
 	public function testPushingComplexElements() {
 		Registry::reset();
 		
-		$std_class = new \stdClass();
-		$std_class->name = 'Vic Cherubini';
-		Registry::push('std_class', $std_class);
-		$this->assertEquals($std_class, Registry::pop('std_class'));
+		$stdClass = new \stdClass();
+		$stdClass->name = 'Vic Cherubini';
+		Registry::push('std_class', $stdClass);
+		$this->assertEquals($stdClass, Registry::pop('std_class'));
 		
 		$array = array('name' => 'Vic Cherubini', 'language_list' => array('php', 'perl', 'javascript', 'c++', 'c', 'sql'));
 		Registry::push('array', $array);
