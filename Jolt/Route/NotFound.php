@@ -7,7 +7,7 @@ use \Jolt\Route\Named;
 
 class NotFound extends Named {
 
-	const CONTROLLER_NAME = 'RouteNotFound';
+	const CONTROLLER_NAME = 'Http404';
 
 	public function __construct() {
 		$this->setController(self::CONTROLLER_NAME)
