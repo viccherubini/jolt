@@ -5,10 +5,10 @@ namespace Jolt;
 
 class Router {
 
-	private $config = array();
+	private $inputVariables = array();
 	private $routeList = array();
-	private $uri = array();
-	
+	private $uri = NULL;
+
 	const URI_PARAM = '__u';
 	
 	public function __construct() {
@@ -19,14 +19,25 @@ class Router {
 		
 	}
 	
+	public function addRoute(\Jolt\Route $route) {
+		
+		
+	}
 	
-	
-
+	public function setInputVariables(array $inputVariables) {
+		$this->inputVariables = $inputVariables;
+		return $this;
+	}
 	
 	public function getRouteList() {
 		return (array)$this->routeList;
 	}
-	
-	
 
+
+	private function extractUri() {
+		if ( isset($this->inputVariables[self::URI_PARAM]) ) {
+			$this->uri = $this->inputVariables[self::URI_PARAM];
+		}
+	}
+	
 }
