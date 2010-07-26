@@ -1,7 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace JoltTest;
+
+use \Jolt\Client;
 
 require_once 'Jolt/Client.php';
 

@@ -1,7 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace JoltTest;
+
+use \Jolt\Controller;
 
 require_once 'Jolt/Controller.php';
 
@@ -19,7 +21,6 @@ class ControllerTest extends TestCase {
 		
 		$this->assertEquals('default', $controller->getLayout());
 	}
-
 
 	protected function buildController() {
 		$controller = $this->getMockForAbstractClass('\Jolt\Controller');

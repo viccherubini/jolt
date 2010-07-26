@@ -1,7 +1,7 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace JoltTest;
 
 require_once 'Jolt/Route.php';
 

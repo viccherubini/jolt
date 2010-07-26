@@ -1,7 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace JoltTest;
+
+use \Jolt\Router;
 
 require_once 'Jolt/Router.php';
 
@@ -14,7 +16,6 @@ class RouterTest extends TestCase {
 		$this->assertEmptyArray($router->getRouteList());
 	}
 	
-	
 	/**
 	 * @dataProvider providerValidRouteList
 	 */
@@ -22,7 +23,6 @@ class RouterTest extends TestCase {
 		$router = new Router();
 		$router->setRouteList(array($route));
 	}
-	
 	
 	/**
 	 * @expectedException \Jolt\Exception
@@ -32,7 +32,6 @@ class RouterTest extends TestCase {
 		$router = new Router();
 		$router->setRouteList(array($route));
 	}
-	
 	
 	/**
 	 * @expectedException \Jolt\Exception
@@ -46,7 +45,6 @@ class RouterTest extends TestCase {
 		$router->setRouteList(array($route1, $route2));
 	}
 	
-	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
@@ -59,7 +57,6 @@ class RouterTest extends TestCase {
 		$router->setRouteList(array($route1, $route2));
 	}
 	
-	
 	public function testConfigCanBeSetCorrectly() {
 		$router = new Router();
 		$config = $this->buildRouterConfig();
@@ -67,14 +64,12 @@ class RouterTest extends TestCase {
 		$this->assertEquals($router, $router->setConfig($config));
 	}
 	
-	
 	public function testConfigIsSetCorrectly() {
 		$router = new Router();
 		$config = $this->buildRouterConfig();
 		
 		$this->assertEquals($config, $router->setConfig($config)->getConfig());
 	}
-	
 	
 	/**
 	 * @expectedException \Jolt\Exception
@@ -84,7 +79,6 @@ class RouterTest extends TestCase {
 		$router->setConfig(array());
 	}
 	
-	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
@@ -92,7 +86,6 @@ class RouterTest extends TestCase {
 		$router = new Router();
 		$router->execute($this->buildMockDispatcher());
 	}
-	
 	
 	/**
 	 * @dataProvider providerValidRouteList
@@ -104,25 +97,21 @@ class RouterTest extends TestCase {
 		$router->setRouteList(array($route));
 	}
 	
-	
 	public function testUriCanBeSetCorrectly() {
 		$router = new Router();
 		$this->assertEquals($router, $router->setUri('/user/1'));
 	}
-	
 	
 	public function testUriIsSetCorrectly() {
 		$router = new Router();
 		$this->assertEquals('/user/1', $router->setUri('/user/1')->getUri());
 	}
 	
-	
 	public function testUriMustStartWithForwardSlash() {
 		$router = new Router();
 		$router->setUri('abc');
 		$this->assertEquals('/abc', $router->getUri());
 	}
-	
 	
 	public function providerInvalidRouteList() {
 		return array(
@@ -133,7 +122,6 @@ class RouterTest extends TestCase {
 			array(array())
 		);
 	}
-	
 	
 	public function providerValidRouteList() {
 		return array(
@@ -147,7 +135,6 @@ class RouterTest extends TestCase {
 		);
 	}
 	
-	
 	protected function buildRouterConfig() {
 		return array(
 			'site_root' => 'http://joltcore.org/',
@@ -158,4 +145,5 @@ class RouterTest extends TestCase {
 			'rewrite' => true
 		);
 	}
+	
 }

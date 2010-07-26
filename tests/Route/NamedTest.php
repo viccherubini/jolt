@@ -1,45 +1,48 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace JoltTest\Route;
 
+use \Jolt\Route\Named, \JoltTest\TestCase;
+
+require_once 'Jolt/Route.php';
 require_once 'Jolt/Route/Named.php';
 
-class Route_NamedTest extends TestCase {
+class NamedTest extends TestCase {
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteCanNotBeEmpty() {
-		$route = new Route_Named(NULL, 'Controller', 'Action');
+		$route = new Named(NULL, 'Controller', 'Action');
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteMustHaveController() {
-		$route = new Route_Named('/users/', NULL, 'Action');
+		$route = new Named('/users/', NULL, 'Action');
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testRouteMustHaveAction() {
-		$route = new Route_Named('/users/', 'Controller', NULL);
+		$route = new Named('/users/', 'Controller', NULL);
 	}
 	
 	public function testRouteIsSetCorrectly() {
-		$route = new Route_Named('/route/', 'Controller', 'Action');
+		$route = new Named('/route/', 'Controller', 'Action');
 		$this->assertEquals('/route/', $route->getRoute());
 	}
 	
 	public function testControllerIsSetCorrectly() {
-		$route = new Route_Named('/route/', 'Controller', 'Action');
+		$route = new Named('/route/', 'Controller', 'Action');
 		$this->assertEquals('Controller', $route->getController());
 	}
 	
 	public function testActionIsSetCorrectly() {
-		$route = new Route_Named('/route/', 'Controller', 'Action');
+		$route = new Named('/route/', 'Controller', 'Action');
 		$this->assertEquals('Action', $route->getAction());
 	}
 	
@@ -47,7 +50,7 @@ class Route_NamedTest extends TestCase {
 	 * @dataProvider providerValidRoute
 	 */
 	public function testRouteWillAllowValidRoutes($route_name) {
-		$route = new Route_Named('/', 'Controller', 'Action');
+		$route = new Named('/', 'Controller', 'Action');
 		
 		$this->assertTrue($route->setRoute($route_name)->isValid());
 	}
@@ -56,7 +59,7 @@ class Route_NamedTest extends TestCase {
 	 * @dataProvider providerInvalidRoute
 	 */
 	public function testRouteWillNotAllowInvalidRoutes($route_name) {
-		$route = new Route_Named('/', 'Controller', 'Action');
+		$route = new Named('/', 'Controller', 'Action');
 	
 		$this->assertFalse($route->setRoute($route_name)->isValid());
 	}
@@ -65,7 +68,7 @@ class Route_NamedTest extends TestCase {
 	 * @dataProvider providerValidRouteAndUri
 	 */
 	public function testRouteWillAllowValidUris($route_name, $uri) {
-		$route = new Route_Named($route_name, 'Controller', 'action');
+		$route = new Named($route_name, 'Controller', 'action');
 		
 		$this->assertTrue($route->isValidUri($uri));
 	}
@@ -74,7 +77,7 @@ class Route_NamedTest extends TestCase {
 	 * @dataProvider providerInvalidRouteAndUri
 	 */
 	public function testRouteWillNotAllowInvalidUris($route_name, $uri) {
-		$route = new Route_Named($route_name, 'Controller', 'action');
+		$route = new Named($route_name, 'Controller', 'action');
 
 		$this->assertFalse($route->isValidUri($uri));
 	}
@@ -97,7 +100,7 @@ class Route_NamedTest extends TestCase {
 	 * @dataProvider providerValidRouteUriAndActionArguments
 	 */
 	public function testRouteArgvIsSet($route_name, $uri, $argv) {
-		$route = new Route_Named($route_name, 'Controller', 'actionMethod');
+		$route = new Named($route_name, 'Controller', 'actionMethod');
 		$route->isValidUri($uri);
 		
 		$this->assertEquals($argv, array_values($route->getArgv()));

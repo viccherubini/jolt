@@ -6,7 +6,7 @@ namespace Jolt;
 abstract class Route {
 
 	private $route = NULL;
-	private $controller_file = NULL;
+	private $controllerFile = NULL;
 
 	public function __construct() {
 		
@@ -16,19 +16,16 @@ abstract class Route {
 		
 	}
 	
-	
 	public function getControllerFile() {
-		return $this->controller_file;
+		return $this->controllerFile;
 	}
 	
 	public function getRoute() {
 		return $this->route;
 	}
 	
-	
-	
-	public function setControllerFile($controller_file) {
-		$this->controller_file = trim($controller_file);
+	public function setControllerFile($controllerFile) {
+		$this->controllerFile = trim($controllerFile);
 		return $this;
 	}
 	
@@ -43,11 +40,10 @@ abstract class Route {
 		return $this;
 	}
 	
-	
-	
 	abstract public function isEqual(Route $route);
 	
 	abstract public function isValid();
 	
 	abstract public function isValidUri($uri);
+	
 }

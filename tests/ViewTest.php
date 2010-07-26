@@ -1,7 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace JoltTest;
+
+use \Jolt\View;
 
 require_once 'Jolt/View.php';
 

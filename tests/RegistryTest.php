@@ -1,7 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace JoltTest;
+
+use \Jolt\Registry;
 
 require_once 'Jolt/Registry.php';
 
@@ -69,4 +71,5 @@ class RegistryTest extends TestCase {
 		Registry::push('do_not_overwrite', 'dno3', false);
 		$this->assertEquals('dno3', Registry::pop('do_not_overwrite'));
 	}
+	
 }

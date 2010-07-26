@@ -1,11 +1,11 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace Jolt\Route;
 
-require_once 'Jolt/Route.php';
+use \Jolt\Route;
 
-class Route_Restful extends Route {
+class Restful extends Route {
 	
 	private $resource = NULL;
 	
@@ -13,7 +13,6 @@ class Route_Restful extends Route {
 		$this->setRoute($route)
 			->setResource($resource);
 	}
-	
 	
 	public function setResource($resource) {
 		$resource = trim($resource);
@@ -24,9 +23,6 @@ class Route_Restful extends Route {
 		$this->resource = $resource;
 		return $this;
 	}
-	
-	
-	
 	
 	public function getResource() {
 		return $this->resource;
@@ -43,4 +39,5 @@ class Route_Restful extends Route {
 	public function isValidUri($uri) {
 		return false;
 	}
+	
 }

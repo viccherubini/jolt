@@ -1,11 +1,11 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace Jolt\Route;
 
-require_once 'Jolt/Route.php';
+use \Jolt\Route;
 
-class Route_Named extends Route {
+class Named extends Route {
 
 	private $controller = NULL;
 	private $action = NULL;

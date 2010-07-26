@@ -8,7 +8,7 @@ namespace Jolt;
  * client through \Jolt\Client. Thus, several \Jolt\View's can be combined
  * and saved into a \Jolt\Layout.
  * 
- * @author vmc <vmc@codegroove.net>
+ * @author vmc <vmc@leftnode.com>
  */
 class Layout {
 	

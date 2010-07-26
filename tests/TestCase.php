@@ -1,25 +1,23 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace JoltTest;
 
 class TestCase extends \PHPUnit_Framework_TestCase {
+	
 	public static function assertArray($a, $message = '') {
 		self::assertThat(is_array($a), self::isTrue(), $message);
 	}
-	
 	
 	public static function assertEmptyArray($a, $message = '') {
 		self::assertArray($a);
 		self::assertEquals(count($a), 0, $message);
 	}
 	
-	
 	protected function buildMockAbstractRoute() {
 		$mock = $this->getMockForAbstractClass('\Jolt\Route');
 		return $mock;
 	}
-	
 	
 	protected function buildMockClient() {
 		$mock = $this->getMock('\Jolt\Client');
@@ -27,13 +25,11 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return $mock;
 	}
 	
-	
 	protected function buildMockDispatcher() {
 		$mock = $this->getMock('\Jolt\Dispatcher');
 		
 		return $mock;
 	}
-	
 	
 	protected function buildMockEmptyRouter() {
 		$mock = $this->getMock('\Jolt\Router', array('getRouteCount'));
@@ -45,9 +41,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return $mock;
 	}
 	
-	
 	protected function buildMockNamedRoute($route, $controller, $action) {
-		$mock = $this->getMock('\Jolt\Route_Named',
+		$mock = $this->getMock('\Jolt\Route\Named',
 			array('getRoute', 'getController', 'getAction'),
 			array($route, $controller, $action)
 		);
@@ -67,9 +62,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return $mock;
 	}
 	
-	
 	protected function buildMockRestfulRoute($route, $resource) {
-		$mock = $this->getMock('\Jolt\Route_Restful',
+		$mock = $this->getMock('\Jolt\Route\Restful',
 			array('getRoute', 'getResource'),
 			array($route, $resource)
 		);
@@ -84,7 +78,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 			
 		return $mock;
 	}
-	
 	
 	protected function buildMockRouter() {
 		$named_route_list = array($this->buildMockNamedRoute('/abc', 'Controller', 'action'));

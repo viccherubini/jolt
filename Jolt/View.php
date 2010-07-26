@@ -28,25 +28,10 @@ class View {
 		$this->replacement_list = array();
 	}
 	
-	/**
-	 * Get a variable from the replacement list.
-	 * 
-	 * @param $k The key to return from the replacement_list.
-	 * 
-	 * @retval mixed Returns the value from the list of key/value pairs if found, NULL otherwise.
-	 */
 	public function __get($k) {
 		return er($k, $this->replacement_list, NULL);
 	}
 	
-	/**
-	 * Set a variable into the list of key/value pairs.
-	 * 
-	 * @param $k The key to set in the replacement_list.
-	 * @param $v The value of the key.
-	 * 
-	 * @retval bool Returns true.
-	 */
 	public function __set($k, $v) {
 		$this->replacement_list[$k] = $v;
 		return true;
@@ -82,55 +67,45 @@ class View {
 		return $this;
 	}
 	
-	
 	public function getApplicationPath() {
 		return $this->application_path;
 	}
-
 	
 	public function getBlockDirectory() {
 		return $this->block_directory;
 	}
-
 	
 	public function getRendering() {
 		return $this->rendering;
 	}
-
 	
 	public function getReplacementList() {
 		return $this->replacement_list;
 	}
-
 	
 	public function getViewFile() {
 		return $this->view_file;
 	}
 	
-	
 	public function setApplicationPath($application_path) {
 		$this->application_path = rtrim($application_path, DIRECTORY_SEPARATOR);
 		return $this;
 	}
-
 	
 	public function setBlockDirectory($block_directory) {
 		$this->block_directory = rtrim($block_directory, DIRECTORY_SEPARATOR);
 		return $this;
 	}
-
 	
 	public function setRendering($rendering) {
 		$this->rendering = $rendering;
 		return $this;
 	}
-
 	
 	public function setReplacementList(array $replacement_list) {
 		$this->replacement_list = (array)$replacement_list;
 		return $this;
 	}
-
 	
 	public function setViewFile($view_file) {
 		$this->view_file = $view_file;

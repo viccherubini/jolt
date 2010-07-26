@@ -103,7 +103,7 @@ class Router {
 	
 	public function setRouteList(array $route_list) {
 		array_walk($route_list, function($v, $k) {
-			if ( false === $v instanceof \Jolt\Route_Named && false === $v instanceof \Jolt\Route_Restful ) {
+			if ( false === $v instanceof \Jolt\Route\Named && false === $v instanceof \Jolt\Route\Restful ) {
 				throw new \Jolt\Exception("router_named_list_element_not_valid_route");
 			}
 		});
