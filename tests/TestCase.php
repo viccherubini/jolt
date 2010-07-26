@@ -41,10 +41,10 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return $mock;
 	}
 	
-	protected function buildMockNamedRoute($route, $controller, $action) {
+	protected function buildMockNamedRoute($requestMethod, $route, $controller, $action) {
 		$mock = $this->getMock('\Jolt\Route\Named',
-			array('getRoute', 'getController', 'getAction'),
-			array($route, $controller, $action)
+			array('getRoute', 'getAction', 'getController', 'getRequestMethod'),
+			array($requestMethod, $route, $controller, $action)
 		);
 		
 		$mock->expects($this->any())
@@ -52,13 +52,17 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue($route));
 
 		$mock->expects($this->any())
+			->method('getAction')
+			->will($this->returnValue($action));
+		
+		$mock->expects($this->any())
 			->method('getController')
 			->will($this->returnValue($controller));
 			
 		$mock->expects($this->any())
-			->method('getAction')
-			->will($this->returnValue($action));
-			
+			->method('getRequestMethod')
+			->will($this->returnValue($requestMethod));
+
 		return $mock;
 	}
 	

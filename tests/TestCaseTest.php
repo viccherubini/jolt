@@ -13,7 +13,7 @@ class TestCaseTest extends TestCase {
 	}
 	
 	public function testBuildMockNamedRoute_ReturnsJoltRouteNamedObject() {
-		$namedRoute = $this->buildMockNamedRoute('/user', 'User', 'addAction');
+		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'addAction');
 		$this->assertTrue($namedRoute instanceof \Jolt\Route\Named);
 		$this->assertFalse($namedRoute instanceof \Jolt\Route\Restful);
 	}

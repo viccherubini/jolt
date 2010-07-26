@@ -45,7 +45,7 @@ class RestfulTest extends TestCase {
 	
 	public function testIsEqual_ReturnsFalseForNamedRoute() {
 		$restfulRoute = new Restful('/user', 'User');
-		$namedRoute = $this->buildMockNamedRoute('/user', 'User', 'index');
+		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
 		
 		$this->assertFalse($restfulRoute->isEqual($namedRoute));
 	}

@@ -14,62 +14,119 @@ class NamedTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testRouteCanNotBeEmpty() {
-		$route = new Named(NULL, 'Controller', 'Action');
+	public function testNewRoute_MethodCanNotBeEmpty() {
+		$route = new Named(NULL, '/', 'Controller', 'Action');
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testRouteMustHaveController() {
-		$route = new Named('/users/', NULL, 'Action');
+	public function testNewRoute_RouteCanNotBeEmpty() {
+		$route = new Named('GET', NULL, 'Controller', 'Action');
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testRouteMustHaveAction() {
-		$route = new Named('/users/', 'Controller', NULL);
+	public function testNewRoute_ControllerCanNotBeEmpty() {
+		$route = new Named('GET', '/users/', NULL, 'Action');
 	}
 	
-	public function testRouteIsSetCorrectly() {
-		$route = new Named('/route/', 'Controller', 'Action');
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testNewRoute_ActionCanNotBeEmpty() {
+		$route = new Named('GET', '/users/', 'Controller', NULL);
+	}
+	
+	public function testSetRequestMethod_MustBeGetPostPutDelete() {
+		$route = new Named('GET', '/', 'Controller', 'action');
+		
+		$route->setRequestMethod('GET');
+		$this->assertEquals('GET', $route->getRequestMethod());
+		
+		$route->setRequestMethod('POST');
+		$this->assertEquals('POST', $route->getRequestMethod());
+		
+		$route->setRequestMethod('PUT');
+		$this->assertEquals('PUT', $route->getRequestMethod());
+		
+		$route->setRequestMethod('DELETE');
+		$this->assertEquals('DELETE', $route->getRequestMethod());
+	}
+	
+	public function testGetRoute_ReturnsRouteName() {
+		$route = new Named('GET', '/route/', 'Controller', 'Action');
 		$this->assertEquals('/route/', $route->getRoute());
 	}
 	
-	public function testControllerIsSetCorrectly() {
-		$route = new Named('/route/', 'Controller', 'Action');
+	public function testGetAction_ReturnsActionName() {
+		$route = new Named('GET', '/route/', 'Controller', 'Action');
+		$this->assertEquals('Action', $route->getAction());
+	}
+	
+	/**
+	 * @dataProvider providerValidRouteUriAndActionArguments
+	 */
+	public function testGetArgv_ReturnsArgvAfterParsingUri($routeName, $uri, $argv) {
+		$route = new Named('GET', $routeName, 'Controller', 'actionMethod');
+		$route->isValidUri($uri);
+		
+		$this->assertEquals($argv, array_values($route->getArgv()));
+	}
+	
+	public function testGetController_ReturnsControllerName() {
+		$route = new Named('GET', '/route/', 'Controller', 'Action');
 		$this->assertEquals('Controller', $route->getController());
 	}
 	
-	public function testActionIsSetCorrectly() {
-		$route = new Named('/route/', 'Controller', 'Action');
-		$this->assertEquals('Action', $route->getAction());
+	/**
+	 * @expectedException \Jolt\Exception
+	 * @dataProvider providerInvalidRequestMethod
+	 */
+	public function testGetMethod_MustBeGetPostPutDelete($requestMethod) {
+		$route = new Named($requestMethod, '/', 'Controller', 'action');
+	}
+	
+	public function testIsEqual_ReturnsTrueForTwoIdenticalRoutes() {
+		$route1 = $this->buildMockNamedRoute('GET', '/user/%d', 'User', 'viewAction');
+		$route2 = $this->buildMockNamedRoute('GET', '/user/%d', 'User', 'viewAction');
+		
+		$this->assertTrue($route1->isEqual($route2));
+		$this->assertTrue($route2->isEqual($route1));
+	}
+	
+	public function testIsEqual_ReturnsFalseForTwoDifferentRoutes() {
+		$route1 = $this->buildMockNamedRoute('GET', '/user/%d', 'User', 'viewAction');
+		$route2 = $this->buildMockNamedRoute('GET', '/user/%d', 'User', 'view');
+		
+		$this->assertFalse($route1->isEqual($route2));
+		$this->assertFalse($route2->isEqual($route1));
 	}
 	
 	/**
 	 * @dataProvider providerValidRoute
 	 */
-	public function testRouteWillAllowValidRoutes($route_name) {
-		$route = new Named('/', 'Controller', 'Action');
+	public function testIsValid_ReturnsTrueForValidRouteNames($routeName) {
+		$route = new Named('GET', '/', 'Controller', 'Action');
 		
-		$this->assertTrue($route->setRoute($route_name)->isValid());
+		$this->assertTrue($route->setRoute($routeName)->isValid());
 	}
 	
 	/**
 	 * @dataProvider providerInvalidRoute
 	 */
-	public function testRouteWillNotAllowInvalidRoutes($route_name) {
-		$route = new Named('/', 'Controller', 'Action');
+	public function testIsValid_ReturnsFalseForInvalidRouteNames($routeName) {
+		$route = new Named('GET', '/', 'Controller', 'Action');
 	
-		$this->assertFalse($route->setRoute($route_name)->isValid());
+		$this->assertFalse($route->setRoute($routeName)->isValid());
 	}
 	
 	/**
 	 * @dataProvider providerValidRouteAndUri
 	 */
-	public function testRouteWillAllowValidUris($route_name, $uri) {
-		$route = new Named($route_name, 'Controller', 'action');
+	public function testIsValidUri_ReturnsTrueForValidMatches($routeName, $uri) {
+		$route = new Named('GET', $routeName, 'Controller', 'action');
 		
 		$this->assertTrue($route->isValidUri($uri));
 	}
@@ -77,34 +134,10 @@ class NamedTest extends TestCase {
 	/**
 	 * @dataProvider providerInvalidRouteAndUri
 	 */
-	public function testRouteWillNotAllowInvalidUris($route_name, $uri) {
-		$route = new Named($route_name, 'Controller', 'action');
+	public function testIsValidUri_ReturnsFalseForInvalidMatches($routeName, $uri) {
+		$route = new Named('GET', $routeName, 'Controller', 'action');
 
 		$this->assertFalse($route->isValidUri($uri));
-	}
-	
-	public function testTwoIdenticalRoutesAreEqual() {
-		$route1 = $this->buildMockNamedRoute('/user/%d', 'User', 'viewAction');
-		$route2 = $this->buildMockNamedRoute('/user/%d', 'User', 'viewAction');
-		
-		$this->assertTrue($route1->isEqual($route2));
-	}
-	
-	public function testRouteTwoDifferentRoutesAreNotEqual() {
-		$route1 = $this->buildMockNamedRoute('/user/%d', 'User', 'viewAction');
-		$route2 = $this->buildMockNamedRoute('/user/%d', 'User', 'view');
-		
-		$this->assertFalse($route1->isEqual($route2));
-	}
-	
-	/**
-	 * @dataProvider providerValidRouteUriAndActionArguments
-	 */
-	public function testRouteArgvIsSet($route_name, $uri, $argv) {
-		$route = new Named($route_name, 'Controller', 'actionMethod');
-		$route->isValidUri($uri);
-		
-		$this->assertEquals($argv, array_values($route->getArgv()));
 	}
 	
 	public function providerValidRoute() {
@@ -194,6 +227,16 @@ class NamedTest extends TestCase {
 			array('/search/result-%n.html', '/search/result-10.html', array(10)),
 			array('/search/result-%n.html', '/search/result-101345.html', array(101345)),
 			array('/add/balance/%n', '/add/balance/10.45', array(10.45))
+		);
+	}
+	
+	public function providerInvalidRequestMethod() {
+		return array(
+			array(1),
+			array(1.00),
+			array('abc'),
+			array(array('abc')),
+			array(new \stdClass)
 		);
 	}
 }
