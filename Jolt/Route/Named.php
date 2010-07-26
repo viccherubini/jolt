@@ -7,13 +7,18 @@ use \Jolt\Route;
 
 class Named extends Route {
 
-	private $controller = NULL;
 	private $action = NULL;
+	private $controller = NULL;
+	private $requestMethod = NULL;
 	
 	private $argv = array();
+	private $requestMethods = array();
 	
-	public function __construct($route, $controller, $action) {
-		$this->setRoute($route)
+	public function __construct($requestMethod, $route, $controller, $action) {
+		$this->requestMethods = array('GET' => true, 'POST' => true, 'PUT' => true, 'DELETE' => true);
+		
+		$this->setRequestMethod($requestMethod)
+			->setRoute($route)
 			->setController($controller)
 			->setAction($action)
 			->setArgv(array());
@@ -24,7 +29,7 @@ class Named extends Route {
 	}
 	
 	public function setAction($action) {
-		$action = trim($action);
+		$action = ( !is_string($action) ? NULL : trim($action) );
 		if ( true === empty($action) ) {
 			throw new \Jolt\Exception('route_named_action_empty');
 		}
@@ -40,13 +45,23 @@ class Named extends Route {
 	}
 	
 	public function setController($controller) {
-		$controller = trim($controller);
+		$controller = ( !is_string($controller) ? NULL : trim($controller) );
 		if ( true === empty($controller) ) {
 			throw new \Jolt\Exception('route_named_controller_empty');
 		}
 		
 		$this->controller = $controller;
 		
+		return $this;
+	}
+	
+	public function setRequestMethod($requestMethod) {
+		$requestMethod = ( !is_string($requestMethod) ? NULL : strtoupper(trim($requestMethod)) );
+		if ( !isset($this->requestMethods[$requestMethod]) ) {
+			throw new \Jolt\Exception('route_method_is_not_valid');
+		}
+		
+		$this->requestMethod = $requestMethod;
 		return $this;
 	}
 	
@@ -62,9 +77,14 @@ class Named extends Route {
 		return $this->controller;
 	}
 	
+	public function getRequestMethod() {
+		return $this->requestMethod;
+	}
+	
 	public function isEqual(Route $route) {
 		return (
 			$route instanceof \Jolt\Route\Named &&
+			$route->getRequestMethod() === $this->getRequestMethod() &&
 			$route->getRoute() === $this->getRoute() &&
 			$route->getController() === $this->getController() &&
 			$route->getAction() === $this->getAction()
