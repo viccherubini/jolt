@@ -29,15 +29,31 @@ class Restful extends Route {
 	}
 	
 	public function isEqual(Route $route) {
-		return false;
+		return (
+			$route instanceof \Jolt\Route\Restful &&
+			$this->getRoute() === $route->getRoute() &&
+			$this->getResource() === $route->getResource()
+		);
 	}
 	
 	public function isValid() {
-		return false;
+		$route = $this->getRoute();
+		
+		/* Special case of a valid route. */
+		if ( '/' == $route ) {
+			return true;
+		}
+		
+		if ( 0 === preg_match('#^/([a-z]+)([a-z0-9_\-]*)$#i', $route) ) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public function isValidUri($uri) {
-		return false;
+		$route = trim($this->getRoute());
+		return ( $route === trim($uri));
 	}
 	
 }
