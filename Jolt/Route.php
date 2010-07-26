@@ -6,8 +6,7 @@ namespace Jolt;
 abstract class Route {
 
 	private $route = NULL;
-	private $controllerFile = NULL;
-
+	
 	public function __construct() {
 		
 	}
@@ -16,17 +15,8 @@ abstract class Route {
 		
 	}
 	
-	public function getControllerFile() {
-		return $this->controllerFile;
-	}
-	
 	public function getRoute() {
 		return $this->route;
-	}
-	
-	public function setControllerFile($controllerFile) {
-		$this->controllerFile = trim($controllerFile);
-		return $this;
 	}
 	
 	public function setRoute($route) {
