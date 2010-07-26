@@ -3,7 +3,8 @@
 declare(encoding='UTF-8');
 namespace JoltTest\Route;
 
-use \Jolt\Route\Named, \JoltTest\TestCase;
+use \Jolt\Route\Named,
+	\JoltTest\TestCase;
 
 require_once 'Jolt/Route.php';
 require_once 'Jolt/Route/Named.php';
