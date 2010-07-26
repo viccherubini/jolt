@@ -52,7 +52,6 @@ class ViewTest extends TestCase {
 		$this->assertEquals(file_get_contents($view_file_rendered), $view->getRendering());
 	}
 	
-	
 	public function providerReplacementList() {
 		return array(
 			array('variable', 'value'),
