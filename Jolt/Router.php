@@ -8,8 +8,7 @@ class Router {
 	private $inputVariables = array();
 	private $routeList = array();
 	private $uri = NULL;
-
-	const URI_PARAM = '__u';
+	private $uriParam = '__';
 	
 	public function __construct() {
 		$this->routeList = array();
@@ -20,8 +19,20 @@ class Router {
 	}
 	
 	public function addRoute(\Jolt\Route $route) {
+		$routeExists = false;
+		array_walk($this->routeList, function ($v, $k) use ($route, &$routeExists) {
+			if ( $v->isEqual($route) ) {
+				$routeExists = true;
+			}
+		});
 		
+		if ( $routeExists ) {
+			throw new \Jolt\Exception('router_route_exists');
+		}
 		
+		$this->routeList[] = $route;
+		
+		return $this;
 	}
 	
 	public function setInputVariables(array $inputVariables) {
@@ -33,10 +44,9 @@ class Router {
 		return (array)$this->routeList;
 	}
 
-
 	private function extractUri() {
-		if ( isset($this->inputVariables[self::URI_PARAM]) ) {
-			$this->uri = $this->inputVariables[self::URI_PARAM];
+		if ( isset($this->inputVariables[$this->uriParam]) ) {
+			$this->uri = $this->inputVariables[$this->uriParam];
 		}
 	}
 	
