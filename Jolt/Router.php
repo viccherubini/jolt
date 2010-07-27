@@ -5,6 +5,7 @@ namespace Jolt;
 
 class Router {
 
+	private $http404Route = NULL;
 	private $requestMethod = NULL;
 	private $routeParameter = '__u';
 	
@@ -32,7 +33,7 @@ class Router {
 			throw new \Jolt\Exception('router_route_exists');
 		}
 		
-		$this->routeList[] = $route;
+		$this->routeList[] = clone $route;
 		
 		return $this;
 	}
@@ -47,13 +48,29 @@ class Router {
 			throw new \Jolt\Exception('router_no_path_found');
 		}
 		
+		if ( is_null($this->http404Route) ) {
+			throw new \Jolt\Exception('router_no_http404_route');
+		}
+		
 		$matchedRoute = NULL;
-		array_walk($this->routeList, function($route, $k) use ($path, &$matchedRoute) {
-			if ( $route->isValidUri($path) ) {
-				
-				
+		foreach ( $this->routeList as $route ) {
+			if ( is_null($matchedRoute) ) { // Short circuiting
+				if ( $route->getRequestMethod() === $this->requestMethod && $route->isValidPath($path) ) {
+					$matchedRoute = clone $route;
+				}
 			}
-		});
+		}
+		
+		if ( is_null($matchedRoute) ) {
+			$matchedRoute = $this->http404Route;
+		}
+		
+		
+	}
+	
+	public function setHttp404Route(\Jolt\Route $route) {
+		$this->http404Route = clone $route;
+		return $this;
 	}
 	
 	public function setParameters(array $parameters) {
