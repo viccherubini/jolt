@@ -65,7 +65,7 @@ class Router {
 			$matchedRoute = $this->http404Route;
 		}
 		
-		
+		return $matchedRoute;
 	}
 	
 	public function setHttp404Route(\Jolt\Route $route) {

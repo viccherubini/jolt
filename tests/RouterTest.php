@@ -8,7 +8,7 @@ use \Jolt\Router;
 require_once 'Jolt/Router.php';
 
 class RouterTest extends TestCase {
-
+	
 	public function testNewRouter_RouteListIsInitiallyEmpty() {
 		$router = new Router;
 		
@@ -92,10 +92,53 @@ class RouterTest extends TestCase {
 		$router->execute();
 	}
 	
-	
-	
-	public function testExecute_FindsMatchedRoute() {
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testExecute_MustHave404Route() { 
+		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
+		$parameters = $this->buildMockParameters('/abc');
 		
+		$router = new Router;
+		$router->setParameters($parameters);
+		$router->addRoute($namedRoute);
+		
+		$router->execute();
+	}
+	
+	public function testExecute_MustReturnJoltRouteObject() {
+		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
+		$http404Route = $this->buildMockNamedRoute('GET', '/', 'NotFound', 'index');
+		$parameters = $this->buildMockParameters('/user');
+		
+		$router = new Router;
+		$router->setRequestMethod('GET')
+			->setHttp404Route($http404Route)
+			->setParameters($parameters);
+		$router->addRoute($namedRoute);
+		
+		$matchedRoute = $router->execute();
+		
+		$this->assertTrue($matchedRoute instanceof \Jolt\Route);
+		$this->assertTrue($matchedRoute->isEqual($namedRoute));
+		$this->assertTrue($namedRoute->isEqual($matchedRoute));
+	}
+	
+	public function testExecute_UsesHttp404RouteWhenNoPathFound() {
+		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
+		$http404Route = $this->buildMockNamedRoute('GET', '/', 'NotFound', 'index');
+		$parameters = $this->buildMockParameters('/abc');
+		
+		$router = new Router;
+		$router->setRequestMethod('GET')
+			->setHttp404Route($http404Route)
+			->setParameters($parameters);
+		$router->addRoute($namedRoute);
+		
+		$matchedRoute = $router->execute();
+		
+		$this->assertTrue($matchedRoute->isEqual($http404Route));
+		$this->assertTrue($http404Route->isEqual($matchedRoute));
 	}
 	
 	/**
@@ -120,11 +163,10 @@ class RouterTest extends TestCase {
 		$this->assertEquals(strtoupper($requestMethod), $router->getRequestMethod());
 	}
 	
-	private function buildRouterWithRouteParameter() {
+	private function buildMockParameters($path) {
 		$router = new Router;
+		$routeParameter = $router->getRouteParameter();
 		
-		
-		
-		
+		return array($routeParameter => $path);
 	}
 }
