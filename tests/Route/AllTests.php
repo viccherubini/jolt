@@ -3,6 +3,8 @@
 declare(encoding='UTF-8');
 namespace JoltTest;
 
+require_once 'Jolt/Route.php';
+
 require_once 'PHPUnit/Framework.php';
 
 require_once 'Route/NamedTest.php';
