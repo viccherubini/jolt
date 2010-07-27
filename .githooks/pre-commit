@@ -1,7 +1,4 @@
 #!/bin/bash
 
-$PWD = `pwd`;
-echo $PWD;
-
-#cd ./tests/
-#phpunit
+cd `pwd`/tests/
+phpunit
