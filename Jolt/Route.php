@@ -34,6 +34,6 @@ abstract class Route {
 	
 	abstract public function isValid();
 	
-	abstract public function isValidUri($uri);
+	abstract public function isValidPath($path);
 	
 }

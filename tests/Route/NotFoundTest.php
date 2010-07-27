@@ -6,9 +6,8 @@ namespace JoltTest\Route;
 use \Jolt\Route\NotFound,
 	\JoltTest\TestCase;
 
-require_once 'Jolt/Route.php';
 require_once 'Jolt/Route/Named.php';
-require_once 'Jolt/Route/NotFound.php';
+require_once 'Jolt/Route/Named/NotFound.php';
 
 class NotFoundTest extends TestCase {
 	

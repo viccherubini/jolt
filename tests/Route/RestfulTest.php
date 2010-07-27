@@ -6,7 +6,6 @@ namespace JoltTest\Route;
 use \Jolt\Route\Restful,
 	\JoltTest\TestCase;
 
-require_once 'Jolt/Route.php';
 require_once 'Jolt/Route/Restful.php';
 
 class RestfulTest extends TestCase {
@@ -85,21 +84,21 @@ class RestfulTest extends TestCase {
 	}
 	
 	/**
-	 * @dataProvider providerValidRouteAndUri
+	 * @dataProvider providerValidRouteAndPath
 	 */
-	public function testIsValidUri_ReturnsTrueForValidRouteAndUri($route, $uri) {
+	public function testIsValidPath_ReturnsTrueForValidRouteAndPath($route, $path) {
 		$route = new Restful($route, 'Resource');
 		
-		$this->assertTrue($route->isValidUri($uri));
+		$this->assertTrue($route->isValidPath($path));
 	}
 	
 	/**
-	 * @dataProvider providerInvalidRouteAndUri
+	 * @dataProvider providerInvalidRouteAndPath
 	 */
-	public function testIsValidUri_ReturnsFalseForInvalidRouteAndUri($route, $uri) {
+	public function testIsValidPath_ReturnsFalseForInvalidRouteAndPath($route, $path) {
 		$route = new Restful($route, 'Resource');
 		
-		$this->assertFalse($route->isValidUri($uri));
+		$this->assertFalse($route->isValidPath($path));
 	}
 	
 	public function providerValidRoute() {
@@ -151,7 +150,7 @@ class RestfulTest extends TestCase {
 		);
 	}
 	
-	public function providerValidRouteAndUri() {
+	public function providerValidRouteAndPath() {
 		return array(
 			array('/abc', '/abc'),
 			array('/user', '/user'),
@@ -160,7 +159,7 @@ class RestfulTest extends TestCase {
 		);
 	}
 	
-	public function providerInvalidRouteAndUri() {
+	public function providerInvalidRouteAndPath() {
 		return array(
 			array('/abc', '/Abc'),
 			array('/user', '/usr'),

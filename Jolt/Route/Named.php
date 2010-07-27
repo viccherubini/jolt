@@ -112,7 +112,7 @@ class Named extends Route {
 		return true;
 	}
 	
-	public function isValidUri($uri) {
+	public function isValidPath($uri) {
 		// Remove the beginning / from the URI and route.
 		$uri = ltrim($uri, '/');
 		$uriChunkList = explode('/', $uri);

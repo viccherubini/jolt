@@ -6,7 +6,6 @@ namespace JoltTest\Route;
 use \Jolt\Route\Named,
 	\JoltTest\TestCase;
 
-require_once 'Jolt/Route.php';
 require_once 'Jolt/Route/Named.php';
 
 class NamedTest extends TestCase {
@@ -66,11 +65,11 @@ class NamedTest extends TestCase {
 	}
 	
 	/**
-	 * @dataProvider providerValidRouteUriAndActionArguments
+	 * @dataProvider providerValidRoutePathAndActionArguments
 	 */
-	public function testGetArgv_ReturnsArgvAfterParsingUri($routeName, $uri, $argv) {
+	public function testGetArgv_ReturnsArgvAfterParsingPath($routeName, $path, $argv) {
 		$route = new Named('GET', $routeName, 'Controller', 'actionMethod');
-		$route->isValidUri($uri);
+		$route->isValidPath($path);
 		
 		$this->assertEquals($argv, array_values($route->getArgv()));
 	}
@@ -107,7 +106,7 @@ class NamedTest extends TestCase {
 	/**
 	 * @dataProvider providerValidRoute
 	 */
-	public function testIsValid_ReturnsTrueForValidRouteNames($routeName) {
+	public function testIsValid_ReturnsTrueForValidRoute($routeName) {
 		$route = new Named('GET', '/', 'Controller', 'Action');
 		
 		$this->assertTrue($route->setRoute($routeName)->isValid());
@@ -116,28 +115,28 @@ class NamedTest extends TestCase {
 	/**
 	 * @dataProvider providerInvalidRoute
 	 */
-	public function testIsValid_ReturnsFalseForInvalidRouteNames($routeName) {
+	public function testIsValid_ReturnsFalseForInvalidRoute($routeName) {
 		$route = new Named('GET', '/', 'Controller', 'Action');
 	
 		$this->assertFalse($route->setRoute($routeName)->isValid());
 	}
 	
 	/**
-	 * @dataProvider providerValidRouteAndUri
+	 * @dataProvider providerValidRouteAndPath
 	 */
-	public function testIsValidUri_ReturnsTrueForValidMatches($routeName, $uri) {
+	public function testIsValidPath_ReturnsTrueForValidRouteAndPath($routeName, $path) {
 		$route = new Named('GET', $routeName, 'Controller', 'action');
 		
-		$this->assertTrue($route->isValidUri($uri));
+		$this->assertTrue($route->isValidPath($path));
 	}
 	
 	/**
-	 * @dataProvider providerInvalidRouteAndUri
+	 * @dataProvider providerInvalidRouteAndPath
 	 */
-	public function testIsValidUri_ReturnsFalseForInvalidMatches($routeName, $uri) {
+	public function testIsValidPath_ReturnsFalseForInvalidRouteAndPath($routeName, $path) {
 		$route = new Named('GET', $routeName, 'Controller', 'action');
 
-		$this->assertFalse($route->isValidUri($uri));
+		$this->assertFalse($route->isValidPath($path));
 	}
 	
 	public function providerValidRoute() {
@@ -177,7 +176,7 @@ class NamedTest extends TestCase {
 		);
 	}
 	
-	public function providerValidRouteAndUri() {
+	public function providerValidRouteAndPath() {
 		return array(
 			array('/abc', '/abc'),
 			array('/user/view', '/user/view'),
@@ -196,7 +195,7 @@ class NamedTest extends TestCase {
 		);
 	}
 	
-	public function providerInvalidRouteAndUri() {
+	public function providerInvalidRouteAndPath() {
 		return array(
 			array('/abc', '/def'),
 			array('/user/view', '/usr/view'),
@@ -212,7 +211,7 @@ class NamedTest extends TestCase {
 		);
 	}
 	
-	public function providerValidRouteUriAndActionArguments() {
+	public function providerValidRoutePathAndActionArguments() {
 		return array(
 			array('/abc', '/abc', array()),
 			array('/user/view', '/user/view', array()),

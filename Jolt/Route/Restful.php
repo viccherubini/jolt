@@ -51,7 +51,7 @@ class Restful extends Route {
 		return true;
 	}
 	
-	public function isValidUri($uri) {
+	public function isValidPath($uri) {
 		$route = trim($this->getRoute());
 		return ( $route === trim($uri));
 	}
