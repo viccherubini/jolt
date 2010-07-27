@@ -6,14 +6,14 @@ namespace Jolt;
 class Router {
 
 	private $requestMethod = NULL;
-	private $uri = NULL;
-	private $uriParam = '__';
+	private $routeParameter = '__u';
 	
-	private $inputVariables = array();
+	private $parameters = array();
 	private $routeList = array();
 	
 	public function __construct() {
 		$this->routeList = array();
+		$this->setRequestMethod('GET');
 	}
 	
 	public function __destruct() {
@@ -42,10 +42,22 @@ class Router {
 			throw new \Jolt\Exception('router_no_routes');
 		}
 		
+		$path = $this->extractPath();
+		if ( empty($path) ) {
+			throw new \Jolt\Exception('router_no_path_found');
+		}
+		
+		$matchedRoute = NULL;
+		array_walk($this->routeList, function($route, $k) use ($path, &$matchedRoute) {
+			if ( $route->isValidUri($path) ) {
+				
+				
+			}
+		});
 	}
 	
-	public function setInputVariables(array $inputVariables) {
-		$this->inputVariables = $inputVariables;
+	public function setParameters(array $parameters) {
+		$this->parameters = $parameters;
 		return $this;
 	}
 	
@@ -61,11 +73,17 @@ class Router {
 	public function getRouteList() {
 		return (array)$this->routeList;
 	}
+	
+	public function getRouteParameter() {
+		return $this->routeParameter;
+	}
 
-	private function extractUri() {
-		if ( isset($this->inputVariables[$this->uriParam]) ) {
-			$this->uri = $this->inputVariables[$this->uriParam];
+	private function extractPath() {
+		$path = NULL;
+		if ( isset($this->parameters[$this->routeParameter]) ) {
+			$path = $this->parameters[$this->routeParameter];
 		}
+		return $path;
 	}
 	
 }
