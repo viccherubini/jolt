@@ -15,6 +15,11 @@ class RouterTest extends TestCase {
 		$this->assertArray($router->getRouteList());
 		$this->assertEmptyArray($router->getRouteList());
 	}
+	
+	public function testNewRouter_RequestMethodIsGetByDefault() {
+		$router = new Router;
+		$this->assertEquals('GET', $router->getRequestMethod());
+	}
 
 	/**
 	 * @expectedException PHPUnit_Framework_Error
@@ -75,6 +80,20 @@ class RouterTest extends TestCase {
 		$router->execute();
 	}
 	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testExecute_MustFindPath() {
+		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
+		
+		$router = new Router;
+		$router->addRoute($namedRoute);
+		
+		$router->execute();
+	}
+	
+	
+	
 	public function testExecute_FindsMatchedRoute() {
 		
 	}
@@ -82,14 +101,14 @@ class RouterTest extends TestCase {
 	/**
 	 * @expectedException PHPUnit_Framework_Error
 	 */
-	public function testSetInputVariables_MustBeArray() {
+	public function testSetParameters_MustBeArray() {
 		$router = new Router;
-		$router->setInputVariables('11');
+		$router->setParameters('11');
 	}
 	
-	public function testSetInputVariables_ReturnsRouterObject() {
+	public function testSetParameters_ReturnsRouterObject() {
 		$router = new Router;
-		$this->assertTrue($router->setInputVariables(array()) instanceof \Jolt\Router);
+		$this->assertTrue($router->setParameters(array()) instanceof \Jolt\Router);
 	}
 	
 	public function testSetRequestMethod_CapitalizesMethod() {
@@ -99,5 +118,13 @@ class RouterTest extends TestCase {
 		$router->setRequestMethod($requestMethod);
 		
 		$this->assertEquals(strtoupper($requestMethod), $router->getRequestMethod());
+	}
+	
+	private function buildRouterWithRouteParameter() {
+		$router = new Router;
+		
+		
+		
+		
 	}
 }
