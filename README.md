@@ -27,53 +27,44 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org).
 ## A Sample Jolt Application
     <?php
 
+    declare(encoding='UTF-8');
+    
+    use \Jolt\Router,
+    	\Jolt\Route\Named,
+    	\Jolt\Dispatcher,
+    	\Jolt\Client,
+    	\Jolt\Jolt;
+
     // Configuration
     $configuration = new \stdClass;
     $configuration->layoutDirectory = '/path/to/layout/directory/';
     $configuration->controllerDirectory = '/path/to/controller/directory/';
     $configuration->viewDirectory = '/path/to/view/directory/';
 
-    // Routes and the router
-    $router = new \Jolt\Router;
-    $router->setInputVariables($_REQUEST);
-    $router->addRoute(new \Jolt\Route\Named('/', 'Controller', 'action'))
-			->addRoute(new \Jolt\Route\Named('/abc', 'Controller', 'actionAbc'))
-    	->addRoute(new \Jolt\Route\Named('/product/%n', 'Product', 'view'))
-    	->addRoute(new \Jolt\Route\Named('/customer', 'Customer', 'index'));
+    // Configure the routes and router, of course, this could be pushed to another file
+    $router = new Router;
+    $router->setParameters($_GET)
+			->setRequestMethod($_SERVER['REQUEST_METHOD'])
+			->setHttp404Route(new Named('/', 'NotFound', 'index'));
+		
+    $router->addRoute(new Named('/', 'Controller', 'action'))
+			->addRoute(new Named('/abc', 'Controller', 'actionAbc'))
+    	->addRoute(new Named('/product/%n', 'Product', 'view'))
+    	->addRoute(new Named('/customer', 'Customer', 'index'));
 
     // Dispatcher loads up a matched route and executes it
-    $dispatcher = new \Jolt\Dispatcher;
+    $dispatcher = new Dispatcher;
     $dispatcher->setControllerDirectory($configuration->controllerDirectory);
     $dispatcher->setRoute($matchedRoute);
 
     // Client returns data back to the browser, has a nice __toString()
-    $client = new \Jolt\Client;
+    $client = new Client;
 
-
-    $jolt = new \Jolt;
+    // Build the entire application and execute it
+    $jolt = new Jolt;
     $jolt->setConfiguration($configuration);
     $jolt->attachRouter($router);
     $jolt->attachDispatcher($dispatcher);
     $jolt->attachClient($client);
 
     echo $jolt->execute();
-
-    /*
-    public function execute() {
-
-    	// Get the matched route based on the URL parameters
-    	$matchedRoute = $this->router->execute();
-
-    	// Load and execute the matched Controller and Action from the matched route
-    	$this->dispatcher
-    		->setRoute($matchedRoute)
-    		->execute();
-
-    	// Determine what the headers and HTTP status are and return that
-    	$this->client
-    		->attachDispatcher($this->dispatcher)
-    		->execute();
-
-    	return $this->client;
-    }
-    */
