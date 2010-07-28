@@ -9,6 +9,12 @@ require_once 'Jolt/Router.php';
 
 class RouterTest extends TestCase {
 	
+	private $http404Route = NULL;
+	
+	public function setUp() {
+		$this->http404Route = $this->buildMockNamedRoute('GET', '/', 'NotFound', 'index');
+	}
+	
 	public function testNewRouter_RouteListIsInitiallyEmpty() {
 		$router = new Router;
 		
@@ -108,12 +114,11 @@ class RouterTest extends TestCase {
 	
 	public function testExecute_MustReturnJoltRouteObject() {
 		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
-		$http404Route = $this->buildMockNamedRoute('GET', '/', 'NotFound', 'index');
 		$parameters = $this->buildMockParameters('/user');
 		
 		$router = new Router;
 		$router->setRequestMethod('GET')
-			->setHttp404Route($http404Route)
+			->setHttp404Route($this->http404Route)
 			->setParameters($parameters);
 		$router->addRoute($namedRoute);
 		
@@ -126,19 +131,34 @@ class RouterTest extends TestCase {
 	
 	public function testExecute_UsesHttp404RouteWhenNoPathFound() {
 		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
-		$http404Route = $this->buildMockNamedRoute('GET', '/', 'NotFound', 'index');
 		$parameters = $this->buildMockParameters('/abc');
 		
 		$router = new Router;
 		$router->setRequestMethod('GET')
-			->setHttp404Route($http404Route)
+			->setHttp404Route($this->http404Route)
 			->setParameters($parameters);
 		$router->addRoute($namedRoute);
 		
 		$matchedRoute = $router->execute();
 		
-		$this->assertTrue($matchedRoute->isEqual($http404Route));
-		$this->assertTrue($http404Route->isEqual($matchedRoute));
+		$this->assertTrue($matchedRoute->isEqual($this->http404Route));
+		$this->assertTrue($this->http404Route->isEqual($matchedRoute));
+	}
+	
+	public function testExecute_RouteMustHaveSameRequestMethod() {
+		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
+		$parameters = $this->buildMockParameters('/user');
+		
+		$router = new Router;
+		$router->setRequestMethod('POST')
+			->setHttp404Route($this->http404Route)
+			->setParameters($parameters);
+		$router->addRoute($namedRoute);
+		
+		$matchedRoute = $router->execute();	
+		
+		$this->assertFalse($matchedRoute->isEqual($namedRoute));
+		$this->assertFalse($namedRoute->isEqual($matchedRoute));
 	}
 	
 	/**
