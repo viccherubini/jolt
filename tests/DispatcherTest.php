@@ -10,7 +10,9 @@ require_once 'Jolt/Dispatcher.php';
 class DispatcherTest extends TestCase {
 	
 	public function testTrue() {
+		$dispatcher = new Dispatcher;
 		$this->assertTrue(true);
+		
 	}
 	
 }

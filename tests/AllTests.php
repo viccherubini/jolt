@@ -21,7 +21,7 @@ class AllTests {
 		
 		//$suite->addTestSuite('\JoltTest\ClientTest');
 		//$suite->addTestSuite('\JoltTest\ControllerTest');
-		//$suite->addTestSuite('\JoltTest\DispatcherTest');
+		$suite->addTestSuite('\JoltTest\DispatcherTest');
 		//$suite->addTestSuite('\JoltTest\JoltTest');
 		$suite->addTestSuite('\JoltTest\RegistryTest');
 		$suite->addTestSuite('\JoltTest\RouteTest');
