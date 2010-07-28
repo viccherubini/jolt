@@ -14,7 +14,6 @@ There are plenty of competent frameworks already in existence out there. So why 
 * I actually like PHP development and think you can build powerful stuff with it.
 * There are few frameworks in the PHP5.3 world of things. Jolt will be PHP5.3+ only.
 * I have a bit of NIH syndrome and like to write my own frameworks for building applications.
-* I want tight integration with NoSQL databases such as Redis and MongoDB.
 * Learning TDD really well.
 
 Jolt is hosted at [Joltcore.org](http://joltcore.org).
@@ -24,3 +23,57 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org).
 
 ## Sponsored By
 * Leftnode Software, Inc. <http://leftnodesoftware.com>
+
+## A Sample Jolt Application
+    <?php
+
+    // Configuration
+    $configuration = new \stdClass;
+    $configuration->layoutDirectory = '/path/to/layout/directory/';
+    $configuration->controllerDirectory = '/path/to/controller/directory/';
+    $configuration->viewDirectory = '/path/to/view/directory/';
+
+    // Routes and the router
+    $router = new \Jolt\Router;
+    $router->setInputVariables($_REQUEST);
+    $router->addRoute(new \Jolt\Route\Named('/', 'Controller', 'action'))
+			->addRoute(new \Jolt\Route\Named('/abc', 'Controller', 'actionAbc'))
+    	->addRoute(new \Jolt\Route\Named('/product/%n', 'Product', 'view'))
+    	->addRoute(new \Jolt\Route\Named('/customer', 'Customer', 'index'));
+
+    // Dispatcher loads up a matched route and executes it
+    $dispatcher = new \Jolt\Dispatcher;
+    $dispatcher->setControllerDirectory($configuration->controllerDirectory);
+    $dispatcher->setRoute($matchedRoute);
+
+    // Client returns data back to the browser, has a nice __toString()
+    $client = new \Jolt\Client;
+
+
+    $jolt = new \Jolt;
+    $jolt->setConfiguration($configuration);
+    $jolt->attachRouter($router);
+    $jolt->attachDispatcher($dispatcher);
+    $jolt->attachClient($client);
+
+    echo $jolt->execute();
+
+    /*
+    public function execute() {
+
+    	// Get the matched route based on the URL parameters
+    	$matchedRoute = $this->router->execute();
+
+    	// Load and execute the matched Controller and Action from the matched route
+    	$this->dispatcher
+    		->setRoute($matchedRoute)
+    		->execute();
+
+    	// Determine what the headers and HTTP status are and return that
+    	$this->client
+    		->attachDispatcher($this->dispatcher)
+    		->execute();
+
+    	return $this->client;
+    }
+    */
