@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd `pwd`/tests/
-phpunit
+#phpunit
