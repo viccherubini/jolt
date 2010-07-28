@@ -55,7 +55,8 @@ class Router {
 		$matchedRoute = NULL;
 		foreach ( $this->routeList as $route ) {
 			if ( is_null($matchedRoute) ) { // Short circuiting
-				if ( $route->getRequestMethod() === $this->requestMethod && $route->isValidPath($path) ) {
+				$routeRm = $route->getRequestMethod();
+				if ( $routeRm === $this->requestMethod && $route->isValidPath($path) ) {
 					$matchedRoute = clone $route;
 				}
 			}
