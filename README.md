@@ -44,13 +44,13 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
     // Configure the routes and router, of course, this could be pushed to another file
     $router = new Router;
     $router->setParameters($_GET)
-			->setRequestMethod($_SERVER['REQUEST_METHOD'])
-			->setHttp404Route(new Named('/', 'NotFound', 'index'));
+    	->setRequestMethod($_SERVER['REQUEST_METHOD'])
+    	->setHttp404Route(new Named('GET', '/', 'NotFound', 'index'));
 		
-    $router->addRoute(new Named('/', 'Controller', 'action'))
-			->addRoute(new Named('/abc', 'Controller', 'actionAbc'))
-    	->addRoute(new Named('/product/%n', 'Product', 'view'))
-    	->addRoute(new Named('/customer', 'Customer', 'index'));
+    $router->addRoute(new Named('GET', '/', 'Controller', 'action'))
+    	->addRoute(new Named('GET', '/abc', 'Controller', 'actionAbc'))
+    	->addRoute(new Named('GET', '/product/%n', 'Product', 'view'))
+    	->addRoute(new Named('POST', '/customer', 'Customer', 'index'));
 
     // Dispatcher loads up a matched route and executes it
     $dispatcher = new Dispatcher;
