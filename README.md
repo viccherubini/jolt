@@ -16,10 +16,10 @@ There are plenty of competent frameworks already in existence out there. So why 
 * I have a bit of NIH syndrome and like to write my own frameworks for building applications.
 * Learning TDD really well.
 
-Jolt is hosted at [Joltcore.org](http://joltcore.org).
+Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at [Bugs.Joltcore.org](http://bugs.joltcore.org).
 
 ## Team Members
-* Vic Cherubini <vmc@codegroove.net>
+* Vic Cherubini <vmc@leftnode.com>
 
 ## Sponsored By
 * Leftnode Software, Inc. <http://leftnodesoftware.com>
