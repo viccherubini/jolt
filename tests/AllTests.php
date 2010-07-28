@@ -3,6 +3,8 @@
 declare(encoding='UTF-8');
 namespace JoltTest;
 
+use \JoltTest\Route\AllTests as RouteTests;
+
 require_once 'ClientTest.php';
 require_once 'ControllerTest.php';
 require_once 'DispatcherTest.php';
@@ -17,18 +19,14 @@ require_once 'ViewTest.php';
 class AllTests {
 	
 	public static function suite() {
-		$suite = new \PHPUnit_Framework_TestSuite('Jolt All Tests');
+		$suite = new \PHPUnit_Framework_TestSuite('Jolt Tests');
 		
-		//$suite->addTestSuite('\JoltTest\ClientTest');
-		//$suite->addTestSuite('\JoltTest\ControllerTest');
 		$suite->addTestSuite('\JoltTest\DispatcherTest');
-		//$suite->addTestSuite('\JoltTest\JoltTest');
 		$suite->addTestSuite('\JoltTest\RegistryTest');
 		$suite->addTestSuite('\JoltTest\RouteTest');
-		$suite->addTestSuite(Route_AllTests::suite());
+		$suite->addTestSuite(RouteTests::suite());
 		$suite->addTestSuite('\JoltTest\RouterTest');
 		$suite->addTestSuite('\JoltTest\TestCaseTest');
-		//$suite->addTestSuite('\JoltTest\ViewTest');
 
 		return $suite;
 	}
