@@ -114,11 +114,11 @@ class RouterTest extends TestCase {
 	}
 	
 	public function testExecute_MustReturnJoltRouteObject() {
-		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
+		$namedRoute = $this->buildMockNamedRoute('DELETE', '/user', 'User', 'index');
 		$parameters = $this->buildMockParameters('/user');
 		
 		$router = new Router;
-		$router->setRequestMethod('GET')
+		$router->setRequestMethod('DELETE')
 			->setHttp404Route($this->http404Route)
 			->setParameters($parameters);
 		$router->addRoute($namedRoute);
@@ -131,11 +131,11 @@ class RouterTest extends TestCase {
 	}
 	
 	public function testExecute_UsesHttp404RouteWhenNoPathFound() {
-		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
+		$namedRoute = $this->buildMockNamedRoute('PUT', '/user', 'User', 'index');
 		$parameters = $this->buildMockParameters('/abc');
 		
 		$router = new Router;
-		$router->setRequestMethod('GET')
+		$router->setRequestMethod('PUT')
 			->setHttp404Route($this->http404Route)
 			->setParameters($parameters);
 		$router->addRoute($namedRoute);
