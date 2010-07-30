@@ -25,9 +25,9 @@ class Registry {
 	}
 
 	public static function push($name, $item, $overwrite=true) {
-		$exists = exs($name, self::$registry);
+		$exists = \Jolt\Lib\exs($name, self::$registry);
 		
-		if ( (false === $exists) || (true === $exists && true === exs($name, self::$overwrite_list)) ) {
+		if ( (!$exists) || ($exists && \Jolt\Lib\exs($name, self::$overwrite_list)) ) {
 			self::$registry[$name] = $item;
 			
 			if ( true === $overwrite ) {
@@ -38,11 +38,11 @@ class Registry {
 	}
 	
 	public static function pop($name, $delete=false) {
-		$item = er($name, self::$registry);
-		if ( true === $delete ) {
+		$item = \Jolt\Lib\er($name, self::$registry);
+		if ( $delete ) {
 			unset(self::$registry[$name]);
 			
-			if ( true === exs($name, self::$overwrite_list) ) {
+			if ( \Jolt\Lib\exs($name, self::$overwrite_list) ) {
 				unset(self::$overwrite_list[$name]);
 			}
 		}

@@ -3,7 +3,8 @@
 declare(encoding='UTF-8');
 namespace JoltTest;
 
-use \Jolt\Jolt;
+use \Jolt\Jolt,
+	\JoltTest\TestCase;
 
 require_once 'Jolt/Jolt.php';
 

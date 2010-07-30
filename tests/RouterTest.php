@@ -3,7 +3,8 @@
 declare(encoding='UTF-8');
 namespace JoltTest;
 
-use \Jolt\Router;
+use \Jolt\Router,
+	\JoltTest\TestCase;
 
 require_once 'Jolt/Router.php';
 

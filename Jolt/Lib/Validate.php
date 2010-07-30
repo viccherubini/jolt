@@ -1,5 +1,8 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt\Lib;
+
 function validate_alphanum($v) {
 	if ( true === empty($v) ) {
 		return false;

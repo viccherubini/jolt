@@ -1,14 +1,17 @@
 <?php
 
+declare(encoding='UTF-8');
+namespace Jolt\Lib;
+
 function input_get_ipv4() {
 	$ip = NULL;
-	if ( true === isset($_SERVER) ) {
-		if ( true === isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+	if ( isset($_SERVER) ) {
+		if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} elseif ( true === isset($_SERVER['HTTP_CLIENT_IP'])) {
+		} elseif ( isset($_SERVER['HTTP_CLIENT_IP'])) {
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		} else {
-			$ip = er('REMOTE_ADDR', $_SERVER);
+		} elseif ( isset($_SERVER['REMOTE_ADDR']) ) {
+			$ip = $_SERVER['REMOTE_ADDR'];
 		}
 	}
 	
@@ -16,7 +19,7 @@ function input_get_ipv4() {
 }
 
 function input_get_user_agent() {
-	if ( true === exs('HTTP_USER_AGENT', $_SERVER) ) {
+	if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 		return $_SERVER['HTTP_USER_AGENT'];
 	}
 	
