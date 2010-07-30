@@ -24,4 +24,5 @@ class AllTests {
 
 		return $suite;
 	}
+	
 }
