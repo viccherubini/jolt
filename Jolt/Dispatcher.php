@@ -5,8 +5,9 @@ namespace Jolt;
 
 class Dispatcher {
 	
-	private $route = NULL;
 	private $controllerDirectory = NULL;
+	private $route = NULL;
+	private $view = NULL;
 	
 	public function __construct() {
 		
@@ -16,6 +17,16 @@ class Dispatcher {
 		
 	}
 	
+	public function attachRoute(\Jolt\Route $route) {
+		$this->route = $route;
+		return $this;
+	}
+	
+	public function attachView(\Jolt\View $view) {
+		$this->view = $view;
+		return $this;
+	}
+	
 	public function execute() {
 		if ( !is_dir($this->controllerDirectory) ) {
 			throw new \Jolt\Exception('dispatcher_controller_directory_does_not_exist');
@@ -23,6 +34,10 @@ class Dispatcher {
 		
 		if ( is_null($this->route) ) {
 			throw new \Jolt\Exception('dispatcher_route_is_null');
+		}
+		
+		if ( is_null($this->view) ) {
+			throw new \Jolt\Exception('dispatcher_view_is_null');
 		}
 		
 		$controller = $this->route->getController();
@@ -45,11 +60,6 @@ class Dispatcher {
 		}
 		
 		$this->controllerDirectory = $controllerDirectory;
-		return $this;
-	}
-	
-	public function setRoute(\Jolt\Route $route) {
-		$this->route = $route;
 		return $this;
 	}
 	
