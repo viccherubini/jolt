@@ -13,30 +13,18 @@ require_once 'Exception.php';
  * @author vmc <vmc@leftnode.com>
  */
 class Jolt {
-	private $router = NULL;
-	private $dispatcher = NULL;
-	private $client = NULL;
 	
-	private $config = array();
+	private $configuration = NULL;
+	private $client = NULL;
+	private $dispatcher = NULL;
+	private $router = NULL;
 	
 	public function __construct() {
 
 	}
-
-	/*
-	public static function attachRouter(Router $router) {
-		if ( 0 === $router->getRouteCount() ) {
-			throw new \Jolt\Exception('jolt_router_empty');
-		}
-		
-		self::$router = $router;
-	}
 	
-	public static function attachDispatcher(Dispatcher $dispatcher) {
-		self::$dispatcher = $dispatcher;
+	public function attachConfiguration(\Jolt\Configuration $cfg) {
+		$this->configuration = clone $cfg;
+		return $this;
 	}
-	
-	public static function attachClient(Client $client) {
-		self::$client = $client;
-	}*/
 }
