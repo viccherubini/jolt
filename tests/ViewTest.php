@@ -10,68 +10,57 @@ require_once 'Jolt/View.php';
 
 class ViewTest extends TestCase {
 	
-	public function testApplicationPathIsSetCorrectly() {
-		$view = new View();
-		$view->setApplicationPath(getcwd());
+	private $c = NULL;
+	
+	public function setUp() {
+		$this->c = new \stdClass;
 		
-		$this->assertEquals(getcwd(), $view->getApplicationPath());
+		$this->c->viewDirectory = DIRECTORY_VIEWS;
+		$this->c->url = 'http://jolt.dev';
+		$this->c->secureUrl = 'https://jolt.dev';
+		$this->c->useRewrite = true;
 	}
 	
-	public function testBlockDirectoryIsSetCorrectly() {
-		$view = new View();
-		$view->setBlockDirectory('blocks/'); // The / should be trimmed off
+	public function test__Set_WritesToVariables() {
+		$expected = array('name' => 'vic');
 		
-		$this->assertEquals('blocks', $view->getBlockDirectory());
+		$view = new View;
+		$view->name = 'vic';
+	
+		$this->assertEquals($expected, $view->getVariables());
+	}
+	
+	public function test__Get_RetrievesFromVariables() {
+		$name = 'vic';
+		
+		$view = new View;
+		$view->name = $name;
+		
+		$this->assertEquals($name, $view->name);
+	}
+	
+	public function test__Get_ReturnsNullWhenVariableNotFound() {
+		$view = new View;
+		
+		$this->assertTrue(is_null($view->name));
+	}
+
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testRender_ConfigurationMustBeSet() {
+		$view = new View;
+		
+		$view->render('view');
 	}
 	
 	/**
-	 * @dataProvider providerReplacementList
+	 * @expectedException \Jolt\Exception
 	 */
-	public function testMagicGetterAndSetter($k, $v) {
-		$view = new View();
-		$view->$k = $v;
-		
-		$this->assertEquals(array($k => $v), $view->getReplacementList());
-		$this->assertEquals($v, $view->$k);
-	}
+	public function testRender_ViewFileMustExist() {
+		$view = new View;
+		$view->attachConfiguration($this->c);
 	
-	/**
-	 * @dataProvider providerRenderableViewList
-	 */
-	public function testViewRendersCorrectlyWhenViewFileExists($view_name, $replacement_list) {
-		$view = new View();
-		
-		$app_path = rtrim(TEST_DIRECTORY, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . APPLICATION_DIRECTORY;
-		
-		$view->setApplicationPath($app_path)->setReplacementList($replacement_list);
-		$view->render($view_name);
-		
-		/* Cheap way to get the rendered view file. */
-		$view_file = $view->getViewFile();
-		$view_file_rendered = str_replace(View::VIEW_EXT, '-rendered' . View::VIEW_EXT, $view_file);
-		
-		$this->assertEquals(file_get_contents($view_file_rendered), $view->getRendering());
-	}
-	
-	public function providerReplacementList() {
-		return array(
-			array('variable', 'value'),
-			array('array_variable', array(1, 2, 3, 4, 5)),
-			array('object_variable', new \stdClass)
-		);
-	}
-	
-	public function providerRenderableViewList() {
-		$human = new \stdClass;
-		$human->name = 'Victor Cherubini';
-		$human->age = 25;
-		
-		return array(
-			array('welcome', array()),
-			array('replace-one', array('name' => 'Victor Cherubini')),
-			array('replace-two', array('name' => 'Victor Cherubini', 'age' => 25)),
-			array('list', array('list' => array('one', 'two', 'three'))),
-			array('object', array('human' => $human))
-		);
+		$view->render('view');
 	}
 }

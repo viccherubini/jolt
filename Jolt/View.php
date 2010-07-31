@@ -10,105 +10,54 @@ namespace Jolt;
  */
 class View {
 	
-	const VIEW_DIR = 'view';
-	const VIEW_EXT = '.phtml';
+	private $configuration = NULL;
+	private $fileName = NULL;
+	private $renderedView = NULL;
 	
-	private $replacement_list = array();
-	private $application_path = NULL; 
-	private $block_directory = NULL;
-	private $rendering = NULL;
-	private $view_file = NULL;
+	private $variables = array();
+	
+	const EXT = '.phtml';
 	
 	public function __construct() {
 		
 	}
 	
 	public function __destruct() {
-		$this->rendering = NULL;
-		$this->replacement_list = array();
-	}
-	
-	public function __get($k) {
-		return er($k, $this->replacement_list, NULL);
+		
 	}
 	
 	public function __set($k, $v) {
-		$this->replacement_list[$k] = $v;
-		return true;
+		$this->variables[$k] = $v;
+		return $this;
 	}
 	
-
+	public function __get($k) {
+		if ( isset($this->variables[$k]) ) {
+			return $this->variables[$k];
+		}
+		return NULL;
+	}
+	
 	public function render($view) {
-		/**
-		 * @code
-		 * 1. Determine the path to the view file.
-		 * 2. Get all of the variables to replace.
-		 * 3. Require the file, and ob() it.
-		 * 4. Any calls to insertBlock() are processed.
-		 * @endcode
-		 */
-		$application_path = $this->getApplicationPath();
-		
-		$ds = DIRECTORY_SEPARATOR;
-		$view_file = implode($ds, array($application_path, self::VIEW_DIR, $view)) . self::VIEW_EXT;
-		
-		$rendering = NULL;
-		
-		if ( true === is_file($view_file) ) {
-			$this->setViewFile($view_file);
-			extract($this->getReplacementList());
-			ob_start();
-			require $view_file;
-			$rendering = ob_get_clean();
+		if ( is_null($this->configuration) ) {
+			throw new \Jolt\Exception('view_configuration_is_empty');
 		}
 		
-		$this->setRendering($rendering);
+		// See if we need to append the .phtml to the end of the view name
+		if ( 0 === preg_match('/\\' . self::EXT . '$/i', $view) ) {
+			$view .= self::EXT;
+		}
 		
+		// Find the view file
+		//$viewFile = $this->c->
+	}
+	
+	public function attachConfiguration(\stdClass $configuration) {
+		$this->configuration = clone $configuration;
 		return $this;
 	}
 	
-	public function getApplicationPath() {
-		return $this->application_path;
-	}
-	
-	public function getBlockDirectory() {
-		return $this->block_directory;
-	}
-	
-	public function getRendering() {
-		return $this->rendering;
-	}
-	
-	public function getReplacementList() {
-		return $this->replacement_list;
-	}
-	
-	public function getViewFile() {
-		return $this->view_file;
-	}
-	
-	public function setApplicationPath($application_path) {
-		$this->application_path = rtrim($application_path, DIRECTORY_SEPARATOR);
-		return $this;
-	}
-	
-	public function setBlockDirectory($block_directory) {
-		$this->block_directory = rtrim($block_directory, DIRECTORY_SEPARATOR);
-		return $this;
-	}
-	
-	public function setRendering($rendering) {
-		$this->rendering = $rendering;
-		return $this;
-	}
-	
-	public function setReplacementList(array $replacement_list) {
-		$this->replacement_list = (array)$replacement_list;
-		return $this;
-	}
-	
-	public function setViewFile($view_file) {
-		$this->view_file = $view_file;
-		return $this;
+	public function getVariables() {
+		return $this->variables;
 	}
 }
