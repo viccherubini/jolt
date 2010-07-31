@@ -25,6 +25,16 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return $mock;
 	}
 	
+	protected function buildMockConfiguration(array $cfg) {
+		$mock = $this->getMock('\Jolt\Configuration');
+		
+		foreach ( $cfg as $k => $v ) {
+			$mock->$k = $v;
+		}
+		
+		return $mock;
+	}
+	
 	protected function buildMockDispatcher() {
 		$mock = $this->getMock('\Jolt\Dispatcher');
 		

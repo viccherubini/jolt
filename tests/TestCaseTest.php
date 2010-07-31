@@ -3,9 +3,25 @@
 declare(encoding='UTF-8');
 namespace JoltTest;
 
-use \JoltTest\TestCase;
+use \Jolt\Configuration,
+	\JoltTest\TestCase;
+
+require_once 'Jolt/Configuration.php';
 
 class TestCaseTest extends TestCase {
+	
+	public function testBuildMockConfiguration_CanSetArrayOfParameters() {
+		$cfg1 = new Configuration;
+		$cfg1->key1 = 'value1';
+		$cfg1->key2 = 'value2';
+		
+		$cfgArray = array('key1' => 'value1', 'key2' => 'value2');
+		$cfg2 = $this->buildMockConfiguration($cfgArray);
+		
+		foreach ( $cfgArray as $k => $v ) {
+			$this->assertEquals($cfg1->$k, $cfg2->$k);
+		}
+	}
 	
 	public function testBuildMockAbstractRoute_ReturnsJoltRouteObject() {
 		$abstractRoute = $this->buildMockAbstractRoute();

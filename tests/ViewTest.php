@@ -13,12 +13,13 @@ class ViewTest extends TestCase {
 	private $c = NULL;
 	
 	public function setUp() {
-		$this->c = new \stdClass;
-		
-		$this->c->viewDirectory = DIRECTORY_VIEWS;
-		$this->c->url = 'http://jolt.dev';
-		$this->c->secureUrl = 'https://jolt.dev';
-		$this->c->useRewrite = true;
+		$this->c = $this->buildMockConfiguration(array(
+			'viewDirectory' => DIRECTORY_VIEWS,
+			'url' => 'http://joltcore.dev',
+			'secureUrl' => 'https://joltcore.dev',
+			'useRewrite' => true
+			)
+		);
 	}
 	
 	public function test__Set_WritesToVariables() {
