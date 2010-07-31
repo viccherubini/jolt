@@ -8,6 +8,7 @@ use \JoltTest\Route\AllTests as RouteTests,
 
 require_once 'ClientTest.php';
 require_once 'ControllerTest.php';
+require_once 'ConfigurationTest.php';
 require_once 'DispatcherTest.php';
 require_once 'JoltTest.php';
 require_once 'Lib/AllTests.php';
@@ -23,6 +24,7 @@ class AllTests {
 	public static function suite() {
 		$suite = new \PHPUnit_Framework_TestSuite('Jolt Tests');
 		
+		$suite->addTestSuite('\JoltTest\ConfigurationTest');
 		$suite->addTestSuite('\JoltTest\DispatcherTest');
 		$suite->addTestSuite(LibTests::suite());
 		$suite->addTestSuite('\JoltTest\RegistryTest');
