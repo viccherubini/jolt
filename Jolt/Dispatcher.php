@@ -22,12 +22,12 @@ class Dispatcher {
 	}
 	
 	public function attachRoute(\Jolt\Route $route) {
-		$this->route = $route;
+		$this->route = clone $route;
 		return $this;
 	}
 	
 	public function attachView(\Jolt\View $view) {
-		$this->view = $view;
+		$this->view = clone $view;
 		return $this;
 	}
 	
