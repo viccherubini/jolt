@@ -16,6 +16,7 @@ require_once 'ControllerTest.php';
 require_once 'ConfigurationTest.php';
 require_once 'DispatcherTest.php';
 require_once 'JoltTest.php';
+require_once 'MiscTest.php';
 require_once 'RegistryTest.php';
 require_once 'RouteTest.php';
 require_once 'RouterTest.php';
@@ -33,10 +34,12 @@ class AllTests {
 		
 		$suite->addTestSuite('\JoltTest\ConfigurationTest');
 		$suite->addTestSuite('\JoltTest\DispatcherTest');
+		$suite->addTestSuite('\JoltTest\MiscTest');
 		$suite->addTestSuite('\JoltTest\RegistryTest');
 		$suite->addTestSuite('\JoltTest\RouteTest');
 		$suite->addTestSuite('\JoltTest\RouterTest');
 		$suite->addTestSuite('\JoltTest\TestCaseTest');
+		$suite->addTestSuite('\JoltTest\ViewTest');
 
 		return $suite;
 	}
