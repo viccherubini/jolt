@@ -12,6 +12,39 @@ class DispatcherTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
+	public function testExecute_ControllerDirectoryMustExist() {
+		$dispatcher = new Dispatcher;
+		$dispatcher->setControllerDirectory('/path/to/controllers');
+		
+		$dispatcher->execute();
+	}
+	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testExecute_RouteMustBeSet() {
+		$dispatcher = new Dispatcher;
+		$dispatcher->setControllerDirectory(DIRECTORY_CONTROLLERS);
+		
+		$dispatcher->execute();
+	}
+
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testExecute_ControllerFileMustExist() {
+		$route = $this->buildMockNamedRoute('GET', '/', 'NotFound', 'index');
+		
+		$dispatcher = new Dispatcher;
+		$dispatcher->setControllerDirectory(DIRECTORY_CONTROLLERS)
+			->setRoute($route);
+		
+		$dispatcher->execute();
+	}
+
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
 	public function testSetControllerDirectory_CanNotBeEmpty() {
 		$dispatcher = new Dispatcher;
 		
@@ -19,12 +52,19 @@ class DispatcherTest extends TestCase {
 	}
 
 	public function testSetControllerDirectory_IsSetProperly() {
-		$controllerDirectory = '/path/to/controllers';
+		$controllerDirectory = '/path/to/controllers/';
 		
 		$dispatcher = new Dispatcher;
 		$dispatcher->setControllerDirectory($controllerDirectory);
 		
 		$this->assertEquals($controllerDirectory, $dispatcher->getControllerDirectory());
+	}
+	
+	public function testSetControllerDirectory_AppendsDirectorySeparatorIfNeeded() {
+		$dispatcher = new Dispatcher;
+		$dispatcher->setControllerDirectory(DIRECTORY_CONTROLLERS);
+		
+		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, $dispatcher->getControllerDirectory());
 	}
 	
 	/**
@@ -43,7 +83,6 @@ class DispatcherTest extends TestCase {
 		
 		$this->assertTrue($dispatcher->setRoute($route) instanceof \Jolt\Dispatcher);
 	}
-	
 	
 	
 	public function providerInvalidJoltRoute() {

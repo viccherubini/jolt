@@ -12,7 +12,10 @@ $joltPath = realpath($joltTestPath . '/../');
 
 set_include_path(implode(PATH_SEPARATOR, array($includePath, $joltPath, $joltTestPath)));
 
-//define('TEST_DIRECTORY', $joltTestPath, false);
-//define('APPLICATION_DIRECTORY', 'application', false);
+define('DS', DIRECTORY_SEPARATOR, false);
+define('DIRECTORY_TESTS', $joltTestPath, false);
+define('DIRECTORY_APP', DIRECTORY_TESTS . DS . 'App', false);
+define('DIRECTORY_CONTROLLERS', DIRECTORY_APP . DS . 'Controllers', false);
+define('DIRECTORY_VIEWS', DIRECTORY_APP . DS . 'Views', false);
 
 require_once 'Jolt/Exception.php';
