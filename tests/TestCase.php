@@ -94,4 +94,10 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		
 		return $mock;
 	}
+	
+	protected function buildMockView() {
+		$mock = $this->getMock('\Jolt\View');
+		
+		return $mock;
+	}
 }

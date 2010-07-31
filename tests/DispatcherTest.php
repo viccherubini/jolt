@@ -8,7 +8,42 @@ use \Jolt\Dispatcher;
 require_once 'Jolt/Dispatcher.php';
 
 class DispatcherTest extends TestCase {
-
+	
+	
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @dataProvider providerInvalidJoltObject
+	 */
+	public function testAttachRoute_MustBeJoltRouteObject($route) {
+		$dispatcher = new Dispatcher;
+		
+		$dispatcher->attachRoute($route);
+	}
+	
+	public function testAttachRoute_CanSetJoltRoute() {
+		$route = $this->buildMockNamedRoute('GET', '/', 'Index', 'index');
+		$dispatcher = new Dispatcher;
+		
+		$this->assertTrue($dispatcher->attachRoute($route) instanceof \Jolt\Dispatcher);
+	}
+	
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @dataProvider providerInvalidJoltObject
+	 */
+	public function testAttachView_MustBeJoltViewObject($view) {
+		$dispatcher = new Dispatcher;
+		
+		$dispatcher->attachView($view);
+	}
+	
+	public function testAttachView_CanSetJoltView() {
+		$view = $this->buildMockView();
+		$dispatcher = new Dispatcher;
+		
+		$this->assertTrue($dispatcher->attachView($view) instanceof \Jolt\Dispatcher);
+	}
+	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
@@ -32,12 +67,25 @@ class DispatcherTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
+	public function testExecute_ViewMustBeSet() {
+		$route = $this->buildMockNamedRoute('GET', '/', 'Index', 'index');
+		
+		$dispatcher = new Dispatcher;
+		$dispatcher->setControllerDirectory(DIRECTORY_CONTROLLERS)
+			->attachRoute($route);
+		
+		$dispatcher->execute();
+	}
+
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
 	public function testExecute_ControllerFileMustExist() {
 		$route = $this->buildMockNamedRoute('GET', '/', 'NotFound', 'index');
 		
 		$dispatcher = new Dispatcher;
 		$dispatcher->setControllerDirectory(DIRECTORY_CONTROLLERS)
-			->setRoute($route);
+			->attachRoute($route);
 		
 		$dispatcher->execute();
 	}
@@ -67,25 +115,8 @@ class DispatcherTest extends TestCase {
 		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, $dispatcher->getControllerDirectory());
 	}
 	
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 * @dataProvider providerInvalidJoltRoute
-	 */
-	public function testSetRoute_MustBeJoltRouteObject($route) {
-		$dispatcher = new Dispatcher;
-		
-		$dispatcher->setRoute($route);
-	}
 	
-	public function testSetRoute_CanSetJoltRoute() {
-		$dispatcher = new Dispatcher;
-		$route = $this->buildMockNamedRoute('GET', '/', 'Index', 'index');
-		
-		$this->assertTrue($dispatcher->setRoute($route) instanceof \Jolt\Dispatcher);
-	}
-	
-	
-	public function providerInvalidJoltRoute() {
+	public function providerInvalidJoltObject() {
 		return array(
 			array('a'),
 			array(10),
