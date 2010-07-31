@@ -57,12 +57,12 @@ class ViewTest extends TestCase {
 		return array(
 			array('variable', 'value'),
 			array('array_variable', array(1, 2, 3, 4, 5)),
-			array('object_variable', new \stdClass())
+			array('object_variable', new \stdClass)
 		);
 	}
 	
 	public function providerRenderableViewList() {
-		$human = new \stdClass();
+		$human = new \stdClass;
 		$human->name = 'Victor Cherubini';
 		$human->age = 25;
 		

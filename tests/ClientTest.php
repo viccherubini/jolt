@@ -10,8 +10,7 @@ require_once 'Jolt/Client.php';
 
 class ClientTest extends TestCase {
 
-	public function testSettingHttpStatusOnlyAcceptsValidStatusNumbers() {
-		
-		
+	public function testTrue() {
+		$this->assertTrue(true);
 	}
 }
