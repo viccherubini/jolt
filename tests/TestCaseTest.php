@@ -12,8 +12,8 @@ class TestCaseTest extends TestCase {
 	
 	public function testBuildMockConfiguration_CanSetArrayOfParameters() {
 		$cfg1 = new Configuration;
-		$cfg1->key1 = 'value1';
 		$cfg1->key2 = 'value2';
+		$cfg1->key1 = 'value1';
 		
 		$cfgArray = array('key1' => 'value1', 'key2' => 'value2');
 		$cfg2 = $this->buildMockConfiguration($cfgArray);
