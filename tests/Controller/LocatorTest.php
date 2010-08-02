@@ -10,10 +10,59 @@ require_once 'Jolt/Controller/Locator.php';
 
 class LocatorTest extends TestCase {
 
-	public function testGet_AppendsExt() {
-		Locator::load('/path/to/controllers', 'controller');
-		$this->assertEquals('controller' . Locator::$ext, Locator::$file);
-		
+	private $action = NULL;
+	private $namespace = 'JoltApp';
+	private $controller = 'Index';
+	
+	public function setUp() {
+		$this->action = "{$this->namespace}\\{$this->controller}";
 	}
 
+	public function testLoad_AppendsExt() {
+		Locator::load(DIRECTORY_CONTROLLERS, $this->action);
+		$this->assertEquals($this->controller . Locator::$ext, Locator::$file);
+	}
+
+	public function testLoad_AppendsDirectorySeparator() {
+		Locator::load(DIRECTORY_CONTROLLERS, $this->action);
+		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, Locator::$dir);
+	}
+	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testLoad_ControllerPathExists() {
+		Locator::load('/path/to/non-existent/controllers', $this->action);
+	}
+	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testLoad_ControllerExists() {
+		Locator::load(DIRECTORY_CONTROLLERS, "{$this->namespace}\\Broken");
+	}
+	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testLoad_ControllerInstanceOfJoltController() {
+		Locator::load(DIRECTORY_CONTROLLERS, "{$this->namespace}\\Broken2");
+	}
+	
+	/**
+	 * @dataProvider providerControllerAction
+	 */
+	public function testLoad_ReturnsController($action) {
+		$controller = Locator::load(DIRECTORY_CONTROLLERS, $action);
+		$this->assertTrue($controller instanceof \Jolt\Controller);
+	}
+	
+	public function providerControllerAction() {
+		return array(
+			array('\\Index2'),
+			array('JoltApp\\Index'),
+			array('Index3'),
+			array('JoltApp\\User\\User')
+		);
+	}
 }

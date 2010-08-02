@@ -10,7 +10,10 @@ class Locator {
 	public static $dir = NULL;
 	
 	public static function load($directory, $controller) {
-		self::$file = $controller;
+		$bits = explode('\\', $controller);
+		$bitsLen = count($bits);
+		
+		self::$file = $bits[$bitsLen-1];
 		self::$dir = $directory;
 		
 		if ( 0 === preg_match('/\\' . self::$ext . '$/i', $controller) ) {
@@ -23,17 +26,22 @@ class Locator {
 		}
 		
 		$path = self::$dir . self::$file;
-		if ( is_file($path) ) {
-			//throw new \Jolt\Exception('controller_locator_controller_not_found');
+		if ( !is_file($path) ) {
+			throw new \Jolt\Exception('controller_locator_controller_not_found');
 		}
 		
-		require_once $controllerPath;
-		
-		if ( !($controller instanceof \Jolt\Controller ) ) {
-			throw new \Jolt\Exception('controller_locator_controller_not_instance_of_controller');
+		require_once $path;
+
+		if ( !class_exists($controller) ) {
+			throw new \Jolt\Exception('controller_locator_class_doesnt_exist');
 		}
 		
-		$controllerObject = new $controller();
+		$controllerObject = new $controller;
+		
+		if ( !($controllerObject instanceof \Jolt\Controller ) ) {
+			throw new \Jolt\Exception('controller_locator_controller_not_instance_of_controller' . $controller);
+		}
+		
 		return $controllerObject;
 	}
 

@@ -7,10 +7,10 @@ use \Jolt\Controller;
 
 require_once 'Jolt/Controller.php';
 
-class Index extends Controller {
+class BrokenController extends Controller {
 	
 	public function indexAction() {
-		echo 'Hi, from Jolt!', PHP_EOL;
+		echo 'You should never see this because this is a broken controller', PHP_EOL;
 	}
 	
 }
