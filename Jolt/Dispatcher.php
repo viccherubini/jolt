@@ -59,17 +59,17 @@ class Dispatcher {
 		
 	}
 	
-	public function setControllerDirectory($controllerDirectory) {
-		if ( empty($controllerDirectory) ) {
+	public function setControllerDirectory($dir) {
+		if ( empty($dir) ) {
 			throw new \Jolt\Exception('dispatcher_controller_directory_empty');
 		}
 		
-		$len = strlen($controllerDirectory);
-		if ( $controllerDirectory[$len-1] != DIRECTORY_SEPARATOR ) {
-			$controllerDirectory .= DIRECTORY_SEPARATOR;
+		$dirLength = strlen($dir);
+		if ( $dir[$dirLength-1] != DIRECTORY_SEPARATOR ) {
+			$dir .= DIRECTORY_SEPARATOR;
 		}
 		
-		$this->controllerDirectory = $controllerDirectory;
+		$this->controllerDirectory = $dir;
 		return $this;
 	}
 	
