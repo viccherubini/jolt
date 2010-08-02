@@ -62,6 +62,49 @@ class ViewTest extends TestCase {
 		$view = new View;
 		$view->attachConfiguration($this->c);
 	
-		$view->render('view');
+		$view->render('missing-view');
+	}
+	
+	/**
+	 * @dataProvider providerViewWithVariables
+	 */
+	public function testRender_ViewRenders($viewName, $variables) {
+		$view = new View;
+		$view->attachConfiguration($this->c);
+	
+		foreach ( $variables as $k => $v ) {
+			$view->$k = $v;
+		}
+		
+		$view->render($viewName);
+		
+		$this->assertEquals($this->loadRenderedView($viewName), $view->getRenderedView());
+	}
+	
+	public function providerViewWithVariables() {
+		$name = 'Victor Cherubini';
+		$age = 25;
+		
+		$human = new \stdClass;
+		$human->name = $name;
+		$human->age = $age;
+		
+		return array(
+			array('list', array('list' => array('one', 'two', 'three'))),
+			array('object', array('human' => $human)),
+			array('replace-one', array('name' => $name)),
+			array('replace-two', array('name' => $name, 'age' => $age)),
+			array('welcome', array())
+		);
+	}
+	
+	private function loadRenderedView($view) {
+		$path = DIRECTORY_VIEWS . DIRECTORY_SEPARATOR . $view . '-rendered' . View::EXT;
+		if ( !is_file($path) ) {
+			return NULL;
+		}
+		
+		$renderedView = file_get_contents($path);
+		return $renderedView;
 	}
 }
