@@ -50,13 +50,6 @@ class Dispatcher {
 		} catch ( \Jolt\Exception $e ) {
 			throw new \Jolt\Exception('dispatcher_controller_missing');
 		}
-		
-		//$controller = $this->route->getController();
-		//$controllerFile = $this->controllerDirectory . $controller . '.php';
-		//if ( !is_file($controllerFile) ) {
-		//	throw new \Jolt\Exception('dispatcher_controller_file_does_not_exist');
-		//}
-		
 	}
 	
 	public function setControllerDirectory($dir) {
