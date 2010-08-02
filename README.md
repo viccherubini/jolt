@@ -29,36 +29,48 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
 
     declare(encoding='UTF-8');
     
-    use \Jolt\Router,
-    	\Jolt\Route\Named,
-    	\Jolt\Dispatcher,
-    	\Jolt\Client,
-    	\Jolt\Jolt;
+    use \Jolt\Client,
+      \Jolt\Configuration,
+      \Jolt\Dispatcher,
+      \Jolt\Jolt,
+      \Jole\Route,
+      \Jolt\Route\Named\NamedGet,
+      \Jolt\Route\Named\NamedPost;
 
     // Configuration
-    $configuration = new \stdClass;
+    $configuration = new Configuration;
     $configuration->layoutDirectory = '/path/to/layout/directory/';
     $configuration->controllerDirectory = '/path/to/controller/directory/';
     $configuration->viewDirectory = '/path/to/view/directory/';
+    $configuration->url = 'http://jolt.dev';
+    $configuration->secureUrl = 'https://jolt.dev';
+    $configuration->useRewrite = true;
+
 
     // Configure the routes and router, of course, this could be pushed to another file
     $router = new Router;
     $router->setParameters($_GET)
-    	->setRequestMethod($_SERVER['REQUEST_METHOD'])
-    	->setHttp404Route(new Named('GET', '/', 'NotFound', 'index'));
-		
-    $router->addRoute(new Named('GET', '/', 'Controller', 'action'))
-    	->addRoute(new Named('GET', '/abc', 'Controller', 'actionAbc'))
-    	->addRoute(new Named('GET', '/product/%n', 'Product', 'view'))
-    	->addRoute(new Named('POST', '/customer', 'Customer', 'index'));
+      ->setRequestMethod($_SERVER['REQUEST_METHOD']) // You can have Jolt only handle certain types of requests
+      ->setHttp404Route(new Named('GET', '/', 'NotFound', 'index'));
+    
+    // You're not required to put your route names in namespaces, but it's encouraged
+    $router->addRoute(new NamedGet('/', 'JoltApp\\Controller', 'action'))
+      ->addRoute(new NamedGet('/abc', 'JoltApp\\Controller', 'actionAbc'))
+      ->addRoute(new NamedPost('/product/%n', 'JoltApp\\Product', 'view'))
+      ->addRoute(new NamedPost('/customer', 'JoltApp\\Customer', 'index'));
+
 
     // Dispatcher loads up a matched route and executes it
     $dispatcher = new Dispatcher;
-    $dispatcher->setControllerDirectory($configuration->controllerDirectory);
-    $dispatcher->setRoute($matchedRoute);
+
 
     // Client returns data back to the browser, has a nice __toString()
     $client = new Client;
+
+
+    // Build a view to attach to the Dispatcher -> Controller heirarchy
+    $view = new View;
+
 
     // Build the entire application and execute it
     $jolt = new Jolt;
@@ -66,5 +78,36 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
     $jolt->attachRouter($router);
     $jolt->attachDispatcher($dispatcher);
     $jolt->attachClient($client);
+    $jolt->attachView($view);
 
     echo $jolt->execute();
+
+
+    /*
+    public function Jolt::execute() {
+      $c = $this->configuration;
+      
+      // Set up the View
+      $this->view->setViewDirectory($this->configuration->viewDirectory)
+        ->setUrl($c->url)
+        ->setSecureUrl($c->secureUrl)
+        ->setUseRewrite($c->useRewrite);
+
+      // Get the matched route based on the URL parameters
+      $matchedRoute = $this->router->execute();
+
+      // Load and execute the matched Controller and Action from the matched route
+      $this->dispatcher
+        ->setControllerDirectory($c->controllerDirectory)
+        ->attachRoute($matchedRoute)
+        ->attachView($this->view)
+        ->execute();
+
+      // Determine what the headers and HTTP status are and return that
+      $this->client
+        ->attachDispatcher($this->dispatcher)
+        ->execute();
+
+      return $this->client;
+    }
+    */
