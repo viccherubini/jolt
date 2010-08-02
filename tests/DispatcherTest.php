@@ -9,7 +9,6 @@ require_once 'Jolt/Dispatcher.php';
 
 class DispatcherTest extends TestCase {
 	
-	
 	/**
 	 * @expectedException PHPUnit_Framework_Error
 	 * @dataProvider providerInvalidJoltObject
@@ -50,16 +49,6 @@ class DispatcherTest extends TestCase {
 	public function testExecute_ControllerDirectoryMustExist() {
 		$dispatcher = new Dispatcher;
 		$dispatcher->setControllerDirectory('/path/to/controllers');
-		
-		$dispatcher->execute();
-	}
-	
-	/**
-	 * @expectedException \Jolt\Exception
-	 */
-	public function testExecute_RouteMustBeSet() {
-		$dispatcher = new Dispatcher;
-		$dispatcher->setControllerDirectory(DIRECTORY_CONTROLLERS);
 		
 		$dispatcher->execute();
 	}

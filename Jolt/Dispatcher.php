@@ -3,6 +3,10 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
+use \Jolt\Controller\Locator as Locator;
+
+require_once 'Jolt/Controller/Locator.php';
+
 class Dispatcher {
 	
 	private $controllerDirectory = NULL;
@@ -40,12 +44,18 @@ class Dispatcher {
 			throw new \Jolt\Exception('dispatcher_view_is_null');
 		}
 		
-		$controller = $this->route->getController();
-		$controllerFile = $this->controllerDirectory . $controller . '.php';
-		
-		if ( !is_file($controllerFile) ) {
-			throw new \Jolt\Exception('dispatcher_controller_file_does_not_exist');
+		try {
+			$controller = Locator::load($this->controllerDirectory, $this->route->getController());
+			
+		} catch ( \Jolt\Exception $e ) {
+			throw new \Jolt\Exception('dispatcher_controller_missing');
 		}
+		
+		//$controller = $this->route->getController();
+		//$controllerFile = $this->controllerDirectory . $controller . '.php';
+		//if ( !is_file($controllerFile) ) {
+		//	throw new \Jolt\Exception('dispatcher_controller_file_does_not_exist');
+		//}
 		
 	}
 	
