@@ -11,7 +11,7 @@ namespace Jolt;
 class View {
 	
 	private $configuration = NULL;
-	private $fileName = NULL;
+	private $path = NULL;
 	private $renderedView = NULL;
 	
 	private $variables = array();
@@ -43,25 +43,39 @@ class View {
 			throw new \Jolt\Exception('view_configuration_is_empty');
 		}
 		
+		$dir = $this->configuration->viewDirectory;
+		
 		// See if we need to append the .phtml to the end of the view name
 		if ( 0 === preg_match('/\\' . self::EXT . '$/i', $view) ) {
 			$view .= self::EXT;
 		}
 		
-		$dir = $this->c->viewDirectory;
 		$dirLength = strlen($dir);
 		if ( $dir[$dirLength-1] != DIRECTORY_SEPARATOR ) {
 			$dir .= DIRECTORY_SEPARATOR;
 		}
 		
 		// Find the view file
-		$path = $dir . $view;
-		echo $path, PHP_EOL;
+		$viewPath = $dir . $view;
+		if ( !is_file($viewPath) ) {
+			throw new \Jolt\Exception('view_path_not_found');
+		}
+		
+		extract($this->variables);
+		ob_start();
+			require $viewPath;
+		$this->renderedView = ob_get_clean();
+		
+		return true;
 	}
 	
-	public function attachConfiguration(\stdClass $configuration) {
+	public function attachConfiguration(\Jolt\Configuration $configuration) {
 		$this->configuration = clone $configuration;
 		return $this;
+	}
+
+	public function getRenderedView() {
+		return $this->renderedView;
 	}
 	
 	public function getVariables() {
