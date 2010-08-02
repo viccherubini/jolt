@@ -25,12 +25,12 @@ class Locator {
 			self::$dir .= DIRECTORY_SEPARATOR;
 		}
 		
-		$path = self::$dir . self::$file;
-		if ( !is_file($path) ) {
-			throw new \Jolt\Exception('controller_locator_controller_not_found');
+		$controllerPath = self::$dir . self::$file;
+		if ( !is_file($controllerPath) ) {
+			throw new \Jolt\Exception('controller_locator_path_not_found');
 		}
 		
-		require_once $path;
+		require_once $controllerPath;
 
 		if ( !class_exists($controller) ) {
 			throw new \Jolt\Exception('controller_locator_class_doesnt_exist');
