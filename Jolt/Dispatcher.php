@@ -47,6 +47,11 @@ class Dispatcher {
 		try {
 			$controller = Locator::load($this->controllerDirectory, $this->route->getController());
 			
+			// Call $controller->execute($this->route->getArgv());
+			// Which returns the rendered controller into a variable
+			// Store that variable internally
+			// That way when attaching a Dispatcher to a Client, the Client can get the data.
+			
 		} catch ( \Jolt\Exception $e ) {
 			throw new \Jolt\Exception('dispatcher_controller_missing');
 		}
