@@ -21,7 +21,7 @@ class ConfigurationTest extends TestCase {
 		
 		$c = new Configuration;
 		$c->name = $name;
-		
+
 		$this->assertEquals($name, $c->name);
 	}
 	
