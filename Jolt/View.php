@@ -48,8 +48,15 @@ class View {
 			$view .= self::EXT;
 		}
 		
+		$dir = $this->c->viewDirectory;
+		$dirLength = strlen($dir);
+		if ( $dir[$dirLength-1] != DIRECTORY_SEPARATOR ) {
+			$dir .= DIRECTORY_SEPARATOR;
+		}
+		
 		// Find the view file
-		//$viewFile = $this->c->
+		$path = $dir . $view;
+		echo $path, PHP_EOL;
 	}
 	
 	public function attachConfiguration(\stdClass $configuration) {
