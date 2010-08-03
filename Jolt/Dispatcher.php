@@ -9,7 +9,8 @@ require_once 'Jolt/Controller/Locator.php';
 
 class Dispatcher {
 	
-	private $controllerDirectory = NULL;
+	private $dir = NULL;
+	private $locator = NULL;
 	private $route = NULL;
 	private $view = NULL;
 	
@@ -19,6 +20,11 @@ class Dispatcher {
 	
 	public function __destruct() {
 		
+	}
+	
+	public function attachLocator(\Jolt\Controller\Locator $locator) {
+		$this->locator = clone $locator;
+		return $this;
 	}
 	
 	public function attachRoute(\Jolt\Route $route) {
@@ -32,8 +38,12 @@ class Dispatcher {
 	}
 	
 	public function execute() {
-		if ( !is_dir($this->controllerDirectory) ) {
+		if ( !is_dir($this->dir) ) {
 			throw new \Jolt\Exception('dispatcher_controller_directory_does_not_exist');
+		}
+		
+		if ( is_null($this->locator) ) {
+			throw new \Jolt\Exception('dispatcher_locator_is_null');
 		}
 		
 		if ( is_null($this->route) ) {
@@ -45,19 +55,23 @@ class Dispatcher {
 		}
 		
 		try {
-			$controller = Locator::load($this->controllerDirectory, $this->route->getController());
+			$controller = $this->locator->load($this->dir, $this->route->getController());
+			//Locator::load($this->controllerDirectory, $this->route->getController());
 			
 			// Call $controller->execute($this->route->getArgv());
 			// Which returns the rendered controller into a variable
 			// Store that variable internally
+			// Also attach the view to the Controller
 			// That way when attaching a Dispatcher to a Client, the Client can get the data.
 			
 		} catch ( \Jolt\Exception $e ) {
 			throw new \Jolt\Exception('dispatcher_controller_missing');
 		}
+		
+		return true;
 	}
 	
-	public function setControllerDirectory($dir) {
+	public function setDir($dir) {
 		if ( empty($dir) ) {
 			throw new \Jolt\Exception('dispatcher_controller_directory_empty');
 		}
@@ -67,12 +81,12 @@ class Dispatcher {
 			$dir .= DIRECTORY_SEPARATOR;
 		}
 		
-		$this->controllerDirectory = $dir;
+		$this->dir = $dir;
 		return $this;
 	}
 	
-	public function getControllerDirectory() {
-		return $this->controllerDirectory;
+	public function getDir() {
+		return $this->dir;
 	}
 	
 }
