@@ -35,6 +35,23 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return $mock;
 	}
 	
+	protected function buildMockController() {
+		$mock = $this->getMockForAbstractClass('\Jolt\Controller');
+		
+		return $mock;
+	}
+	
+	protected function buildMockControllerLocator() {
+		$controller = $this->buildMockController();
+		
+		$mock = $this->getMock('\Jolt\Controller\Locator', array('load'));
+		$mock->expects($this->any())
+			->method('load')
+			->will($this->returnValue($controller));
+		
+		return $mock;
+	}
+	
 	protected function buildMockDispatcher() {
 		$mock = $this->getMock('\Jolt\Dispatcher');
 		
@@ -43,7 +60,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	
 	protected function buildMockEmptyRouter() {
 		$mock = $this->getMock('\Jolt\Router', array('getRouteCount'));
-		
 		$mock->expects($this->any())
 			->method('getRouteCount')
 			->will($this->returnValue(0));
@@ -94,13 +110,12 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 	
 	protected function buildMockRouter() {
-		$named_route_list = array($this->buildMockNamedRoute('/abc', 'Controller', 'action'));
+		$namedRouteList = array($this->buildMockNamedRoute('/abc', 'Controller', 'action'));
 		
 		$mock = $this->getMock('\Jolt\Router', array('getRouteCount'));
-		
 		$mock->expects($this->any())
 			->method('getRouteCount')
-			->will($this->returnValue(count($named_route_list)));
+			->will($this->returnValue(count($namedRouteList)));
 		
 		return $mock;
 	}
