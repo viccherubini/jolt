@@ -19,41 +19,53 @@ class LocatorTest extends TestCase {
 	}
 
 	public function testLoad_AppendsExt() {
-		Locator::load(DIRECTORY_CONTROLLERS, $this->action);
-		$this->assertEquals($this->controller . Locator::$ext, Locator::$file);
+		$locator = new Locator;
+		$locator->load(DIRECTORY_CONTROLLERS, $this->action);
+		
+		$this->assertEquals($this->controller . Locator::EXT, $locator->getFile());
 	}
 
 	public function testLoad_AppendsDirectorySeparator() {
-		Locator::load(DIRECTORY_CONTROLLERS, $this->action);
-		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, Locator::$dir);
+		$locator = new Locator;
+		$locator->load(DIRECTORY_CONTROLLERS, $this->action);
+		
+		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, $locator->getDir());
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testLoad_ControllerPathExists() {
-		Locator::load('/path/to/non-existent/controllers', $this->action);
+		$locator = new Locator;
+		
+		$locator->load('/path/to/non-existent/controllers', $this->action);
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testLoad_ControllerExists() {
-		Locator::load(DIRECTORY_CONTROLLERS, "{$this->namespace}\\Broken");
+		$locator = new Locator;
+		
+		$locator->load(DIRECTORY_CONTROLLERS, "{$this->namespace}\\Broken");
 	}
 	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testLoad_ControllerInstanceOfJoltController() {
-		Locator::load(DIRECTORY_CONTROLLERS, "{$this->namespace}\\Broken2");
+		$locator = new Locator;
+		
+		$locator->load(DIRECTORY_CONTROLLERS, "{$this->namespace}\\Broken2");
 	}
 	
 	/**
 	 * @dataProvider providerControllerAction
 	 */
 	public function testLoad_ReturnsController($action) {
-		$controller = Locator::load(DIRECTORY_CONTROLLERS, $action);
+		$locator = new Locator;
+		
+		$controller = $locator->load(DIRECTORY_CONTROLLERS, $action);
 		$this->assertTrue($controller instanceof \Jolt\Controller);
 	}
 	
