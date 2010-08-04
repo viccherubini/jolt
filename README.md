@@ -39,8 +39,8 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
 
     // Configuration
     $configuration = new Configuration;
-    $configuration->layoutDirectory = '/path/to/layout/directory/';
-    $configuration->controllerDirectory = '/path/to/controller/directory/';
+    $configuration->layoutPath = '/path/to/layout/directory/';
+    $configuration->controllerPath = '/path/to/controller/directory/';
     $configuration->viewDirectory = '/path/to/view/directory/';
     $configuration->url = 'http://jolt.dev';
     $configuration->secureUrl = 'https://jolt.dev';
