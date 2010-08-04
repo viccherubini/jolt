@@ -11,6 +11,7 @@ class Dispatcher {
 	
 	private $controllerPath = NULL;
 	private $locator = NULL;
+	private $render = NULL;
 	private $route = NULL;
 	private $view = NULL;
 	
@@ -56,7 +57,9 @@ class Dispatcher {
 		
 		try {
 			$controller = $this->locator->load($this->controllerPath, $this->route->getController());
-		
+			$controller->attachView($this->view);
+			
+			$this->render = $controller->execute($this->route->getArgv());
 			// Call $controller->execute($this->route->getArgv());
 			// Which returns the rendered controller into a variable
 			// Store that variable internally

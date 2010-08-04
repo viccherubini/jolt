@@ -36,7 +36,11 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 	
 	protected function buildMockController() {
-		$mock = $this->getMockForAbstractClass('\Jolt\Controller');
+		$mock = $this->getMockForAbstractClass('\Jolt\Controller', array('attachView'));
+		
+		$mock->expects($this->any())
+			->method('attachView')
+			->will($this->returnValue(true));
 		
 		return $mock;
 	}
