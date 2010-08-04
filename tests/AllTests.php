@@ -33,6 +33,7 @@ class AllTests {
 		$suite->addTestSuite(RouteTests::suite());
 		
 		$suite->addTestSuite('\JoltTest\ConfigurationTest');
+		$suite->addTestSuite('\JoltTest\ControllerTest');
 		$suite->addTestSuite('\JoltTest\DispatcherTest');
 		$suite->addTestSuite('\JoltTest\MiscTest');
 		$suite->addTestSuite('\JoltTest\RegistryTest');

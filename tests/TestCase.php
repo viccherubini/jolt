@@ -122,6 +122,12 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	
 	protected function buildMockView() {
 		$mock = $this->getMock('\Jolt\View');
+
+		return $mock;
+	}
+	
+	protected function buildMockViewObject() {
+		$mock = $this->getMockForAbstractClass('\Jolt\View');
 		
 		return $mock;
 	}

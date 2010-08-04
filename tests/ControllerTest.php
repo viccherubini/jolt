@@ -10,21 +10,50 @@ require_once 'Jolt/Controller.php';
 
 class ControllerTest extends TestCase {
 	
-	public function testConfigIsEmpty() {
-		$controller = $this->buildController();
-		$this->assertArray($controller->getConfig());
-		$this->assertEmptyArray($controller->getConfig());
+	public function test__Set_ViewSet() {
+		$controller = $this->buildMockController();
+		$controller->name = 'Vic';
+		
+		$this->assertTrue(is_null($controller->name));
 	}
 	
-	public function testLayoutIsSet() {
-		$controller = $this->buildController();
-		$controller->setLayout('default');
+	public function test__Set_SetsValueToView() {
+		$name = 'Vic';
+		$view = $this->buildMockViewObject();
 		
-		$this->assertEquals('default', $controller->getLayout());
+		$controller = $this->buildMockController();
+		$controller->attachView($view);
+		
+		$controller->name = $name;
+		
+		$this->assertEquals($name, $controller->name);
 	}
-
-	protected function buildController() {
-		$controller = $this->getMockForAbstractClass('\Jolt\Controller');
-		return $controller;
+	
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @dataProvider providerInvalidJoltObject
+	 */
+	public function testAttachView_IsView($view) {
+		$controller = $this->buildMockController();
+		
+		$controller->attachView($view);
+	}
+	
+	public function testExecute_ViewSet() {
+		
+	}
+	
+	public function testExecute_ActionSet() {
+		
+		
+	}
+	
+	public function providerInvalidJoltObject() {
+		return array(
+			array('a'),
+			array(10),
+			array(array('a')),
+			array(new \stdClass)
+		);
 	}
 }
