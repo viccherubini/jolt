@@ -29,7 +29,7 @@ class LocatorTest extends TestCase {
 		$locator = new Locator;
 		$locator->load(DIRECTORY_CONTROLLERS, $this->action);
 		
-		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, $locator->getDir());
+		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, $locator->getPath());
 	}
 	
 	/**

@@ -41,7 +41,7 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
     $configuration = new Configuration;
     $configuration->layoutPath = '/path/to/layout/directory/';
     $configuration->controllerPath = '/path/to/controller/directory/';
-    $configuration->viewDirectory = '/path/to/view/directory/';
+    $configuration->viewPath = '/path/to/view/directory/';
     $configuration->url = 'http://jolt.dev';
     $configuration->secureUrl = 'https://jolt.dev';
     $configuration->useRewrite = true;
@@ -88,7 +88,7 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
       $c = $this->configuration;
       
       // Set up the View
-      $this->view->setViewDirectory($this->configuration->viewDirectory)
+      $this->view->setViewPath($this->configuration->viewPath)
         ->setUrl($c->url)
         ->setSecureUrl($c->secureUrl)
         ->setUseRewrite($c->useRewrite);
@@ -98,7 +98,7 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
 
       // Load and execute the matched Controller and Action from the matched route
       $this->dispatcher
-        ->setControllerDirectory($c->controllerDirectory)
+        ->setControllerPath($c->controllerPath)
         ->attachRoute($matchedRoute)
         ->attachView($this->view)
         ->execute();

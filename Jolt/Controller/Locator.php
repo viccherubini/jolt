@@ -6,7 +6,7 @@ namespace Jolt\Controller;
 class Locator {
 	
 	private $file = NULL;
-	private $dir = NULL;
+	private $path = NULL;
 	
 	const EXT = '.php';
 	
@@ -18,23 +18,23 @@ class Locator {
 		
 	}
 	
-	public function load($directory, $controller) {
+	public function load($path, $controller) {
 		$bits = explode('\\', $controller);
 		$bitsLen = count($bits);
 		
 		$this->file = $bits[$bitsLen-1];
-		$this->dir = $directory;
+		$this->path = $path;
 		
 		if ( 0 === preg_match('/\\' . self::EXT . '$/i', $controller) ) {
 			$this->file .= self::EXT;
 		}
 		
-		$dirLength = strlen($directory);
-		if ( $directory[$dirLength-1] !== DIRECTORY_SEPARATOR ) {
-			$this->dir .= DIRECTORY_SEPARATOR;
+		$pathLength = strlen($path);
+		if ( $path[$pathLength-1] !== DIRECTORY_SEPARATOR ) {
+			$this->path .= DIRECTORY_SEPARATOR;
 		}
 		
-		$controllerPath = $this->dir . $this->file;
+		$controllerPath = $this->path . $this->file;
 		if ( !is_file($controllerPath) ) {
 			throw new \Jolt\Exception('controller_locator_path_not_found');
 		}
@@ -54,8 +54,8 @@ class Locator {
 		return $controllerObject;
 	}
 	
-	public function getDir() {
-		return $this->dir;
+	public function getPath() {
+		return $this->path;
 	}
 
 	public function getFile() {

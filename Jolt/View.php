@@ -43,20 +43,20 @@ class View {
 			throw new \Jolt\Exception('view_configuration_is_empty');
 		}
 		
-		$dir = $this->configuration->viewDirectory;
+		$path = $this->configuration->viewPath;
 		
 		// See if we need to append the .phtml to the end of the view name
 		if ( 0 === preg_match('/\\' . self::EXT . '$/i', $view) ) {
 			$view .= self::EXT;
 		}
 		
-		$dirLength = strlen($dir);
-		if ( $dir[$dirLength-1] != DIRECTORY_SEPARATOR ) {
-			$dir .= DIRECTORY_SEPARATOR;
+		$pathLength = strlen($path);
+		if ( $path[$pathLength-1] != DIRECTORY_SEPARATOR ) {
+			$path .= DIRECTORY_SEPARATOR;
 		}
 		
 		// Find the view file
-		$viewPath = $dir . $view;
+		$viewPath = $path . $view;
 		if ( !is_file($viewPath) ) {
 			throw new \Jolt\Exception('view_path_not_found');
 		}

@@ -14,7 +14,7 @@ class ViewTest extends TestCase {
 	
 	public function setUp() {
 		$this->c = $this->buildMockConfiguration(array(
-			'viewDirectory' => DIRECTORY_VIEWS,
+			'viewPath' => DIRECTORY_VIEWS,
 			'url' => 'http://joltcore.dev',
 			'secureUrl' => 'https://joltcore.dev',
 			'useRewrite' => true

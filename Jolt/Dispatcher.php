@@ -9,7 +9,7 @@ require_once 'Jolt/Controller/Locator.php';
 
 class Dispatcher {
 	
-	private $dir = NULL;
+	private $controllerPath = NULL;
 	private $locator = NULL;
 	private $route = NULL;
 	private $view = NULL;
@@ -38,8 +38,8 @@ class Dispatcher {
 	}
 	
 	public function execute() {
-		if ( !is_dir($this->dir) ) {
-			throw new \Jolt\Exception('dispatcher_controller_directory_does_not_exist');
+		if ( !is_dir($this->controllerPath) ) {
+			throw new \Jolt\Exception('dispatcher_controller_path_does_not_exist');
 		}
 		
 		if ( is_null($this->locator) ) {
@@ -55,9 +55,8 @@ class Dispatcher {
 		}
 		
 		try {
-			$controller = $this->locator->load($this->dir, $this->route->getController());
-			//Locator::load($this->controllerDirectory, $this->route->getController());
-			
+			$controller = $this->locator->load($this->controllerPath, $this->route->getController());
+		
 			// Call $controller->execute($this->route->getArgv());
 			// Which returns the rendered controller into a variable
 			// Store that variable internally
@@ -71,22 +70,22 @@ class Dispatcher {
 		return true;
 	}
 	
-	public function setDir($dir) {
-		if ( empty($dir) ) {
-			throw new \Jolt\Exception('dispatcher_controller_directory_empty');
+	public function setControllerPath($controllerPath) {
+		if ( empty($controllerPath) ) {
+			throw new \Jolt\Exception('dispatcher_controller_path_empty');
 		}
 		
-		$dirLength = strlen($dir);
-		if ( $dir[$dirLength-1] != DIRECTORY_SEPARATOR ) {
-			$dir .= DIRECTORY_SEPARATOR;
+		$pathLength = strlen($controllerPath);
+		if ( $controllerPath[$pathLength-1] != DIRECTORY_SEPARATOR ) {
+			$controllerPath .= DIRECTORY_SEPARATOR;
 		}
 		
-		$this->dir = $dir;
+		$this->controllerPath = $controllerPath;
 		return $this;
 	}
 	
-	public function getDir() {
-		return $this->dir;
+	public function getControllerPath() {
+		return $this->controllerPath;
 	}
 	
 }

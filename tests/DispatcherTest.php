@@ -46,9 +46,9 @@ class DispatcherTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testExecute_DirExists() {
+	public function testExecute_ControllerPathExists() {
 		$dispatcher = new Dispatcher;
-		$dispatcher->setDir('/path/to/controllers');
+		$dispatcher->setControllerPath('/path/to/controllers');
 		
 		$dispatcher->execute();
 	}
@@ -58,7 +58,7 @@ class DispatcherTest extends TestCase {
 	 */
 	public function testExecute_LocatorSet() {
 		$dispatcher = new Dispatcher;
-		$dispatcher->setDir(DIRECTORY_CONTROLLERS);
+		$dispatcher->setControllerPath(DIRECTORY_CONTROLLERS);
 		
 		$dispatcher->execute();
 	}
@@ -70,7 +70,7 @@ class DispatcherTest extends TestCase {
 		$locator = $this->buildMockControllerLocator();
 		
 		$dispatcher = new Dispatcher;
-		$dispatcher->setDir(DIRECTORY_CONTROLLERS)
+		$dispatcher->setControllerPath(DIRECTORY_CONTROLLERS)
 			->attachLocator($locator);
 		
 		$dispatcher->execute();
@@ -84,7 +84,7 @@ class DispatcherTest extends TestCase {
 		$route = $this->buildMockNamedRoute('GET', '/', 'Index', 'index');
 		
 		$dispatcher = new Dispatcher;
-		$dispatcher->setDir(DIRECTORY_CONTROLLERS)
+		$dispatcher->setControllerPath(DIRECTORY_CONTROLLERS)
 			->attachLocator($locator)
 			->attachRoute($route);
 		
@@ -105,7 +105,7 @@ class DispatcherTest extends TestCase {
 		$view = $this->buildMockView();
 		
 		$dispatcher = new Dispatcher;
-		$dispatcher->setDir(DIRECTORY_CONTROLLERS)
+		$dispatcher->setControllerPath(DIRECTORY_CONTROLLERS)
 			->attachLocator($locator)
 			->attachRoute($route)
 			->attachView($view);
@@ -119,7 +119,7 @@ class DispatcherTest extends TestCase {
 		$view = $this->buildMockView();
 		
 		$dispatcher = new Dispatcher;
-		$dispatcher->setDir(DIRECTORY_CONTROLLERS)
+		$dispatcher->setControllerPath(DIRECTORY_CONTROLLERS)
 			->attachLocator($locator)
 			->attachRoute($route)
 			->attachView($view);
@@ -130,26 +130,26 @@ class DispatcherTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testSetDir_NotEmpty() {
+	public function testSetControllerPath_NotEmpty() {
 		$dispatcher = new Dispatcher;
 		
-		$dispatcher->setDir(NULL);
+		$dispatcher->setControllerPath(NULL);
 	}
 
-	public function testSetDir_IsSet() {
-		$controllerDirectory = '/path/to/controllers/';
+	public function testSetControllerPath_IsSet() {
+		$controllerPath = '/path/to/controllers/';
 		
 		$dispatcher = new Dispatcher;
-		$dispatcher->setDir($controllerDirectory);
+		$dispatcher->setControllerPath($controllerPath);
 		
-		$this->assertEquals($controllerDirectory, $dispatcher->getDir());
+		$this->assertEquals($controllerPath, $dispatcher->getControllerPath());
 	}
 	
-	public function testSetDir_AppendsSeparator() {
+	public function testSetControllerPath_AppendsSeparator() {
 		$dispatcher = new Dispatcher;
-		$dispatcher->setDir(DIRECTORY_CONTROLLERS);
+		$dispatcher->setControllerPath(DIRECTORY_CONTROLLERS);
 		
-		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, $dispatcher->getDir());
+		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, $dispatcher->getControllerPath());
 	}
 	
 	
