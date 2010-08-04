@@ -29,7 +29,8 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
 
     declare(encoding='UTF-8');
     
-    use \Jolt\Client,
+    use \Jolt\Controller\Locator as ControllerLocator,
+      \Jolt\Client,
       \Jolt\Configuration,
       \Jolt\Dispatcher,
       \Jolt\Jolt,
@@ -46,7 +47,6 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
     $configuration->secureUrl = 'https://jolt.dev';
     $configuration->useRewrite = true;
 
-
     // Configure the routes and router, of course, this could be pushed to another file
     $router = new Router;
     $router->setParameters($_GET)
@@ -59,18 +59,17 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
       ->addRoute(new NamedPost('/product/%n', 'JoltApp\\Product', 'view'))
       ->addRoute(new NamedPost('/customer', 'JoltApp\\Customer', 'index'));
 
+    // Controller\Locator object for finding and building new controllers
+    $controllerLocator = new ControllerLocator;
 
     // Dispatcher loads up a matched route and executes it
     $dispatcher = new Dispatcher;
 
-
     // Client returns data back to the browser, has a nice __toString()
     $client = new Client;
 
-
     // Build a view to attach to the Dispatcher -> Controller heirarchy
     $view = new View;
-
 
     // Build the entire application and execute it
     $jolt = new Jolt;
@@ -78,10 +77,10 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
     $jolt->attachRouter($router);
     $jolt->attachDispatcher($dispatcher);
     $jolt->attachClient($client);
+    $jolt->attachLocator($controllerLocator);
     $jolt->attachView($view);
 
     echo $jolt->execute();
-
 
     /*
     public function Jolt::execute() {
@@ -99,6 +98,7 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
       // Load and execute the matched Controller and Action from the matched route
       $this->dispatcher
         ->setControllerPath($c->controllerPath)
+        ->attachLocator($this->locator)
         ->attachRoute($matchedRoute)
         ->attachView($this->view)
         ->execute();
