@@ -132,7 +132,7 @@ class ViewTest extends TestCase {
 	}
 	
 	private function loadRenderedView($view) {
-		$path = DIRECTORY_VIEWS . DIRECTORY_SEPARATOR . $view . '-rendered' . View::EXT;
+		$path = DIRECTORY_VIEWS . DS . $view . '-rendered' . View::EXT;
 		if ( !is_file($path) ) {
 			return NULL;
 		}
