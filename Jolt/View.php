@@ -57,7 +57,7 @@ class View {
 			require $viewFile;
 		$this->renderedView = ob_get_clean();
 		
-		return true;
+		return $this;
 	}
 
 	public function setSecureUrl($secureUrl) {
