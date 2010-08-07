@@ -10,9 +10,11 @@ namespace Jolt;
 abstract class Controller {
 	
 	private $blockList = array();
-	private $renderedView = NULL;
+	private $renderedContent = NULL;
 	private $action = NULL;
 	private $view = NULL;
+	
+	const EXT = '.phtml';
 	
 	public function __construct() {
 		
@@ -47,7 +49,41 @@ abstract class Controller {
 	}
 	
 	public function execute($argv) {
+		if ( !is_array($argv) ) {
+			$argv = array($argv);
+		}
+		$argc = count($argv);
 		
+		if ( empty($this->action) ) {
+			throw new \Jolt\Exception('controller_action_not_set');
+		}
+		
+		try {
+			$action = new \ReflectionMethod($this, $this->action);
+		} catch ( \ReflectionException $e ) {
+			throw new \Jolt\Exception('controller_action_not_part_of_class');
+		}
+		
+		$paramCount = $action->getNumberOfRequiredParameters();
+		if ( $paramCount != $argc && $paramCount > $argc ) {
+			$argv = array_pad($argv, $paramCount, NULL);
+		}
+
+		ob_start();
+			if ( $action->isPublic() ) {
+				if ( $action->isStatic() ) {
+					$action->invokeArgs(NULL, $argv);
+				} else {
+					$action->invokeArgs($this, $argv);
+				}
+			}
+		$renderedController = ob_get_clean();
+		
+		if ( !empty($renderedController) ) {
+			$this->renderedContent = $renderedController;
+		}
+		
+		return $this->renderedContent;
 	}
 	
 	public function render($viewName=NULL, $blockName=NULL) {
@@ -67,15 +103,32 @@ abstract class Controller {
 			$this->addBlock($blockName, $renderedView);
 		}
 		
-		$this->renderedView = $renderedView;
-		
-		return $this;
+		$this->renderedContent = $renderedView;
+		return $this->renderedContent;
 	}
 	
 	public function setAction($action) {
-		$this->action = $action;
+		$this->action = trim($action);
 		return $this;
 	}
 	
+	public function getAction() {
+		return $this->action;
+	}
+	
+	public function getBlockList() {
+		return $this->blockList;
+	}
+	
+	public function getBlock($blockName) {
+		if ( isset($this->blockList[$blockName]) ) {
+			return $this->blockList[$blockName];
+		}
+		return NULL;
+	}
+	
+	public function getRenderedContent() {
+		return $this->renderedContent;
+	}
 	
 }
