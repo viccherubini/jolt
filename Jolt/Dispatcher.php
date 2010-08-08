@@ -9,6 +9,7 @@ require_once 'Jolt/Controller/Locator.php';
 
 class Dispatcher {
 	
+	private $controller = NULL;
 	private $controllerPath = NULL;
 	private $locator = NULL;
 	private $renderedController = NULL;
@@ -62,7 +63,7 @@ class Dispatcher {
 			$controller->setAction($this->route->getAction());
 			$controller->execute($this->route->getArgv());
 			
-			$this->renderedController = $controller->getRenderedController();
+			$this->controller = $controller;
 			
 		} catch ( \Jolt\Exception $e ) {
 			throw new \Jolt\Exception('dispatcher_controller_missing');
@@ -89,8 +90,8 @@ class Dispatcher {
 		return $this->controllerPath;
 	}
 	
-	public function getRenderedController() {
-		return $this->renderedController;
+	public function getController() {
+		return $this->controller;
 	}
 	
 }

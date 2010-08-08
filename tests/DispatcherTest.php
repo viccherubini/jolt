@@ -135,7 +135,7 @@ class DispatcherTest extends TestCase {
 			->attachView($view);
 		
 		$this->assertTrue($dispatcher->execute());
-		$this->assertEquals($viewContent, $dispatcher->getRenderedController());
+		$this->assertEquals($viewContent, $dispatcher->getController()->getRenderedController());
 	}
 
 	/**
