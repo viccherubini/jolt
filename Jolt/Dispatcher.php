@@ -11,7 +11,7 @@ class Dispatcher {
 	
 	private $controllerPath = NULL;
 	private $locator = NULL;
-	private $render = NULL;
+	private $renderedController = NULL;
 	private $route = NULL;
 	private $view = NULL;
 	
@@ -56,15 +56,13 @@ class Dispatcher {
 		}
 		
 		try {
+			
 			$controller = $this->locator->load($this->controllerPath, $this->route->getController());
 			$controller->attachView($this->view);
+			$controller->setAction($this->route->getAction());
+			$controller->execute($this->route->getArgv());
 			
-			$this->render = $controller->execute($this->route->getArgv());
-			// Call $controller->execute($this->route->getArgv());
-			// Which returns the rendered controller into a variable
-			// Store that variable internally
-			// Also attach the view to the Controller
-			// That way when attaching a Dispatcher to a Client, the Client can get the data.
+			$this->renderedController = $controller->getRenderedController();
 			
 		} catch ( \Jolt\Exception $e ) {
 			throw new \Jolt\Exception('dispatcher_controller_missing');
@@ -89,6 +87,10 @@ class Dispatcher {
 	
 	public function getControllerPath() {
 		return $this->controllerPath;
+	}
+	
+	public function getRenderedController() {
+		return $this->renderedController;
 	}
 	
 }

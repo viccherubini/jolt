@@ -114,9 +114,19 @@ class DispatcherTest extends TestCase {
 	}
 	
 	public function testExecute_BuildsController() {
-		$locator = $this->buildMockControllerLocator();
-		$route = $this->buildMockNamedRoute('GET', '/', 'Index', 'indexAction');
-		$view = $this->buildMockView();
+		$viewContent = $this->loadView('welcome');
+		
+		$controller = $this->buildController('Index');
+		
+		$locator = $this->getMock('\Jolt\Controller\Locator', array('load'));
+		$locator->expects($this->once())
+			->method('load')
+			->will($this->returnValue($controller));
+		
+		$route = $this->buildMockNamedRoute('GET', '/', 'Index', 'viewAction');
+		
+		$view = $this->buildMockViewObject();
+		$view->setViewPath(DIRECTORY_VIEWS);
 		
 		$dispatcher = new Dispatcher;
 		$dispatcher->setControllerPath(DIRECTORY_CONTROLLERS)
@@ -125,6 +135,7 @@ class DispatcherTest extends TestCase {
 			->attachView($view);
 		
 		$this->assertTrue($dispatcher->execute());
+		$this->assertEquals($viewContent, $dispatcher->getRenderedController());
 	}
 
 	/**
