@@ -14,6 +14,26 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		self::assertEquals(count($a), 0, $message);
 	}
 	
+	protected function loadView($viewName) {
+		$viewFile = DIRECTORY_VIEWS . DS . $viewName . '.phtml';
+		$viewContent = ( is_file($viewFile) ? file_get_contents($viewFile) : NULL );
+		
+		return $viewContent;
+	}
+	
+	protected function buildController($name) {
+		$controllerFile = DIRECTORY_CONTROLLERS . DS . $name . \Jolt\Controller::EXT;
+		if ( !is_file($controllerFile) ) {
+			throw new \Jolt\Exception('testcase_controller_not_found');
+		}
+		
+		require_once $controllerFile;
+		
+		$controllerName = "\\JoltApp\\{$name}";
+		$controller = new $controllerName;
+		return $controller;
+	}
+	
 	protected function buildMockAbstractRoute() {
 		$mock = $this->getMockForAbstractClass('\Jolt\Route');
 		return $mock;
@@ -36,12 +56,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 	
 	protected function buildMockController() {
-		$mock = $this->getMockForAbstractClass('\Jolt\Controller', array('attachView'));
-		
-		$mock->expects($this->any())
-			->method('attachView')
-			->will($this->returnValue(true));
-		
+		$mock = $this->getMockForAbstractClass('\Jolt\Controller');
 		return $mock;
 	}
 	
