@@ -10,11 +10,13 @@ namespace Jolt;
 abstract class Controller {
 	
 	private $blockList = array();
-	private $renderedContent = NULL;
+	private $renderedController = NULL;
+	private $renderedView = NULL;
 	private $action = NULL;
 	private $view = NULL;
 	
-	const EXT = '.phtml';
+	const EXT = '.php';
+	const VIEWEXT = '.phtml';
 	
 	public function __construct() {
 		
@@ -80,10 +82,12 @@ abstract class Controller {
 		$renderedController = ob_get_clean();
 		
 		if ( !empty($renderedController) ) {
-			$this->renderedContent = $renderedController;
+			$this->renderedController = $renderedController;
+		} else {
+			$this->renderedController = $this->renderedView;
 		}
 		
-		return $this->renderedContent;
+		return $this->renderedController;
 	}
 	
 	public function render($viewName=NULL, $blockName=NULL) {
@@ -103,8 +107,8 @@ abstract class Controller {
 			$this->addBlock($blockName, $renderedView);
 		}
 		
-		$this->renderedContent = $renderedView;
-		return $this->renderedContent;
+		$this->renderedView = $renderedView;
+		return $this->renderedView;
 	}
 	
 	public function setAction($action) {
@@ -127,8 +131,12 @@ abstract class Controller {
 		return NULL;
 	}
 	
-	public function getRenderedContent() {
-		return $this->renderedContent;
+	public function getRenderedController() {
+		return $this->renderedController;
+	}
+	
+	public function getRenderedView() {
+		return $this->renderedView;
 	}
 	
 }

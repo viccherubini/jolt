@@ -94,6 +94,21 @@ class ControllerTest extends TestCase {
 		$this->assertEquals($expectedContent, $actualContent);
 	}
 	
+	public function testExecute_UsesRendering() {
+		$viewContent = $this->loadView('welcome');
+		
+		$view = $this->buildMockViewObject();
+		$view->setViewPath(DIRECTORY_VIEWS);
+		
+		$controller = new Index;
+		$controller->attachView($view);
+		$controller->setAction('viewAction');
+		
+		$controller->execute(array());
+		
+		$this->assertEquals($viewContent, $controller->getRenderedController());
+	}
+	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
@@ -103,9 +118,7 @@ class ControllerTest extends TestCase {
 	}
 	
 	public function testRender_UsesActionForView() {
-		$viewName = 'indexAction';
-		$viewFile = DIRECTORY_VIEWS . DS . $viewName . Controller::EXT;
-		$viewContent = ( is_file($viewFile) ? file_get_contents($viewFile) : NULL );
+		$viewContent = $this->loadView('indexAction');
 		
 		$view = $this->buildMockViewObject();
 		$view->setViewPath(DIRECTORY_VIEWS);
@@ -115,13 +128,11 @@ class ControllerTest extends TestCase {
 		$controller->setAction('indexAction');
 		$controller->render();
 		
-		$this->assertEquals($viewContent, $controller->getRenderedContent());
+		$this->assertEquals($viewContent, $controller->getRenderedView());
 	}
 	
 	public function testRender_AddsBlock() {
-		$viewName = 'indexAction';
-		$viewFile = DIRECTORY_VIEWS . DS . $viewName . Controller::EXT;
-		$viewContent = ( is_file($viewFile) ? file_get_contents($viewFile) : NULL );
+		$viewContent = $this->loadView('indexAction');
 		
 		$view = $this->buildMockViewObject();
 		$view->setViewPath(DIRECTORY_VIEWS);
