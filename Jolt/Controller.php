@@ -9,11 +9,14 @@ namespace Jolt;
  */
 abstract class Controller {
 	
-	private $blockList = array();
+	private $action = NULL;
 	private $renderedController = NULL;
 	private $renderedView = NULL;
-	private $action = NULL;
+	private $responseCode = 200;
 	private $view = NULL;
+
+	private $headerList = array();
+	private $blockList = array();
 	
 	const EXT = '.php';
 	const VIEWEXT = '.phtml';
@@ -42,6 +45,11 @@ abstract class Controller {
 	
 	public function addBlock($blockName, $block) {
 		$this->blockList[$blockName] = $block;
+		return $this;
+	}
+	
+	public function addHeader($header, $value) {
+		$this->headerList[$header] = $value;
 		return $this;
 	}
 	
@@ -116,6 +124,11 @@ abstract class Controller {
 		return $this;
 	}
 	
+	public function setResponseCode($responseCode) {
+		$this->responseCode = intval($responseCode);
+		return $this;
+	}
+	
 	public function getAction() {
 		return $this->action;
 	}
@@ -131,6 +144,17 @@ abstract class Controller {
 		return NULL;
 	}
 	
+	public function getHeaderList() {
+		return $this->headerList;
+	}
+	
+	public function getHeader($header) {
+		if ( isset($this->headerList[$header]) ) { 
+			return $this->headerList[$header];
+		}
+		return NULL;
+	}
+	
 	public function getRenderedController() {
 		return $this->renderedController;
 	}
@@ -139,4 +163,7 @@ abstract class Controller {
 		return $this->renderedView;
 	}
 	
+	public function getResponseCode() {
+		return $this->responseCode;
+	}
 }

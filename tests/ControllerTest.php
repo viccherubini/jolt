@@ -39,6 +39,12 @@ class ControllerTest extends TestCase {
 		$this->assertEquals($block, $controller->getBlock('scripts'));
 	}
 	
+	public function testAddHeader_HeaderSet() {
+		$controller = $this->buildMockController();
+		$controller->addHeader('Content-Type', 'text/css');
+		
+		$this->assertEquals('text/css', $controller->getHeader('Content-Type'));
+	}
 	
 	/**
 	 * @expectedException PHPUnit_Framework_Error
@@ -154,6 +160,20 @@ class ControllerTest extends TestCase {
 		$this->assertEquals('indexAction', $controller->getAction());
 	}
 	
+	public function testSetResponseCode_IsInt() {
+		$controller = $this->buildMockController();
+		$controller->setResponseCode(404);
+		
+		$this->assertEquals(404, $controller->getResponseCode());
+	}
+	
+	public function testSetResponseCode_IsCastToInt() {
+		$controller = $this->buildMockController();
+		$controller->setResponseCode('string');
+		
+		$this->assertEquals(0, $controller->getResponseCode());
+	}
+	
 	public function testGetBlockList_FullList() {
 		$controller = $this->buildMockController();
 		$controller->addBlock('abc', '<strong>def</strong>');
@@ -166,6 +186,25 @@ class ControllerTest extends TestCase {
 		$controller = $this->buildMockController();
 		
 		$this->assertTrue(is_null($controller->getBlock('missing-block')));
+	}
+	
+	public function testGetHeaderList_FullList() {
+		$controller = $this->buildMockController();
+		$controller->addHeader('Content-Type', 'text/css');
+		
+		$headerList = $controller->getHeaderList();
+		$this->assertGreaterThan(0, count($headerList));
+	}
+	
+	public function testGetHeader_EmptyHeader() {
+		$controller = $this->buildMockController();
+		
+		$this->assertTrue(is_null($controller->getHeader('Content-Type')));
+	}
+	
+	public function testGetResponseCode_200ByDefault() {
+		$controller = $this->buildMockController();
+		$this->assertEquals(200, $controller->getResponseCode());
 	}
 	
 	public function providerInvalidJoltObject() {
