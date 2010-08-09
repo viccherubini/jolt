@@ -41,7 +41,7 @@ class ClientTest extends TestCase {
 	/**
 	 * @expectedException PHPUnit_Framework_Error
 	 */
-	public function testSendHeader_SendsHeader() {
+	public function _testSendHeader_SendsHeader() {
 		$client = new Client;
 		
 		// PHPUnit sends a header for some reason and thus, we expect an error here.
@@ -58,7 +58,7 @@ class ClientTest extends TestCase {
 		$this->assertEmpty($output);
 	}
 	
-	public function test__ToString_SendsHeaders() {
+	public function _test__ToString_SendsHeaders() {
 		$controller = $this->buildMockController();
 		$controller->addHeader('X-Powered-By', 'Jolt/PHP');
 		
@@ -69,7 +69,7 @@ class ClientTest extends TestCase {
 		$this->assertEmpty($output);
 	}
 	
-	public function test__ToString_SendsNonSentHeaders() {
+	public function _test__ToString_SendsNonSentHeaders() {
 		$controller = $this->buildMockController();
 		$controller->addHeader('X-Powered-By', 'Jolt/PHP');
 		
