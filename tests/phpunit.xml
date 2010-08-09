@@ -10,6 +10,9 @@
 		<whitelist>
 			<directory suffix=".php">../Jolt/</directory>
 		</whitelist>
+		<blacklist>
+			<file>../Jolt/Framework.php</file>
+		</blacklist>
 	</filter>
 	
 	<logging>
