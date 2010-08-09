@@ -10,6 +10,7 @@ namespace Jolt;
 abstract class Controller {
 	
 	private $action = NULL;
+	private $contentType = 'text/html';
 	private $renderedController = NULL;
 	private $renderedView = NULL;
 	private $responseCode = 200;
@@ -49,7 +50,11 @@ abstract class Controller {
 	}
 	
 	public function addHeader($header, $value) {
-		$this->headerList[$header] = $value;
+		if ( 'content-type' === strtolower($header) ) {
+			$this->contentType = $value;
+		} else {
+			$this->headerList[$header] = $value;
+		}
 		return $this;
 	}
 	
@@ -124,6 +129,11 @@ abstract class Controller {
 		return $this;
 	}
 	
+	public function setContentType($contentType) {
+		$this->contentType = trim($contentType);
+		return $this;
+	}
+	
 	public function setResponseCode($responseCode) {
 		$this->responseCode = intval($responseCode);
 		return $this;
@@ -142,6 +152,10 @@ abstract class Controller {
 			return $this->blockList[$blockName];
 		}
 		return NULL;
+	}
+	
+	public function getContentType() {
+		return $this->contentType;
 	}
 	
 	public function getHeaderList() {

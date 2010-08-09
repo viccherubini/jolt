@@ -41,9 +41,17 @@ class ControllerTest extends TestCase {
 	
 	public function testAddHeader_HeaderSet() {
 		$controller = $this->buildMockController();
+		$controller->addHeader('X-Powered-By', 'PHP/Jolt');
+		
+		$this->assertEquals('PHP/Jolt', $controller->getHeader('X-Powered-By'));
+	}
+	
+	public function testAddHeader_ContentTypeSetToMemberVariable() {
+		$controller = $this->buildMockController();
 		$controller->addHeader('Content-Type', 'text/css');
 		
-		$this->assertEquals('text/css', $controller->getHeader('Content-Type'));
+		$this->assertEquals(0, count($controller->getHeaderList()));
+		$this->assertEquals('text/css', $controller->getContentType());
 	}
 	
 	/**
@@ -160,6 +168,15 @@ class ControllerTest extends TestCase {
 		$this->assertEquals('indexAction', $controller->getAction());
 	}
 	
+	public function testSetContentType_IsTrimmed() {
+		$contentType = ' text/css ';
+		
+		$controller = $this->buildMockController();
+		$controller->setContentType($contentType);
+		
+		$this->assertEquals('text/css', $controller->getContentType());
+	}
+	
 	public function testSetResponseCode_IsInt() {
 		$controller = $this->buildMockController();
 		$controller->setResponseCode(404);
@@ -188,9 +205,15 @@ class ControllerTest extends TestCase {
 		$this->assertTrue(is_null($controller->getBlock('missing-block')));
 	}
 	
+	public function testGetContentType_IsOriginallyTextHtml() {
+		$controller = $this->buildMockController();
+		
+		$this->assertEquals('text/html', $controller->getContentType());
+	}
+	
 	public function testGetHeaderList_FullList() {
 		$controller = $this->buildMockController();
-		$controller->addHeader('Content-Type', 'text/css');
+		$controller->addHeader('X-Powered-By', 'PHP/Jolt');
 		
 		$headerList = $controller->getHeaderList();
 		$this->assertGreaterThan(0, count($headerList));
