@@ -11,7 +11,15 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	
 	public static function assertEmptyArray($a, $message = '') {
 		self::assertArray($a);
-		self::assertEquals(count($a), 0, $message);
+		self::assertEquals(0, count($a), $message);
+	}
+	
+	public static function assertEmpty($v, $message = '') {
+		if ( is_array($v) ) {
+			self::assertEmptyArray($v);
+		} else {
+			self::assertTrue(empty($v));
+		}
 	}
 	
 	protected function loadView($viewName) {
