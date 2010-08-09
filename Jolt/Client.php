@@ -67,20 +67,6 @@ class Client {
 		return $renderedController;
 	}
 	
-	public function sendHeader() {
-		return true;
-	}
-	
-	/*public function sendHeader($header, $value) {
-		\header("{$header}: {$value}");
-		return true;
-	}*/
-	
-	public function setHeadersToSend(array $headersToSend) {
-		$this->headersToSend = (array)$headersToSend;
-		return $this;
-	}
-	
 	public function getController() {
 		return $this->controller;
 	}
