@@ -34,6 +34,7 @@ class AllTests {
 		
 		$suite->addTestSuite('\JoltTest\ConfigurationTest');
 		$suite->addTestSuite('\JoltTest\ControllerTest');
+		$suite->addTestSuite('\JoltTest\ClientTest');
 		$suite->addTestSuite('\JoltTest\DispatcherTest');
 		$suite->addTestSuite('\JoltTest\MiscTest');
 		$suite->addTestSuite('\JoltTest\RegistryTest');
