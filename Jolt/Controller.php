@@ -4,8 +4,8 @@ declare(encoding='UTF-8');
 namespace Jolt;
 
 /**
- * Base class for building a Controller object to manipulate the views. Once a Route is resolved, a Controller::action()
- * is executed.
+ * Base class for building a Controller object to manipulate the views.
+ * Once a Route is resolved, a Controller::action() is executed.
  */
 abstract class Controller {
 	
@@ -31,21 +31,23 @@ abstract class Controller {
 	}
 	
 	public function __set($k, $v) {
-		if ( $this->view instanceof \Jolt\View ) {
+		if ( $this->hasView() ) {
 			$this->view->$k = $v;
 		}
 		return true;
 	}
 	
 	public function __get($k) {
-		if ( $this->view instanceof \Jolt\View ) {
+		if ( $this->hasView() ) {
 			return $this->view->$k;
 		}
 		return NULL;
 	}
 	
 	public function addBlock($blockName, $block) {
-		$this->blockList[$blockName] = $block;
+		if ( $this->hasView() ) {
+			$this->view->addBlock($blockName, $block);
+		}
 		return $this;
 	}
 	
@@ -104,7 +106,7 @@ abstract class Controller {
 	}
 	
 	public function render($viewName=NULL, $blockName=NULL) {
-		if ( !($this->view instanceof \Jolt\View) ) {
+		if ( !$this->hasView() ) {
 			throw new \Jolt\Exception('controller_view_not_jolt_view');
 		}
 		
@@ -144,12 +146,15 @@ abstract class Controller {
 	}
 	
 	public function getBlockList() {
-		return $this->blockList;
+		if ( $this->hasView() ) {
+			return $this->view->getBlockList();
+		}
+		return array();
 	}
 	
 	public function getBlock($blockName) {
-		if ( isset($this->blockList[$blockName]) ) {
-			return $this->blockList[$blockName];
+		if ( $this->hasView() ) {
+			return $this->view->getBlock($blockName);
 		}
 		return NULL;
 	}
@@ -179,5 +184,9 @@ abstract class Controller {
 	
 	public function getResponseCode() {
 		return $this->responseCode;
+	}
+	
+	private function hasView() {
+		return ( $this->view instanceof \Jolt\View );
 	}
 }

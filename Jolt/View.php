@@ -18,6 +18,7 @@ class View {
 	
 	private $renderedView = NULL;
 	private $variables = array();
+	private $blockList = array();
 	
 	const EXT = '.phtml';
 	
@@ -39,6 +40,11 @@ class View {
 			return $this->variables[$k];
 		}
 		return NULL;
+	}
+	
+	public function addBlock($blockName, $block) {
+		$this->blockList[$blockName] = $block;
+		return $this;
 	}
 	
 	public function render($view) {
@@ -87,6 +93,17 @@ class View {
 		
 		$this->viewPath = trim($viewPath);
 		return $this;
+	}
+
+	public function getBlockList() {
+		return $this->blockList;
+	}
+	
+	public function getBlock($blockName) {
+		if ( isset($this->blockList[$blockName]) ) {
+			return $this->blockList[$blockName];
+		}
+		return NULL;
 	}
 
 	public function getRenderedView() {

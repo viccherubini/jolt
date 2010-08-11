@@ -33,7 +33,16 @@ class ViewTest extends TestCase {
 		
 		$this->assertTrue(is_null($view->name));
 	}
-
+	
+	public function testAddBlock_InsertsHtml() {
+		$block = '<script type="text/javascript" src="jquery.js"></script>';
+		
+		$view = new View;
+		$view->addBlock('scripts', $block);
+		
+		$this->assertEquals($block, $view->getBlock('scripts'));
+	}
+	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
@@ -78,7 +87,7 @@ class ViewTest extends TestCase {
 		$this->assertEquals($secureUrlTrimmed, $view->getSecureUrl());
 	}
 	
-	public function testUrl_IsTrimmed() {
+	public function testSetUrl_IsTrimmed() {
 		$url = " http://joltcore.org/ \t   ";
 		$urlTrimmed = "http://joltcore.org/";
 		
@@ -112,6 +121,12 @@ class ViewTest extends TestCase {
 		$view->setViewPath(DIRECTORY_VIEWS);
 		
 		$this->assertEquals(DIRECTORY_VIEWS . DIRECTORY_SEPARATOR, $view->getViewPath());
+	}
+	
+	public function testGetBlock_EmptyBlock() {
+		$view = new View;
+		
+		$this->assertTrue(is_null($view->getBlock('missing-block')));
 	}
 	
 	public function providerViewWithVariables() {

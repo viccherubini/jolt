@@ -30,15 +30,6 @@ class ControllerTest extends TestCase {
 		$this->assertEquals($name, $controller->name);
 	}
 	
-	public function testAddBlock_InsertsHtml() {
-		$block = '<script type="text/javascript" src="jquery.js"></script>';
-		
-		$controller = $this->buildMockController();
-		$controller->addBlock('scripts', $block);
-		
-		$this->assertEquals($block, $controller->getBlock('scripts'));
-	}
-	
 	public function testAddHeader_HeaderSet() {
 		$controller = $this->buildMockController();
 		$controller->addHeader('X-Powered-By', 'PHP/Jolt');
@@ -192,11 +183,22 @@ class ControllerTest extends TestCase {
 	}
 	
 	public function testGetBlockList_FullList() {
+		$view = $this->buildMockViewObject();
+		
 		$controller = $this->buildMockController();
+		$controller->attachView($view);
 		$controller->addBlock('abc', '<strong>def</strong>');
 		
 		$blockList = $controller->getBlockList();
 		$this->assertGreaterThan(0, count($blockList));
+	}
+	
+	public function testGetBlockList_EmptyList() {
+		$controller = $this->buildMockController();
+		$controller->addBlock('abc', '<strong>def</strong>');
+		
+		$blockList = $controller->getBlockList();
+		$this->assertEmptyArray($blockList);
 	}
 	
 	public function testGetBlock_EmptyBlock() {
