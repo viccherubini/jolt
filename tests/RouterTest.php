@@ -90,11 +90,12 @@ class RouterTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testExecute_MustFindPath() {
+	public function _testExecute_MustFindPath() {
 		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
 		
 		$router = new Router;
-		$router->addRoute($namedRoute);
+		$router->addRoute($namedRoute)
+			->setHttp404Route($this->http404Route);
 		
 		$router->execute();
 	}
