@@ -58,22 +58,26 @@ class ClientTest extends TestCase {
 		$this->assertEmpty($output);
 	}
 	
-	public function _test__ToString_SendsHeaders() {
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 */
+	public function test__ToString_SendsHeaders() {
 		$controller = $this->buildMockController();
 		$controller->addHeader('X-Powered-By', 'Jolt/PHP');
 		
-		$this->client->setHeadersToSend(array());
 		$this->client->attachController($controller);
 		
 		$output = $this->client->buildOutput();
 		$this->assertEmpty($output);
 	}
 	
-	public function _test__ToString_SendsNonSentHeaders() {
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 */
+	public function test__ToString_SendsNonSentHeaders() {
 		$controller = $this->buildMockController();
 		$controller->addHeader('X-Powered-By', 'Jolt/PHP');
 		
-		$this->client->setHeadersToSend(array('X-Powered-By: Another-Framework'));
 		$this->client->attachController($controller);
 		
 		$output = $this->client->buildOutput();
