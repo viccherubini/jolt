@@ -16,7 +16,7 @@ There are plenty of competent frameworks already in existence out there. So why 
 * I have a bit of NIH syndrome and like to write my own frameworks for building applications.
 * Learning TDD really well.
 
-Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at [Bugs.Joltcore.org](http://bugs.joltcore.org).
+Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at [http://bugs.joltcore.org](http://bugs.joltcore.org).
 
 ## Team Members
 * Vic Cherubini <vmc@leftnode.com>
@@ -26,88 +26,74 @@ Jolt is hosted at [Joltcore.org](http://joltcore.org). Jolt bugs can be found at
 
 ## A Sample Jolt Application
     <?php
-
-    declare(encoding='UTF-8');
     
-    use \Jolt\Controller\Locator as ControllerLocator,
-      \Jolt\Client,
+    declare(encoding='UTF-8');
+    namespace JoltApp;
+    
+    use \Jolt\Client,
       \Jolt\Configuration,
+      \Jolt\Controller,
+      \Jolt\Controller\Locator,
       \Jolt\Dispatcher,
       \Jolt\Jolt,
-      \Jole\Route,
-      \Jolt\Route\Named\NamedGet,
-      \Jolt\Route\Named\NamedPost;
+      \Jolt\Registry,
+      \Jolt\Route,
+      \Jolt\Route\Named,
+      \Jolt\Route\Named\Get as NamedGet,
+      \Jolt\Route\Named\Post as NamedPost,
+      \Jolt\Router,
+      \Jolt\View;
 
-    // Configuration
-    $configuration = new Configuration;
-    $configuration->layoutPath = '/path/to/layout/directory/';
-    $configuration->controllerPath = '/path/to/controller/directory/';
-    $configuration->viewPath = '/path/to/view/directory/';
-    $configuration->url = 'http://jolt.dev';
-    $configuration->secureUrl = 'https://jolt.dev';
-    $configuration->useRewrite = true;
+    require_once 'Jolt/Framework.php';
+    require_once 'Jolt/Registry.php';
+    require_once 'Jolt/Route.php';
+    require_once 'Jolt/Route/Named.php';
+    require_once 'Jolt/Route/Named/Get.php';
+    require_once 'Jolt/Route/Named/Post.php';
 
-    // Configure the routes and router, of course, this could be pushed to another file
-    $router = new Router;
-    $router->setParameters($_GET)
-      ->setRequestMethod($_SERVER['REQUEST_METHOD']) // You can have Jolt only handle certain types of requests
-      ->setHttp404Route(new Named('GET', '/', 'NotFound', 'index'));
+    try {
     
-    // You're not required to put your route names in namespaces, but it's encouraged
-    $router->addRoute(new NamedGet('/', 'JoltApp\\Controller', 'action'))
-      ->addRoute(new NamedGet('/abc', 'JoltApp\\Controller', 'actionAbc'))
-      ->addRoute(new NamedPost('/product/%n', 'JoltApp\\Product', 'view'))
-      ->addRoute(new NamedPost('/customer', 'JoltApp\\Customer', 'index'));
+      $jolt = new Jolt;
 
-    // Controller\Locator object for finding and building new controllers
-    $controllerLocator = new ControllerLocator;
+      // Configuration
+      $cfg = new Configuration;
+      $cfg->controllerPath = 'private/controllers/';
+      $cfg->cssPath = 'public/css/';
+      $cfg->jsPath = 'public/js/';
+      $cfg->imagePath = 'public/images/';
+      $cfg->routeParameter = '__u';
+      $cfg->secureUrl = 'https://joltwebsite.com';
+      $cfg->url = 'http://joltwebsite.com';
+      $cfg->useRewrite = true;
+      $cfg->viewPath = 'private/views/';
 
-    // Dispatcher loads up a matched route and executes it
-    $dispatcher = new Dispatcher;
+      // Configure the routes and router, of course, this could be pushed to another file
+      $router = new Router;
+      $router->setParameters($_GET)
+        ->setRequestMethod($_SERVER['REQUEST_METHOD'])
+        ->setHttp404Route(new NamedGet('/', 'JoltApp\\NotFound', 'error404'));
 
-    // Client returns data back to the browser, has a nice __toString()
-    $client = new Client;
+      // GET routes
+      $router->addRoute(new NamedGet('/', 'JoltApp\\Index', 'indexAction'))
+        ->addRoute(new NamedGet('/index', 'JoltApp\\Index', 'indexAction'))
+        ->addRoute(new NamedGet('/register', 'JoltApp\\Index', 'registerAction'))
+        ->addRoute(new NamedGet('/logout', 'JoltApp\\Index', 'logoutAction'))
+        ->addRoute(new NamedGet('/dashboard', 'JoltApp\\Dashboard', 'indexAction'));
 
-    // Build a view to attach to the Dispatcher -> Controller heirarchy
-    $view = new View;
+      // POST routes
+      $router->addRoute(new NamedPost('/login', 'JoltApp\\Index', 'loginAction'))
+        ->addRoute(new NamedPost('/register', 'JoltApp\\Index', 'registerAccountAction'));
 
-    // Build the entire application and execute it
-    $jolt = new Jolt;
-    $jolt->setConfiguration($configuration);
-    $jolt->attachRouter($router);
-    $jolt->attachDispatcher($dispatcher);
-    $jolt->attachClient($client);
-    $jolt->attachLocator($controllerLocator);
-    $jolt->attachView($view);
+      $jolt->attachClient(new Client)
+        ->attachConfiguration($cfg)
+        ->attachControllerLocator(new Locator)
+        ->attachDispatcher(new Dispatcher)
+        ->attachRouter($router)
+        ->attachView(new View);
+  
+      echo $jolt->execute();
 
-    echo $jolt->execute();
-
-    /*
-    public function Jolt::execute() {
-      $c = $this->configuration;
-      
-      // Set up the View
-      $this->view->setViewPath($this->configuration->viewPath)
-        ->setUrl($c->url)
-        ->setSecureUrl($c->secureUrl)
-        ->setUseRewrite($c->useRewrite);
-
-      // Get the matched route based on the URL parameters
-      $matchedRoute = $this->router->execute();
-
-      // Load and execute the matched Controller and Action from the matched route
-      $this->dispatcher
-        ->setControllerPath($c->controllerPath)
-        ->attachLocator($this->locator)
-        ->attachRoute($matchedRoute)
-        ->attachView($this->view)
-        ->execute();
-
-      // Determine what the headers and HTTP status are and return that
-      $this->client
-        ->attachDispatcher($this->dispatcher)
-        ->execute();
-
-      return $this->client;
+    } catch ( \Jolt\Exception $e ) {
+      echo '<pre>', $e, '</pre>';
+      exit;
     }
-    */
