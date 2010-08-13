@@ -66,7 +66,7 @@ class Dispatcher {
 			$this->controller = $controller;
 			
 		} catch ( \Jolt\Exception $e ) {
-			throw new \Jolt\Exception('dispatcher_controller_missing');
+			throw new \Jolt\Exception("dispatcher_controller_missing: {$e->getMessage()}");
 		}
 		
 		return true;
