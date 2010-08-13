@@ -3,7 +3,7 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-require_once 'Exception.php';
+require_once 'Jolt/Exception.php';
 
 /**
  * This class is an entrance for building an application. It is entirely
@@ -58,10 +58,18 @@ class Jolt {
 	public function execute() {
 		$cfg = $this->configuration;
 		
-		$this->view->setViewPath($cfg->viewPath)
-			->setUrl($cfg->url)
+		$this->router
+			->setRouteParameter($cfg->routeParameter);
+		
+		$this->view
+			->setCssPath($cfg->cssPath)
+			->setImagePath($cfg->imagePath)
+			->setJsPath($cfg->jsPath)
+			->setRouteParameter($cfg->routeParameter)
 			->setSecureUrl($cfg->secureUrl)
-			->setUseRewrite($cfg->useRewrite);
+			->setUrl($cfg->url)
+			->setUseRewrite($cfg->useRewrite)
+			->setViewPath($cfg->viewPath);
 
 		$route = $this->router->execute();
 	
@@ -77,7 +85,5 @@ class Jolt {
 		
 		return $this->client;
 	}
-	
-	
 	
 }
