@@ -84,6 +84,11 @@ class Router {
 		return $this;
 	}
 	
+	public function setRouteParameter($routeParameter) {
+		$this->routeParameter = $routeParameter;
+		return $this;
+	}
+	
 	public function getRequestMethod() {
 		return $this->requestMethod;
 	}
