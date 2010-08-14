@@ -87,6 +87,10 @@ abstract class Controller {
 		}
 
 		ob_start();
+			if ( method_exists($this, 'init') ) {
+				$this->init();
+			}
+		
 			if ( $action->isPublic() ) {
 				if ( $action->isStatic() ) {
 					$action->invokeArgs(NULL, $argv);
