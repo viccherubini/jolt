@@ -1,4 +1,9 @@
+2010-08-14
+	* Vic Cherubini <vmc@leftnode.com> New feature: if a method named init() exists in the controller, it will be executed first before the main method. It can be used to initialize class wide variables and what not. (07:13:32)
+	* Vic Cherubini <vmc@leftnode.com> For local files, made them absolutely linked so they'll work in 'subdirectories'. (04:48:31)
+
 2010-08-13
+	* Vic Cherubini <vmc@leftnode.com> New ChangeLog file. (07:03:33)
 	* Vic Cherubini <vmc@leftnode.com> Better readme. (07:01:08)
 	* Vic Cherubini <vmc@leftnode.com> Updated the configuration options sent to the View. (06:57:45)
 	* Vic Cherubini <vmc@leftnode.com> Reordered the inclusion of some files. (06:54:05)
