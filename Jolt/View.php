@@ -80,7 +80,7 @@ class View {
 		$cssFile = $this->appendExtension($cssFile, '.css');
 		
 		if ( $localFile ) {
-			$cssFile = $this->cssPath . $cssFile;
+			$cssFile = DIRECTORY_SEPARATOR . $this->cssPath . $cssFile;
 		}
 		
 		$linkTag = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="%s">%s', $cssFile, $media, PHP_EOL);
@@ -109,7 +109,7 @@ class View {
 	
 	public function img($imgSrc, $altText=NULL, $tagAttributes=NULL, $localFile=true) {
 		if ( $localFile ) {
-			$imgSrc = $this->imagePath . $imgSrc;
+			$imgSrc = DIRECTORY_SEPARATOR . $this->imagePath . $imgSrc;
 		}
 		
 		$imgTag = sprintf('<img src="%s" alt="%s" title="%s" %s">%s', $imgSrc, $altText, $altText, $tagAttributes, PHP_EOL);
@@ -121,7 +121,7 @@ class View {
 		$jsFile = $this->appendExtension($jsFile, '.js');
 		
 		if ( $localFile ) {
-			$jsFile = $this->jsPath . $jsFile;
+			$jsFile = DIRECTORY_SEPARATOR . $this->jsPath . $jsFile;
 		}
 		
 		$jsTag = sprintf('<script src="%s" type="text/javascript"></script>%s', $jsFile, PHP_EOL);
@@ -251,10 +251,10 @@ class View {
 		$route = NULL;
 		$root = $argv[0];
 		if ( $argc > 1 ) {
-			$route = implode('/', array_slice($argv, 1));
+			$route = '/' . implode('/', array_slice($argv, 1));
 		}
 		
-		$parameters = "/{$root}{$route}";
+		$parameters = $root . $route;
 		if ( !$this->useRewrite ) {
 			$parameters = "index.php?{$this->routeParameter}={$parameters}";
 		}
