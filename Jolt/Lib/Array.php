@@ -3,6 +3,14 @@
 declare(encoding='UTF-8');
 namespace Jolt\Lib;
 
+function array_get($k, $a, $default=NULL) {
+	if ( array_key_exists($k, $a) ) {
+		$default = $a[$k];
+	}
+	
+	return $default;
+}
+
 function array_keys_exist($keyList, $array) {
 	if ( !is_array($keyList) ) {
 		return false;
