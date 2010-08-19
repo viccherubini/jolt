@@ -2,6 +2,8 @@
 
 declare(encoding='UTF-8');
 
+require_once 'Jolt/Lib/Library.php';
+
 require_once 'Jolt/Client.php';
 require_once 'Jolt/Configuration.php';
 require_once 'Jolt/Controller.php';
