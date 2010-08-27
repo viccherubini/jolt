@@ -45,11 +45,6 @@ class View {
 		return NULL;
 	}
 	
-	public function attachConfiguration(\Jolt\Configuration $cfg) {
-		$this->cfg = clone $cfg;
-		return $this;
-	}
-	
 	public function addBlock($blockName, $block) {
 		$this->blockList[$blockName] = $block;
 		return $this;
@@ -90,21 +85,13 @@ class View {
 	
 	public function href($url, $text, $tagAttributes=NULL, $localUrl=true, $secure=false) {
 		if ( $localUrl ) {
-			if ( $secure ) {
-				$url = $this->urls($url);
-			} else {
-				$url = $this->url($url);
-			}
+			$url = $this->url($url, $secure);
 		}
 		
 		$text = $this->safe($text);
 		$href = sprintf('<a href="%s" %s>%s</a>%s', $url, $tagAttributes, $text, PHP_EOL);
 		
 		return $href;
-	}
-	
-	public function hrefs($url, $text, $tagAttributes=NULL, $localUrl=true) {
-		return $this->href($url, $text, $tagAttributes, $localUrl, true);
 	}
 	
 	public function img($imgSrc, $altText=NULL, $tagAttributes=NULL, $localFile=true) {
@@ -133,18 +120,17 @@ class View {
 		$argc = func_num_args();
 		$argv = func_get_args();
 		
-		$p = $this->makeUrlParameters($argc, $argv);
-		$url = $this->url . $p;
+		$urlPrefix = $this->url;
+		if ( $argc > 0 && is_bool($argv[$argc-1]) ) {
+			$secure = array_pop($argv);
+			$argc = count($argv);
+			if ( $secure ) {
+				$urlPrefix = $this->secureUrl;
+			}
+		}
 		
-		return $url;
-	}
-	
-	public function urls() {
-		$argc = func_num_args();
-		$argv = func_get_args();
-		
 		$p = $this->makeUrlParameters($argc, $argv);
-		$url = $this->secureUrl . $p;
+		$url = $urlPrefix . $p;
 		
 		return $url;
 	}
@@ -204,8 +190,24 @@ class View {
 		return NULL;
 	}
 
+	public function getCssPath() {
+		return $this->cssPath;
+	}
+
+	public function getImagePath() {
+		return $this->imagePath;
+	}
+
+	public function getJsPath() {
+		return $this->jsPath;
+	}
+
 	public function getRenderedView() {
 		return $this->renderedView;
+	}
+	
+	public function getRouteParameter() {
+		return $this->routeParameter;
 	}
 	
 	public function getSecureUrl() {
