@@ -19,3 +19,4 @@ define('DIRECTORY_CONTROLLERS', DIRECTORY_APP . DS . 'controllers', false);
 define('DIRECTORY_VIEWS', DIRECTORY_APP . DS . 'views', false);
 
 require_once 'Jolt/Exception.php';
+require_once 'Jolt/Route.php';
