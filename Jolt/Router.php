@@ -44,10 +44,7 @@ class Router {
 		}
 		
 		$path = $this->extractPath();
-		if ( empty($path) ) {
-			//throw new \Jolt\Exception('router_no_path_found');
-		}
-		
+
 		if ( is_null($this->http404Route) ) {
 			throw new \Jolt\Exception('router_no_http404_route');
 		}
