@@ -231,13 +231,4 @@ class ControllerTest extends TestCase {
 		$controller = $this->buildMockController();
 		$this->assertEquals(200, $controller->getResponseCode());
 	}
-	
-	public function providerInvalidJoltObject() {
-		return array(
-			array('a'),
-			array(10),
-			array(array('a')),
-			array(new \stdClass)
-		);
-	}
 }

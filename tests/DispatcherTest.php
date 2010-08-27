@@ -162,14 +162,4 @@ class DispatcherTest extends TestCase {
 		
 		$this->assertEquals(DIRECTORY_CONTROLLERS . DIRECTORY_SEPARATOR, $dispatcher->getControllerPath());
 	}
-	
-	
-	public function providerInvalidJoltObject() {
-		return array(
-			array('a'),
-			array(10),
-			array(array('a')),
-			array(new \stdClass)
-		);
-	}
 }

@@ -158,4 +158,13 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		
 		return $mock;
 	}
+	
+	public function providerInvalidJoltObject() {
+		return array(
+			array('a'),
+			array(10),
+			array(array('a')),
+			array(new \stdClass)
+		);
+	}
 }
