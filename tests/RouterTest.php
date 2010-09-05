@@ -82,6 +82,26 @@ class RouterTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
+	public function testAddRouteList_MustBeNonEmptyList() {
+		$router = new Router;
+		$router->addRouteList(array());
+	}
+	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
+	public function testAddRouteList_RoutesMustBeUnique() {
+		$routeList = array();
+		$routeList[] = $this->buildMockNamedRoute('GET', '/', 'Controller', 'indexAction');
+		$routeList[] = $this->buildMockNamedRoute('GET', '/', 'Controller', 'indexAction');
+		
+		$router = new Router;
+		$router->addRouteList($routeList);
+	}
+	
+	/**
+	 * @expectedException \Jolt\Exception
+	 */
 	public function testExecute_MustHaveAtLeastOneRoute() {
 		$router = new Router;
 		$router->execute();
