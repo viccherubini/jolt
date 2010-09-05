@@ -30,8 +30,8 @@ class Named extends Route {
 	
 	public function setAction($action) {
 		$action = ( !is_string($action) ? NULL : trim($action) );
-		if ( true === empty($action) ) {
-			throw new \Jolt\Exception('route_named_action_empty');
+		if ( empty($action) ) {
+			throw new \Jolt\Exception('Passed action is empty and invalid.');
 		}
 		
 		$this->action = $action;
@@ -46,8 +46,8 @@ class Named extends Route {
 	
 	public function setController($controller) {
 		$controller = ( !is_string($controller) ? NULL : trim($controller) );
-		if ( true === empty($controller) ) {
-			throw new \Jolt\Exception('route_named_controller_empty');
+		if ( empty($controller) ) {
+			throw new \Jolt\Exception('Passed Controller is empty and invalid.');
 		}
 		
 		$this->controller = $controller;
@@ -58,7 +58,7 @@ class Named extends Route {
 	public function setRequestMethod($requestMethod) {
 		$requestMethod = ( !is_string($requestMethod) ? NULL : strtoupper(trim($requestMethod)) );
 		if ( !isset($this->requestMethods[$requestMethod]) ) {
-			throw new \Jolt\Exception('route_method_is_not_valid');
+			throw new \Jolt\Exception("Request Method '{$requestMethod}' is invalid.");
 		}
 		
 		$this->requestMethod = $requestMethod;
