@@ -56,7 +56,7 @@ class View {
 		// Find the view file
 		$viewFile = $this->viewPath . $view;
 		if ( !is_file($viewFile) ) {
-			throw new \Jolt\Exception('view_path_not_found');
+			throw new \Jolt\Exception("View file '{$viewFile}' not found.");
 		}
 		
 		extract($this->variables);
