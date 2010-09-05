@@ -109,25 +109,29 @@ abstract class Controller {
 		return $this->renderedController;
 	}
 	
-	public function render($viewName=NULL, $blockName=NULL) {
-		if ( !$this->hasView() ) {
-			throw new \Jolt\Exception('controller_view_not_jolt_view');
-		}
-		
+	public function render($viewName=NULL) {
 		if ( empty($viewName) ) {
 			$viewName = $this->action;
 		}
 		
-		$renderedView = $this->view
-			->render($viewName)
+		$this->renderedView = $this->renderView($viewName);
+		return $this->renderedView;
+	}
+	
+	public function renderToBlock($viewName, $blockName) {
+		$renderedView = $this->renderView($viewName);
+		$this->addBlock($blockName, $renderedView);
+		
+		return $this;
+	}
+	
+	public function renderView($viewName) {
+		$view = $this->checkView();
+		
+		$renderedView = $view->render($viewName)
 			->getRenderedView();
 		
-		if ( !empty($blockName) ) {
-			$this->addBlock($blockName, $renderedView);
-		}
-		
-		$this->renderedView = $renderedView;
-		return $this->renderedView;
+		return $renderedView;
 	}
 	
 	public function setAction($action) {
@@ -190,7 +194,15 @@ abstract class Controller {
 		return $this->responseCode;
 	}
 	
+	private function checkView() {
+		if ( !$this->hasView() ) {
+			throw new \Jolt\Exception('controller_view_not_jolt_view');
+		}
+		return $this->view;
+	}
+	
 	private function hasView() {
 		return ( $this->view instanceof \Jolt\View );
 	}
+	
 }

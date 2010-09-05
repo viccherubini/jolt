@@ -136,7 +136,7 @@ class ControllerTest extends TestCase {
 		$this->assertEquals($viewContent, $controller->getRenderedView());
 	}
 	
-	public function testRender_AddsBlock() {
+	public function testRenderToBlock_AddsBlock() {
 		$viewContent = $this->loadView('indexAction');
 		
 		$view = $this->buildMockViewObject();
@@ -144,8 +144,7 @@ class ControllerTest extends TestCase {
 		
 		$controller = $this->buildMockController();
 		$controller->attachView($view);
-		$controller->setAction('indexAction');
-		$controller->render(NULL, 'blockName');
+		$controller->renderToBlock('indexAction', 'blockName');
 		
 		$this->assertEquals($viewContent, $controller->getBlock('blockName'));
 	}
