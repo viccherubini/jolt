@@ -30,7 +30,9 @@ class Router {
 		});
 		
 		if ( $routeExists ) {
-			throw new \Jolt\Exception('router_route_exists');
+			$requestMethod = $route->getRequestMethod();
+			$route = $route->getRoute();
+			throw new \Jolt\Exception("Route '{$requestMethod} {$route}' is a duplicate and can not be added.");
 		}
 		
 		$this->routeList[] = clone $route;
@@ -38,15 +40,27 @@ class Router {
 		return $this;
 	}
 	
+	public function addRouteList(array $routeList) {
+		if ( 0 == count($routeList) ) {
+			throw new \Jolt\Exception('Route List is empty.');
+		}
+		
+		foreach ( $routeList as $route ) {
+			$this->addRoute($route);
+		}
+		
+		return $this;
+	}
+	
 	public function execute() {
 		if ( 0 === count($this->routeList) ) {
-			throw new \Jolt\Exception('router_no_routes');
+			throw new \Jolt\Exception('No routes have been attached to the Router.');
 		}
 		
 		$path = $this->extractPath();
 
 		if ( is_null($this->http404Route) ) {
-			throw new \Jolt\Exception('router_no_http404_route');
+			throw new \Jolt\Exception('A 404 Route has not been attached to the Router.');
 		}
 		
 		$matchedRoute = NULL;
