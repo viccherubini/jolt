@@ -94,7 +94,6 @@ class Session {
 		session_destroy();
 		
 		return true;
-
 	}
 	
 }
