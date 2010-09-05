@@ -16,8 +16,8 @@ class Restful extends Route {
 	
 	public function setResource($resource) {
 		$resource = trim($resource);
-		if ( true === empty($resource) ) {
-			throw new \Jolt\Exception('route_restful_resource_empty');
+		if ( empty($resource) ) {
+			throw new \Jolt\Exception('RESTful resource is empty and not valid.');
 		}
 		
 		$this->resource = $resource;
@@ -25,6 +25,10 @@ class Restful extends Route {
 	}
 	
 	public function getResource() {
+		return $this->resource;
+	}
+	
+	public function getRequestMethod() {
 		return $this->resource;
 	}
 	
