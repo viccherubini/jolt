@@ -44,24 +44,16 @@ class Dispatcher {
 			throw new \Jolt\Exception('dispatcher_controller_path_does_not_exist');
 		}
 		
-		if ( is_null($this->locator) ) {
-			throw new \Jolt\Exception('dispatcher_locator_is_null');
-		}
-		
-		if ( is_null($this->route) ) {
-			throw new \Jolt\Exception('dispatcher_route_is_null');
-		}
-		
-		if ( is_null($this->view) ) {
-			throw new \Jolt\Exception('dispatcher_view_is_null');
-		}
+		$locator = $this->checkLocator();
+		$route = $this->checkRoute();
+		$view = $this->checkView();
 		
 		try {
-			
-			$controller = $this->locator->load($this->controllerPath, $this->route->getController());
-			$controller->attachView($this->view);
-			$controller->setAction($this->route->getAction());
-			$controller->execute($this->route->getArgv());
+
+			$controller = $this->locator->load($this->controllerPath, $route->getController());
+			$controller->attachView($view);
+			$controller->setAction($route->getAction());
+			$controller->execute($route->getArgv());
 			
 			$this->controller = $controller;
 			
@@ -94,4 +86,27 @@ class Dispatcher {
 		return $this->controller;
 	}
 	
+	private function checkLocator() {
+		if ( is_null($this->locator) ) {
+			throw new \Jolt\Exception('dispatcher_locator_is_null');
+		}
+		
+		return $this->locator;
+	}
+	
+	private function checkRoute() {
+		if ( is_null($this->route) ) {
+			throw new \Jolt\Exception('dispatcher_route_is_null');
+		}
+		
+		return $this->route;
+	}
+	
+	private function checkView() {
+		if ( is_null($this->view) ) {
+			throw new \Jolt\Exception('dispatcher_view_is_null');
+		}
+		
+		return $this->view;
+	}
 }
