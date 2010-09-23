@@ -8,7 +8,7 @@ use \Jolt\Controller,
 	\JoltApp\Index;
 
 require_once 'Jolt/Controller.php';
-require_once DIRECTORY_CONTROLLERS . DS . 'Index.php';
+require_once DIRECTORY_CONTROLLERS . DS . 'index.php';
 
 class ControllerTest extends TestCase {
 	
