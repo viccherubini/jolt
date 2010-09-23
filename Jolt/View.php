@@ -99,7 +99,7 @@ class View {
 			$imgSrc = DIRECTORY_SEPARATOR . $this->imagePath . $imgSrc;
 		}
 		
-		$imgTag = sprintf('<img src="%s" alt="%s" title="%s" %s">%s', $imgSrc, $altText, $altText, $tagAttributes, PHP_EOL);
+		$imgTag = sprintf('<img src="%s" alt="%s" title="%s" %s>%s', $imgSrc, $altText, $altText, $tagAttributes, PHP_EOL);
 		
 		return $imgTag;
 	}
@@ -263,4 +263,5 @@ class View {
 		
 		return $parameters;
 	}
+	
 }
