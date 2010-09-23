@@ -6,6 +6,7 @@ namespace Jolt;
 class Router {
 
 	private $http404Route = NULL;
+	private $path = NULL;
 	private $requestMethod = NULL;
 	private $routeParameter = '__u';
 	
@@ -58,7 +59,7 @@ class Router {
 		}
 		
 		$path = $this->extractPath();
-
+	
 		if ( is_null($this->http404Route) ) {
 			throw new \Jolt\Exception('A 404 Route has not been attached to the Router.');
 		}
@@ -76,7 +77,7 @@ class Router {
 		if ( is_null($matchedRoute) ) {
 			$matchedRoute = $this->http404Route;
 		}
-		
+
 		return $matchedRoute;
 	}
 	
@@ -90,6 +91,11 @@ class Router {
 		return $this;
 	}
 	
+	public function setPath($path) {
+		$this->path = trim($path);
+		return $this;
+	}
+	
 	public function setRequestMethod($requestMethod) {
 		$this->requestMethod = strtoupper(trim($requestMethod));
 		return $this;
@@ -98,6 +104,10 @@ class Router {
 	public function setRouteParameter($routeParameter) {
 		$this->routeParameter = $routeParameter;
 		return $this;
+	}
+	
+	public function getPath() {
+		return $this->path;
 	}
 	
 	public function getRequestMethod() {
@@ -117,6 +127,7 @@ class Router {
 		if ( isset($this->parameters[$this->routeParameter]) ) {
 			$path = $this->parameters[$this->routeParameter];
 		}
+		$this->setPath($path);
 		return $path;
 	}
 	
