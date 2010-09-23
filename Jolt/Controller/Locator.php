@@ -22,7 +22,7 @@ class Locator {
 		$bits = explode('\\', $controller);
 		$bitsLen = count($bits);
 		
-		$this->file = $bits[$bitsLen-1];
+		$this->file = strtolower($bits[$bitsLen-1]);
 		$this->path = $path;
 		
 		if ( 0 === preg_match('/\\' . self::EXT . '$/i', $controller) ) {
