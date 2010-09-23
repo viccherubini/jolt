@@ -8,6 +8,23 @@ use \Jolt\Lib\array_exists_all,
 
 class ArrayTest extends TestCase {
 
+	/**
+	 * @dataProvider providerArrayGetDefault
+	 */
+	public function testArrayGet_ReturnsDefaultValue($default) {
+		$this->assertEquals($default, \Jolt\Lib\array_get('missing', array(), $default));
+	}
+
+	public function testArrayGet_FindsKey() {
+		$array = array(
+			1 => 'one',
+			'two' => 2
+		);
+		
+		$this->assertEquals($array[1], \Jolt\Lib\array_get(1, $array));
+		$this->assertEquals($array['two'], \Jolt\Lib\array_get('two', $array));
+	}
+
 	public function testArrayKeysExist_KeyListMustBeArray() {
 		$keyList = NULL;
 		
@@ -71,6 +88,18 @@ class ArrayTest extends TestCase {
 		
 		$empty = \Jolt\Lib\array_empty($array);
 		$this->assertFalse($empty);
+	}
+	
+	public function providerArrayGetDefault() {
+		return array(
+			array('1'),
+			array(1),
+			array(1.09),
+			array('A'),
+			array(NULL),
+			array(new \stdClass),
+			array(array())
+		);
 	}
 	
 	public function providerArrayWithEmptyValue() {
