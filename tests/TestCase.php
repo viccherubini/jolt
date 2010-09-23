@@ -30,7 +30,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 	
 	protected function buildController($name) {
-		$controllerFile = DIRECTORY_CONTROLLERS . DS . $name . \Jolt\Controller::EXT;
+		$controllerFile = DIRECTORY_CONTROLLERS . DS . strtolower($name) . \Jolt\Controller::EXT;
 		if ( !is_file($controllerFile) ) {
 			throw new \Jolt\Exception('testcase_controller_not_found');
 		}
