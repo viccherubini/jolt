@@ -1,354 +1,789 @@
-2010-08-14
+2010-09-23 06:16
+	* Vic Cherubini <vmc@leftnode.com> Removed the sample application for now, stay tuned at joltcore.org for more information. (06:16:16)
+
+2010-09-23 06:12
+	* Vic Cherubini <vmc@leftnode.com> Merge branch 'master' of github.com:leftnode/Jolt (06:12:18)
+
+2010-09-23 06:11
+	* Vic Cherubini <vmc@leftnode.com> Removed a trailing double quote in the img() method because it was wrong. (06:11:48)
+	* Vic Cherubini <vmc@leftnode.com> In a daring, and one might say blazened checkin, I added all of the code to save session data in a database through PDO. Get this, it's even entirely untested. Crazy, I know, but I needed the functionality and didn't have time to do correct TDD, so it's there. It appears to work, but I can't prove it yet. Rest assured, it will ultimately be tested. Just not now. (06:11:25)
+
+2010-09-23 06:09
+	* Vic Cherubini <vmc@leftnode.com> After the path is extracted from the parameters, it is added to a class level variable with a getter/setter. Because the Router is returned from the \Jolt\Jolt class after execution, this opens up the ability to get the path that was ultimately requested. (06:09:50)
+
+2010-09-23 06:08
+	* Vic Cherubini <vmc@leftnode.com> Added method getRouter() to return the router after excution. This opens up the ability to get information about the ultimate route/path that was called after final execution. (06:08:43)
+	* Vic Cherubini <vmc@leftnode.com> Moved the functionality to check that several objects are set in \Jolt\Dispatcher::execute() to separate methods that also return the object they check if found. Makes for cleaner code and reduces calls to ->. (06:08:09)
+
+2010-09-23 06:05
+	* Vic Cherubini <vmc@leftnode.com> The Controller file is now required to be lowercase because most other files in a Jolt projects (such as the views) are also lowercased. The reason behind my decision was because I wanted to keep everything consistent. (06:05:19)
+
+2010-09-23 06:04
+	* Vic Cherubini <vmc@leftnode.com> If the JOLT_VERSION definition is defined, a new header, X-Framework, is added to the output. This is purely narcissistic and so I can quickly see if a site is really running Jolt, cause that'd be pretty damn badass. (06:04:19)
+
+2010-09-23 06:03
+	* Vic Cherubini <vmc@leftnode.com> Added a test for array_get() which returns a value from an array if it exists. (06:03:02)
+
+2010-09-23 05:58
+	* Vic Cherubini <vmc@leftnode.com> Added tests for getPath() and setRouteParameter(). (05:58:01)
+
+2010-09-23 05:47
+	* Vic Cherubini <vmc@leftnode.com> Added an init() method in the Index controller to test \Jolt\Controller::execute() calls the init() method if it exists. (05:47:25)
+
+2010-09-23 05:36
+	* Vic Cherubini <vmc@leftnode.com> Wrapped a strtolower() around the name of the controller file because the Controller class expects this. (05:36:13)
+
+2010-09-23 05:35
+	* Vic Cherubini <vmc@leftnode.com> The included Index controller is now referenced by the right file. This needs to be updated to not have a manual require_once and to rather be loaded automatically. (05:35:46)
+
+2010-09-23 05:33
+	* Vic Cherubini <vmc@leftnode.com> Added a new class variable for a lowercase version of the controller so that strtolower() doesn't have to be used. (05:33:51)
+
+2010-09-23 05:29
+	* Vic Cherubini <vmc@leftnode.com> Renamed the controllers to lowercase filenames so that projects can consistently use lowercase filenames. I think at some point the actual framework will be all lowercase filenames as well. (05:29:40)
+
+2010-09-20 08:44
+	* Vic Cherubini <vmc@leftnode.com> Made the controller files always lowercase. (08:44:45)
+
+2010-09-05 17:07
+	* Vic Cherubini <vmc@leftnode.com> Added a new class getRequestMethod() that returns the resource for now. Will eventually return the actual request method. (17:07:09)
+
+2010-09-05 17:06
+	* Vic Cherubini <vmc@leftnode.com> The Exception messages are more meaningful now. (17:06:39)
+
+2010-09-05 17:04
+	* Vic Cherubini <vmc@leftnode.com> Updated the way render() works. (17:04:56)
+	* Vic Cherubini <vmc@leftnode.com> Included most of the most common files to make Jolt work. (17:04:29)
+	* Vic Cherubini <vmc@leftnode.com> Copied the Exception class from DataModeler to make it more useful in it's debug information. (17:04:11)
+
+2010-09-05 17:03
+	* Vic Cherubini <vmc@leftnode.com> Two new tests added for addRouteList(). (17:03:45)
+	* Vic Cherubini <vmc@leftnode.com> Whitespace cleanup. (17:03:28)
+	* Vic Cherubini <vmc@leftnode.com> The Exception message from render() is more meaningful now. (17:03:15)
+
+2010-09-05 17:02
+	* Vic Cherubini <vmc@leftnode.com> The Exception messages are more meaningful now, and added new method addRouteList() to add an array of routes in one fell swoop. (17:02:43)
+
+2010-08-27 07:17
+	* Vic Cherubini <vmc@leftnode.com> Added the Route.php file to always be included so code coverage can be completed if running individual tests. (07:17:30)
+	* Vic Cherubini <vmc@leftnode.com> Moved the providerInvalidJoltObject() dataProvider to testCase since it's the same function in multiple files. (07:17:02)
+
+2010-08-27 07:16
+	* Vic Cherubini <vmc@leftnode.com> Consolidated some of the view methods, and wrote tests for all of the helper methods. (07:16:28)
+
+2010-08-27 07:15
+	* Vic Cherubini <vmc@leftnode.com> Removed an old conditional when an empty path was found. In that case, it should go to the first matched path or the 404 Path. (07:15:30)
+
+2010-08-26 20:36
+	* Vic Cherubini <vmc@leftnode.com> Renamed Bootstrap.php to bootstrap.php. (20:36:03)
+
+2010-08-26 20:35
+	* Vic Cherubini <vmc@leftnode.com> Renamed App to app and lowercased the name of the subdirectories. (20:35:49)
+	* Vic Cherubini <vmc@leftnode.com> Renamed Bootstrap to bootstrap and renamed the defines to the application in there. (20:35:13)
+
+2010-08-19 06:38
+	* Vic Cherubini <vmc@leftnode.com> Added the Session class. (06:38:03)
+
+2010-08-19 06:37
+	* Vic Cherubini <vmc@leftnode.com> Added new method array_get which returns an element of an array. (06:37:46)
+	* Vic Cherubini <vmc@leftnode.com> Added the library to the framework. (06:37:29)
+
+2010-08-14 07:14
+	* Vic Cherubini <vmc@leftnode.com> New changelog. (07:14:36)
+
+2010-08-14 07:13
 	* Vic Cherubini <vmc@leftnode.com> New feature: if a method named init() exists in the controller, it will be executed first before the main method. It can be used to initialize class wide variables and what not. (07:13:32)
+
+2010-08-14 04:48
 	* Vic Cherubini <vmc@leftnode.com> For local files, made them absolutely linked so they'll work in 'subdirectories'. (04:48:31)
 
-2010-08-13
+2010-08-13 07:03
 	* Vic Cherubini <vmc@leftnode.com> New ChangeLog file. (07:03:33)
+
+2010-08-13 07:01
 	* Vic Cherubini <vmc@leftnode.com> Better readme. (07:01:08)
+
+2010-08-13 06:57
 	* Vic Cherubini <vmc@leftnode.com> Updated the configuration options sent to the View. (06:57:45)
+
+2010-08-13 06:54
 	* Vic Cherubini <vmc@leftnode.com> Reordered the inclusion of some files. (06:54:05)
+
+2010-08-13 06:53
 	* Vic Cherubini <vmc@leftnode.com> Updated the exception that is thrown to also include the error that caused the original exception. (06:53:49)
 	* Vic Cherubini <vmc@leftnode.com> New method setRouteParameter() to change the parameter the router uses to get the actual route from the URL. Defaults to __u. (06:53:24)
+
+2010-08-13 06:52
 	* Vic Cherubini <vmc@leftnode.com> Added all of the \Jolt\View helper methods, need tests still. (06:52:52)
 
-2010-08-12
+2010-08-12 06:12
 	* Vic Cherubini <vmc@leftnode.com> Got the main Jolt::execute() methods fixed and working. (06:12:37)
 
-2010-08-11
+2010-08-11 07:32
 	* Vic Cherubini <vmc@leftnode.com> Removed the test to ensure a path/route is found. (07:32:43)
+
+2010-08-11 07:31
 	* Vic Cherubini <vmc@leftnode.com> Updated the router to not throw an exception if no path is found and let the 404handler or a / route handle it. (07:31:10)
 
-2010-08-10
+2010-08-10 21:59
 	* Vic Cherubini <vmc@leftnode.com> Copied the addBlock()/getBlock()/getBlockList() methods from Controller to View so they're accessible in views. Thus, views serve as layout files too. (21:59:23)
+
+2010-08-10 21:35
 	* Vic Cherubini <vmc@leftnode.com> Added expected errors to the __toString() tests in \Jolt\Client to get some better coverage. (21:35:57)
 
-2010-08-08
+2010-08-08 21:43
 	* Vic Cherubini <vmc@leftnode.com> Removed some cruft. (21:43:30)
+
+2010-08-08 21:42
 	* Vic Cherubini <vmc@leftnode.com> Updated buildOutput() to remove all existing headers and replace them with Jolt headers. (21:42:53)
 	* Vic Cherubini <vmc@leftnode.com> Added some new methods and tests for the headers. (21:42:23)
+
+2010-08-08 21:30
 	* Vic Cherubini <vmc@leftnode.com> Didn't include Framework.php as part of the code coverage report. (21:30:27)
+
+2010-08-08 21:29
 	* Vic Cherubini <vmc@leftnode.com> New file that contains all of the essential Jolt framework filed. (21:29:58)
+
+2010-08-08 21:28
 	* Vic Cherubini <vmc@leftnode.com> Removed the Layout class too since it's not used. (21:28:41)
+
+2010-08-08 21:22
 	* Vic Cherubini <vmc@leftnode.com> Removed this, it's no longer necessary. (21:22:18)
+
+2010-08-08 20:04
 	* Vic Cherubini <vmc@leftnode.com> Added the Jolt\Client class methods and the associated tests. Don't think it's possible to get 100% code coverage, unfortunately. (20:04:18)
+
+2010-08-08 20:03
 	* Vic Cherubini <vmc@leftnode.com> Added new assertion, assertEmpty() to throw an assertion if something is not empty. (20:03:42)
+
+2010-08-08 09:38
 	* Vic Cherubini <vmc@leftnode.com> Updated the dispatcher so it returns the executed controller object rather than the actual rendering. (09:38:48)
+
+2010-08-08 08:04
 	* Vic Cherubini <vmc@leftnode.com> Added ability to set headers. (08:04:05)
+
+2010-08-08 07:39
 	* Vic Cherubini <vmc@leftnode.com> Wrote new methods loadView() to load a view file from disk and buildController() which builds an actual Controller object. (07:39:04)
+
+2010-08-08 07:38
 	* Vic Cherubini <vmc@leftnode.com> Finished writing the dispatcher. At least for this version. (07:38:22)
+
+2010-08-08 07:37
 	* Vic Cherubini <vmc@leftnode.com> Updated the variables in Controller, one for the renderedView and one for the renderedController. Added getter's for these too. (07:37:52)
 
-2010-08-04
+2010-08-04 04:57
 	* Vic Cherubini <vmc@leftnode.com> Better readme. (04:57:50)
 	* Vic Cherubini <vmc@leftnode.com> Updated the dispatcher to call things like they sould be done within the execute() method. (04:57:41)
+
+2010-08-07 14:44
+	* Vic Cherubini <vmc@leftnode.com> Finished writing the \Jolt\Controller class to easily build controllers and execute them. (14:44:19)
+
+2010-08-07 14:43
+	* Vic Cherubini <vmc@leftnode.com> Swapped out a useage of DIRECTORY_SEPARATOR with DS since it's defined in Bootstrap.php (14:43:13)
+
+2010-08-07 14:42
+	* Vic Cherubini <vmc@leftnode.com> Updated render() to return  so it's chainable. (14:42:43)
+
+2010-08-07 13:32
+	* Vic Cherubini <vmc@leftnode.com> Wrote most of render() and addBlock(). (13:32:05)
+
+2010-08-04 06:08
 	* Vic Cherubini <vmc@leftnode.com> Went from using a single configuration object to using individual set*() and get*() methods to ensure everything is set properly. (06:08:43)
+
+2010-08-04 05:44
 	* Vic Cherubini <vmc@leftnode.com> Renamed Directory to Path because it's shorter and more descriptive. (05:44:59)
+
+2010-08-04 05:33
 	* Vic Cherubini <vmc@leftnode.com> Renamed viewDirectory and controllerDirectory to viewPath and controllerPath. (05:33:35)
 	* Vic Cherubini <vmc@leftnode.com> Working on the Controller class. (05:33:18)
 
-2010-08-07
-	* Vic Cherubini <vmc@leftnode.com> Finished writing the \Jolt\Controller class to easily build controllers and execute them. (14:44:19)
-	* Vic Cherubini <vmc@leftnode.com> Swapped out a useage of DIRECTORY_SEPARATOR with DS since it's defined in Bootstrap.php (14:43:13)
-	* Vic Cherubini <vmc@leftnode.com> Updated render() to return  so it's chainable. (14:42:43)
-	* Vic Cherubini <vmc@leftnode.com> Wrote most of render() and addBlock(). (13:32:05)
-
-2010-08-03
+2010-08-03 06:01
 	* Vic Cherubini <vmc@leftnode.com> Updated \Jolt\Dispatcher to attach a \Jolt\Controller\Locator object and added the tests to ensure it's attached before execution. (06:01:37)
+
+2010-08-03 05:59
 	* Vic Cherubini <vmc@leftnode.com> Added new method buildMockControllerLocator() to build a mock \Jolt\Controller\Locator object that returns a valid mocked controller object. (05:59:51)
 	* Vic Cherubini <vmc@leftnode.com> Changed the \Jolt\Controller\Locator class to be non static so it can be attached to the Dispatcher so valid controllers can be found. (05:59:01)
 
-2010-08-02
+2010-08-02 07:06
 	* Vic Cherubini <vmc@leftnode.com> Reverted back sample app because markdown files can't contain embedded JS (at least on Github), and rightfully so I might add. (07:06:09)
+
+2010-08-02 07:05
 	* Vic Cherubini <vmc@leftnode.com> Better Readme (07:05:15)
+
+2010-08-02 07:04
 	* Vic Cherubini <vmc@leftnode.com> Better Readme (07:04:29)
+
+2010-08-02 06:56
 	* Vic Cherubini <vmc@leftnode.com> Added a few comments, wrong branch, but oh well. (06:56:27)
+
+2010-08-02 05:56
 	* Vic Cherubini <vmc@leftnode.com> Added the code to render an actual view. (05:56:40)
 	* Vic Cherubini <vmc@leftnode.com> New tests for the rest of rendering a view. (05:56:28)
 	* Vic Cherubini <vmc@leftnode.com> Renamed a variable to be a bit more expressive. (05:56:06)
+
+2010-08-02 05:31
 	* Vic Cherubini <vmc@leftnode.com> Got 100% code coverage on \Jolt\Configuration (05:31:44)
+
+2010-08-02 05:28
 	* Vic Cherubini <vmc@leftnode.com> Got 100% code coverage on \Jolt\Configuration (05:28:48)
-	* Vic Cherubini <vmc@leftnode.com> Removed some commented out code. (05:11:33)
-	* Vic Cherubini <vmc@leftnode.com> Got the Controller\Locator working properly, tested, and added some new controllers for testing. (05:10:37)
-	* Vic Cherubini <vmc@leftnode.com> Renamed some variables to make them shorter. Sorry, Uncle Bob. (05:09:51)
 
-2010-08-01
+2010-08-01 13:39
 	* Vic Cherubini <vmc@leftnode.com> CHanges. (13:39:27)
-	* Vic Cherubini <vmc@leftnode.com> Working on the new \Jolt\Controller\Locator object for loading and building a controller. (20:50:49)
 
-2010-07-31
+2010-07-31 09:53
 	* Vic Cherubini <vmc@leftnode.com> Added ability to create a mock configuration object with predefined fields. (09:53:19)
+
+2010-07-31 08:41
 	* Vic Cherubini <vmc@leftnode.com> Updated attachRoute() and attachView() to clone the objects passed into them. (08:41:21)
 	* Vic Cherubini <vmc@leftnode.com> More work on the refactoring of the View and the ViewTest classes. (08:41:03)
+
+2010-07-31 08:40
 	* Vic Cherubini <vmc@leftnode.com> Added a MiscTest class for running non Jolt related tests. (08:40:25)
+
+2010-08-02 05:11
+	* Vic Cherubini <vmc@leftnode.com> Removed some commented out code. (05:11:33)
+
+2010-08-02 05:10
+	* Vic Cherubini <vmc@leftnode.com> Got the Controller\Locator working properly, tested, and added some new controllers for testing. (05:10:37)
+
+2010-08-02 05:09
+	* Vic Cherubini <vmc@leftnode.com> Renamed some variables to make them shorter. Sorry, Uncle Bob. (05:09:51)
+
+2010-08-01 20:50
+	* Vic Cherubini <vmc@leftnode.com> Working on the new \Jolt\Controller\Locator object for loading and building a controller. (20:50:49)
+
+2010-07-31 09:58
 	* Vic Cherubini <vmc@leftnode.com> Cleaning a few things up, didn't find anything to do with the \Jolt\Configuration stuff though. (09:58:21)
+
+2010-07-31 09:56
 	* Vic Cherubini <vmc@leftnode.com> Updated to use \Jolt\Configuration objects. (09:56:39)
+
+2010-07-31 08:45
 	* Vic Cherubini <vmc@leftnode.com> Added the new Configuration class that extends \stdClass for easy configuration objects. (08:45:16)
+
+2010-07-31 06:25
 	* Vic Cherubini <vmc@leftnode.com> Wrote most of the tests for the Dispatcher. (06:25:10)
+
+2010-07-31 06:24
 	* Vic Cherubini <vmc@leftnode.com> Wrote the attachRoute() and attachView() methods, removed setRoute() since that's replaced with attachRoute(). (06:24:53)
 	* Vic Cherubini <vmc@leftnode.com> Removed most of the controller code, not time to write it yet. (06:24:29)
+
+2010-07-31 05:09
 	* Vic Cherubini <vmc@leftnode.com> More work on the dispatcher tests. (05:09:20)
 
-2010-07-30
+2010-07-30 10:56
 	* Vic Cherubini <vmc@leftnode.com> Starting to write the dispatcher tests. (10:56:41)
+
+2010-07-30 08:08
 	* Vic Cherubini <vmc@leftnode.com> Got the crypt tests to work (08:08:16)
+
+2010-07-30 06:58
 	* Vic Cherubini <vmc@leftnode.com> Testing the validation functions. (06:58:55)
+
+2010-07-30 06:06
 	* Vic Cherubini <vmc@leftnode.com> Many new tests for the library. (06:06:08)
 
-2010-07-28
+2010-07-28 06:49
 	* Vic Cherubini <vmc@leftnode.com> New specificly named routes and the associated tests. (06:49:37)
 	* Vic Cherubini <vmc@leftnode.com> Made this class part of the \JoltTest\Route namespace, and included the new named specific tests. (06:49:11)
+
+2010-07-28 06:48
 	* Vic Cherubini <vmc@leftnode.com> Removed the old tests that are just commented out, and added the route test suite as an aliased class name. (06:48:40)
 	* Vic Cherubini <vmc@leftnode.com> Removed the notfound route infavor of the user specifing what sould happen for a 404 route. (06:48:01)
+
+2010-07-28 05:21
 	* Vic Cherubini <vmc@leftnode.com> Updated the way routes are set to include the request method. (05:21:11)
+
+2010-07-28 05:20
 	* Vic Cherubini <vmc@leftnode.com> Started to work on the basic class skeleton. (05:20:40)
 	* Vic Cherubini <vmc@leftnode.com> Moved a function call out of an if() and set it to a temporary variable. (05:20:12)
+
+2010-07-28 05:19
 	* Vic Cherubini <vmc@leftnode.com> Beefed up the router tests to ensure that the request methods must be the same. (05:19:44)
 	* Vic Cherubini <vmc@leftnode.com> Added the tests for the dispatcher to start working on that. (05:19:22)
+
+2010-07-28 05:07
 	* Vic Cherubini <vmc@leftnode.com> Added some more readme text. (05:07:43)
+
+2010-07-28 05:06
 	* Vic Cherubini <vmc@leftnode.com> Removed the pre-commit hook for unit testing now.: (05:06:43)
 	* Vic Cherubini <vmc@leftnode.com> Updated the sample application code to be a bit more concise. (05:06:08)
+
+2010-07-28 04:59
 	* Vic Cherubini <vmc@leftnode.com> Added a small sample application to show off  Jolt. (04:59:46)
 
-2010-07-27
+2010-07-27 05:22
 	* Vic Cherubini <vmc@leftnode.com> Finished writing execute() to return a matched route. (05:22:07)
+
+2010-07-27 05:07
 	* Vic Cherubini <vmc@leftnode.com> Updated addRoute() to clone the route, updated execute() to ensure there's a 404 route for #10 and changed the loop from an array_walk to a foreach because it's less verbose. (05:07:33)
 
-2010-07-26
+2010-07-26 21:50
 	* Vic Cherubini <vmc@leftnode.com> Finalized some variable names and started to write execute(). (21:50:11)
+
+2010-07-26 21:49
 	* Vic Cherubini <vmc@leftnode.com> Testing the pre commit hook. (21:49:39)
+
+2010-07-26 21:48
 	* Vic Cherubini <vmc@leftnode.com> Testing the precommit hook. (21:48:53)
+
+2010-07-26 21:47
 	* Vic Cherubini <vmc@leftnode.com> Writing some more tests for the execute() method. (21:47:57)
 	* Vic Cherubini <vmc@leftnode.com> Added Jolt/Route.php here since it's required for all tests. (21:47:23)
+
+2010-07-26 21:46
 	* Vic Cherubini <vmc@leftnode.com> Updated the way set_include_path is made with only a single use of PATH_SEPARATOR, and used a realpath() around  to get the cannonical path since it's prettier. (21:46:13)
+
+2010-07-26 21:45
 	* Vic Cherubini <vmc@leftnode.com> Updated all of the routing to use isValidPath() to detect if a path from the parameters is valid for that route. (21:45:06)
+
+2010-07-26 17:17
 	* Vic Cherubini <vmc@leftnode.com> Added the ability to set the request method in the router. (17:17:57)
+
+2010-07-26 16:59
 	* Vic Cherubini <vmc@leftnode.com> Updated all tests to use the new named route argument. (16:59:50)
 	* Vic Cherubini <vmc@leftnode.com> Added most of the body for addRoute() and updated extractUri() to use a class variable rather than a class constant. (16:59:33)
+
+2010-07-26 16:58
 	* Vic Cherubini <vmc@leftnode.com> Added ability to set the request method for a named route so each. (16:58:49)
+
+2010-07-26 15:45
 	* Vic Cherubini <vmc@leftnode.com> Added setInputVariables and extractUri(). (15:45:44)
 	* Vic Cherubini <vmc@leftnode.com> Added tests for setInputVariables(). (15:45:27)
+
+2010-07-26 15:36
 	* Vic Cherubini <vmc@leftnode.com> Changed the name of the controller to something more sensible. (15:36:16)
+
+2010-07-26 15:22
 	* Vic Cherubini <vmc@leftnode.com> Added bodies for methods isEqual(), isValid() and isValidUri(). (15:22:10)
+
+2010-07-26 15:21
 	* Vic Cherubini <vmc@leftnode.com> Fixed isValidUri() to be camelCase. (15:21:53)
+
+2010-07-26 15:20
 	* Vic Cherubini <vmc@leftnode.com> Slight whitespace formatting. (15:20:58)
 	* Vic Cherubini <vmc@leftnode.com> Added the NotFoundTest test class to the suite. (15:20:41)
 	* Vic Cherubini <vmc@leftnode.com> Added a few new dataproviders for testing a valid route and uri. (15:20:07)
+
+2010-07-26 15:19
 	* Vic Cherubini <vmc@leftnode.com> Removed the getControllerFile() and setControllerFile() methods because the route isn't responsible for managing the name of the controller file. (15:19:12)
+
+2010-07-26 15:18
 	* Vic Cherubini <vmc@leftnode.com> Made the class non-static. (15:18:19)
 	* Vic Cherubini <vmc@leftnode.com> Removed most of the class body to rewrite them. (15:18:05)
+
+2010-07-26 15:13
 	* Vic Cherubini <vmc@leftnode.com> New route for when no route is found, NotFound is always returned. (15:13:22)
+
+2010-07-26 14:43
 	* Vic Cherubini <vmc@leftnode.com> Temporarily removed classes that aren't being tested yet. (14:43:01)
+
+2010-07-26 14:42
 	* Vic Cherubini <vmc@leftnode.com> Removed dispatcher tests in exchange for a temporary test until I can get around to writing the real Dispatcher class. (14:42:44)
 	* Vic Cherubini <vmc@leftnode.com> Removed the bulk of the tests in exchange for how the new router will work. (14:42:08)
+
+2010-07-26 14:41
 	* Vic Cherubini <vmc@leftnode.com> Added a lot of tests for the restful route object to get it to 100% code coverage. (14:41:39)
+
+2010-07-26 14:39
 	* Vic Cherubini <vmc@leftnode.com> Removed the only test and replaced it with a temporary test while Jolt is being fleshed out. (14:39:28)
 	* Vic Cherubini <vmc@leftnode.com> camelCased a variable name. (14:39:01)
+
+2010-07-26 14:38
 	* Vic Cherubini <vmc@leftnode.com> Removed testControllerFileIsSet() because the route no longer defines the controller file. (14:38:40)
 	* Vic Cherubini <vmc@leftnode.com> Removed whitespace. (14:38:05)
+
+2010-07-26 14:37
 	* Vic Cherubini <vmc@leftnode.com> Updated the name of the methods to be test<MethodName>_<WhatIsBeingTested>() and added some counter tests for ensuring building a named and restful route actually work as described. (14:37:35)
+
+2010-07-26 13:11
 	* Vic Cherubini <vmc@leftnode.com> Removed old tools directory, not needed anymore. (13:11:11)
+
+2010-07-26 05:59
 	* Vic Cherubini <vmc@leftnode.com> Moved the test suite to use it's own namespace and moved everything out of subdirectories because its getting to be too much. (05:59:22)
 
-2010-06-01
+2010-06-01 06:09
 	* Vic Cherubini <vmc@leftnode.com> Updated all calls to build*() to buildMock*() so they have a more descriptive name, and moved all building of mock objects into the \Jolt\TestCase class to ensure they're available sitewide. (06:09:18)
+
+2010-06-01 06:07
 	* Vic Cherubini <vmc@leftnode.com> Moved the includes of PHPUnit/Framework.php and TestCase.php here so any child testsuite can be executed with this boostrap file. (06:07:53)
 	* Vic Cherubini <vmc@leftnode.com> Removed the includes for PHPUnit/Framework and TestCase (because they're now in Bootstrap.php) and added the ClientTest suite. (06:07:02)
+
+2010-06-01 06:06
 	* Vic Cherubini <vmc@leftnode.com> More work on execute() to ensure a matched route is found. (06:06:27)
+
+2010-06-01 06:05
 	* Vic Cherubini <vmc@leftnode.com> Changed setController() to have a \Jolt\Controller passed to it rather than Jolt_Controller, and updated setRoute() to have a \Jolt\Route passed to it rather than just a Route in case the namespace isn't set. (06:05:59)
 	* Vic Cherubini <vmc@leftnode.com> Starting the \Jolt\Client class. (06:05:02)
+
+2010-06-01 06:04
 	* Vic Cherubini <vmc@leftnode.com> New test class for \Jolt\Client. (06:04:42)
+
+2010-06-01 05:18
 	* Vic Cherubini <vmc@leftnode.com> Updated the testsuite to use the new public API from \Jolt\Router (i.e., having only a single route list rather than a named/restful route list), and added method buildDispatcher() that builds a mock dispatcher for execute(). (05:18:54)
+
+2010-06-01 05:17
 	* Vic Cherubini <vmc@leftnode.com> Removed setRestfulRouteList() and setNamedRouteList() (or rather, combined them into a single method because two aren't necessary), and updated execute() to take a \Jolt\Dispatcher object to dispatch the matched route. (05:17:40)
+
+2010-06-01 04:53
 	* Vic Cherubini <vmc@leftnode.com> Removed some Doxygen comments because they are unecessary. (04:53:46)
 
-2010-05-30
+2010-05-30 07:41
 	* Vic Cherubini <vmc@leftnode.com> Added the body to getInstance(). (07:41:02)
+
+2010-05-30 07:39
 	* Vic Cherubini <vmc@leftnode.com> Added getInstance() and made __construct() and __clone() private. (07:39:37)
+
+2010-05-30 07:32
 	* Vic Cherubini <vmc@leftnode.com> Initial checkin of Session.php (07:32:46)
+
+2010-05-30 07:31
 	* Vic Cherubini <vmc@leftnode.com> Removed buildClass(), buildJoltClass(), execute(), setApplicationConfig(), and startSession() because they aren't used yet and there aren't any tests for them. (07:31:35)
+
+2010-05-30 07:18
 	* Vic Cherubini <vmc@leftnode.com> Better readme. (07:18:13)
+
+2010-05-30 07:08
 	* Vic Cherubini <vmc@leftnode.com> Removed the mapper, if you want database access, use DataModeler.: (07:08:26)
 
-2010-05-28
+2010-05-28 14:05
 	* Vic Cherubini <vmc@leftnode.com> Added @author attribute for Doxygen. (14:05:17)
 
-2010-05-23
+2010-05-23 15:07
 	* Vic Cherubini <vmc@leftnode.com> Added some doxygen comments. (15:07:46)
+
+2010-05-23 14:59
 	* Vic Cherubini <vmc@leftnode.com> New model class. (14:59:06)
+
+2010-05-23 14:53
 	* Vic Cherubini <vmc@leftnode.com> Updated pre-commit hook. (14:53:57)
 	* Vic Cherubini <vmc@leftnode.com> New readme file. (14:53:03)
+
+2010-05-23 14:48
 	* Vic Cherubini <vmc@leftnode.com> New pre-commit hook. (14:48:51)
 	* Vic Cherubini <vmc@leftnode.com> Removed old pre-commit hooks, merged into a single one. (14:48:23)
 
-2010-05-22
+2010-05-22 17:20
 	* Vic Cherubini <vmc@leftnode.com> Ignored docs/coverage since it changes constantly. (17:20:18)
+
+2010-05-22 17:19
 	* Vic Cherubini <vmc@leftnode.com> Commented out insertBlock for now to get 100% coverage and because I'm not sure how I want it implemented. (17:19:50)
 	* Vic Cherubini <vmc@leftnode.com> Removed validator for now since it's not how I want it to work. (17:19:30)
 	* Vic Cherubini <vmc@leftnode.com> New test runner configuration file. (17:19:07)
+
+2010-05-22 09:30
 	* Vic Cherubini <vmc@leftnode.com> Moved over to php5.3. (09:30:47)
+
+2010-05-22 07:23
 	* Vic Cherubini <vmc@leftnode.com> Renamed all routes to be without all of the _'s. (07:23:30)
 
-2010-05-03
+2010-05-03 03:04
 	* Vic Cherubini <vmc@leftnode.com> Working on the controller to get/set the layout name. (03:04:02)
-	* Vic Cherubini <vmc@leftnode.com> Added a destructor to delete the two objects, and cloned both the Jolt_Controller and Jolt_Route when adding them to the dispatcher so they can be manipulated and deleted from the heap without issue. (02:59:07)
-	* Vic Cherubini <vmc@leftnode.com> Removed newline at end of file. (05:46:46)
-	* Vic Cherubini <vmc@leftnode.com> Made doxygen report on private variables and methods. (05:46:35)
-	* Vic Cherubini <vmc@leftnode.com> Adding a lot of doxygen comments. (04:55:20)
-	* Vic Cherubini <vmc@leftnode.com> Replaced the old doxygen comments for the variables with /// and made reset() static. (04:54:58)
-	* Vic Cherubini <vmc@leftnode.com> Added new test define TEST_DIRECTORY which defines the current directory as the test directory so the entire testsuite can be executed from anywhere. (04:54:26)
-	* Vic Cherubini <vmc@leftnode.com> New Doxygen comments for documentation testing. (04:25:36)
-	* Vic Cherubini <vmc@leftnode.com> Wrote the basic provider and test method for testing to ensure a view renders properly. Tests no variable replacement, single variable replacement, multiple variable replacement, array replacement, and object replacement. Within the application/view/ directory exist several pre-rendered views that show what the rendering should ultimately look like. These files are opened and then compared to the actual rendering. (04:23:52)
-	* Vic Cherubini <vmc@leftnode.com> New define added, APPLICATION_DIRECTORY, which tells the test suite where to find the fake application data. Yes, all of this will be moved to a bootstrap file. (04:22:18)
-	* Vic Cherubini <vmc@leftnode.com> Got the basic rendering of views to work, renamed variable_list to replacement_list since it's more expressive. (04:21:41)
-	* Vic Cherubini <vmc@leftnode.com> New method lib_throw_if_not() which does the exact opposite of lib_throw_if(), that is, throws an exception if the  is explicitly false (=== false). (04:20:59)
-	* Vic Cherubini <vmc@leftnode.com> New fake application for testing. (04:20:17)
-	* Vic Cherubini <vmc@leftnode.com> New test and provider to test that the magic getter and setters are working. (03:32:48)
-	* Vic Cherubini <vmc@leftnode.com> Added getVariableList() which returns the views variable_list, or the list of variables registered within that view for replacement. (03:32:19)
-	* Vic Cherubini <vmc@leftnode.com> And the tests that go with them. (03:19:45)
-	* Vic Cherubini <vmc@leftnode.com> Started to add a lot of the methods for rendering a view. (03:19:36)
-	* Vic Cherubini <vmc@leftnode.com> Added the ViewTest to the testsuite. (03:09:01)
-	* Vic Cherubini <vmc@leftnode.com> New testsuite for the views. (03:07:55)
 
-2010-05-05
+2010-05-03 02:59
+	* Vic Cherubini <vmc@leftnode.com> Added a destructor to delete the two objects, and cloned both the Jolt_Controller and Jolt_Route when adding them to the dispatcher so they can be manipulated and deleted from the heap without issue. (02:59:07)
+
+2010-05-05 05:25
 	* Vic Cherubini <vmc@leftnode.com> New ignore file for the documentation output. (05:25:12)
+
+2010-05-05 05:24
 	* Vic Cherubini <vmc@leftnode.com> Better readme explaining Jolt is going to be PHP5.3+ (05:24:24)
+
+2010-05-05 05:17
 	* Vic Cherubini <vmc@leftnode.com> Just added some doxygen comments. (05:17:35)
 
-2010-05-02
+2010-05-03 05:46
+	* Vic Cherubini <vmc@leftnode.com> Removed newline at end of file. (05:46:46)
+	* Vic Cherubini <vmc@leftnode.com> Made doxygen report on private variables and methods. (05:46:35)
+
+2010-05-03 04:55
+	* Vic Cherubini <vmc@leftnode.com> Adding a lot of doxygen comments. (04:55:20)
+
+2010-05-03 04:54
+	* Vic Cherubini <vmc@leftnode.com> Replaced the old doxygen comments for the variables with /// and made reset() static. (04:54:58)
+	* Vic Cherubini <vmc@leftnode.com> Added new test define TEST_DIRECTORY which defines the current directory as the test directory so the entire testsuite can be executed from anywhere. (04:54:26)
+
+2010-05-03 04:25
+	* Vic Cherubini <vmc@leftnode.com> New Doxygen comments for documentation testing. (04:25:36)
+
+2010-05-03 04:23
+	* Vic Cherubini <vmc@leftnode.com> Wrote the basic provider and test method for testing to ensure a view renders properly. Tests no variable replacement, single variable replacement, multiple variable replacement, array replacement, and object replacement. Within the application/view/ directory exist several pre-rendered views that show what the rendering should ultimately look like. These files are opened and then compared to the actual rendering. (04:23:52)
+
+2010-05-03 04:22
+	* Vic Cherubini <vmc@leftnode.com> New define added, APPLICATION_DIRECTORY, which tells the test suite where to find the fake application data. Yes, all of this will be moved to a bootstrap file. (04:22:18)
+
+2010-05-03 04:21
+	* Vic Cherubini <vmc@leftnode.com> Got the basic rendering of views to work, renamed variable_list to replacement_list since it's more expressive. (04:21:41)
+
+2010-05-03 04:20
+	* Vic Cherubini <vmc@leftnode.com> New method lib_throw_if_not() which does the exact opposite of lib_throw_if(), that is, throws an exception if the  is explicitly false (=== false). (04:20:59)
+	* Vic Cherubini <vmc@leftnode.com> New fake application for testing. (04:20:17)
+
+2010-05-03 03:32
+	* Vic Cherubini <vmc@leftnode.com> New test and provider to test that the magic getter and setters are working. (03:32:48)
+	* Vic Cherubini <vmc@leftnode.com> Added getVariableList() which returns the views variable_list, or the list of variables registered within that view for replacement. (03:32:19)
+
+2010-05-03 03:19
+	* Vic Cherubini <vmc@leftnode.com> And the tests that go with them. (03:19:45)
+	* Vic Cherubini <vmc@leftnode.com> Started to add a lot of the methods for rendering a view. (03:19:36)
+
+2010-05-03 03:09
+	* Vic Cherubini <vmc@leftnode.com> Added the ViewTest to the testsuite. (03:09:01)
+
+2010-05-03 03:07
+	* Vic Cherubini <vmc@leftnode.com> New testsuite for the views. (03:07:55)
+
+2010-05-02 10:03
 	* Vic Cherubini <vmc@leftnode.com> New comment to test pushing to gitbox. (10:03:12)
+
+2010-05-02 09:08
 	* Vic Cherubini <vmc@leftnode.com> Added some instructions on where to go from here, time to start working on the controller and client. (09:08:44)
+
+2010-05-02 09:01
 	* Vic Cherubini <vmc@leftnode.com> Removed some old invalid tests and started to work on some tests for loading up a controller properly. (09:01:43)
 	* Vic Cherubini <vmc@leftnode.com> Removed some old code. (09:01:17)
+
+2010-05-02 08:49
 	* Vic Cherubini <vmc@leftnode.com> Added new method buildClass() that builds a class from a path and name, and then passes in any arguments to the constructor via PHP's ReflectionClass object. (08:49:59)
+
+2010-05-02 08:48
 	* Vic Cherubini <vmc@leftnode.com> More work on the dispatch() method to load up the action from the route and execute it with PHP's reflection classes. (08:48:10)
 
-2010-05-01
+2010-05-01 08:14
 	* Vic Cherubini <vmc@leftnode.com> Added the ability to collect the arguments from a route and URI so they can be passed to the controller. (08:14:49)
+
+2010-05-01 07:56
 	* Vic Cherubini <vmc@leftnode.com> Renamed cfg to config. (07:56:11)
 
-2010-04-30
+2010-04-30 21:39
 	* Vic Cherubini <vmc@leftnode.com> Added some new tests to ensure the dispatcher must have a correct controller path before executing. (21:39:45)
 
-2010-04-22
+2010-04-22 06:20
 	* Vic Cherubini <vmc@leftnode.com> Some more tests, mainly to test execution. (06:20:45)
 	* Vic Cherubini <vmc@leftnode.com> Added some more getter/setter methods to handle configuration properties of the dispatcher. (06:20:32)
+
+2010-04-22 06:18
 	* Vic Cherubini <vmc@leftnode.com> Added new method lib_throw_if() that throws a new exception if the first argument evaluates to strictly true. (06:18:40)
 
-2010-04-21
+2010-04-21 06:16
 	* Vic Cherubini <vmc@leftnode.com> New test to ensure that the route set to the dispatcher must have a controller set before executing, and corresponding code in Jolt_Dispatcher to ensure that happens. (06:16:53)
+
+2010-04-21 06:13
 	* Vic Cherubini <vmc@leftnode.com> Added new tests to test that the building of the Route objects within the Jolt testsuite work properly. (06:13:47)
+
+2010-04-21 06:08
 	* Vic Cherubini <vmc@leftnode.com> Moved the buildAbstractRoute() method to the Jolt_TestCase class since it'll be used elsehwere too. (06:08:04)
+
+2010-04-21 06:04
 	* Vic Cherubini <vmc@leftnode.com> Added new member  to routes so the actual file can be set. (06:04:23)
+
+2010-04-21 06:00
 	* Vic Cherubini <vmc@leftnode.com> Added the dispatcher to the test suite. (06:00:21)
+
+2010-04-21 05:59
 	* Vic Cherubini <vmc@leftnode.com> The new Jolt_Dispatcher class for taking a matched route and loading up the Controller and action it uses. (05:59:46)
+
+2010-04-21 05:58
 	* Vic Cherubini <vmc@leftnode.com> New test for Jolt_Dispatcher. (05:58:59)
+
+2010-04-21 05:49
 	* Vic Cherubini <vmc@leftnode.com> Also added method to test that two routes do not equal each other. (05:49:08)
+
+2010-04-21 05:48
 	* Vic Cherubini <vmc@leftnode.com> Added new method, isEqual() to determine if two routes are equal. Added test_Route_Is_Equal() as well. (05:48:29)
 
-2010-04-20
+2010-04-20 05:46
 	* Vic Cherubini <vmc@leftnode.com> New Jolt_Client object for sending data and headers back to the actual client. (05:46:06)
+
+2010-04-20 05:24
 	* Vic Cherubini <vmc@leftnode.com> Added the attachRouter(), attachDispatcher(), and attachClient() methods for use with an MVC application. (05:24:34)
+
+2010-04-20 05:23
 	* Vic Cherubini <vmc@leftnode.com> Rearranged all of the methods so they're in public/protected/private and then alphabetical order. (05:23:44)
 	* Vic Cherubini <vmc@leftnode.com> Added the Jolt_JoltTest test class. (05:23:10)
+
+2010-04-20 05:22
 	* Vic Cherubini <vmc@leftnode.com> Because building routes will be a common function, I've moved them to the parent TestCase.php file (in Jolt_TestCase) so they can be used in any test. (05:22:52)
 	* Vic Cherubini <vmc@leftnode.com> New test for the static class Jolt. (05:22:13)
 
-2010-04-19
+2010-04-19 07:03
 	* Vic Cherubini <vmc@leftnode.com> Starting to build the main Jolt class for a central application API. (07:03:31)
 	* Vic Cherubini <vmc@leftnode.com> Removed some whitespace. (07:03:12)
 
-2010-04-18
+2010-04-18 09:19
 	* Vic Cherubini <vmc@leftnode.com> Starting to write the execute() method, need to write the main Jolt stuff first because a new object (Jolt_Dispatcher) needs to be built and I want a nicer way to do dependency injection. (09:19:33)
+
+2010-04-18 08:53
 	* Vic Cherubini <vmc@leftnode.com> Tested for invalid uri's and routes as well. (08:53:54)
 	* Vic Cherubini <vmc@leftnode.com> Made the case for strings explicitly not allow numeric values. (08:53:37)
+
+2010-04-18 08:38
 	* Vic Cherubini <vmc@leftnode.com> And the unit tests to prove it. (08:38:25)
 	* Vic Cherubini <vmc@leftnode.com> Got the basic URI parsing done so it can find the right values from nice complex URI's. (08:38:03)
 
-2010-04-17
+2010-04-17 09:48
 	* Vic Cherubini <vmc@leftnode.com> Added an isValidUri() method that just returns false for now. (09:48:02)
+
+2010-04-17 09:47
 	* Vic Cherubini <vmc@leftnode.com> Working ongetting the isValidUri() to pass for complex routes. This is a tough one. (09:47:46)
 	* Vic Cherubini <vmc@leftnode.com> Working on getting the routes to actually execute. (09:47:17)
+
+2010-04-17 09:46
 	* Vic Cherubini <vmc@leftnode.com> Added new method isValidUri() which takes a URI and determines if it's valid against a set route. (09:46:41)
 	* Vic Cherubini <vmc@leftnode.com> Renamed the tests a bit and added a new provider to test if a uri matches a given route. (09:46:08)
+
+2010-04-17 07:05
 	* Vic Cherubini <vmc@leftnode.com> Added new test to ensure that uri's must start with a / (07:05:53)
+
+2010-04-17 06:51
 	* Vic Cherubini <vmc@leftnode.com> Refactored a few tests, organized the tests better, removed a few tests (always good), and decided that tests will always use _'s to make them more readable. (06:51:26)
+
+2010-04-17 06:50
 	* Vic Cherubini <vmc@leftnode.com> Renamed dispatch to be execute() since the router is executed, not dispatched (Jolt_Dispatcher will be handling that). Also added the set/getUri() methods. (06:50:22)
+
+2010-04-17 05:28
 	* Vic Cherubini <vmc@ralph.(none)> Merge branch 'unstable' of github.com:leftnode/Jolt into unstable (05:28:33)
 
-2010-04-15
+2010-04-15 16:43
 	* Vic Cherubini <vmc@leftnode.com> Added a few more tests to ensure routes must be unique. (16:43:15)
 
-2010-04-14
+2010-04-14 13:04
 	* Zachary Danger <zacharydangercampbell@gmail.com> Fixing some test suite names. (13:04:49)
+
+2010-04-14 12:50
 	* Vic Cherubini <vmc@leftnode.com> Debugging this weird phpunit error, why can't I name that testsuite Jolt_Route? (12:50:54)
+
+2010-04-14 12:47
 	* Vic Cherubini <vmc@leftnode.com> Going back to php5.2 for the time being, reformatted all code and tests to be 5.2 compliant. (12:47:48)
 
-2010-04-13
+2010-04-13 17:12
 	* Vic Cherubini <vmc@leftnode.com> Starting to add the rest of Jolt. (17:12:15)
+
+2010-04-13 17:10
 	* Vic Cherubini <vmc@leftnode.com> Working on making a 5.3 branch and a 5.2 branch. (17:10:28)
+
+2010-04-13 17:09
 	* Vic Cherubini <vmc@leftnode.com> Renaming stuff to lowercase. (17:09:29)
+
+2010-04-13 17:07
 	* Vic Cherubini <vmc@leftnode.com> Gonna do lowercase directory names. (17:07:52)
+
+2010-04-13 11:25
 	* Vic Cherubini <vmc@leftnode.com> Updated my email address. (11:25:45)
 	* Vic Cherubini <vmc@leftnode.com> Better readme. (11:25:04)
+
+2010-04-13 11:23
 	* Vic Cherubini <vmc@leftnode.com> Better readme. (11:23:43)
 	* Vic Cherubini <vmc@leftnode.com> Better readme. (11:23:00)
+
+2010-04-13 11:22
 	* Vic Cherubini <vmc@leftnode.com> Better readme. (11:22:08)
 
-2010-03-10
+2010-03-10 06:58
 	* Vic Cherubini <vmc@leftnode.com> Added the set/getResource() methods. (06:58:31)
 	* Vic Cherubini <vmc@leftnode.com> Moved the set/getRoute() methods to the parent class. (06:58:05)
+
+2010-03-10 06:57
 	* Vic Cherubini <vmc@leftnode.com> Moved the setting and getting of the route to the parent \Jolt\Route class. (06:57:42)
 	* Vic Cherubini <vmc@leftnode.com> Added the method for setting the restful route list (need to get these two methods whittled down a bit. Perhaps there's not a reason to differentiate between the two. Yeah, now that I'm thinking about it, as long as you can get the route, you can decide if you want to route to a named controller or a restful resource. (06:57:18)
+
+2010-03-10 06:55
 	* Vic Cherubini <vmc@leftnode.com> Started to write the tests for the Restful routes. (06:55:54)
 	* Vic Cherubini <vmc@leftnode.com> Refactored a lot more tests to properly test the named and restful routes. Started to work on the dispatcher. (06:55:27)
+
+2010-03-10 06:54
 	* Vic Cherubini <vmc@leftnode.com> Updated the RouteTest to test that the route can not be empty. (06:54:10)
 
-2010-03-09
+2010-03-09 06:28
 	* Vic Cherubini <vmc@leftnode.com> Soon to be command line app that will build your app based on some parameters. (06:28:08)
+
+2010-03-09 06:27
 	* Vic Cherubini <vmc@leftnode.com> New abstract class for building your application. (06:27:49)
+
+2010-03-09 04:43
 	* Vic Cherubini <vmc@leftnode.com> Refactored some of these tests to use providers and renamed a few to be more descriptive. (04:43:08)
+
+2010-03-09 04:37
 	* Vic Cherubini <vmc@leftnode.com> Refactored the named router test to be a lot more concise. (04:37:27)
 
-2010-03-07
+2010-03-07 16:21
 	* Vic Cherubini <vmc@leftnode.com> Actually set the named list after ensure its valid. (16:21:46)
 	* Vic Cherubini <vmc@leftnode.com> Everything is just going to be part of the Jolt namespace with names being the Java like directory structure replaced with underscores. (16:21:18)
+
+2010-03-07 11:16
 	* Vic Cherubini <vmc@leftnode.com> New directory for holding tools for the project. (11:16:50)
+
+2010-03-07 11:14
 	* Vic Cherubini <vmc@leftnode.com> New file for handling advanced non-alternative-php syntax templating. (11:14:46)
 	* Vic Cherubini <vmc@leftnode.com> Starting to add basic framework layout. (11:14:21)
+
+2010-03-07 11:08
 	* Vic Cherubini <vmc@leftnode.com> New jolt library functions. Common functions used across the site, but still part of the jolt namespace. (11:08:18)
+
+2010-03-07 10:49
 	* Vic Cherubini <vmc@leftnode.com> New registry file and the associated tests to go along with it. (10:49:25)
+
+2010-03-07 06:54
 	* Vic Cherubini <vmc@leftnode.com> Beefier testsuite. (06:54:40)
 	* Vic Cherubini <vmc@leftnode.com> Added a few methods to manage the configuration (getters/setters) and the main dispatch() method to actually do the routing. Wrote tests for them as well. (06:54:20)
+
+2010-03-07 06:53
 	* Vic Cherubini <vmc@leftnode.com> Added dummy isvalid method for now. (06:53:43)
 	* Vic Cherubini <vmc@leftnode.com> Got the validator working so a route can determine if it is valid. (06:53:26)
+
+2010-03-07 06:52
 	* Vic Cherubini <vmc@leftnode.com> Added abstract method isValid() to determine if the route specified is valid. (06:52:03)
 
-2010-03-06
+2010-03-06 06:59
 	* Vic Cherubini <vmc@leftnode.com> Namespaced everything. (06:59:20)
 
-2010-03-05
+2010-03-05 07:32
 	* Vic Cherubini <vmc@leftnode.com> Some new changes. (07:32:30)
 	* Vic Cherubini <vmc@leftnode.com> New Exception class. (07:32:06)
+
+2010-03-05 06:09
 	* Vic Cherubini <vmc@leftnode.com> Updated the testsuite to use our own assertion methods. (06:09:12)
+
+2010-03-05 06:05
 	* Vic Cherubini <vmc@leftnode.com> Starting to make this pre-commit.2 hook work with the testsuite. (06:05:24)
+
+2010-03-05 05:19
 	* Vic Cherubini <vmc@leftnode.com> Made the tests assertTrue rather than assertEquals(), should be moved to its own test suite. (05:19:50)
 
-2010-03-04
+2010-03-04 06:50
 	* Vic Cherubini <vmc@leftnode.com> New tests and a new testsuite for the routes. (06:50:37)
 	* Vic Cherubini <vmc@leftnode.com> New tests for the router. (06:50:06)
+
+2010-03-04 06:49
 	* Vic Cherubini <vmc@leftnode.com> New tests for the Controller class. Surprisingly building an abstract mock object counts as an assertion. (06:49:13)
+
+2010-03-04 06:48
 	* Vic Cherubini <vmc@leftnode.com> Added a new test suite for the route tests. (06:48:11)
+
+2010-03-04 06:46
 	* Vic Cherubini <vmc@leftnode.com> New types of routes, restful and named (restful for CRUD operations, named for more explicit operations) and a Router class for routing these restful and named routes. (06:46:28)
+
+2010-03-04 06:45
 	* Vic Cherubini <vmc@leftnode.com> New abstract Controller class for building individual controllers. (06:45:07)
+
+2010-03-04 05:04
 	* Vic Cherubini <vmc@leftnode.com> Initial setup of repository. (05:04:05)
+
+2010-03-04 05:03
 	* Vic Cherubini <vmc@leftnode.com> Nope, doesn't do anything. (05:03:06)
+
+2010-03-04 05:02
 	* Vic Cherubini <vmc@leftnode.com> Testing markdown. (05:02:31)
+
+2010-03-04 05:00
 	* Vic Cherubini <vmc@leftnode.com> Updated readme file. (05:00:28)
 
-2010-03-02
+2010-03-02 05:20
 	* Vic Cherubini <vmc@leftnode.com> Added my name. (05:20:38)
 
-2010-02-24
+2010-02-24 05:29
 	* Vic Cherubini <vmc@leftnode.com> Updated readme. (05:29:00)
+
+2010-02-24 05:26
 	* Vic Cherubini <vmc@leftnode.com> Init. (05:26:56)
 
