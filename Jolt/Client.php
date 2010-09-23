@@ -47,8 +47,12 @@ class Client {
 		
 		// Always remove the Content-Type header, let Jolt handle it
 		header_remove('Content-Type');
-		header("Content-Type: {$contentType}", true, $responseCode);
-	
+		header('Content-Type: ' . $contentType, true, $responseCode);
+		
+		if ( defined('JOLT_VERSION') ) {
+			header('X-Framework: Jolt ' . JOLT_VERSION);
+		}
+		
 		// Go through the list of headers to send, if they exist in the 
 		// $controllerHeaderList, unset them
 		foreach ( $headersList as $fullHeader ) {
