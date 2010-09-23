@@ -9,6 +9,16 @@ require_once 'Jolt/Controller.php';
 
 class Index extends Controller {
 	
+	private $sum = 0;
+	
+	public function init() {
+		$this->sum = mt_rand(1, 100);
+	}
+	
+	public function getSum() {
+		return $this->sum;
+	}
+	
 	public function indexAction() {
 		echo 'Hi, from Jolt!', PHP_EOL;
 	}

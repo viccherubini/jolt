@@ -114,6 +114,16 @@ class ControllerTest extends TestCase {
 		$this->assertEquals($viewContent, $controller->getRenderedController());
 	}
 	
+	public function testExecute_CallsInit() {
+		$controller = new Index;
+		$controller->attachView($this->buildMockViewObject());
+		$controller->setAction('indexAction');
+		
+		$controller->execute(array());
+		
+		$this->assertGreaterThan(0, $controller->getSum());
+	}
+	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
