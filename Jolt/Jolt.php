@@ -5,6 +5,8 @@ namespace Jolt;
 
 require_once 'Jolt/Exception.php';
 
+define('JOLT_VERSION', '0.0.3', false);
+
 /**
  * This class is an entrance for building an application. It is entirely
  * static and gives you access to building new objects, starting the 
@@ -71,7 +73,8 @@ class Jolt {
 			->setUseRewrite($cfg->useRewrite)
 			->setViewPath($cfg->viewPath);
 
-		$route = $this->router->execute();
+		$route = $this->router
+			->execute();
 	
 		$this->dispatcher
 			->setControllerPath($cfg->controllerPath)
@@ -84,6 +87,10 @@ class Jolt {
 			->attachController($this->dispatcher->getController());
 		
 		return $this->client;
+	}
+	
+	public function getRouter() {
+		return $this->router;
 	}
 	
 }
