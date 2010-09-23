@@ -99,6 +99,16 @@ class RouterTest extends TestCase {
 		$router->addRouteList($routeList);
 	}
 	
+	public function testAddRouteList_IsChainable() {
+		$routeList = array();
+		$routeList[] = $this->buildMockNamedRoute('GET', '/', 'Controller', 'indexAction');
+		$routeList[] = $this->buildMockNamedRoute('POST', '/', 'Controller', 'indexAction');
+		
+		$router = new Router;
+		
+		$this->assertTrue($router->addRouteList($routeList) instanceof \Jolt\Router);
+	}
+	
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
@@ -203,6 +213,25 @@ class RouterTest extends TestCase {
 		$router->setRequestMethod($requestMethod);
 		
 		$this->assertEquals(strtoupper($requestMethod), $router->getRequestMethod());
+	}
+	
+	public function testSetRouteParameter_IsSet() {
+		$routeParameter = '__j';
+		
+		$router = new Router;
+		$router->setRouteParameter($routeParameter);
+		
+		$this->assertEquals($routeParameter, $router->getRouteParameter());
+	}
+	
+	public function testGetPath_PathIsTrimmed() {
+		$path = ' /path/to/Result/10	';
+		$pathTrimmed = '/path/to/Result/10';
+		
+		$router = new Router;
+		$router->setPath($path);
+		
+		$this->assertEquals($pathTrimmed, $router->getPath());
 	}
 	
 	private function buildMockParameters($path) {
