@@ -13,6 +13,7 @@ class LocatorTest extends TestCase {
 	private $action = NULL;
 	private $namespace = 'JoltApp';
 	private $controller = 'Index';
+	private $controllerFile = 'index';
 	
 	public function setUp() {
 		$this->action = "{$this->namespace}\\{$this->controller}";
@@ -22,7 +23,7 @@ class LocatorTest extends TestCase {
 		$locator = new Locator;
 		$locator->load(DIRECTORY_CONTROLLERS, $this->action);
 		
-		$this->assertEquals($this->controller . Locator::EXT, $locator->getFile());
+		$this->assertEquals($this->controllerFile . Locator::EXT, $locator->getFile());
 	}
 
 	public function testLoad_AppendsDirectorySeparator() {
