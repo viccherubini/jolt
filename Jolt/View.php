@@ -10,7 +10,7 @@ namespace Jolt;
  */
 class View {
 	
-	// Configuration
+	// Settings
 	private $cssPath = NULL;
 	private $jsPath = NULL;
 	private $imagePath = NULL;

@@ -17,10 +17,10 @@ define('JOLT_VERSION', '0.0.3', false);
 class Jolt {
 	
 	private $client = NULL;
-	private $configuration = NULL;
 	private $controllerLocator = NULL;
 	private $dispatcher = NULL;
 	private $router = NULL;
+	private $settings = NULL;
 	private $view = NULL;
 	
 	public function __construct() {
@@ -32,8 +32,8 @@ class Jolt {
 		return $this;
 	}
 	
-	public function attachConfiguration(\Jolt\Configuration $cfg) {
-		$this->configuration = clone $cfg;
+	public function attachSettings(\Jolt\Settings $settings) {
+		$this->settings = clone $settings;
 		return $this;
 	}
 	
@@ -58,26 +58,26 @@ class Jolt {
 	}
 	
 	public function execute() {
-		$cfg = $this->configuration;
+		$settings = $this->settings;
 		
 		$this->router
-			->setRouteParameter($cfg->routeParameter);
+			->setRouteParameter($settings->routeParameter);
 		
 		$this->view
-			->setCssPath($cfg->cssPath)
-			->setImagePath($cfg->imagePath)
-			->setJsPath($cfg->jsPath)
-			->setRouteParameter($cfg->routeParameter)
-			->setSecureUrl($cfg->secureUrl)
-			->setUrl($cfg->url)
-			->setUseRewrite($cfg->useRewrite)
-			->setViewPath($cfg->viewPath);
+			->setCssPath($settings->cssPath)
+			->setImagePath($settings->imagePath)
+			->setJsPath($settings->jsPath)
+			->setRouteParameter($settings->routeParameter)
+			->setSecureUrl($settings->secureUrl)
+			->setUrl($settings->url)
+			->setUseRewrite($settings->useRewrite)
+			->setViewPath($settings->viewPath);
 
 		$route = $this->router
 			->execute();
 	
 		$this->dispatcher
-			->setControllerPath($cfg->controllerPath)
+			->setControllerPath($settings->controllerPath)
 			->attachLocator($this->controllerLocator)
 			->attachRoute($route)
 			->attachView($this->view)

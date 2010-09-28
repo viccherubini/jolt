@@ -3,15 +3,15 @@
 declare(encoding='UTF-8');
 namespace JoltTest;
 
-use \Jolt\Configuration,
+use \Jolt\Settings,
 	\JoltTest\TestCase;
 
-require_once 'Jolt/Configuration.php';
+require_once 'Jolt/Settings.php';
 
-class ConfigurationTest extends TestCase {
+class SettingsTest extends TestCase {
 	
 	public function test__Get_ReturnsNullOnMissingField() {
-		$c = new Configuration;
+		$c = new Settings;
 		
 		$this->assertTrue(is_null($c->field));
 	}
@@ -19,7 +19,7 @@ class ConfigurationTest extends TestCase {
 	public function test__Set_ReturnsValueOnPresentField() {
 		$name = 'vic';
 		
-		$c = new Configuration;
+		$c = new Settings;
 		$c->name = $name;
 
 		$this->assertEquals($name, $c->name);

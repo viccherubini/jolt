@@ -13,13 +13,13 @@ require_once 'Route/AllTests.php';
 
 require_once 'ClientTest.php';
 require_once 'ControllerTest.php';
-require_once 'ConfigurationTest.php';
 require_once 'DispatcherTest.php';
 require_once 'JoltTest.php';
 require_once 'MiscTest.php';
 require_once 'RegistryTest.php';
 require_once 'RouteTest.php';
 require_once 'RouterTest.php';
+require_once 'SettingsTest.php';
 require_once 'TestCaseTest.php';
 require_once 'ViewTest.php';
 
@@ -32,7 +32,6 @@ class AllTests {
 		$suite->addTestSuite(LibTests::suite());
 		$suite->addTestSuite(RouteTests::suite());
 		
-		$suite->addTestSuite('\JoltTest\ConfigurationTest');
 		$suite->addTestSuite('\JoltTest\ControllerTest');
 		$suite->addTestSuite('\JoltTest\ClientTest');
 		$suite->addTestSuite('\JoltTest\DispatcherTest');
@@ -40,6 +39,7 @@ class AllTests {
 		$suite->addTestSuite('\JoltTest\RegistryTest');
 		$suite->addTestSuite('\JoltTest\RouteTest');
 		$suite->addTestSuite('\JoltTest\RouterTest');
+		$suite->addTestSuite('\JoltTest\SettingsTest');
 		$suite->addTestSuite('\JoltTest\TestCaseTest');
 		$suite->addTestSuite('\JoltTest\ViewTest');
 

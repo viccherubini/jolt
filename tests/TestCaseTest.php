@@ -3,20 +3,20 @@
 declare(encoding='UTF-8');
 namespace JoltTest;
 
-use \Jolt\Configuration,
+use \Jolt\Settings,
 	\JoltTest\TestCase;
 
-require_once 'Jolt/Configuration.php';
+require_once 'Jolt/Settings.php';
 
 class TestCaseTest extends TestCase {
 	
-	public function testBuildMockConfiguration_CanSetArrayOfParameters() {
-		$cfg1 = new Configuration;
+	public function testBuildMockSettings_CanSetArrayOfParameters() {
+		$cfg1 = new Settings;
 		$cfg1->key2 = 'value2';
 		$cfg1->key1 = 'value1';
 		
 		$cfgArray = array('key1' => 'value1', 'key2' => 'value2');
-		$cfg2 = $this->buildMockConfiguration($cfgArray);
+		$cfg2 = $this->buildMockSettings($cfgArray);
 		
 		foreach ( $cfgArray as $k => $v ) {
 			$this->assertEquals($cfg1->$k, $cfg2->$k);
