@@ -10,19 +10,32 @@ require_once 'Jolt/Settings.php';
 
 class SettingsTest extends TestCase {
 	
-	public function test__Get_ReturnsNullOnMissingField() {
-		$c = new Settings;
+	public function test__Construct_SetsAllSettingsWithArray() {
+		$settings = array(
+			'name' => 'vic',
+			'age' => 26
+		);
 		
-		$this->assertTrue(is_null($c->field));
+		$s = new Settings($settings);
+		
+		foreach ( $settings as $k => $v ) {
+			$this->assertEquals($v, $s->$k);
+		}
+	}
+	
+	public function test__Get_ReturnsNullOnMissingField() {
+		$s = new Settings;
+		
+		$this->assertTrue(is_null($s->field));
 	}
 	
 	public function test__Set_ReturnsValueOnPresentField() {
 		$name = 'vic';
 		
-		$c = new Settings;
-		$c->name = $name;
+		$s = new Settings;
+		$s->name = $name;
 
-		$this->assertEquals($name, $c->name);
+		$this->assertEquals($name, $s->name);
 	}
 	
 }
