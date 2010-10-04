@@ -93,4 +93,8 @@ class Jolt {
 		return $this->router;
 	}
 	
+	public function getView() {
+		return $this->view;
+	}
+	
 }
