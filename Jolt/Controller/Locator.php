@@ -22,7 +22,8 @@ class Locator {
 		$bits = explode('\\', $controller);
 		$bitsLen = count($bits);
 		
-		$this->file = strtolower($bits[$bitsLen-1]);
+		$this->file = $bits[$bitsLen-1];
+		$this->file = $this->convertCamelCaseToDashes($this->file);
 		$this->path = $path;
 		
 		if ( 0 === preg_match('/\\' . self::EXT . '$/i', $controller) ) {
@@ -60,6 +61,13 @@ class Locator {
 
 	public function getFile() {
 		return $this->file;
+	}
+	
+	private function convertCamelCaseToDashes($v) {
+		$v = strtolower(substr($v, 0, 1)) . substr($v, 1);
+		$v = preg_replace('/[A-Z]/', '-\\0', $v);
+		$v = strtolower($v);
+		return $v;
 	}
 
 }

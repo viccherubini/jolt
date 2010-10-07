@@ -75,7 +75,8 @@ class LocatorTest extends TestCase {
 			array('\\Index2'),
 			array('JoltApp\\Index'),
 			array('Index3'),
-			array('JoltApp\\User\\User')
+			array('JoltApp\\User\\User'),
+			array('UserController')
 		);
 	}
 }
