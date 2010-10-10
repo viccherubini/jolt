@@ -173,7 +173,7 @@ class Session {
 			$pdoStatement = $this->pdo
 				->prepare('SELECT COUNT(*) AS session_count FROM session WHERE session_id = :session_id');
 			$pdoStatement->execute(array('session_id' => $sessionId));
-			$session = $pdoStatement->fetch(\PDO::FETCH_OBJ);
+			$session = $pdoStatement->fetchObject();
 			
 			$sessionCount = 0;
 			if ( property_exists($session, 'session_count') ) {
@@ -214,7 +214,7 @@ class Session {
 				$pdoStatement = $this->pdo
 					->prepare($sql);
 					
-				$pdoStatement->execute($parameters);
+				$exec = $pdoStatement->execute($parameters);
 			} else {
 				//$sql = 'DELETE FROM se
 			}
