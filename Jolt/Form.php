@@ -5,12 +5,13 @@ namespace Jolt;
 
 class Form {
 
+	private $id = NULL;
+	
 	private $dataKey = NULL;
 	private $exception = NULL;
 	
 	private $data = array();
 	private $validator = array();
-
 	private $messages = array();
 
 	public function __construct() {
@@ -50,13 +51,16 @@ class Form {
 		}
 		
 		if ( $invalid ) {
-			$this->throwException('The form failed to validate.');
+			$this->throwException("The form '{$this->id}' was submitted with errors.");
 		}
 		
-		//return (!$invalid);
+		return $data;
 	}
 	
-	
+	public function setId($id) {
+		$this->id = trim($id);
+		return $this;
+	}
 	
 	public function setData(array $data) {
 		ksort($data);
