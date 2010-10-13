@@ -151,13 +151,4 @@ class Form {
 		return $allEmpty;
 	}
 	
-/*
-	private function throwException($message) {
-		$exception = $this->exception;
-		if ( empty($exception) || !class_exists($exception) ) {
-			$exception = '\Jolt\Exception';
-		}
-		throw new $exception($message);
-	}
-*/
 }
