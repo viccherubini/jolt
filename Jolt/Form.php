@@ -81,7 +81,6 @@ class Form {
 	}
 	
 	public function setData(array $data) {
-		ksort($data);
 		$this->data = $data;
 		return $this;
 	}
