@@ -1,7 +1,7 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Form;
+namespace Jolt\Form\Validator;
 
 class RuleSet {
 
