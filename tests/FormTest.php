@@ -30,87 +30,21 @@ class FormTest extends TestCase {
 	 * @expectedException PHPUnit_Framework_Error
 	 * @dataProvider providerInvalidArray
 	 */
-	public function testSetValidator_IsArray($data) {
+	public function testAttachException_IsException($exception) {
 		$form = new Form;
-		$form->setValidator($data);
-	}
-
-	public function testSetValidator_ReturnsSelf() {
-		$form = new Form;
-		$this->assertTrue($form->setValidator(array()) instanceof \Jolt\Form);
+		$form->attachException($exception);
 	}
 	
-	/**
-	 * @expectedException \Jolt\Exception
-	 */
-	public function testSetValidator_ElementsAreRuleSets() {
-		$validator = array(
-			'name' => new RuleSet(array()),
-			'age' => 16,
-			'height' => new RuleSet(array())
-		);
+	public function testAttachException_CanAttachPrebuiltException() {
+		$msg = 'An error occurred';
+		$exception = new \Exception($msg);
 		
 		$form = new Form;
-		$form->setValidator($validator);
+		$this->assertTrue($form->attachException($exception) instanceof \Jolt\Form);
+		
+		$exception = $form->getException();
+		$this->assertEquals($msg, $exception->getMessage());
 	}
-	
-	public function testValidate_TrueIfDataEmpty() {
-		$form = new Form;
-		$validated = $form->validate();
-		
-		$this->assertTrue($validated);
-	}
-	
-	/**
-	 * @expectedException \Jolt\Exception
-	 */
-	public function testValidate_ValidatorAndDataEqualLength() {
-		$form = new Form;
-		
-		$data = array('name' => 'Name', 'age' => 16);
-		$validator = array('name' => new RuleSet(array()), 'age' => new RuleSet(array()), 'birthday' => new RuleSet(array()));
-		
-		$form->setData($data);
-		$form->setValidator($validator);
-		
-		$form->validate();
-	}
-	
-	/**
-	 * @expectedException \Jolt\Exception
-	 */
-	public function testValidate_KeysMustMatchInDataAndValidator() {
-		$form = new Form;
-		
-		$data = array('title' => 'Category Title', 'id' => 10);
-		$validator = array('title' => new RuleSet(array()), 'name' => new RuleSet(array()));
-		
-		$form->setData($data);
-		$form->setValidator($validator);
-		
-		$form->validate();
-	}
-	
-	public function testValidate_KeysMatchInDataAndValidator() {
-		$form = new Form;
-		
-		$data = array('title' => 'Category Title', 'id' => 10);
-		$validator = array('title' => new RuleSet(array()), 'id' => new RuleSet(array()));
-		
-		$validated = $form->validate();
-		$this->assertTrue($validated);
-	}
-	
-	public function testValidate_TrueIfRuleSetsEmpty() {
-		$form = new Form;
-		
-		$data = array('title' => 'Category Title', 'id' => 10);
-		$validator = array('title' => new RuleSet(array()), 'id' => new RuleSet(array()));
-		
-		$validated = $form->validate();
-		$this->assertTrue($validated);
-	}
-	
 	
 	
 	public function providerInvalidArray() {
