@@ -49,11 +49,6 @@ class FormTest extends TestCase {
 		$this->assertEquals($msg, $exception->getMessage());
 	}
 	
-	
-	
-	
-	
-	
 	/**
 	 * @expectedException PHPUnit_Framework_Error
 	 * @dataProvider providerInvalidArray
@@ -68,8 +63,6 @@ class FormTest extends TestCase {
 		$this->assertTrue($form->setData(array()) instanceof \Jolt\Form);
 	}
 
-
-	
 	public function providerInvalidArray() {
 		return array(
 			array('a'),
