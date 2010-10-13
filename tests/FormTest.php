@@ -8,24 +8,24 @@ use \Jolt\Form,
 	\JoltTest\TestCase;
 
 require_once 'Jolt/Form.php';
-require_once 'Jolt/Form/RuleSet.php';
 
 class FormTest extends TestCase {
 	
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 * @dataProvider providerInvalidArray
-	 */
-	public function testSetData_IsArray($data) {
+	public function testAddMessage_OverwritesExistingMessages() {
+		$field = 'username';
+		$msg1 = 'Error with the username';
+		$msg2 = 'Make the username nonempty';
+		
 		$form = new Form;
-		$form->setData($data);
+		
+		$form->addMessage($field, $msg1);
+		$this->assertEquals($msg1, $form->message($field));
+		
+		$form->addMessage($field, $msg2);
+		$this->assertEquals($msg2, $form->message($field));
 	}
 	
-	public function testSetData_ReturnsSelf() {
-		$form = new Form;
-		$this->assertTrue($form->setData(array()) instanceof \Jolt\Form);
-	}
-
+	
 	/**
 	 * @expectedException PHPUnit_Framework_Error
 	 * @dataProvider providerInvalidArray
@@ -46,6 +46,26 @@ class FormTest extends TestCase {
 		$this->assertEquals($msg, $exception->getMessage());
 	}
 	
+	
+	
+	
+	
+	
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @dataProvider providerInvalidArray
+	 */
+	public function testSetData_IsArray($data) {
+		$form = new Form;
+		$form->setData($data);
+	}
+	
+	public function testSetData_ReturnsSelf() {
+		$form = new Form;
+		$this->assertTrue($form->setData(array()) instanceof \Jolt\Form);
+	}
+
+
 	
 	public function providerInvalidArray() {
 		return array(

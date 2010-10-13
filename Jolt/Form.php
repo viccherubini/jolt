@@ -26,6 +26,11 @@ class Form {
 		$this->data = array();
 	}
 	
+	public function addMessage($field, $message) {
+		$this->messages[$field] = $message;
+		return $this;
+	}
+	
 	public function attachException(\Exception $exception) {
 		$this->exception = $exception;
 		return $this;
@@ -56,6 +61,13 @@ class Form {
 	
 	public function validate() {
 		
+	}
+	
+	public function message($field) {
+		if ( array_key_exists($field, $this->messages) ) {
+			return $this->messages[$field];
+		}
+		return NULL;
 	}
 	
 	public function setId($id) {
