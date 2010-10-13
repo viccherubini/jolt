@@ -4,10 +4,12 @@ declare(encoding='UTF-8');
 namespace JoltTest;
 
 use \JoltTest\Controller\AllTests as ControllerTests,
+	\JoltTest\Form\AllTests as FormTests,
 	\JoltTest\Lib\AllTests as LibTests,
 	\JoltTest\Route\AllTests as RouteTests;
 
 require_once 'Controller/AllTests.php';
+require_once 'Form/AllTests.php';
 require_once 'Lib/AllTests.php';
 require_once 'Route/AllTests.php';
 
@@ -30,6 +32,7 @@ class AllTests {
 		$suite = new \PHPUnit_Framework_TestSuite('Jolt Tests');
 		
 		$suite->addTestSuite(ControllerTests::suite());
+		$suite->addTestSuite(FormTests::suite());
 		$suite->addTestSuite(LibTests::suite());
 		$suite->addTestSuite(RouteTests::suite());
 		
