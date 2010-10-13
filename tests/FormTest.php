@@ -25,6 +25,10 @@ class FormTest extends TestCase {
 		$this->assertEquals($msg2, $form->message($field));
 	}
 	
+	public function testMessage_ReturnsNullForMissingMessage() {
+		$form = new Form;
+		$this->assertNull($form->message('username'));
+	}
 	
 	/**
 	 * @expectedException PHPUnit_Framework_Error
