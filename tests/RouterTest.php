@@ -69,7 +69,7 @@ class RouterTest extends TestCase {
 		$this->assertEquals(2, count($router->getRouteList()));
 	}
 	
-	public function testAddRoute_ReturnsRouterObject() {
+	public function testAddRoute_ReturnsJoltRouterObject() {
 		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
 		$restfulRoute = $this->buildMockRestfulRoute('/user', 'User');
 		
@@ -201,7 +201,7 @@ class RouterTest extends TestCase {
 		$router->setParameters('11');
 	}
 	
-	public function testSetParameters_ReturnsRouterObject() {
+	public function testSetParameters_ReturnsJoltRouterObject() {
 		$router = new Router;
 		$this->assertTrue($router->setParameters(array()) instanceof \Jolt\Router);
 	}
