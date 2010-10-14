@@ -144,6 +144,18 @@ class RuleSetTest extends TestCase {
 		$this->assertFalse($validator->isValid(array('abc')));
 	}
 	
+	public function testGetError_ReturnsErrorForInvalidRule() {
+		$field = 'Username';
+		$error = 'The field %s can not be empty';
+		$errorFull = 'The field Username can not be empty';
+		$validator = new RuleSet(array('empty' => true), array('empty' => $error), $field);
+		
+		$validator->isValid(NULL);
+		
+		$this->assertEquals($errorFull, $validator->getError());
+	}
+	
+	
 	public function testGetField_ReturnsFieldFromInitialization() {
 		$field = 'Username';
 		$validator = new RuleSet(array('empty' => true), array('empty' => 'Field can not be empty'), $field);

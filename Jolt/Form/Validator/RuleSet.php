@@ -8,6 +8,7 @@ class RuleSet {
 	private $charset = 'UTF-8';
 
 	private $field = NULL;
+	private $error = NULL;
 
 	private $errors = array();
 	private $messages = array();
@@ -54,10 +55,17 @@ class RuleSet {
 			$opMethod = 'op' . ucwords(strtolower($op));
 			if ( method_exists($this, $opMethod) && !$this->$opMethod($rule, $value) ) {
 				$isValid = false;
+				if ( array_key_exists($op, $this->messages) ) {
+					$this->error = sprintf($this->messages[$op], $this->field);
+				}
 				break;
 			}
 		}
 		return $isValid;
+	}
+	
+	public function getError() {
+		return $this->error;
 	}
 	
 	public function getField() {
