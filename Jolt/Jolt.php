@@ -5,7 +5,7 @@ namespace Jolt;
 
 require_once 'Jolt/Exception.php';
 
-define('JOLT_VERSION', '0.0.3', false);
+define('JOLT_VERSION', '0.0.6', false);
 
 /**
  * This class is an entrance for building an application. It is entirely
