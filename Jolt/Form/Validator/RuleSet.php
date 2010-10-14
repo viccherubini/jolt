@@ -51,6 +51,7 @@ class RuleSet {
 	
 	public function isValid($value) {
 		$isValid = true;
+		$this->error = NULL;
 		foreach ( $this->rules as $op => $rule ) {
 			$opMethod = 'op' . ucwords(strtolower($op));
 			if ( method_exists($this, $opMethod) && !$this->$opMethod($rule, $value) ) {
