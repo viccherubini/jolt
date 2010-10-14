@@ -26,7 +26,7 @@ class Validator {
 	}
 	
 	public function isEmpty() {
-		return (0 === count($this->ruleSets));
+		return ( 0 === count($this->ruleSets) );
 	}
 	
 	public function getRuleSets() {
