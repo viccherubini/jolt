@@ -13,6 +13,9 @@ class Validator {
 		}
 	}
 	
+	public function __destruct() {
+		$this->ruleSets = array();
+	}
 	
 	public function addRuleSet($field, \Jolt\Form\Validator\RuleSet $ruleSet) {
 		if ( empty($field) ) {
