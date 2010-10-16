@@ -58,9 +58,6 @@ class ClientTest extends TestCase {
 		$this->assertEmpty($output);
 	}
 	
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 */
 	public function test__ToString_SendsHeaders() {
 		$controller = $this->buildMockController();
 		$controller->addHeader('X-Powered-By', 'Jolt/PHP');
@@ -71,9 +68,6 @@ class ClientTest extends TestCase {
 		$this->assertEmpty($output);
 	}
 	
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 */
 	public function test__ToString_SendsNonSentHeaders() {
 		$controller = $this->buildMockController();
 		$controller->addHeader('X-Powered-By', 'Jolt/PHP');
