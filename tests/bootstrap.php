@@ -14,6 +14,7 @@ set_include_path(implode(PATH_SEPARATOR, array($includePath, $joltPath, $joltTes
 
 define('DS', DIRECTORY_SEPARATOR, false);
 define('DIRECTORY_TESTS', $joltTestPath, false);
+define('DIRECTORY_DB', $joltTestPath . DS . 'db', false);
 define('DIRECTORY_APP', DIRECTORY_TESTS . DS . 'app', false);
 define('DIRECTORY_CONTROLLERS', DIRECTORY_APP . DS . 'controllers', false);
 define('DIRECTORY_VIEWS', DIRECTORY_APP . DS . 'views', false);
