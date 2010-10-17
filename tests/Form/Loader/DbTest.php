@@ -71,7 +71,6 @@ class DbTest extends TestCase {
 
 	}
 
-
 	public function testLoad_DataIsFound() {
 		$db = $this->buildDbLoaderWithPdoAttached();
 		$db->setTable('form_data');
@@ -88,6 +87,53 @@ class DbTest extends TestCase {
 	}
 
 
+	public function testLoad_StatusIsDisabled() {
+		$db = $this->buildDbLoaderWithPdoAttached();
+		$db->setTable('form_data');
+		$db->setId('form1');
+
+		$db->load();
+
+		$data1 = $db->getData();
+		$this->assertTrue(is_array($data1));
+
+		// Find the data again and ensure it's status is 0
+		$stmt = $this->pdo->query("SELECT * FROM form_data WHERE id = 'form1'");
+		$data2 = $stmt->fetchObject();
+
+		$this->assertEquals(0, $data2->status);
+	}
+
+	public function testLoad_CanNotReloadSameForm() {
+		$db = $this->buildDbLoaderWithPdoAttached();
+		$db->setTable('form_data');
+		$db->setId('form1');
+
+		$loaded1 = $db->load();
+		$data1 = $db->getData();
+		$this->assertTrue($loaded1);
+		$this->assertTrue(is_array($data1));
+
+		$loaded2 = $db->load();
+		$data2 = $db->getData();
+		$this->assertFalse($loaded2);
+
+		$this->assertEquals($data1, $data2);
+	}
+
+	public function testLoad_AlwaysBuildsArray() {
+		$this->pdo->query("UPDATE form_data SET data = 'not_an_array' WHERE id = 'form1'");
+
+		$db = $this->buildDbLoaderWithPdoAttached();
+		$db->setTable('form_data');
+		$db->setId('form1');
+
+		$db->load();
+		$data = $db->getData();
+
+		$this->assertTrue(is_array($data));
+	}
+
 	private function buildDbLoaderWithPdoAttached() {
 		$db = new Db;
 		$db->attachPdo($this->pdo);
@@ -95,4 +141,5 @@ class DbTest extends TestCase {
 
 		return $db;
 	}
+
 }
