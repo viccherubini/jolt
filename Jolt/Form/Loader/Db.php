@@ -51,24 +51,30 @@ class Db extends Loader {
 
 		if ( $executed ) {
 			$formData = $stmt->fetchObject();
+			if ( !$formData ) {
+				return false;
+			}
+
 			$formId = $formData->form_id;
 
 			$sql = "UPDATE {$table} SET status = 0 WHERE form_id = :form_id";
 			$stmt = $pdo->prepare($sql);
 
-			if ( !$stmt ) {
-				return false;
+			if ( false !== $stmt ) {
+				$executed = $stmt->execute(array('form_id' => $formId));
+
+				$data = json_decode($formData->data, true);
+				if ( is_null($data) ) {
+					$data = $formData->data;
+				}
+
+				if ( !is_array($data) ) {
+					$data = array($data);
+				}
+
+				$this->setDataKey($formData->datakey);
+				$this->setData($data);
 			}
-
-			$executed = $stmt->execute(array('form_id' => $formId));
-
-			$data = json_decode($formData->data);
-			if ( !is_array($data) ) {
-				$data = array($data);
-			}
-
-			$this->setDataKey($formData->datakey);
-			$this->setData($data);
 		}
 
 		return $executed;
