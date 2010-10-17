@@ -42,14 +42,17 @@ class DbTest extends TestCase {
 
 	public function testWrite_FailsForNoPdo() {
 		$db = new Db;
-		$this->assertFalse($db->write());
+
+		$written = $db->write();
+		$this->assertFalse($written);
 	}
 
 	public function testWrite_FailsForNoData() {
 		$db = new Db;
 		$db->attachPdo($this->pdo);
 
-		$this->assertFalse($db->write());
+		$written = $db->write();
+		$this->assertFalse($written);
 	}
 
 	public function testWrite_FailsForNoId() {
@@ -57,29 +60,30 @@ class DbTest extends TestCase {
 		$db->attachPdo($this->pdo);
 		$db->setData(array('name' => 'Vic Cherubini', 'age' => 26));
 
-		$this->assertFalse($db->write());
+		$written = $db->write();
+		$this->assertFalse($written);
 	}
 
 	public function testWrite_FailsForMissingTable() {
 		$db = $this->buildDbWriterWithPdoAttached('article');
 		$db->setTable('missing_table');
-		$written = $db->write();
 
+		$written = $db->write();
 		$this->assertFalse($written);
 	}
 
 	public function testWrite_WritesFormData() {
 		$db = $this->buildDbWriterWithPdoAttached('article');
-		$written = $db->write();
 
+		$written = $db->write();
 		$this->assertTrue($written);
 	}
 
 	public function testWrite_WritesToDifferentTable() {
 		$db = $this->buildDbWriterWithPdoAttached('article');
 		$db->setTable('form_alternative');
-		$written = $db->write();
 
+		$written = $db->write();
 		$this->assertTrue($written);
 	}
 
