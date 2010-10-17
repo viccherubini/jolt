@@ -21,3 +21,6 @@ define('DIRECTORY_VIEWS', DIRECTORY_APP . DS . 'views', false);
 
 require_once 'Jolt/Exception.php';
 require_once 'Jolt/Route.php';
+
+// Delete all of the coverage docs
+shell_exec('rm -rf coverage');
