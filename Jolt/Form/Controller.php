@@ -22,6 +22,8 @@ abstract class Controller {
 	public function reset() {
 		$this->data = array();
 		$this->dataKey = NULL;
+		$this->id = NULL;
+		$this->name = NULL;
 	}
 
 	public function setId($id) {
