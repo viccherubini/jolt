@@ -27,15 +27,15 @@ require_once 'TestCaseTest.php';
 require_once 'ViewTest.php';
 
 class AllTests {
-	
+
 	public static function suite() {
 		$suite = new \PHPUnit_Framework_TestSuite('Jolt Tests');
-		
+
 		$suite->addTestSuite(ControllerTests::suite());
 		$suite->addTestSuite(FormTests::suite());
 		$suite->addTestSuite(LibTests::suite());
 		$suite->addTestSuite(RouteTests::suite());
-		
+
 		$suite->addTestSuite('\JoltTest\ControllerTest');
 		$suite->addTestSuite('\JoltTest\ClientTest');
 		$suite->addTestSuite('\JoltTest\DispatcherTest');
@@ -50,5 +50,5 @@ class AllTests {
 
 		return $suite;
 	}
-	
+
 }

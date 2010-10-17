@@ -7,8 +7,8 @@ require_once 'Form/ControllerTest.php';
 require_once 'Form/ValidatorTest.php';
 
 require_once 'Form/RuleSet/RuleSetTest.php';
+require_once 'Form/Loader/DbTest.php';
 require_once 'Form/Writer/DbTest.php';
-require_once 'Form/Writer/SessionTest.php';
 
 class AllTests {
 
