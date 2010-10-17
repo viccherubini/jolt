@@ -3,18 +3,14 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-class Form {
+require_once 'Jolt/FormController.php';
 
-	private $id = NULL;
-	private $name = NULL;
-	private $dataKey = NULL;
+class Form {
 
 	private $exception = NULL;
 	private $loader = NULL;
 	private $validator = NULL;
 	private $writer = NULL;
-
-	private $data = array();
 
 	private $messages = array();
 
@@ -70,41 +66,6 @@ class Form {
 		return NULL;
 	}
 
-	public function setId($id) {
-		$this->id = trim($id);
-		return $this;
-	}
-
-	public function setName($name) {
-		$this->name = trim($name);
-		return $this;
-	}
-
-	public function setData(array $data) {
-		$this->data = $data;
-		return $this;
-	}
-
-	public function setDataKey($dataKey) {
-		$this->dataKey = trim($dataKey);
-		return $this;
-	}
-
-	public function getId() {
-		return $this->id;
-	}
-
-	public function getName() {
-		return $this->name;
-	}
-
-	public function getData() {
-		return $this->data;
-	}
-
-	public function getDataKey() {
-		return $this->dataKey;
-	}
 
 	public function getException() {
 		return $this->exception;
@@ -115,40 +76,6 @@ class Form {
 			return $this->data[$this->dataKey];
 		}
 		return $this->data;
-	}
-
-
-
-
-
-
-
-
-
-	private function checkDataAndValidatorCounts() {
-		$data = $this->getData();
-		if ( count($data) !== count($this->validator) ) {
-			//$this->throwException('The number of elements in the data do not match the number of elements in the validator.');
-		}
-		return true;
-	}
-
-	private function checkDataAndValidatorElements() {
-		$data = $this->getData();
-		if ( array_keys($data) !== array_keys($this->validator) ) {
-			//$this->throwException('The elements of the data do not match the elements of the validator.');
-		}
-		return true;
-	}
-
-	private function checkEmptyRuleSets() {
-		$allEmpty = true;
-		foreach ( $this->validator as $ruleSet ) {
-			if ( !$ruleSet->isEmpty() ) {
-				$allEmpty = false;
-			}
-		}
-		return $allEmpty;
 	}
 
 }
