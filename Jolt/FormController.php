@@ -1,9 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Form;
+namespace Jolt;
 
-abstract class Controller {
+abstract class FormController {
 
 	private $id = NULL;
 	private $dataKey = NULL;

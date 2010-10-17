@@ -17,6 +17,7 @@ require_once 'ClientTest.php';
 require_once 'ControllerTest.php';
 require_once 'DispatcherTest.php';
 require_once 'FormTest.php';
+require_once 'FormControllerTest.php';
 require_once 'JoltTest.php';
 require_once 'MiscTest.php';
 require_once 'RegistryTest.php';
@@ -40,6 +41,7 @@ class AllTests {
 		$suite->addTestSuite('\JoltTest\ClientTest');
 		$suite->addTestSuite('\JoltTest\DispatcherTest');
 		$suite->addTestSuite('\JoltTest\FormTest');
+		$suite->addTestSuite('\JoltTest\FormControllerTest');
 		$suite->addTestSuite('\JoltTest\MiscTest');
 		$suite->addTestSuite('\JoltTest\RegistryTest');
 		$suite->addTestSuite('\JoltTest\RouteTest');

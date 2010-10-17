@@ -4,9 +4,11 @@ declare(encoding='UTF-8');
 namespace JoltTest;
 
 use \Jolt\Form,
+	\Jolt\FormController,
 	\JoltTest\TestCase;
 
 require_once 'Jolt/Form.php';
+require_once 'Jolt/FormController.php';
 require_once 'Jolt/Form/Loader.php';
 require_once 'Jolt/Form/Writer.php';
 

@@ -2,10 +2,11 @@
 
 declare(encoding='UTF-8');
 namespace Jolt;
+use \Jolt\FormController;
 
 require_once 'Jolt/FormController.php';
 
-class Form {
+class Form extends FormController {
 
 	private $exception = NULL;
 	private $loader = NULL;
