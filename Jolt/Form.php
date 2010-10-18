@@ -49,15 +49,73 @@ class Form extends FormController {
 	}
 
 	public function load() {
+		$loader = $this->loader;
+		if ( is_null($loader) ) {
+			return false;
+		}
 
+		// Loader requires the ID and name of the form
+		$id = $this->getId();
+		$name = $this->getName();
+
+		$loader->setId($id)
+			->setName($name);
+
+		$loaded = $loader->load();
+		if ( !$loaded ) {
+			return false;
+		}
+
+		$dataKey = $loader->getDataKey();
+		$data = $loader->getData();
+
+		$this->setDataKey($dataKey)
+			->setData($data);
+
+		return true;
 	}
 
 	public function write() {
+		$writer = $this->writer;
+		if ( is_null($writer) ) {
+			return false;
+		}
 
+		$id = $this->getId();
+		$name = $this->getName();
+		$dataKey = $this->getDataKey();
+		$data = $this->getData();
+
+		$writer->setId($id)
+			->setName($name)
+			->setDataKey($dataKey)
+			->setData($data);
+
+		$written = $writer->write();
+
+		return $written;
 	}
 
 	public function validate() {
+		$validator = $this->validator;
+		if ( is_null($validator) ) {
+			return false;
+		}
 
+		if ( $validator->isEmpty() ) {
+			return true;
+		}
+
+		$dataSet = $this->getDataSetCount();
+
+		$dataSetCount = $this->getDataSetCount();
+		$validatorCount = $validator->count();
+
+		if ( $dataSetCount > $validatorCount ) {
+			$this->throwException('there are more data fields than Validator RuleSets');
+		}
+
+		return true;
 	}
 
 	public function message($field) {
@@ -73,10 +131,25 @@ class Form extends FormController {
 	}
 
 	public function getDataSet() {
-		if ( !empty($this->dataKey) && array_key_exists($this->dataKey, $this->data) ) {
-			return $this->data[$this->dataKey];
+		$dataKey = $this->getDataKey();
+		$data = $this->getData();
+		if ( !empty($dataKey) && array_key_exists($dataKey, $data) ) {
+			return $data[$dataKey];
 		}
-		return $this->data;
+		return $data;
+	}
+
+	public function getDataSetCount() {
+		return count($this->getDataSet());
+	}
+
+
+	private function throwException($message) {
+		$exception = $this->exception;
+		if ( !is_null($exception) ) {
+			throw new $exception($message);
+		}
+		throw new \Jolt\Exception($message);
 	}
 
 }
