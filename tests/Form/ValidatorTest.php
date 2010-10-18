@@ -46,7 +46,16 @@ class ValidatorTest extends TestCase {
 		$validator = new Validator;
 
 		$this->assertTrue($validator->addRuleSet('username', $ruleSet) instanceof \Jolt\Form\Validator);
+	}
 
+	public function testCount_ReturnsNumberOfRuleSets() {
+		$ruleSet = $this->getMock('\Jolt\Form\Validator\RuleSet', array(), array(array()));
+		$validator = new Validator;
+
+		$validator->addRuleSet('username', $ruleSet);
+		$validator->addRuleSet('age', $ruleSet);
+
+		$this->assertEquals(2, $validator->count());
 	}
 
 	public function testIsEmpty_EmptyWhenNoRuleSets() {
