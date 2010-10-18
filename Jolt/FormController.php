@@ -36,13 +36,13 @@ abstract class FormController {
 		return $this;
 	}
 
-	public function setData(array $data) {
-		$this->data = $data;
+	public function setDataKey($dataKey) {
+		$this->dataKey = trim($dataKey);
 		return $this;
 	}
 
-	public function setDataKey($dataKey) {
-		$this->dataKey = trim($dataKey);
+	public function setData(array $data) {
+		$this->data = $data;
 		return $this;
 	}
 
@@ -54,12 +54,16 @@ abstract class FormController {
 		return $this->name;
 	}
 
+	public function getDataKey() {
+		return $this->dataKey;
+	}
+
 	public function getData() {
 		return $this->data;
 	}
 
-	public function getDataKey() {
-		return $this->dataKey;
+	public function getDataCount() {
+		return count($this->data);
 	}
 
 }
