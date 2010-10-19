@@ -74,8 +74,6 @@ class Db extends Loader {
 
 				$this->setDataKey($formData->datakey);
 				$this->setData($data);
-			} else {
-				$executed = false;
 			}
 		}
 
