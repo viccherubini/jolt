@@ -106,7 +106,7 @@ class Form extends FormController {
 			return true;
 		}
 
-		$dataSet = $this->getDataSetCount();
+		$dataSet = $this->getDataSet();
 
 		$dataSetCount = $this->getDataSetCount();
 		$validatorCount = $validator->count();
