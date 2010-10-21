@@ -8,16 +8,16 @@ class RuleSet {
 	private $charset = 'UTF-8';
 
 	private $field = NULL;
-	private $message = NULL;
+	private $error = NULL;
 
-	private $messages = array();
+	private $errors = array();
 	private $rules = array();
 
-	public function __construct(array $rules, array $messages=array(), $field=NULL) {
+	public function __construct(array $rules, array $errors=array(), $field=NULL) {
 		foreach ( $rules as $ruleKey => $ruleValue ) {
 			$this->addRule($ruleKey, $ruleValue);
-			if ( array_key_exists($ruleKey, $messages) ) {
-				$this->addMessage($ruleKey, $messages[$ruleKey]);
+			if ( array_key_exists($ruleKey, $errors) ) {
+				$this->addError($ruleKey, $errors[$ruleKey]);
 			}
 		}
 
@@ -36,11 +36,11 @@ class RuleSet {
 		return $this;
 	}
 
-	public function addMessage($ruleKey, $message) {
+	public function addError($ruleKey, $error) {
 		if ( empty($ruleKey) ) {
-			throw new \Jolt\Exception('the rules message can not be empty');
+			throw new \Jolt\Exception('the ruleset errors can not be empty');
 		}
-		$this->messages[$ruleKey] = $message;
+		$this->errors[$ruleKey] = $error;
 		return $this;
 	}
 
@@ -55,8 +55,8 @@ class RuleSet {
 			$opMethod = 'op' . ucwords(strtolower($op));
 			if ( method_exists($this, $opMethod) && !$this->$opMethod($rule, $value) ) {
 				$isValid = false;
-				if ( array_key_exists($op, $this->messages) ) {
-					$this->message = sprintf($this->messages[$op], $this->field);
+				if ( array_key_exists($op, $this->errors) ) {
+					$this->error = sprintf($this->errors[$op], $this->field);
 				}
 				break;
 			}
@@ -64,7 +64,7 @@ class RuleSet {
 		return $isValid;
 	}
 
-	public function getMessage() {
+	public function getError() {
 		return $this->error;
 	}
 
@@ -72,8 +72,8 @@ class RuleSet {
 		return $this->field;
 	}
 
-	public function getMessages() {
-		return $this->messages;
+	public function getErrors() {
+		return $this->errors;
 	}
 
 
