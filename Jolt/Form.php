@@ -13,19 +13,12 @@ class Form extends FormController {
 	private $validator = NULL;
 	private $writer = NULL;
 
-	private $messages = array();
-
 	public function __construct() {
 
 	}
 
 	public function __destruct() {
 		$this->data = array();
-	}
-
-	public function addMessage($field, $message) {
-		$this->messages[$field] = $message;
-		return $this;
 	}
 
 	public function attachException(\Exception $exception) {
@@ -54,7 +47,6 @@ class Form extends FormController {
 			return false;
 		}
 
-		// Loader requires the ID and name of the form
 		$id = $this->getId();
 		$name = $this->getName();
 
@@ -110,25 +102,35 @@ class Form extends FormController {
 			return true;
 		}
 
+		$formName = $this->getName();
 		$dataSet = $this->getDataSet();
 
-		$dataSetCount = $this->getDataSetCount();
-		$validatorCount = $validator->count();
+		$ruleSets = $validator->getRuleSets();
+		foreach ( $ruleSets as $field => $ruleSet ) {
+			$value = NULL;
+			if ( array_key_exists($field, $dataSet) ) {
+				$value = $dataSet[$field];
+			}
 
-		if ( $dataSetCount > $validatorCount ) {
-			$this->throwException('there are more data fields than Validator RuleSets');
+			if ( !$ruleSet->isValid($value) ) {
+				$error = $ruleSet->getError();
+				$this->addError($field, $error);
+			}
+		}
+
+		if ( $this->getErrorsCount() > 0 ) {
+			$error = "the form {$formName} failed to validate";
+
+			$exception = $this->exception;
+			if ( !is_null($exception) ) {
+				throw new $exception($error);
+			} else {
+				throw new \Jolt\Exception($error);
+			}
 		}
 
 		return true;
 	}
-
-	public function message($field) {
-		if ( array_key_exists($field, $this->messages) ) {
-			return $this->messages[$field];
-		}
-		return NULL;
-	}
-
 
 	public function getException() {
 		return $this->exception;
@@ -141,19 +143,6 @@ class Form extends FormController {
 			return $data[$dataKey];
 		}
 		return $data;
-	}
-
-	public function getDataSetCount() {
-		return count($this->getDataSet());
-	}
-
-
-	private function throwException($message) {
-		$exception = $this->exception;
-		if ( !is_null($exception) ) {
-			throw new $exception($message);
-		}
-		throw new \Jolt\Exception($message);
 	}
 
 }

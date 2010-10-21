@@ -21,10 +21,24 @@ abstract class FormController {
 	}
 
 	public function reset() {
-		$this->data = array();
 		$this->dataKey = NULL;
 		$this->id = NULL;
 		$this->name = NULL;
+
+		$this->data = array();
+		$this->errors = array();
+	}
+
+	public function addError($field, $error) {
+		$this->errors[$field] = $error;
+		return $this;
+	}
+
+	public function error($field) {
+		if ( array_key_exists($field, $this->errors) ) {
+			return $this->errors[$field];
+		}
+		return NULL;
 	}
 
 	public function setId($id) {
@@ -74,6 +88,10 @@ abstract class FormController {
 
 	public function getErrors() {
 		return $this->errors;
+	}
+
+	public function getErrorsCount() {
+		return count($this->errors);
 	}
 
 }
