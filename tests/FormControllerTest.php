@@ -48,7 +48,21 @@ class FormControllerTest extends TestCase {
 	 * @expectedException PHPUnit_Framework_Error
 	 */
 	public function testSetData_MustBeArray() {
-		$this->writer->setData('not an array');
+		$this->formController->setData('not an array');
 	}
 
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 */
+	public function testSetErrors_MustBeArray() {
+		$this->formController->setErrors('not an array');
+	}
+
+	public function testGetDataCount_ReturnsNumberOfElementsInData() {
+		$data = array('a' => 'first', 'b' => 'second', 'c' => 'third');
+		$count = 3;
+
+		$this->formController->setData($data);
+		$this->assertEquals($count, $this->formController->getDataCount());
+	}
 }

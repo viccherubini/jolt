@@ -30,6 +30,11 @@ class DbTest extends TestCase {
 				'created' => date('Y-m-d H:i:s', time())
 			)
 		);
+
+		$this->errors = array(
+			'title' => 'The field Title can not be empty.',
+			'content' => 'The field Content must be larger than 20 characters.'
+		);
 	}
 
 	/**
@@ -98,6 +103,7 @@ class DbTest extends TestCase {
 		$db->setName($name);
 		$db->setDataKey($this->formDataKey);
 		$db->setData($this->formData);
+		$db->setErrors($this->errors);
 
 		return $db;
 	}
