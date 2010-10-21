@@ -20,6 +20,22 @@ class FormControllerTest extends TestCase {
 		$this->formController = NULL;
 	}
 
+	public function testAddError_OverwritesExistingMessages() {
+		$field = 'username';
+		$msg1 = 'Error with the username';
+		$msg2 = 'Make the username nonempty';
+
+		$this->formController->addError($field, $msg1);
+		$this->assertEquals($msg1, $this->formController->error($field));
+
+		$this->formController->addError($field, $msg2);
+		$this->assertEquals($msg2, $this->formController->error($field));
+	}
+
+	public function testError_ReturnsNullForMissingField() {
+		$this->assertNull($this->formController->error('username'));
+	}
+
 	public function testSetId_IsTrimmed() {
 		$id = '   id   ';
 		$idTrimmed = 'id';
@@ -65,4 +81,5 @@ class FormControllerTest extends TestCase {
 		$this->formController->setData($data);
 		$this->assertEquals($count, $this->formController->getDataCount());
 	}
+
 }

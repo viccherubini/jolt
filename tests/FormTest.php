@@ -14,28 +14,10 @@ require_once 'Jolt/Form/Loader/Db.php';
 require_once 'Jolt/Form/Writer.php';
 require_once 'Jolt/Form/Writer/Db.php';
 require_once 'Jolt/Form/Validator.php';
+require_once 'Jolt/Form/Validator/RuleSet.php';
 require_once 'Jolt/Form/Writer.php';
 
 class FormTest extends TestCase {
-
-	public function testAddMessage_OverwritesExistingMessages() {
-		$field = 'username';
-		$msg1 = 'Error with the username';
-		$msg2 = 'Make the username nonempty';
-
-		$form = new Form;
-
-		$form->addMessage($field, $msg1);
-		$this->assertEquals($msg1, $form->message($field));
-
-		$form->addMessage($field, $msg2);
-		$this->assertEquals($msg2, $form->message($field));
-	}
-
-	public function testMessage_ReturnsNullForMissingMessage() {
-		$form = new Form;
-		$this->assertNull($form->message('username'));
-	}
 
 	/**
 	 * @expectedException PHPUnit_Framework_Error
@@ -180,20 +162,12 @@ class FormTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testValidate_ThrowsExceptionIfMoreFieldsThanRuleSets() {
-		$validator = $this->getMock('\Jolt\Form\Validator', array('isEmpty', 'count'));
-
-		$validator->expects($this->once())
-			->method('isEmpty')
-			->will($this->returnValue(false));
-
-		$validator->expects($this->once())
-			->method('count')
-			->will($this->returnValue(0));
+	public function testValidate_ThrowsExceptionIfInvalid() {
+		$validator = $this->buildMockValidatorWithRuleSet(false);
 
 		$form = new Form;
 		$form->attachValidator($validator);
-		$form->setData(array('username' => 'vmc', 'age' => 26));
+		$form->setData(array('title' => ''));
 
 		$form->validate();
 	}
@@ -201,23 +175,26 @@ class FormTest extends TestCase {
 	/**
 	 * @expectedException \JoltTest\Exception
 	 */
-	public function testValidate_ThrowCustomExceptionOnFailure() {
-		$validator = $this->getMock('\Jolt\Form\Validator', array('isEmpty', 'count'));
-
-		$validator->expects($this->once())
-			->method('isEmpty')
-			->will($this->returnValue(false));
-
-		$validator->expects($this->once())
-			->method('count')
-			->will($this->returnValue(0));
+	public function testValidate_ThrowsCustomExceptionIfInvalid() {
+		$validator = $this->buildMockValidatorWithRuleSet(false);
 
 		$form = new Form;
 		$form->attachException(new \JoltTest\Exception);
 		$form->attachValidator($validator);
-		$form->setData(array('username' => 'vmc', 'age' => 26));
+		$form->setData(array('title' => ''));
 
 		$form->validate();
+	}
+
+	public function testValidate_ReturnsTrueIfValid() {
+		$validator = $this->buildMockValidatorWithRuleSet(true);
+
+		$form = new Form;
+		$form->attachValidator($validator);
+		$form->setData(array('title' => 'title'));
+
+		$valid = $form->validate();
+		$this->assertTrue($valid);
 	}
 
 	public function testGetDataSet_ReturnsDataFromDataKey() {
@@ -328,6 +305,32 @@ class FormTest extends TestCase {
 		$writer->attachPdo($pdoMock);
 
 		return $writer;
+	}
+
+	private function buildMockValidatorWithRuleSet($isValid) {
+		$ruleSet = $this->getMock('\Jolt\Form\Validator\RuleSet', array('isValid', 'getError'), array(array()));
+
+		$ruleSet->expects($this->once())
+			->method('isValid')
+			->will($this->returnValue($isValid));
+
+		$ruleSet->expects($this->any())
+			->method('getError')
+			->will($this->returnValue('An error in field: title'));
+
+		$ruleSets = array('title' => $ruleSet);
+
+		$validator = $this->getMock('\Jolt\Form\Validator', array('isEmpty', 'getRuleSets'));
+
+		$validator->expects($this->once())
+			->method('isEmpty')
+			->will($this->returnValue(false));
+
+		$validator->expects($this->once())
+			->method('getRuleSets')
+			->will($this->returnValue($ruleSets));
+
+		return $validator;
 	}
 
 }
