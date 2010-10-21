@@ -36,11 +36,13 @@ class Db extends Writer {
 		$created = date('Y-m-d H:i:s', time());
 		$dataKey = $this->getDataKey();
 		$name = $this->getName();
+		$errors = $this->getErrors();
 		$table = $this->getTable();
 
 		$dataJson = json_encode($data);
+		$errorsJson = json_encode($errors);
 
-		$sql = "INSERT INTO {$table} (created, id, name, datakey, data, status) VALUES(:created, :id, :name, :datakey, :data, :status)";
+		$sql = "INSERT INTO {$table} (created, id, name, datakey, data, errors, status) VALUES(:created, :id, :name, :datakey, :data, :errors, :status)";
 
 		$pdo->beginTransaction();
 			$stmt = $pdo->prepare($sql);
@@ -56,6 +58,7 @@ class Db extends Writer {
 				'name' => $name,
 				'datakey' => $dataKey,
 				'data' => $dataJson,
+				'errors' => $errorsJson,
 				'status' => 1
 			);
 

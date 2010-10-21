@@ -10,6 +10,7 @@ abstract class FormController {
 	private $name = NULL;
 
 	private $data = array();
+	private $errors = array();
 
 	public function __construct() {
 
@@ -46,6 +47,11 @@ abstract class FormController {
 		return $this;
 	}
 
+	public function setErrors(array $errors) {
+		$this->errors = $errors;
+		return $this;
+	}
+
 	public function getId() {
 		return $this->id;
 	}
@@ -64,6 +70,10 @@ abstract class FormController {
 
 	public function getDataCount() {
 		return count($this->data);
+	}
+
+	public function getErrors() {
+		return $this->errors;
 	}
 
 }

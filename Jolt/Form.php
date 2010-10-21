@@ -68,9 +68,11 @@ class Form extends FormController {
 
 		$dataKey = $loader->getDataKey();
 		$data = $loader->getData();
+		$errors = $loader->getErrors();
 
 		$this->setDataKey($dataKey)
-			->setData($data);
+			->setData($data)
+			->setErrors($errors);
 
 		return true;
 	}
@@ -85,11 +87,13 @@ class Form extends FormController {
 		$name = $this->getName();
 		$dataKey = $this->getDataKey();
 		$data = $this->getData();
+		$errors = $this->getErrors();
 
 		$writer->setId($id)
 			->setName($name)
 			->setDataKey($dataKey)
-			->setData($data);
+			->setData($data)
+			->setErrors($errors);
 
 		$written = $writer->write();
 

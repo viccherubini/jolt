@@ -64,16 +64,19 @@ class Db extends Loader {
 				$executed = $stmt->execute(array('form_id' => $formId));
 
 				$data = json_decode($formData->data, true);
+				$errors = json_decode($formData->errors, true);
+
 				if ( is_null($data) ) {
-					$data = $formData->data;
+					$data = array($formData->data);
 				}
 
-				if ( !is_array($data) ) {
-					$data = array($data);
+				if ( is_null($errors) ) {
+					$errors = array($formData->errors);
 				}
 
-				$this->setDataKey($formData->datakey);
-				$this->setData($data);
+				$this->setDataKey($formData->datakey)
+					->setData($data)
+					->setErrors($errors);
 			}
 		}
 
