@@ -6,7 +6,6 @@ namespace Jolt;
 abstract class FormController {
 
 	private $id = NULL;
-	private $dataKey = NULL;
 	private $name = NULL;
 
 	private $data = array();
@@ -21,7 +20,6 @@ abstract class FormController {
 	}
 
 	public function reset() {
-		$this->dataKey = NULL;
 		$this->id = NULL;
 		$this->name = NULL;
 
@@ -58,11 +56,6 @@ abstract class FormController {
 		return $this;
 	}
 
-	public function setDataKey($dataKey) {
-		$this->dataKey = trim($dataKey);
-		return $this;
-	}
-
 	public function setData(array $data) {
 		$this->data = $data;
 		return $this;
@@ -79,10 +72,6 @@ abstract class FormController {
 
 	public function getName() {
 		return $this->name;
-	}
-
-	public function getDataKey() {
-		return $this->dataKey;
 	}
 
 	public function getData() {

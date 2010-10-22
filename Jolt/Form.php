@@ -58,12 +58,10 @@ class Form extends FormController {
 			return false;
 		}
 
-		$dataKey = $loader->getDataKey();
 		$data = $loader->getData();
 		$errors = $loader->getErrors();
 
-		$this->setDataKey($dataKey)
-			->setData($data)
+		$this->setData($data)
 			->setErrors($errors);
 
 		return true;
@@ -77,13 +75,11 @@ class Form extends FormController {
 
 		$id = $this->getId();
 		$name = $this->getName();
-		$dataKey = $this->getDataKey();
 		$data = $this->getData();
 		$errors = $this->getErrors();
 
 		$writer->setId($id)
 			->setName($name)
-			->setDataKey($dataKey)
 			->setData($data)
 			->setErrors($errors);
 
@@ -103,13 +99,13 @@ class Form extends FormController {
 		}
 
 		$formName = $this->getName();
-		$dataSet = $this->getDataSet();
+		$data = $this->getData();
 
 		$ruleSets = $validator->getRuleSets();
 		foreach ( $ruleSets as $field => $ruleSet ) {
 			$value = NULL;
-			if ( array_key_exists($field, $dataSet) ) {
-				$value = $dataSet[$field];
+			if ( array_key_exists($field, $data) ) {
+				$value = $data[$field];
 			}
 
 			if ( !$ruleSet->isValid($value) ) {
@@ -137,15 +133,6 @@ class Form extends FormController {
 
 	public function getException() {
 		return $this->exception;
-	}
-
-	public function getDataSet() {
-		$dataKey = $this->getDataKey();
-		$data = $this->getData();
-		if ( !empty($dataKey) && array_key_exists($dataKey, $data) ) {
-			return $data[$dataKey];
-		}
-		return $data;
 	}
 
 }

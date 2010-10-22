@@ -52,14 +52,6 @@ class FormControllerTest extends TestCase {
 		$this->assertEquals($nameTrimmed, $this->formController->getName());
 	}
 
-	public function testSetDataKey_IsTrimmed() {
-		$dataKey = '   dataKey   ';
-		$dataKeyTrimmed = 'dataKey';
-
-		$this->formController->setDataKey($dataKey);
-		$this->assertEquals($dataKeyTrimmed, $this->formController->getDataKey());
-	}
-
 	/**
 	 * @expectedException PHPUnit_Framework_Error
 	 */

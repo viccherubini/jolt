@@ -18,7 +18,7 @@ class DbTest extends TestCase {
 		$sql = file_get_contents(DIRECTORY_DB . DS . 'sqlite.sql');
 
 		$this->pdo = $this->getMockForAbstractClass('\PDO', array('sqlite::memory:'));
-		$this->pdo->exec($sql);
+		$execed = $this->pdo->exec($sql);
 
 		$this->id = uniqid('jolt.', true);
 	}

@@ -12,7 +12,6 @@ require_once 'Jolt/Form/Writer/Db.php';
 class DbTest extends TestCase {
 
 	private $pdo = NULL;
-	private $formDataKey = NULL;
 
 	private $formData = array();
 
@@ -22,13 +21,10 @@ class DbTest extends TestCase {
 		$this->pdo = $this->getMockForAbstractClass('\PDO', array('sqlite::memory:'));
 		$this->pdo->exec($sql);
 
-		$this->formDataKey = 'article';
 		$this->formData = array(
-			'article' => array(
-				'title' => 'The title of the "article" goes here',
-				'content' => "Article's are just about the 'coolest!' thing you can wrote content is here",
-				'created' => date('Y-m-d H:i:s', time())
-			)
+			'title' => 'The title of the "article" goes here',
+			'content' => "Article's are just about the 'coolest!' thing you can wrote content is here",
+			'created' => date('Y-m-d H:i:s', time())
 		);
 
 		$this->errors = array(
@@ -101,7 +97,6 @@ class DbTest extends TestCase {
 		$db->attachPdo($this->pdo);
 		$db->setId(uniqid('jolt.', true));
 		$db->setName($name);
-		$db->setDataKey($this->formDataKey);
 		$db->setData($this->formData);
 		$db->setErrors($this->errors);
 

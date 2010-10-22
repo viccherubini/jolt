@@ -74,8 +74,7 @@ class Db extends Loader {
 					$errors = array($formData->errors);
 				}
 
-				$this->setDataKey($formData->datakey)
-					->setData($data)
+				$this->setData($data)
 					->setErrors($errors);
 			}
 		}

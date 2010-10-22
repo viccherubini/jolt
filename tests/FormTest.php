@@ -130,7 +130,6 @@ class FormTest extends TestCase {
 		$form->attachWriter($writer);
 		$form->setId('form1');
 		$form->setName('article');
-		$form->setDataKey('');
 		$form->setData(array('title' => 'article title here'));
 
 		$written = $form->write();
@@ -197,32 +196,6 @@ class FormTest extends TestCase {
 		$this->assertTrue($valid);
 	}
 
-	public function testGetDataSet_ReturnsDataFromDataKey() {
-		$dataKey = 'article';
-		$data = array(
-			'article' => array(
-				'title' => 'The article title',
-				'content' => 'Content of the article is here.',
-				'created' => date('Y-m-d H:i:s')
-			)
-		);
-
-		$form = new Form;
-		$form->setDataKey($dataKey);
-		$form->setData($data);
-
-		$this->assertEquals($data[$dataKey], $form->getDataSet());
-	}
-
-	public function testGetDataSet_ReturnsAllDataWhenNoDataKey() {
-		$data = array('title' => 'the article title');
-
-		$form = new Form;
-		$form->setData($data);
-
-		$this->assertEquals($data, $form->getDataSet());
-	}
-
 	public function providerInvalidArray() {
 		return array(
 			array('a'),
@@ -235,7 +208,7 @@ class FormTest extends TestCase {
 	private function buildMockLoader($loaded) {
 		$pdoMock = $this->getMockForAbstractClass('\PDO', array('sqlite::memory:'));
 
-		$loader = $this->getMock('\Jolt\Form\Loader\Db', array('attachPdo', 'setId', 'setName', 'getDataKey', 'getData', 'load'));
+		$loader = $this->getMock('\Jolt\Form\Loader\Db', array('attachPdo', 'setId', 'setName', 'getData', 'load'));
 
 		$loader->expects($this->once())
 			->method('attachPdo')
@@ -251,10 +224,6 @@ class FormTest extends TestCase {
 			->method('setName')
 			->with($this->equalTo('article'))
 			->will($this->returnValue($loader));
-
-		$loader->expects($this->any())
-			->method('getDataKey')
-			->will($this->returnValue('article'));
 
 		$loader->expects($this->any())
 			->method('getData')
@@ -272,7 +241,7 @@ class FormTest extends TestCase {
 	private function buildMockWriter($written) {
 		$pdoMock = $this->getMockForAbstractClass('\PDO', array('sqlite::memory:'));
 
-		$writer = $this->getMock('\Jolt\Form\Writer\Db', array('attachPdo', 'setId', 'setName', 'setDataKey', 'setData', 'write'));
+		$writer = $this->getMock('\Jolt\Form\Writer\Db', array('attachPdo', 'setId', 'setName', 'setData', 'write'));
 
 		$writer->expects($this->once())
 			->method('attachPdo')
@@ -287,11 +256,6 @@ class FormTest extends TestCase {
 		$writer->expects($this->once())
 			->method('setName')
 			->with($this->equalTo('article'))
-			->will($this->returnValue($writer));
-
-		$writer->expects($this->once())
-			->method('setDataKey')
-			->with($this->equalTo(''))
 			->will($this->returnValue($writer));
 
 		$writer->expects($this->once())
