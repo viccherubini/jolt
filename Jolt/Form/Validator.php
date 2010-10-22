@@ -6,11 +6,13 @@ namespace Jolt\Form;
 class Validator {
 
 	private $ruleSets = array();
+	private $error = NULL;
 
-	public function __construct($ruleSets=array()) {
+	public function __construct($ruleSets=array(), $error=NULL) {
 		foreach ( $ruleSets as $field => $ruleSet ) {
 			$this->addRuleSet($field, $ruleSet);
 		}
+		$this->setError($error);
 	}
 
 	public function __destruct() {
@@ -33,8 +35,17 @@ class Validator {
 		return ( 0 === count($this->ruleSets) );
 	}
 
+	public function setError($error) {
+		$this->error = $error;
+		return $this;
+	}
+
 	public function getRuleSets() {
 		return $this->ruleSets;
+	}
+
+	public function getError() {
+		return $this->error;
 	}
 
 }

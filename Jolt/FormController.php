@@ -41,6 +41,13 @@ abstract class FormController {
 		return NULL;
 	}
 
+	public function value($field) {
+		if ( array_key_exists($field, $this->data) ) {
+			return $this->data[$field];
+		}
+		return NULL;
+	}
+
 	public function setId($id) {
 		$this->id = trim($id);
 		return $this;

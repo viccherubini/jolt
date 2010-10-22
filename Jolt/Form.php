@@ -119,7 +119,10 @@ class Form extends FormController {
 		}
 
 		if ( $this->getErrorsCount() > 0 ) {
-			$error = "the form {$formName} failed to validate";
+			$error = $validator->getError();
+			if ( empty($error) ) {
+				$error = "the form {$formName} failed to validate";
+			}
 
 			$exception = $this->exception;
 			if ( !is_null($exception) ) {
