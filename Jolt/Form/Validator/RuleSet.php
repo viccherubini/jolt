@@ -28,6 +28,12 @@ class RuleSet {
 		$this->rules = array();
 	}
 
+	public function reset() {
+		$this->errors = array();
+		$this->rules = array();
+		return $this;
+	}
+
 	public function addRule($ruleKey, $rule) {
 		if ( empty($ruleKey) ) {
 			throw new \Jolt\Exception('the rule can not be empty');
@@ -64,6 +70,11 @@ class RuleSet {
 		return $isValid;
 	}
 
+	public function setField($field) {
+		$this->field = trim($field);
+		return $this;
+	}
+
 	public function getError() {
 		return $this->error;
 	}
@@ -75,6 +86,21 @@ class RuleSet {
 	public function getErrors() {
 		return $this->errors;
 	}
+
+	public function notEmpty($error) {
+		$this->addRule('empty', false)
+			->addError('empty', $error);
+		return $this;
+	}
+
+	public function minMax($min, $max, $minError, $maxError) {
+		$this->addRule('minlength', (int)$min)
+			->addRule('maxlength', (int)$max)
+			->addError('minlength', $minError)
+			->addError('maxlength', $maxError);
+		return $this;
+	}
+
 
 
 	private function opEmpty($empty, $value) {
