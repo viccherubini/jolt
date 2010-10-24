@@ -19,6 +19,11 @@ class Validator {
 		$this->ruleSets = array();
 	}
 
+	public function reset() {
+		$this->ruleSets = array();
+		return $this;
+	}
+
 	public function addRuleSet($field, \Jolt\Form\Validator\RuleSet $ruleSet) {
 		if ( empty($field) ) {
 			throw new \Jolt\Exception('the RuleSet field can not be empty');
