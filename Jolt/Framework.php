@@ -12,7 +12,7 @@ require_once 'Jolt/Controller/Locator.php';
 require_once 'Jolt/Dispatcher.php';
 require_once 'Jolt/Form.php';
 require_once 'Jolt/Form/Validator.php';
-require_once 'Jolt/Form/Validator/RuleSet.php';
+require_once 'Jolt/Form/Validator/Rule.php';
 require_once 'Jolt/Registry.php';
 require_once 'Jolt/Route.php';
 require_once 'Jolt/Route/Named.php';

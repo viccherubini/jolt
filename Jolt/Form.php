@@ -101,7 +101,7 @@ class Form extends FormController {
 		$formName = $this->getName();
 		$data = $this->getData();
 
-		$ruleSets = $validator->getRuleSets();
+		$ruleSets = $validator->getRuleSet();
 		foreach ( $ruleSets as $field => $ruleSet ) {
 			$value = NULL;
 			if ( array_key_exists($field, $data) ) {
@@ -117,7 +117,7 @@ class Form extends FormController {
 		if ( $this->getErrorsCount() > 0 ) {
 			$error = $validator->getError();
 			if ( empty($error) ) {
-				$error = "the form {$formName} failed to validate";
+				$error = 'The form ' . $formName . ' failed to validate.';
 			}
 
 			$exception = $this->exception;

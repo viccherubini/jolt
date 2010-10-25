@@ -3,7 +3,7 @@
 declare(encoding='UTF-8');
 namespace Jolt\Form\Validator;
 
-class RuleSet {
+class Rule {
 
 	private $charset = 'UTF-8';
 
@@ -13,40 +13,25 @@ class RuleSet {
 	private $errors = array();
 	private $rules = array();
 
-	public function __construct(array $rules, array $errors=array(), $field=NULL) {
-		foreach ( $rules as $ruleKey => $ruleValue ) {
-			$this->addRule($ruleKey, $ruleValue);
-			if ( array_key_exists($ruleKey, $errors) ) {
-				$this->addError($ruleKey, $errors[$ruleKey]);
-			}
-		}
+	public function __construct() {
 
-		$this->field = $field;
 	}
 
 	public function __destruct() {
 		$this->rules = array();
 	}
 
-	public function reset() {
-		$this->errors = array();
-		$this->rules = array();
-		return $this;
-	}
-
 	public function addRule($ruleKey, $rule) {
-		if ( empty($ruleKey) ) {
-			throw new \Jolt\Exception('the rule can not be empty');
+		if ( !empty($ruleKey) ) {
+			$this->rules[$ruleKey] = $rule;
 		}
-		$this->rules[$ruleKey] = $rule;
 		return $this;
 	}
 
 	public function addError($ruleKey, $error) {
-		if ( empty($ruleKey) ) {
-			throw new \Jolt\Exception('the ruleset errors can not be empty');
+		if ( !empty($ruleKey) ) {
+			$this->errors[$ruleKey] = $error;
 		}
-		$this->errors[$ruleKey] = $error;
 		return $this;
 	}
 
@@ -56,9 +41,8 @@ class RuleSet {
 
 	public function isValid($value) {
 		$isValid = true;
-		$this->message = NULL;
 		foreach ( $this->rules as $op => $rule ) {
-			$opMethod = 'op' . ucwords(strtolower($op));
+			$opMethod = 'op_' . strtolower($op);
 			if ( method_exists($this, $opMethod) && !$this->$opMethod($rule, $value) ) {
 				$isValid = false;
 				if ( array_key_exists($op, $this->errors) ) {
@@ -87,30 +71,14 @@ class RuleSet {
 		return $this->errors;
 	}
 
-	public function notEmpty($error) {
-		$this->addRule('empty', false)
-			->addError('empty', $error);
-		return $this;
-	}
-
-	public function minMax($min, $max, $minError, $maxError) {
-		$this->addRule('minlength', (int)$min)
-			->addRule('maxlength', (int)$max)
-			->addError('minlength', $minError)
-			->addError('maxlength', $maxError);
-		return $this;
-	}
-
-
-
-	private function opEmpty($empty, $value) {
+	private function op_empty($empty, $value) {
 		if ( empty($value) ) {
 			return false;
 		}
 		return true;
 	}
 
-	private function opMinlength($minlength, $value) {
+	private function op_minlength($minlength, $value) {
 		$minlength = (int)$minlength;
 		if ( mb_strlen($value, $this->charset) < $minlength ) {
 			return false;
@@ -118,7 +86,7 @@ class RuleSet {
 		return true;
 	}
 
-	private function opMaxlength($maxlength, $value) {
+	private function op_maxlength($maxlength, $value) {
 		$maxlength = (int)$maxlength;
 		if ( mb_strlen($value, $this->charset) > $maxlength ) {
 			return false;
@@ -126,7 +94,7 @@ class RuleSet {
 		return true;
 	}
 
-	private function opNonzero($nonzero, $value) {
+	private function op_nonzero($nonzero, $value) {
 		if ( !is_numeric($value) ) {
 			$value = (int)$value;
 		}
@@ -137,14 +105,14 @@ class RuleSet {
 		return true;
 	}
 
-	private function opNumeric($numeric, $value) {
+	private function op_numeric($numeric, $value) {
 		if ( !is_numeric($value) ) {
 			return false;
 		}
 		return true;
 	}
 
-	private function opEmail($email, $value) {
+	private function op_email($email, $value) {
 		// We're not very strict about email addresses. Essentially: anything@anything
 		$value = trim($value);
 		if ( false === stripos($value, '@') ) {
@@ -163,21 +131,21 @@ class RuleSet {
 		return ( mb_strlen($bits[0], $this->charset) > 0 && mb_strlen($bits[1], $this->charset) );
 	}
 
-	private function opInarray($inarray, $value) {
+	private function op_inarray($inarray, $value) {
 		if ( !in_array($value, $inarray, true) ) {
 			return false;
 		}
 		return true;
 	}
 
-	private function opRegex($regex, $value) {
+	private function op_regex($regex, $value) {
 		if ( 1 !== preg_match($regex, $value) ) {
 			return false;
 		}
 		return true;
 	}
 
-	private function opCallback($callback, $value) {
+	private function op_callback($callback, $value) {
 		if ( !$callback($value) ) {
 			return false;
 		}
