@@ -271,7 +271,7 @@ class View {
 
 	private function appendDirectorySeparator($path) {
 		$pathLength = strlen(trim($path)) - 1;
-		if ( $path[$pathLength] != DIRECTORY_SEPARATOR ) {
+		if ( $pathLength >= 0 && $path[$pathLength] != DIRECTORY_SEPARATOR ) {
 			$path .= DIRECTORY_SEPARATOR;
 		}
 		return $path;
