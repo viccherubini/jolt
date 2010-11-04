@@ -10,9 +10,9 @@ class Settings {
 			$this->$k = $v;
 		}
 	}
-	
+
 	public function __get($k) {
-		$retval = ( !property_exists($this, $k) ? NULL : $this->k );
+		$retval = ( !property_exists($this, $k) ? NULL : $this->$k );
 		return $retval;
 	}
 
