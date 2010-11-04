@@ -283,7 +283,12 @@ class View {
 		}
 
 		$route = NULL;
-		$root = $argv[0];
+
+		$root = '';
+		if ( '/' != $argv[0] ) {
+			$root = $argv[0];
+		}
+
 		if ( $argc > 1 ) {
 			$route = '/' . implode('/', array_slice($argv, 1));
 		}
