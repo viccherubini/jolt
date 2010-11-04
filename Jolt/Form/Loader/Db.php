@@ -35,7 +35,7 @@ class Db extends Loader {
 
 		$table = $this->getTable();
 
-		$sql = "SELECT * FROM {$table} WHERE id = :id AND name = :name AND status = 1";
+		$sql = "SELECT data, errors FROM {$table} WHERE id = :id AND name = :name AND status = 1";
 		$stmt = $pdo->prepare($sql);
 
 		if ( !$stmt ) {
