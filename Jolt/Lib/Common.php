@@ -7,11 +7,11 @@ function exs($k, $a) {
 	if ( is_object($a) && property_exists($a, $k) ) {
 		return true;
 	}
-	
+
 	if ( is_array($a) && array_key_exists($k, $a) ) {
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -19,11 +19,11 @@ function er($k, $a, $return = NULL) {
 	if ( is_object($a) && property_exists($a, $k) ) {
 		return $a->$k;
 	}
-	
+
 	if ( is_array($a) && array_key_exists($k, $a) ) {
 		return $a[$k];
 	}
-	
+
 	return $return;
 }
 
