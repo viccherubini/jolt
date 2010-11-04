@@ -78,6 +78,10 @@ class Rule {
 		return true;
 	}
 
+	private function op_equal($equalTo, $value) {
+		return ( $equalTo === $value );
+	}
+
 	private function op_minlength($minlength, $value) {
 		$minlength = (int)$minlength;
 		if ( mb_strlen($value, $this->charset) < $minlength ) {
