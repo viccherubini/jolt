@@ -98,7 +98,7 @@ class View {
 
 	public function img($imgSrc, $altText=NULL, $tagAttributes=NULL, $localFile=true) {
 		if ( $localFile ) {
-			$imgSrc = DIRECTORY_SEPARATOR . $this->imagePath . $imgSrc;
+			$imgSrc = '/' . $this->imagePath . $imgSrc;
 		}
 
 		$imgTag = sprintf('<img src="%s" alt="%s" title="%s" %s>%s', $imgSrc, $altText, $altText, $tagAttributes, PHP_EOL);
