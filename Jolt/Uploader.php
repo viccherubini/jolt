@@ -117,6 +117,7 @@ class Uploader {
 		if ( $this->unique ) {
 			$this->fileName = uniqid('', true) . '-' . $this->fileName;
 		}
+		$this->fileName = str_replace(' ', '-', $this->fileName);
 
 		return $this;
 	}
