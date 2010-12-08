@@ -3,14 +3,8 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-/**
- * The basic class for rendering Views and inserting blocks/widgets into a view.
- *
- * @author vmc <vmc@leftnode.com>
- */
 class View {
 
-	// Settings
 	private $cssPath = NULL;
 	private $jsPath = NULL;
 	private $imagePath = NULL;
