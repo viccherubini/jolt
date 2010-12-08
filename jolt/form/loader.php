@@ -4,7 +4,7 @@ declare(encoding='UTF-8');
 namespace Jolt\Form;
 use \Jolt\FormController;
 
-require_once 'Jolt/FormController.php';
+require_once 'Jolt/form_controller.php';
 
 abstract class Loader extends FormController {
 
