@@ -3,7 +3,7 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-require_once 'Jolt/Exception.php';
+require_once 'jolt/exception.php';
 
 define('JOLT_VERSION', '0.0.6', false);
 

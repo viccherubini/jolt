@@ -3,8 +3,8 @@
 declare(encoding='UTF-8');
 namespace Jolt\Lib;
 
-require_once 'Jolt/Lib/Common.php';
-require_once 'Jolt/Lib/Array.php';
-require_once 'Jolt/Lib/Crypt.php';
-require_once 'Jolt/Lib/Input.php';
-require_once 'Jolt/Lib/Validate.php';
+require_once 'jolt/lib/common.php';
+require_once 'jolt/lib/array.php';
+require_once 'jolt/lib/crypt.php';
+require_once 'jolt/lib/input.php';
+require_once 'jolt/lib/validate.php';

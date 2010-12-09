@@ -3,10 +3,6 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-/**
- * Base class for building a Controller object to manipulate the views.
- * Once a Route is resolved, a Controller::action() is executed.
- */
 abstract class Controller {
 
 	private $action = NULL;

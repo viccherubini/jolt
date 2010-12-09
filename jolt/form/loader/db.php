@@ -4,6 +4,8 @@ declare(encoding='UTF-8');
 namespace Jolt\Form\Loader;
 use \Jolt\Form\Loader;
 
+require_once 'jolt/form/loader.php';
+
 class Db extends Loader {
 
 	private $pdo = NULL;

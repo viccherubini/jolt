@@ -3,7 +3,7 @@
 declare(encoding='UTF-8');
 namespace Jolt\Form;
 
-require_once 'Jolt/Form/Validator/Rule.php';
+require_once 'jolt/form/validator/rule.php';
 
 class Validator {
 

@@ -4,6 +4,8 @@ declare(encoding='UTF-8');
 namespace Jolt\Form\Writer;
 use \Jolt\Form\Writer;
 
+require_once 'jolt/form/writer.php';
+
 class Db extends Writer {
 
 	private $pdo = NULL;
@@ -41,7 +43,10 @@ class Db extends Writer {
 		$dataJson = json_encode($data);
 		$errorsJson = json_encode($errors);
 
-		$sql = "INSERT INTO {$table} (created, id, name, data, errors, status) VALUES(:created, :id, :name, :data, :errors, :status)";
+		$sql = "INSERT INTO {$table}
+				(created, id, name, data, errors, status)
+			VALUES
+				(:created, :id, :name, :data, :errors, :status)";
 
 		$pdo->beginTransaction();
 			$stmt = $pdo->prepare($sql);

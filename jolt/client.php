@@ -3,12 +3,6 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-/**
- * The client is what is responsible for sending rendered views, errors,
- * and/or headers back to the actual client.
- *
- * @author vmc <vmc@leftnode.com>
- */
 class Client {
 
 	private $controller;

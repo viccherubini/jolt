@@ -5,7 +5,7 @@ namespace Jolt;
 
 use \Jolt\Controller\Locator as Locator;
 
-require_once 'Jolt/Controller/Locator.php';
+require_once 'jolt/controller/locator.php';
 
 class Dispatcher {
 
