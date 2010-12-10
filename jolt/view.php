@@ -31,11 +31,11 @@ class View {
 
 	public function __set($k, $v) {
 		$this->variables[$k] = $v;
-		return $this;
+		return true;
 	}
 
 	public function __get($k) {
-		if ( isset($this->variables[$k]) ) {
+		if (array_key_exists($k, $this->variables)) {
 			return $this->variables[$k];
 		}
 		return NULL;

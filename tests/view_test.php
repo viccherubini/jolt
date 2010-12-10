@@ -325,9 +325,6 @@ class ViewTest extends TestCase {
 	}
 
 	public function testUrl_LastArgumentMakesItSecure() {
-		define('SECURE_URL', true);
-		define('INSECURE_URL', false);
-
 		$secureUrl = 'https://leftnode.com/';
 		$url = 'http://leftnode.com/';
 
@@ -353,11 +350,11 @@ class ViewTest extends TestCase {
 		$this->assertEquals($expectedUrl, $actualUrl);
 
 		$expectedSecureUrl = "{$secureUrl}path/to/route";
-		$actualSecureUrl = $view->url('path', 'to', 'route', SECURE_URL);
+		$actualSecureUrl = $view->url('path', 'to', 'route', true);
 		$this->assertEquals($expectedSecureUrl, $actualSecureUrl);
 
 		$expectedUrl = "{$url}path/to/route";
-		$actualUrl = $view->url('path', 'to', 'route', INSECURE_URL);
+		$actualUrl = $view->url('path', 'to', 'route', false);
 		$this->assertEquals($expectedUrl, $actualUrl);
 	}
 

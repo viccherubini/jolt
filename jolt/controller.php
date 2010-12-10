@@ -3,7 +3,7 @@
 declare(encoding='UTF-8');
 namespace Jolt;
 
-abstract class Controller {
+class Controller {
 
 	private $action = NULL;
 	private $contentType = 'text/html';
