@@ -7,6 +7,7 @@ use \Jolt\Settings,
 	\JoltTest\TestCase;
 
 require_once 'jolt/settings.php';
+require_once 'jolt/route/restful.php';
 
 class TestCaseTest extends TestCase {
 
