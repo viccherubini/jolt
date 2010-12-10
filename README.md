@@ -22,7 +22,7 @@ Jolt is hosted at [joltcore.org](http://joltcore.org). Jolt bugs can be found at
 * Vic Cherubini <vmc@leftnode.com>
 
 ## Sponsored By
-* Leftnode Software, Inc. <http://leftnodesoftware.com>
+* Leftnode Software, Inc. <http://leftnode.com>
 
 ## A Sample Jolt Application
 I've removed the sample application for now. Stay tuned at [joltcore.org](http://joltcore.org) for examples and more in depth documentation.
