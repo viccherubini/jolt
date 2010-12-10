@@ -19,6 +19,8 @@ define('DIRECTORY_DB', DIRECTORY_APP . DS . 'db', false);
 define('DIRECTORY_CONTROLLERS', DIRECTORY_APP . DS . 'controllers', false);
 define('DIRECTORY_VIEWS', DIRECTORY_APP . DS . 'views', false);
 
+// Rather than having each test include the files it needs, just include
+// them all at once.
 require_once 'jolt/framework.php';
 
 // Delete all of the coverage docs
