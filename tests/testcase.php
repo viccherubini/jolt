@@ -1,9 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-class TestCase extends \PHPUnit_Framework_TestCase {
+class testcase extends \PHPUnit_Framework_TestCase {
 
 	public static function assertArray($a, $message = '') {
 		self::assertThat(is_array($a), self::isTrue(), $message);
@@ -167,4 +167,5 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 			array(new \stdClass)
 		);
 	}
+
 }

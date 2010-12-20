@@ -1,14 +1,14 @@
 <?php
 
 declare(encoding='UTF-8');
-use \Jolt\Controller;
+use \jolt\controller;
 
-require_once 'jolt/controller.php';
+require_once('jolt/controller.php');
 
-class UserController extends Controller {
+class user_controller extends controller {
 
-	public function indexAction() {
-		echo 'Hi, from Jolt\\UserController!', PHP_EOL;
+	public function index_action() {
+		echo 'Hi, from jolt\\user_controller!', PHP_EOL;
 	}
 
 }

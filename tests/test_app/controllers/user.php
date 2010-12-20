@@ -1,16 +1,16 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltApp\User;
+namespace jolt_app\user;
 
-use \Jolt\Controller;
+use \jolt\controller;
 
-require_once 'jolt/controller.php';
+require_once('jolt/controller.php');
 
-class User extends Controller {
+class user extends controller {
 
-	public function indexAction() {
-		echo 'Hi, from Jolt\\User!', PHP_EOL;
+	public function index_action() {
+		echo 'Hi, from jolt\\user!', PHP_EOL;
 	}
 
 }

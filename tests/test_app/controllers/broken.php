@@ -1,15 +1,15 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltApp;
+namespace jolt_app;
 
-use \Jolt\Controller;
+use \jolt\controller;
 
-require_once 'jolt/controller.php';
+require_once('jolt/controller.php');
 
-class BrokenController extends Controller {
+class broken_controller extends controller {
 
-	public function indexAction() {
+	public function index_action() {
 		echo 'You should never see this because this is a broken controller', PHP_EOL;
 	}
 
