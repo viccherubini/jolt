@@ -1,12 +1,12 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace jolt;
 
-class Client {
+class client {
 
-	private $controller;
-	private $headersToSend = array();
+	private $controller = NULL;
+	private $headers = array();
 
 	public function __construct() {
 
@@ -17,62 +17,70 @@ class Client {
 	}
 
 	public function __toString() {
-		return $this->buildOutput();
+		return $this->build_output();
 	}
 
-	public function attachController(\Jolt\Controller $controller) {
+	public function attach_controller(\jolt\controller $controller) {
 		$this->controller = clone $controller;
 		return $this;
 	}
 
-	public function buildOutput() {
+	public function build_output() {
 		// Must have controller
-		if ( is_null($this->controller) ) {
+		if (is_null($this->controller)) {
 			return '';
 		}
 
 		$controller = $this->controller;
 
-		$responseCode = $controller->getResponseCode();
-		$contentType = $controller->getContentType();
+		$response_code = $controller->get_response_code();
+		$content_type = $controller->get_content_type();
 
-		$controllerHeaderList = $controller->getHeaderList();
-		$headersList = headers_list();
+		$controller_headers = $controller->get_headers();
+
+		$headers = $this->headers;
+		if (0 === count($this->headers)) {
+			$headers = headers_list();
+		}
 
 		// Always remove the Content-Type header, let Jolt handle it
 		header_remove('Content-Type');
-		header('Content-Type: ' . $contentType, true, $responseCode);
+		header('Content-Type: ' . $content_type, true, $response_code);
 
-		if ( defined('JOLT_VERSION') ) {
+		if (defined('JOLT_VERSION')) {
 			header('X-Framework: Jolt ' . JOLT_VERSION);
 		}
 
-		// Go through the list of headers to send, if they exist in the
-		// $controllerHeaderList, unset them
-		foreach ( $headersList as $fullHeader ) {
-			foreach ( $controllerHeaderList as $header => $value ) {
-				if ( false !== stripos($fullHeader, $header) ) {
-					header_remove($header);
+		foreach ($headers as $complete_header) {
+			foreach ($controller_headers as $controller_header => $controller_header_value) {
+				$controller_header = trim($controller_header);
+				if (false !== stripos($complete_header, $controller_header) ) {
+					header_remove($controller_header);
 				}
 
-				$header = strtolower(trim($header));
-				header($header . ':' . $value, true, $responseCode);
+				$controller_header = strtolower($controller_header);
+				header($controller_header . ':' . $controller_header_value, true, $response_code);
 
-				// Special case for the Location header to prevent __toString()
-				// from not outputting anything.
-				if ( 'location' === $header ) {
+				// Special case for the Location header to prevent __toString() from not outputting anything.
+				if ('location' === $controller_header) {
 					return '';
 				}
 			}
 		}
 
-		$renderedController = $this->controller
-			->getRenderedController();
+		$rendered_controller = $this->controller
+			->get_rendered_controller();
 
-		return $renderedController;
+		return $rendered_controller;
 	}
 
-	public function getController() {
+	public function set_headers($headers) {
+		$this->headers = $headers;
+		return $this;
+	}
+
+	public function get_controller() {
 		return $this->controller;
 	}
+
 }
