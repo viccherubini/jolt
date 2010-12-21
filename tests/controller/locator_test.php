@@ -6,9 +6,7 @@ namespace jolt_test\controller;
 use \jolt\controller\locator,
 	\jolt_test\testcase;
 
-require_once('jolt/controller/locator.php');
-
-class locator_test extends TestCase {
+class locator_test extends testcase {
 
 	private $action = NULL;
 	private $namespace = 'jolt_app';
