@@ -1,59 +1,59 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\Controller,
-	\Jolt\View,
-	\JoltTest\TestCase,
-	\JoltApp\Index;
+use \jolt\controller,
+	\jolt_test\testcase;
 
-require_once 'jolt/controller.php';
-require_once 'jolt/view.php';
+//require_once 'jolt/controller.php';
+//require_once 'jolt/view.php';
 
-require_once DIRECTORY_CONTROLLERS . DS . 'index.php';
+require_once(DIRECTORY_CONTROLLERS . DS . 'index.php');
 
-class ControllerTest extends TestCase {
+class controller_test extends testcase {
 
-	public function test__Set_RequiresView() {
-		$controller = $this->buildMockController();
+	public function test___set__requires_attached_view_object() {
+		$controller = new controller;
 		$controller->name = 'Vic';
 
 		$this->assertTrue(is_null($controller->name));
 	}
 
-	public function test__Set_SetsValueToView() {
+	public function test___set__sets_value_in_attached_view_object() {
 		$name = 'name';
 		$view = $this->getMock('\Jolt\View', array('__get'));
-		$view->expects($this->once())->method('__get')->will($this->returnArgument(0));
+		$view->expects($this->once())
+			->method('__get')
+			->will($this->returnArgument(0));
 
-		$controller = new Controller;
-		$controller->attachView($view);
+		$controller = new controller;
+		$controller->attach_view($view);
 		$controller->name = $name;
 
 		$this->assertEquals($name, $controller->name);
 	}
 
-	public function testAddHeader_HeaderSet() {
-		$controller = new Controller;
-		$controller->addHeader('X-Powered-By', 'PHP/Jolt');
+	public function test_add_header__adds_new_header() {
+		$controller = new controller;
+		$controller->add_header('X-Powered-By', 'PHP/Jolt');
 
-		$this->assertEquals('PHP/Jolt', $controller->getHeader('X-Powered-By'));
+		$this->assertEquals('PHP/Jolt', $controller->get_header('X-Powered-By'));
 	}
 
-	public function testAddHeader_ContentTypeSetToMemberVariable() {
-		$controller = new Controller;
-		$controller->addHeader('Content-Type', 'text/css');
+	public function test_add_header__content_type_header_set_internally() {
+		$controller = new controller;
+		$controller->add_header('Content-Type', 'text/css');
 
-		$this->assertEquals(0, count($controller->getHeaderList()));
-		$this->assertEquals('text/css', $controller->getContentType());
+		$this->assertEquals(0, count($controller->get_headers()));
+		$this->assertEquals('text/css', $controller->get_content_type());
 	}
 
 	/**
 	 * @expectedException PHPUnit_Framework_Error
 	 * @dataProvider providerInvalidJoltObject
 	 */
-	public function testAttachView_IsView($view) {
+	public function _testAttachView_IsView($view) {
 		$controller = new Controller;
 
 		$controller->attachView($view);
@@ -62,7 +62,7 @@ class ControllerTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testExecute_ActionSet() {
+	public function _testExecute_ActionSet() {
 		$controller = new Controller;
 		$controller->execute(array());
 	}
@@ -70,14 +70,14 @@ class ControllerTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testExecute_ActionExists() {
+	public function _testExecute_ActionExists() {
 		$controller = new Controller;
 		$controller->setAction('missingAction');
 
 		$controller->execute(10);
 	}
 
-	public function testExecute_ParamCount() {
+	public function _testExecute_ParamCount() {
 		$action = 'paramAction';
 
 		$controller = new Index;
@@ -91,7 +91,7 @@ class ControllerTest extends TestCase {
 		$this->assertEquals($expectedParamCount, $actualParamCount);
 	}
 
-	public function testExecute_StaticAction() {
+	public function _testExecute_StaticAction() {
 		$action = 'staticAction';
 		$expectedContent = 'static content';
 
@@ -133,7 +133,7 @@ class ControllerTest extends TestCase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function testRender_ViewSet() {
+	public function _testRender_ViewSet() {
 		$controller = new Controller;
 		$controller->render();
 	}
@@ -167,7 +167,7 @@ class ControllerTest extends TestCase {
 		$this->assertEquals($viewContent, $controller->getBlock('blockName'));
 	}
 
-	public function testSetAction_IsTrimmed() {
+	public function _testSetAction_IsTrimmed() {
 		$action = ' indexAction ';
 
 		$controller = new Controller;
@@ -176,7 +176,7 @@ class ControllerTest extends TestCase {
 		$this->assertEquals('indexAction', $controller->getAction());
 	}
 
-	public function testSetContentType_IsTrimmed() {
+	public function _testSetContentType_IsTrimmed() {
 		$contentType = ' text/css ';
 
 		$controller = new Controller;
@@ -185,14 +185,14 @@ class ControllerTest extends TestCase {
 		$this->assertEquals('text/css', $controller->getContentType());
 	}
 
-	public function testSetResponseCode_IsInt() {
+	public function _testSetResponseCode_IsInt() {
 		$controller = new Controller;
 		$controller->setResponseCode(404);
 
 		$this->assertEquals(404, $controller->getResponseCode());
 	}
 
-	public function testSetResponseCode_IsCastToInt() {
+	public function _testSetResponseCode_IsCastToInt() {
 		$responseCode = 'string';
 
 		$controller = new Controller;
@@ -213,7 +213,7 @@ class ControllerTest extends TestCase {
 		$this->assertGreaterThan(0, count($blockList));
 	}
 
-	public function testGetBlockList_RequiresView() {
+	public function _testGetBlockList_RequiresView() {
 		$controller = new Controller;
 		$controller->addBlock('abc', '<strong>def</strong>');
 
@@ -221,17 +221,17 @@ class ControllerTest extends TestCase {
 		$this->assertEmptyArray($blockList);
 	}
 
-	public function testGetBlock_EmptyBlock() {
+	public function _testGetBlock_EmptyBlock() {
 		$controller = new Controller;
 		$this->assertTrue(is_null($controller->getBlock('missing-block')));
 	}
 
-	public function testGetContentType_IsOriginallyTextHtml() {
+	public function _testGetContentType_IsOriginallyTextHtml() {
 		$controller = new Controller;
 		$this->assertEquals('text/html', $controller->getContentType());
 	}
 
-	public function testGetHeaderList_FullList() {
+	public function _testGetHeaderList_FullList() {
 		$controller = new Controller;
 		$controller->addHeader('X-Powered-By', 'PHP/Jolt');
 
@@ -239,12 +239,12 @@ class ControllerTest extends TestCase {
 		$this->assertGreaterThan(0, count($headerList));
 	}
 
-	public function testGetHeader_EmptyHeader() {
+	public function _testGetHeader_EmptyHeader() {
 		$controller = new Controller;
 		$this->assertTrue(is_null($controller->getHeader('Content-Type')));
 	}
 
-	public function testGetResponseCode_200ByDefault() {
+	public function _testGetResponseCode_200ByDefault() {
 		$controller = new Controller;
 		$this->assertEquals(200, $controller->getResponseCode());
 	}

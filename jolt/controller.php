@@ -1,18 +1,18 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace jolt;
 
-class Controller {
+class controller {
 
 	private $action = NULL;
-	private $contentType = 'text/html';
+	private $content_type = 'text/html';
 	private $renderedController = NULL;
 	private $renderedView = NULL;
 	private $responseCode = 200;
 	private $view = NULL;
 
-	private $headerList = array();
+	private $headers = array();
 	private $blockList = array();
 
 	const EXT = '.php';
@@ -27,36 +27,36 @@ class Controller {
 	}
 
 	public function __set($k, $v) {
-		if ( $this->hasView() ) {
+		if ($this->hasView()) {
 			$this->view->$k = $v;
 		}
 		return true;
 	}
 
 	public function __get($k) {
-		if ( $this->hasView() ) {
+		if ($this->hasView()) {
 			return $this->view->$k;
 		}
 		return NULL;
 	}
 
 	public function addBlock($blockName, $block) {
-		if ( $this->hasView() ) {
+		if ($this->hasView()) {
 			$this->view->addBlock($blockName, $block);
 		}
 		return $this;
 	}
 
-	public function addHeader($header, $value) {
-		if ( 'content-type' === strtolower($header) ) {
-			$this->contentType = $value;
+	public function add_header($header, $value) {
+		if ('content-type' === strtolower($header)) {
+			$this->content_type = $value;
 		} else {
-			$this->headerList[$header] = $value;
+			$this->headers[$header] = $value;
 		}
 		return $this;
 	}
 
-	public function attachView(\Jolt\View $view) {
+	public function attach_view(\Jolt\View $view) {
 		$this->view = $view;
 		return $this;
 	}
@@ -135,8 +135,8 @@ class Controller {
 		return $this;
 	}
 
-	public function setContentType($contentType) {
-		$this->contentType = trim($contentType);
+	public function setcontent_type($content_type) {
+		$this->content_type = trim($content_type);
 		return $this;
 	}
 
@@ -163,17 +163,17 @@ class Controller {
 		return NULL;
 	}
 
-	public function getContentType() {
-		return $this->contentType;
+	public function get_content_type() {
+		return $this->content_type;
 	}
 
-	public function getHeaderList() {
-		return $this->headerList;
+	public function get_headers() {
+		return $this->headers;
 	}
 
-	public function getHeader($header) {
-		if ( isset($this->headerList[$header]) ) {
-			return $this->headerList[$header];
+	public function get_header($header) {
+		if (isset($this->headers[$header])) {
+			return $this->headers[$header];
 		}
 		return NULL;
 	}
