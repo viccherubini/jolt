@@ -5,6 +5,10 @@ namespace jolt_test;
 
 class testcase extends \PHPUnit_Framework_TestCase {
 
+	public function test_true() {
+		$this->assertTrue(true);
+	}
+
 	public static function assertArray($a, $message = '') {
 		self::assertThat(is_array($a), self::isTrue(), $message);
 	}
