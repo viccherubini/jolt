@@ -6,10 +6,7 @@ namespace jolt_test;
 use \jolt\controller,
 	\jolt_test\testcase;
 
-//require_once 'jolt/controller.php';
-//require_once 'jolt/view.php';
-
-require_once(DIRECTORY_CONTROLLERS . DS . 'index.php');
+//require_once(DIRECTORY_CONTROLLERS . DS . 'index.php');
 
 class controller_test extends testcase {
 
@@ -53,42 +50,40 @@ class controller_test extends testcase {
 	 * @expectedException PHPUnit_Framework_Error
 	 * @dataProvider providerInvalidJoltObject
 	 */
-	public function _testAttachView_IsView($view) {
-		$controller = new Controller;
-
-		$controller->attachView($view);
+	public function test_attach_view__requires_jolt_view($view) {
+		$controller = new controller;
+		$controller->attach_view($view);
 	}
 
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function _testExecute_ActionSet() {
-		$controller = new Controller;
+	public function test_execute__requires_action() {
+		$controller = new controller;
 		$controller->execute(array());
 	}
 
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function _testExecute_ActionExists() {
+	public function test_execute__requires_action_to_exist() {
 		$controller = new Controller;
-		$controller->setAction('missingAction');
-
+		$controller->set_action('missingAction');
 		$controller->execute(10);
 	}
 
-	public function _testExecute_ParamCount() {
-		$action = 'paramAction';
+	public function _test_execute__ParamCount() {
+		//$action = 'paramAction';
 
-		$controller = new Index;
-		$controller->setAction($action);
+		//$controller = new Index;
+		//$controller->setAction($action);
 
-		$reflectionAction = new \ReflectionMethod($controller, $action);
-		$expectedParamCount = $reflectionAction->getNumberOfRequiredParameters();
+		//$reflectionAction = new \ReflectionMethod($controller, $action);
+		//$expectedParamCount = $reflectionAction->getNumberOfRequiredParameters();
 
-		$actualParamCount = $controller->execute(array(10));
+		//$actualParamCount = $controller->execute(array(10));
 
-		$this->assertEquals($expectedParamCount, $actualParamCount);
+		//$this->assertEquals($expectedParamCount, $actualParamCount);
 	}
 
 	public function _testExecute_StaticAction() {

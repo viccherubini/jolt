@@ -130,12 +130,12 @@ class controller {
 		return $renderedView;
 	}
 
-	public function setAction($action) {
+	public function set_action($action) {
 		$this->action = trim($action);
 		return $this;
 	}
 
-	public function setcontent_type($content_type) {
+	public function set_content_type($content_type) {
 		$this->content_type = trim($content_type);
 		return $this;
 	}
