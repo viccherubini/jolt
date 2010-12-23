@@ -128,8 +128,8 @@ class controller_test extends testcase {
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
-	public function _testRender_ViewSet() {
-		$controller = new Controller;
+	public function test_render__requires_attached_jolt_view() {
+		$controller = new controller;
 		$controller->render();
 	}
 
