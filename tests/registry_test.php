@@ -1,76 +1,76 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\Registry,
-	\JoltTest\TestCase;
+use \jolt\registry,
+	\jolt_test\testcase;
 
-require_once 'jolt/registry.php';
+require_once('jolt/registry.php');
 
-class RegistryTest extends TestCase {
+class registry_test extends testcase {
 	public function setUp() {
-		Registry::reset();
+		registry::reset();
 	}
 
 	public function testPushingScalarElements() {
-		Registry::reset();
+		registry::reset();
 
-		Registry::push('string', 'value');
-		$this->assertEquals('value', Registry::pop('string'));
+		registry::push('string', 'value');
+		$this->assertEquals('value', registry::pop('string'));
 
-		Registry::push('integer', 10);
-		$this->assertEquals(10, Registry::pop('integer'));
+		registry::push('integer', 10);
+		$this->assertEquals(10, registry::pop('integer'));
 
-		Registry::push('float', 10.45);
-		$this->assertEquals(10.45, Registry::pop('float'));
+		registry::push('float', 10.45);
+		$this->assertEquals(10.45, registry::pop('float'));
 	}
 
 	public function testPushingComplexElements() {
-		Registry::reset();
+		registry::reset();
 
 		$stdClass = new \stdClass();
 		$stdClass->name = 'Vic Cherubini';
-		Registry::push('std_class', $stdClass);
-		$this->assertEquals($stdClass, Registry::pop('std_class'));
+		registry::push('std_class', $stdClass);
+		$this->assertEquals($stdClass, registry::pop('std_class'));
 
 		$array = array('name' => 'Vic Cherubini', 'language_list' => array('php', 'perl', 'javascript', 'c++', 'c', 'sql'));
-		Registry::push('array', $array);
-		$this->assertEquals($array, Registry::pop('array'));
+		registry::push('array', $array);
+		$this->assertEquals($array, registry::pop('array'));
 	}
 
 	public function testPoppingElements() {
-		Registry::reset();
+		registry::reset();
 
-		Registry::push('delete_me', 'delete me please');
-		$this->assertEquals('delete me please', Registry::pop('delete_me', true));
-		$this->assertEquals(NULL, Registry::pop('delete_me'));
+		registry::push('delete_me', 'delete me please');
+		$this->assertEquals('delete me please', registry::pop('delete_me', true));
+		$this->assertEquals(NULL, registry::pop('delete_me'));
 	}
 
 	public function testUpdatingElements() {
-		Registry::reset();
+		registry::reset();
 
 		/* Disallowing overwrites. */
-		Registry::push('do_not_overwrite', 'dno', false);
-		$this->assertEquals('dno', Registry::pop('do_not_overwrite'));
+		registry::push('do_not_overwrite', 'dno', false);
+		$this->assertEquals('dno', registry::pop('do_not_overwrite'));
 
-		Registry::push('do_not_overwrite', 'dno2');
-		$this->assertEquals('dno', Registry::pop('do_not_overwrite'));
+		registry::push('do_not_overwrite', 'dno2');
+		$this->assertEquals('dno', registry::pop('do_not_overwrite'));
 
 		/* Allowing overwrites. */
-		Registry::push('allow_overwrite', 'ao');
-		$this->assertEquals('ao', Registry::pop('allow_overwrite'));
+		registry::push('allow_overwrite', 'ao');
+		$this->assertEquals('ao', registry::pop('allow_overwrite'));
 
-		Registry::push('allow_overwrite', 'ao2');
-		$this->assertEquals('ao2', Registry::pop('allow_overwrite'));
+		registry::push('allow_overwrite', 'ao2');
+		$this->assertEquals('ao2', registry::pop('allow_overwrite'));
 
 		/* Disallowing overwrites, but deleting the element so it can be overwritten. */
-		Registry::push('do_not_overwrite', 'dno', false);
-		Registry::push('do_not_overwrite', 'dno2');
-		$this->assertEquals('dno', Registry::pop('do_not_overwrite', true));
+		registry::push('do_not_overwrite', 'dno', false);
+		registry::push('do_not_overwrite', 'dno2');
+		$this->assertEquals('dno', registry::pop('do_not_overwrite', true));
 
-		Registry::push('do_not_overwrite', 'dno3', false);
-		$this->assertEquals('dno3', Registry::pop('do_not_overwrite'));
+		registry::push('do_not_overwrite', 'dno3', false);
+		$this->assertEquals('dno3', registry::pop('do_not_overwrite'));
 	}
 
 }

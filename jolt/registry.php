@@ -1,9 +1,7 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
-
-require_once 'jolt/lib/library.php';
+namespace jolt;
 
 /**
  * A centralized registry to store global data. Although not as efficient
@@ -13,10 +11,9 @@ require_once 'jolt/lib/library.php';
  *
  * @author vmc <vmc@leftnode.com>
  */
-class Registry {
+class registry {
 
 	private static $registry = array();
-
 	private static $overwrite_list = array();
 
 	public static function reset() {
@@ -25,12 +22,10 @@ class Registry {
 	}
 
 	public static function push($name, $item, $overwrite=true) {
-		$exists = \Jolt\Lib\exs($name, self::$registry);
-
-		if ( (!$exists) || ($exists && \Jolt\Lib\exs($name, self::$overwrite_list)) ) {
+		$exists = array_key_exists($name, self::$registry);
+		if ((!$exists) || ($exists && array_key_exists($name, self::$overwrite_list))) {
 			self::$registry[$name] = $item;
-
-			if ( true === $overwrite ) {
+			if ($overwrite) {
 				self::$overwrite_list[$name] = true;
 			}
 		}
@@ -38,14 +33,18 @@ class Registry {
 	}
 
 	public static function pop($name, $delete=false) {
-		$item = \Jolt\Lib\er($name, self::$registry);
-		if ( $delete ) {
+		$item = NULL;
+		if (array_key_exists($name, self::$registry)) {
+			$item = self::$registry[$name];
+		}
+		
+		if ($delete) {
 			unset(self::$registry[$name]);
-
-			if ( \Jolt\Lib\exs($name, self::$overwrite_list) ) {
+			if (array_key_exists($name, self::$overwrite_list)) {
 				unset(self::$overwrite_list[$name]);
 			}
 		}
 		return $item;
 	}
+	
 }
