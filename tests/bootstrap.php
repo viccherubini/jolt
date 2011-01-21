@@ -3,8 +3,9 @@
 declare(encoding='UTF-8');
 namespace JoltTest;
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'testcase.php';
+error_reporting(E_ALL);
+
+require_once('testcase.php');
 
 $includePath = get_include_path();
 $joltTestPath = dirname(__FILE__);
@@ -21,7 +22,7 @@ define('DIRECTORY_VIEWS', DIRECTORY_APP . DS . 'views', false);
 
 // Rather than having each test include the files it needs, just include
 // them all at once.
-require_once 'jolt/framework.php';
+require_once('jolt/framework.php');
 
 // Delete all of the coverage docs
 shell_exec('rm -rf coverage');
