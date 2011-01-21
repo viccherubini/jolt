@@ -1,44 +1,15 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\Settings,
-	\JoltTest\TestCase;
+use \jolt\settings,
+	\jolt_test\testcase;
 
-require_once 'jolt/settings.php';
-require_once 'jolt/route/restful.php';
+class testcase_test extends testcase {
 
-class TestCaseTest extends TestCase {
-
-	public function testBuildMockSettings_CanSetArrayOfParameters() {
-		$cfg1 = new Settings;
-		$cfg1->key2 = 'value2';
-		$cfg1->key1 = 'value1';
-
-		$cfgArray = array('key1' => 'value1', 'key2' => 'value2');
-		$cfg2 = $this->buildMockSettings($cfgArray);
-
-		foreach ( $cfgArray as $k => $v ) {
-			$this->assertEquals($cfg1->$k, $cfg2->$k);
-		}
+	public function test_AssertTrue() {
+		$this->assertTrue(true);
 	}
-
-	public function testBuildMockAbstractRoute_ReturnsJoltRouteObject() {
-		$abstractRoute = $this->buildMockAbstractRoute();
-		$this->assertTrue($abstractRoute instanceof \Jolt\Route);
-	}
-
-	public function testBuildMockNamedRoute_ReturnsJoltRouteNamedObject() {
-		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'addAction');
-		$this->assertTrue($namedRoute instanceof \Jolt\Route\Named);
-		$this->assertFalse($namedRoute instanceof \Jolt\Route\Restful);
-	}
-
-	public function testBuildMockRestfulRoute_ReturnsJoltRouteRestfulObject() {
-		$restfulRoute = $this->buildMockRestfulRoute('/user', 'User');
-		$this->assertTrue($restfulRoute instanceof \Jolt\Route\Restful);
-		$this->assertFalse($restfulRoute instanceof \Jolt\Route\Named);
-	}
-
+	
 }
