@@ -1,30 +1,27 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\Settings,
-	\JoltTest\TestCase;
+use \jolt\settings,
+	\jolt_test\testcase;
 
-require_once 'jolt/settings.php';
+require_once('jolt/settings.php');
 
-class SettingsTest extends TestCase {
+class settings_text extends testcase {
 
 	public function test__Construct_SetsAllSettingsWithArray() {
-		$settings = array(
-			'name' => 'vic',
-			'age' => 26
-		);
+		$settings = array('name' => 'vic', 'age' => 26);
 
-		$s = new Settings($settings);
+		$s = new settings($settings);
 
-		foreach ( $settings as $k => $v ) {
+		foreach ($settings as $k => $v) {
 			$this->assertEquals($v, $s->$k);
 		}
 	}
 
 	public function test__Get_ReturnsNullOnMissingField() {
-		$s = new Settings;
+		$s = new settings;
 
 		$this->assertTrue(is_null($s->field));
 	}
@@ -32,10 +29,22 @@ class SettingsTest extends TestCase {
 	public function test__Set_ReturnsValueOnPresentField() {
 		$name = 'vic';
 
-		$s = new Settings;
+		$s = new settings;
 		$s->name = $name;
 
 		$this->assertEquals($name, $s->name);
+	}
+
+	public function test_Length_ReturnsNumberOfElements() {
+		$s = new settings;
+		$this->assertEquals(0, $s->length());
+
+		$s->a = 'a';
+		$s->b = 'b';
+		$this->assertEquals(2, $s->length());
+
+		$s->a = 'a1'; // steaksauce
+		$this->assertEquals(2, $s->length());
 	}
 
 }
