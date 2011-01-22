@@ -11,5 +11,5 @@ class testcase_test extends testcase {
 	public function test_AssertTrue() {
 		$this->assertTrue(true);
 	}
-	
+
 }

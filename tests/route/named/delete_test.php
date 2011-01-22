@@ -1,17 +1,17 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Route\Named;
+namespace jolt_test\route\named;
 
-use \Jolt\Route\Named\Delete,
-	\JoltTest\TestCase;
+use \jolt\route\named\delete,
+	\jolt_test\testcase;
 
-require_once 'jolt/route/named/delete.php';
+require_once('jolt/route/named/delete.php');
 
-class DeleteTest extends TestCase {
+class delete_test extends testcase {
 
 	public function testNewDeleteRoute_RequestMethodIsDelete() {
-		$route = new Delete('/user', 'User', 'index');
+		$route = new delete('/user', 'User', 'index');
 		$this->assertEquals('DELETE', $route->getRequestMethod());
 	}
 }

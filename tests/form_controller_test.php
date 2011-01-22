@@ -1,14 +1,14 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\FormController,
-	\JoltTest\TestCase;
+use \jolt\form_controller,
+	\jolt_test\testcase;
 
-require_once 'jolt/form_controller.php';
+require_once('jolt/form_controller.php');
 
-class FormControllerTest extends TestCase {
+class form_controller_test extends testcase {
 
 	private $formController = NULL;
 

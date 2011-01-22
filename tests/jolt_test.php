@@ -1,14 +1,14 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\Jolt,
-	\JoltTest\TestCase;
+use \jolt\jolt,
+	\jolt_test\testcase;
 
-require_once 'jolt/jolt.php';
+require_once('jolt/jolt.php');
 
-class JoltTest extends TestCase {
+class jolt_test extends testcase {
 
 	public function testTrue() {
 		$this->assertTrue(true);

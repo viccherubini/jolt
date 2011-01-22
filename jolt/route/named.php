@@ -18,7 +18,7 @@ class Named extends Route {
 		$this->requestMethods = array('GET' => true, 'POST' => true, 'PUT' => true, 'DELETE' => true);
 
 		$this->setRequestMethod($requestMethod)
-			->setRoute($route)
+			->set_route($route)
 			->setController($controller)
 			->setAction($action)
 			->setArgv(array());
@@ -85,14 +85,14 @@ class Named extends Route {
 		return (
 			$route instanceof \Jolt\Route\Named &&
 			$route->getRequestMethod() === $this->getRequestMethod() &&
-			$route->getRoute() === $this->getRoute() &&
+			$route->get_route() === $this->get_route() &&
 			$route->getController() === $this->getController() &&
 			$route->getAction() === $this->getAction()
 		);
 	}
 
 	public function is_valid() {
-		$route = $this->getRoute();
+		$route = $this->get_route();
 
 		/* Special case of a valid route. */
 		if ( '/' == $route ) {
@@ -118,7 +118,7 @@ class Named extends Route {
 		$uriChunkList = explode('/', $uri);
 		$uriChunkCount = count($uriChunkList);
 
-		$route = $this->getRoute();
+		$route = $this->get_route();
 		$route = ltrim($route, '/');
 		$routeChunkList = explode('/', $route);
 		$routeChunkCount = count($routeChunkList);

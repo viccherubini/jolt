@@ -1,17 +1,17 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Route\Named;
+namespace jolt_test\route\named;
 
-use \Jolt\Route\Named\Get,
-	\JoltTest\TestCase;
+use \jolt\route\named\get,
+	\jolt_test\testcase;
 
-require_once 'jolt/route/named/get.php';
+require_once('jolt/route/named/get.php');
 
-class GetTest extends TestCase {
+class get_test extends testcase {
 
 	public function testNewGetRoute_RequestMethodIsGet() {
-		$route = new Get('/user', 'User', 'index');
+		$route = new get('/user', 'User', 'index');
 		$this->assertEquals('GET', $route->getRequestMethod());
 	}
 }

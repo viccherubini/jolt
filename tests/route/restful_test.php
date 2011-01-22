@@ -1,104 +1,104 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Route;
+namespace jolt_test\route;
 
-use \Jolt\Route\Restful,
-	\JoltTest\TestCase;
+use \jolt\route\restful,
+	\jolt_test\testcase;
 
-require_once 'jolt/route/restful.php';
+require_once('jolt/route/restful.php');
 
-class RestfulTest extends TestCase {
+class restful_test extends testcase {
 
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testNewRestfulRoute_MustHaveRoute() {
-		$route = new Restful(NULL, 'Resource');
+		$route = new restful(NULL, 'Resource');
 	}
 
 	/**
 	 * @expectedException \Jolt\Exception
 	 */
 	public function testNewRestfulRoute_MustHaveResource() {
-		$route = new Restful('/user', NULL);
+		$route = new restful('/user', NULL);
 	}
 
 	public function testGetRoute_ReturnsCorrectRoute() {
-		$route = new Restful('/user', 'Resource');
-		$this->assertEquals('/user', $route->getRoute());
+		$route = new restful('/user', 'Resource');
+		$this->assertEquals('/user', $route->get_route());
 	}
 
 	public function testGetResource_ReturnsCorrectResourceName() {
-		$route = new Restful('/user', 'User');
+		$route = new restful('/user', 'User');
 		$this->assertEquals('User', $route->getResource());
 	}
 
 	public function testIsEqual_ReturnsTrueForEqualRoute() {
-		$route1 = new Restful('/user', 'User');
-		$route2 = new Restful('/user', 'User');
+		$route1 = new restful('/user', 'User');
+		$route2 = new restful('/user', 'User');
 
-		$this->assertTrue($route1->isEqual($route2));
-		$this->assertTrue($route2->isEqual($route1));
+		$this->assertTrue($route1->is_equal($route2));
+		$this->assertTrue($route2->is_equal($route1));
 	}
 
 	public function testIsEqual_ReturnsFalseForNamedRoute() {
-		$restfulRoute = new Restful('/user', 'User');
+		$restfulRoute = new restful('/user', 'User');
 		$namedRoute = $this->buildMockNamedRoute('GET', '/user', 'User', 'index');
 
-		$this->assertFalse($restfulRoute->isEqual($namedRoute));
+		$this->assertFalse($restfulRoute->is_equal($namedRoute));
 	}
 
 	public function testIsEqual_ReturnsFalseForDifferentRoute() {
-		$route1 = new Restful('/user', 'User');
-		$route2 = new Restful('/usr', 'User');
+		$route1 = new restful('/user', 'User');
+		$route2 = new restful('/usr', 'User');
 
-		$this->assertFalse($route1->isEqual($route2));
-		$this->assertFalse($route2->isEqual($route1));
+		$this->assertFalse($route1->is_equal($route2));
+		$this->assertFalse($route2->is_equal($route1));
 	}
 
 	public function testIsEqual_ReturnsFalseForDifferentResource() {
-		$route1 = new Restful('/user', 'User');
-		$route2 = new Restful('/user', 'Usr');
+		$route1 = new restful('/user', 'User');
+		$route2 = new restful('/user', 'Usr');
 
-		$this->assertFalse($route1->isEqual($route2));
-		$this->assertFalse($route2->isEqual($route1));
+		$this->assertFalse($route1->is_equal($route2));
+		$this->assertFalse($route2->is_equal($route1));
 	}
 
 	/**
 	 * @dataProvider providerValidRoute
 	 */
 	public function testIsValid_ReturnsTrueForValidRoute($route) {
-		$route = new Restful($route, 'Resource');
+		$route = new restful($route, 'Resource');
 
-		$this->assertTrue($route->isValid());
+		$this->assertTrue($route->is_valid());
 	}
 
 	/**
 	 * @dataProvider providerInvalidRoute
 	 */
 	public function testIsValid_ReturnsFalseForInvalidRoute($route) {
-		$route = new Restful($route, 'Resource');
+		$route = new restful($route, 'Resource');
 
-		$this->assertFalse($route->isValid());
+		$this->assertFalse($route->is_valid());
 	}
 
 	/**
 	 * @dataProvider providerValidRouteAndPath
 	 */
 	public function testIsValidPath_ReturnsTrueForValidRouteAndPath($route, $path) {
-		$route = new Restful($route, 'Resource');
+		$route = new restful($route, 'Resource');
 
-		$this->assertTrue($route->isValidPath($path));
+		$this->assertTrue($route->is_valid_path($path));
 	}
 
 	/**
 	 * @dataProvider providerInvalidRouteAndPath
 	 */
 	public function testIsValidPath_ReturnsFalseForInvalidRouteAndPath($route, $path) {
-		$route = new Restful($route, 'Resource');
+		$route = new restful($route, 'Resource');
 
-		$this->assertFalse($route->isValidPath($path));
+		$this->assertFalse($route->is_valid_path($path));
 	}
 
 	public function providerValidRoute() {

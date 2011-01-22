@@ -87,7 +87,7 @@ class Validator {
 		return NULL;
 	}
 
-	public function isEmpty() {
+	public function is_empty() {
 		if ( $this->ruleSetExists() ) {
 			return ( 0 === count($this->ruleSets[$this->ruleSet]) );
 		}

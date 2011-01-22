@@ -1,14 +1,14 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Form\Validator;
+namespace jolt_test\form\validator;
 
-use \Jolt\Form\Validator\RuleSet,
-	\JoltTest\TestCase;
+use \jolt\form\validator\rule,
+	\jolt_test\testcase;
 
-require_once 'jolt/form/validator/rule.php';
+require_once('jolt/form/validator/rule.php');
 
-class RuleSetTest extends TestCase {
+class rule_test extends testcase {
 
 	/**
 	 * @expectedException \Jolt\Exception

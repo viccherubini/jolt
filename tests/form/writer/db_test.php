@@ -1,15 +1,15 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Form\Writer;
+namespace jolt_test\form\writer;
 
-use \Jolt\Form\Writer\Db,
-	\JoltTest\TestCase;
+use \jolt\form\writer\db,
+	\jolt_test\testcase;
 
-require_once 'jolt/form/writer.php';
-require_once 'jolt/form/writer/db.php';
+require_once('jolt/form/writer.php');
+require_once('jolt/form/writer/db.php');
 
-class DbTest extends TestCase {
+class db_test extends testcase {
 
 	private $pdo = NULL;
 

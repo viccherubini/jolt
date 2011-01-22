@@ -1,17 +1,17 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Route\Named;
+namespace jolt_test\route\named;
 
-use \Jolt\Route\Named\Put,
-	\JoltTest\TestCase;
+use \jolt\route\named\put,
+	\jolt_test\testcase;
 
-require_once 'jolt/route/named/put.php';
+require_once('jolt/route/named/put.php');
 
-class PutTest extends TestCase {
+class put_test extends testcase {
 
 	public function testNewPutRoute_RequestMethodIsPut() {
-		$route = new Put('/user', 'User', 'index');
+		$route = new put('/user', 'User', 'index');
 		$this->assertEquals('PUT', $route->getRequestMethod());
 	}
 }

@@ -1,11 +1,11 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\Dispatcher;
+use \jolt\dispatcher;
 
-class DispatcherTest extends TestCase {
+class dispatcher_test extends testcase {
 
 	/**
 	 * @expectedException PHPUnit_Framework_Error

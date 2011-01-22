@@ -8,7 +8,7 @@ use \jolt\settings,
 
 require_once('jolt/settings.php');
 
-class settings_text extends testcase {
+class settings_test extends testcase {
 
 	public function test__Construct_SetsAllSettingsWithArray() {
 		$settings = array('name' => 'vic', 'age' => 26);

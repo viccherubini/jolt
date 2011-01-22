@@ -1,22 +1,22 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Form;
+namespace jolt_test\form;
 
-require_once 'form/validator_test.php';
+require_once('form/validator_test.php');
 
-require_once 'form/loader/db_test.php';
-require_once 'form/writer/db_test.php';
+require_once('form/loader/db_test.php');
+require_once('form/writer/db_test.php');
 
-class AllTests {
+class alltests {
 
 	public static function suite() {
 		$suite = new \PHPUnit_Framework_TestSuite('Jolt Form Tests');
 
-		$suite->addTestSuite('\JoltTest\Form\ValidatorTest');
+		$suite->addTestSuite('\jolt_test\form\validator_test');
 
-		$suite->addTestSuite('\JoltTest\Form\Loader\DbTest');
-		$suite->addTestSuite('\JoltTest\Form\Writer\DbTest');
+		$suite->addTestSuite('\jolt_test\form\loader\db_test');
+		$suite->addTestSuite('\jolt_test\form\writer\db_test');
 
 		return $suite;
 	}

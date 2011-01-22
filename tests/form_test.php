@@ -1,17 +1,17 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\Form,
-	\Jolt\FormController,
-	\JoltTest\TestCase;
+use \jolt\form,
+	\jolt\form_controller,
+	\jolt_test\testcase;
 
-require_once 'jolt/form_controller.php';
-require_once 'jolt/form/loader.php';
-require_once 'jolt/form/writer.php';
+require_once('jolt/form_controller.php');
+require_once('jolt/form/loader.php');
+require_once('jolt/form/writer.php');
 
-class FormTest extends TestCase {
+class form_test extends testcase {
 
 	/**
 	 * @expectedException PHPUnit_Framework_Error

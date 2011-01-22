@@ -1,19 +1,19 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Form;
+namespace jolt_test\form;
 
-use \Jolt\Form\Validator,
-	\JoltTest\TestCase;
+use \jolt\form\validator,
+	\jolt_test\testcase;
 
-require_once 'jolt/form/validator.php';
+require_once('jolt/form/validator.php');
 
-class ValidatorTest extends TestCase {
+class validator_test extends testcase {
 
 
 	public function testIsEmpty_EmptyWhenNoRuleSets() {
-		$validator = new Validator;
-		$this->assertTrue($validator->isEmpty());
+		$validator = new validator;
+		$this->assertTrue($validator->is_empty());
 	}
 
 

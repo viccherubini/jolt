@@ -1,12 +1,12 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\View,
-	\JoltTest\TestCase;
+use \jolt\view,
+	\jolt_test\testcase;
 
-class ViewTest extends TestCase {
+class view_test extends testcase {
 
 	public function test__Set_WritesToVariables() {
 		$expected = array('name' => 'vic');

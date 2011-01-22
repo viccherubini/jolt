@@ -1,14 +1,14 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \JoltTest\TestCase;
+use \jolt_test\testcase;
 
-class MiscTest extends TestCase {
-	
+class misc_test extends testcase {
+
 	const EXT = '.phtml';
-	
+
 	/**
 	 * @dataProvider providerViewAndViewFile
 	 */
@@ -16,16 +16,16 @@ class MiscTest extends TestCase {
 		if ( 0 === preg_match('/\\' . self::EXT . '$/i', $view) ) {
 			$view .= self::EXT;
 		}
-		
+
 		$this->assertEquals($expected, $view);
 	}
-	
+
 	/**
 	 * @expectedException PHPUnit_Framework_Error
 	 */
 	public function testStdClass_CanNotAccessMissingField() {
 		$c = new \stdClass;
-		
+
 		var_dump($c->field);
 	}
 

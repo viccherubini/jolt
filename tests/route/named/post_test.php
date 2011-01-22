@@ -1,17 +1,17 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Route\Named;
+namespace jolt_test\route\named;
 
-use \Jolt\Route\Named\Post,
-	\JoltTest\TestCase;
+use \jolt\route\named\post,
+	\jolt_test\testcase;
 
-require_once 'jolt/route/named/post.php';
+require_once('jolt/route/named/post.php');
 
-class PostTest extends TestCase {
+class post_test extends testcase {
 
 	public function testNewPostRoute_RequestMethodIsPost() {
-		$route = new Post('/user', 'User', 'index');
+		$route = new post('/user', 'User', 'index');
 		$this->assertEquals('POST', $route->getRequestMethod());
 	}
 }

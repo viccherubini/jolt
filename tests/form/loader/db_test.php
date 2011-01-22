@@ -1,15 +1,15 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest\Form\Loader;
+namespace jolt_test\form\loader;
 
-use \Jolt\Form\Loader\Db,
-	\JoltTest\TestCase;
+use \jolt\form\loader\db,
+	\jolt_test\testcase;
 
-require_once 'jolt/form/loader.php';
-require_once 'jolt/form/loader/db.php';
+require_once('jolt/form/loader.php');
+require_once('jolt/form/loader/db.php');
 
-class DbTest extends TestCase {
+class db_test extends testcase {
 
 	private $pdo = NULL;
 	private $id = NULL;

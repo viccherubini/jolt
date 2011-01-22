@@ -1,14 +1,14 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \Jolt\Router,
-	\JoltTest\TestCase;
+use \jolt\router,
+	\jolt_test\testcase;
 
-require_once 'jolt/router.php';
+require_once('jolt/router.php');
 
-class RouterTest extends TestCase {
+class router_test extends testcase {
 
 	private $http404Route = NULL;
 
