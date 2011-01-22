@@ -7,7 +7,7 @@ require_once('testcase.php');
 
 $includePath = get_include_path();
 $joltTestPath = dirname(__FILE__);
-$joltPath = realpath($joltTestPath . '/../');
+$joltPath = realpath($joltTestPath . '/../../');
 
 set_include_path(implode(PATH_SEPARATOR, array($includePath, $joltPath, $joltTestPath)));
 

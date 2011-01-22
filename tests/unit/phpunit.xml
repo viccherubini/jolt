@@ -8,10 +8,10 @@
 
 	<filter>
 		<whitelist>
-			<directory suffix=".php">../jolt/</directory>
+			<directory suffix=".php">../../jolt/</directory>
 		</whitelist>
 		<blacklist>
-			<file>../jolt/framework.php</file>
+			<file>../../jolt/framework.php</file>
 		</blacklist>
 	</filter>
 
