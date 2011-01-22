@@ -1,9 +1,7 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
-
-error_reporting(E_ALL);
+namespace jolt_test;
 
 require_once('testcase.php');
 
