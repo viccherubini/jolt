@@ -10,68 +10,75 @@ require_once('vfsStream/vfsStream.php');
 
 class locator_test extends testcase {
 
-	private $app_directory = NULL;
-	private $stream_url = NULL;
-
-	private $jolt_application_directory = NULL;
-	private $controller_name = NULL;
-	private $controller_file = NULL;
-	private $controller_file_content = NULL;
+	private $controller = 'app_controller';
+	private $controller_directory = 'jolt_app';
 
 	public function setUp() {
-		$this->jolt_application_directory = 'jolt_app';
-		$this->controller_name = 'app_controller';
-		$this->controller_file = 'app_controller.php';
-		$this->controller_file_content = '<?php namespace jolt_app; class '.$this->controller_name.' extends \jolt\controller { }';
-
 		\vfsStreamWrapper::register();
 	}
 
 	/**
 	 * @expectedException \jolt\exception
 	 */
-	public function _test_find__controller_file_exists() {
+	public function test_find__controller_file_exists() {
+		$controller_file = $this->get_controller_file();
+		
 		$locator = new locator;
-		$locator->find(\vfsStream::url('jolt_app_missing'.DIRECTORY_SEPARATOR.$this->controller_file), $this->controller_name);
+		$locator->find(\vfsStream::url($this->controller_directory.DIRECTORY_SEPARATOR.$controller_file), $this->controller);
 	}
 
-
-
 	/**
-	 * @_expectedException \jolt\exception
+	 * @expectedException \jolt\exception
 	 */
 	public function test_find__controller_class_exists() {
-		\vfsStreamWrapper::setRoot(new \vfsStreamDirectory('jolt_app'));
+		$controller_file = $this->get_controller_file();
+		\vfsStreamWrapper::setRoot(new \vfsStreamDirectory($this->controller_directory));
 
 		$app_directory = \vfsStreamWrapper::getRoot();
-		$app_directory->addChild(\vfsStream::newFile('app_controller.php')->withContent('<?php class abc { } ?>'));
+		$app_directory->addChild(\vfsStream::newFile($controller_file)->withContent('<?php class abc { }'));
+
+		$stream_url = \vfsStream::url($this->controller_directory.DIRECTORY_SEPARATOR.$controller_file);
 
 		$locator = new locator;
-		$locator->find(\vfsStream::url('jolt_app'.DIRECTORY_SEPARATOR.'app_controller.php'), 'app_controller');
+		$locator->find($stream_url, $this->controller);
 	}
 
 	/**
-	 * @_expectedException \jolt\exception
+	 * @expectedException \jolt\exception
 	 */
 	public function test_find__controller_extends_jolt_controller() {
-		\vfsStreamWrapper::setRoot(new \vfsStreamDirectory('jolt_app'));
+		$controller_file = $this->get_controller_file();
+		\vfsStreamWrapper::setRoot(new \vfsStreamDirectory($this->controller_directory));
 
 		$app_directory = \vfsStreamWrapper::getRoot();
-		$app_directory->addChild(\vfsStream::newFile('app_controller2.php')->withContent('<?php class def { } ?>'));
+		$app_directory->addChild(\vfsStream::newFile($controller_file)->withContent('<?php class '.$this->controller.' { }'));
+
+		$stream_url = \vfsStream::url($this->controller_directory.DIRECTORY_SEPARATOR.$controller_file);
 
 		$locator = new locator;
-		$locator->find(\vfsStream::url('jolt_app'.DIRECTORY_SEPARATOR.'app_controller2.php'), 'app_controller');
+		$locator->find($stream_url, $this->controller);
+	}
+
+	public function test_find__controller_object_built() {
+		$controller_file = $this->get_controller_file();
+		
+		\vfsStreamWrapper::setRoot(new \vfsStreamDirectory($this->controller_directory));
+
+		$app_directory = \vfsStreamWrapper::getRoot();
+		$app_directory->addChild(\vfsStream::newFile($controller_file)->withContent('<?php namespace jolt_app; class '.$this->controller.' extends \jolt\controller { }'));
+
+		$stream_url = \vfsStream::url($this->controller_directory.DIRECTORY_SEPARATOR.$controller_file);
+		
+		$locator = new locator;
+		$app_controller = $locator->find($stream_url, '\jolt_app\\'.$this->controller);
+
+		$this->assertTrue(is_object($app_controller));
+		$this->assertTrue($app_controller instanceof \jolt\controller);
 	}
 
 
-
-
-	public function _test_find__controller_object_built() {
-		//$locator = new locator;
-		//$locator->find($this->stream_url, $this->controller_name);
-		//var_dump(file_get_contents($this->stream_url));
-
+	private function get_controller_file() {
+		return uniqid(true).'_app_controller.php';
 	}
-
-
+	
 }

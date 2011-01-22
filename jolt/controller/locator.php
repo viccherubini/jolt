@@ -18,12 +18,7 @@ class locator {
 			throw new \jolt\exception('Controller path '.$controller_path.' not found.');
 		}
 
-$classes1 = get_declared_classes();
-
 		require_once($controller_path);
-
-$classes2 = get_declared_classes();
-print_r(array_diff($classes2, $classes1));
 
 		if (!class_exists($controller))  {
 			throw new \jolt\exception('Controller class '.$controller.' does not exist.');
