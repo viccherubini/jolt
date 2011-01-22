@@ -32,7 +32,7 @@ class Restful extends Route {
 		return $this->resource;
 	}
 	
-	public function isEqual(Route $route) {
+	public function is_equal(Route $route) {
 		return (
 			$route instanceof \Jolt\Route\Restful &&
 			$this->getRoute() === $route->getRoute() &&
@@ -40,7 +40,7 @@ class Restful extends Route {
 		);
 	}
 	
-	public function isValid() {
+	public function is_valid() {
 		$route = $this->getRoute();
 		
 		/* Special case of a valid route. */
@@ -55,7 +55,7 @@ class Restful extends Route {
 		return true;
 	}
 	
-	public function isValidPath($uri) {
+	public function is_valid_path($uri) {
 		$route = trim($this->getRoute());
 		return ( $route === trim($uri));
 	}

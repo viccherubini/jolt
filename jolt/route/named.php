@@ -81,7 +81,7 @@ class Named extends Route {
 		return $this->requestMethod;
 	}
 
-	public function isEqual(Route $route) {
+	public function is_equal(Route $route) {
 		return (
 			$route instanceof \Jolt\Route\Named &&
 			$route->getRequestMethod() === $this->getRequestMethod() &&
@@ -91,7 +91,7 @@ class Named extends Route {
 		);
 	}
 
-	public function isValid() {
+	public function is_valid() {
 		$route = $this->getRoute();
 
 		/* Special case of a valid route. */
@@ -112,7 +112,7 @@ class Named extends Route {
 		return true;
 	}
 
-	public function isValidPath($uri) {
+	public function is_valid_path($uri) {
 		// Remove the beginning / from the URI and route.
 		$uri = ltrim($uri, '/');
 		$uriChunkList = explode('/', $uri);

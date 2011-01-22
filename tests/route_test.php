@@ -1,20 +1,29 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace JoltTest;
+namespace jolt_test;
 
-use \JoltTest\TestCase;
+use \jolt_test\testcase;
 
-require_once 'jolt/route.php';
+require_once('jolt/route.php');
 
-class RouteTest extends TestCase {
+class route_test extends testcase {
 
 	/**
-	 * @expectedException \Jolt\Exception
+	 * @expectedException \jolt\exception
 	 */
-	public function testRouteCanNotBeEmpty() {
-		$route = $this->buildMockAbstractRoute();
-		$route->setRoute(NULL);
+	public function test_RouteCanNotBeEmpty() {
+		$route = $this->getMockForAbstractClass('\jolt\route');
+		$route->set_route(NULL);
+	}
+
+	public function test_RouteSet() {
+		$path = '/path/to/route';
+
+		$route = $this->getMockForAbstractClass('\jolt\route');
+		$route->set_route($path);
+
+		$this->assertEquals($path, $route->get_route());
 	}
 
 }
