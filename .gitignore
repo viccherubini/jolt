@@ -1,2 +1,2 @@
 docs/HTML/*
-tests/coverage/*
+tests/unit/coverage/*
