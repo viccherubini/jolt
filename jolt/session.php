@@ -177,7 +177,7 @@ class session {
 			$statement->bindValue(':agent_hash', $agent_hash, \PDO::PARAM_STR);
 			$statement->bindValue(':data', $data, \PDO::PARAM_LOB);
 
-			$exec = $pdoStatement->execute($parameters);
+			$exec = $statement->execute($parameters);
 		}
 
 		return true;
