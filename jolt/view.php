@@ -7,7 +7,7 @@ class view {
 
 	private $css_path = NULL;
 	private $javascript_path = NULL;
-	private $image_path = NULL;
+	private $images_path = NULL;
 	private $secure_url = NULL;
 	private $url = NULL;
 	private $use_rewrite = false;
@@ -90,7 +90,7 @@ class view {
 
 	public function img($img_src, $alt_text=NULL, $tag_attributes=NULL, $local_file=true) {
 		if ($local_file) {
-			$img_src = '/' . $this->image_path . $img_src;
+			$img_src = '/' . $this->images_path . $img_src;
 		}
 
 		$img_tag = sprintf('<img src="%s" alt="%s" title="%s" %s>%s', $img_src, $alt_text, $alt_text, $tag_attributes, PHP_EOL);
@@ -154,8 +154,8 @@ class view {
 		return $this;
 	}
 
-	public function set_image_path($image_path) {
-		$this->image_path = $this->append_directory_separator($image_path);
+	public function set_images_path($images_path) {
+		$this->images_path = $this->append_directory_separator($images_path);
 		return $this;
 	}
 
@@ -208,8 +208,8 @@ class view {
 		return $this->css_path;
 	}
 
-	public function get_image_path() {
-		return $this->image_path;
+	public function get_images_path() {
+		return $this->images_path;
 	}
 
 	public function get_javascript_path() {
