@@ -13,7 +13,7 @@ class controller {
 	private $view = NULL;
 
 	private $headers = array();
-	private $blockList = array();
+	private $blocks = array();
 
 	const EXT = '.php';
 	const VIEWEXT = '.phtml';
