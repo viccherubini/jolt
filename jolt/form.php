@@ -1,12 +1,12 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
-use \Jolt\FormController;
+namespace jolt;
+use \jolt\form_controller;
 
-require_once 'jolt/form_controller.php';
+require_once('jolt/form_controller.php');
 
-class Form extends FormController {
+class form extends form_controller {
 
 	private $exception = NULL;
 	private $loader = NULL;
@@ -21,117 +21,101 @@ class Form extends FormController {
 		$this->data = array();
 	}
 
-	public function attachException(\Exception $exception) {
+	public function attach_exception(\Exception $exception) {
 		$this->exception = $exception;
 		return $this;
 	}
 
-	public function attachLoader(\Jolt\Form\Loader $loader) {
+	public function attach_loader(\jolt\form\loader $loader) {
 		$this->loader = $loader;
 		return $this;
 	}
 
-	public function attachWriter(\Jolt\Form\Writer $writer) {
+	public function attach_writer(\jolt\form\writer $writer) {
 		$this->writer = $writer;
 		return $this;
 	}
 
-	public function attachValidator(\Jolt\Form\Validator $validator) {
+	public function attach_validator(\jolt\form\validator $validator) {
 		$this->validator = $validator;
 		return $this;
 	}
 
 	public function load() {
-		$loader = $this->loader;
-		if ( is_null($loader) ) {
+		if (is_null($this->loader)) {
 			return false;
 		}
 
-		$id = $this->getId();
-		$name = $this->getName();
+		$this->loader->set_id($this->get_id())
+			->set_name($this->get_name());
 
-		$loader->setId($id)
-			->setName($name);
-
-		$loaded = $loader->load();
-		if ( !$loaded ) {
+		$loaded = $this->loader->load();
+		if (!$loaded) {
 			return false;
 		}
 
-		$data = $loader->getData();
-		$errors = $loader->getErrors();
-
-		$this->setData($data)
-			->setErrors($errors);
+		$this->setData($this->loader->get_data())
+			->setErrors($this->loader->get_errors());
 
 		return true;
 	}
 
 	public function write() {
-		$writer = $this->writer;
-		if ( is_null($writer) ) {
+		if (is_null($this->writer)) {
 			return false;
 		}
 
-		$id = $this->getId();
-		$name = $this->getName();
-		$data = $this->getData();
-		$errors = $this->getErrors();
+		$this->writer->setId($this->get_id())
+			->setName($this->get_name())
+			->setData($this->get_data())
+			->setErrors($this->get_errors());
 
-		$writer->setId($id)
-			->setName($name)
-			->setData($data)
-			->setErrors($errors);
-
-		$written = $writer->write();
-
+		$written = $this->writer->write();
 		return $written;
 	}
 
 	public function validate() {
-		$validator = $this->validator;
-		if ( is_null($validator) ) {
+		if (is_null($this->validator)) {
 			return false;
 		}
 
-		if ( $validator->isEmpty() ) {
+		if ($this->validator->is_empty()) {
 			return true;
 		}
 
-		$formName = $this->getName();
-		$data = $this->getData();
+		$name = $this->get_name();
+		$data = $this->get_data();
 
-		$ruleSets = $validator->getRuleSet();
-		foreach ( $ruleSets as $field => $ruleSet ) {
+		$rule_set = $this->validator->get_rule_set();
+		foreach ($rule_set as $field => $set) {
 			$value = NULL;
-			if ( array_key_exists($field, $data) ) {
+			if (array_key_exists($field, $data)) {
 				$value = $data[$field];
 			}
 
-			if ( !$ruleSet->isValid($value) ) {
-				$error = $ruleSet->getError();
-				$this->addError($field, $error);
+			if (!$set->is_valid($value)) {
+				$this->add_error($field, $set->get_error());
 			}
 		}
 
-		if ( $this->getErrorsCount() > 0 ) {
-			$error = $validator->getError();
-			if ( empty($error) ) {
-				$error = 'The form ' . $formName . ' failed to validate.';
+		if ($this->get_errors_count() > 0 ) {
+			$error = $this->validator->get_error();
+			if (empty($error)) {
+				$error = 'The form '.$name.' failed to validate.';
 			}
 
 			$exception = $this->exception;
-			if ( !is_null($exception) ) {
+			if (!is_null($exception)) {
 				throw new $exception($error);
 			} else {
-				throw new \Jolt\Exception($error);
+				throw new \jolt\exception($error);
 			}
 		}
 
 		return true;
 	}
 
-	public function getException() {
+	public function get_exception() {
 		return $this->exception;
 	}
 

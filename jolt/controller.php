@@ -7,9 +7,9 @@ class controller {
 
 	private $action = NULL;
 	private $content_type = 'text/html';
-	private $renderedController = NULL;
-	private $renderedView = NULL;
-	private $responseCode = 200;
+	private $rendered_controller = NULL;
+	private $rendered_view = NULL;
+	private $response_code = 200;
 	private $view = NULL;
 
 	private $headers = array();
@@ -27,22 +27,22 @@ class controller {
 	}
 
 	public function __set($k, $v) {
-		if ($this->hasView()) {
+		if ($this->has_view()) {
 			$this->view->$k = $v;
 		}
 		return true;
 	}
 
 	public function __get($k) {
-		if ($this->hasView()) {
+		if ($this->has_view()) {
 			return $this->view->$k;
 		}
 		return NULL;
 	}
 
-	public function addBlock($blockName, $block) {
-		if ($this->hasView()) {
-			$this->view->addBlock($blockName, $block);
+	public function add_block($block_name, $block) {
+		if ($this->has_view()) {
+			$this->view->add_block($block_name, $block);
 		}
 		return $this;
 	}
@@ -56,78 +56,77 @@ class controller {
 		return $this;
 	}
 
-	public function attach_view(\Jolt\View $view) {
+	public function attach_view(\jolt\view $view) {
 		$this->view = $view;
 		return $this;
 	}
 
 	public function execute($argv) {
-		if ( !is_array($argv) ) {
+		if (!is_array($argv)) {
 			$argv = array($argv);
 		}
 		$argc = count($argv);
 
-		if ( empty($this->action) ) {
-			throw new \Jolt\Exception('controller_action_not_set');
+		if (empty($this->action)) {
+			throw new \jolt\exception('Controller action can not be empty.');
 		}
 
 		try {
 			$action = new \ReflectionMethod($this, $this->action);
-		} catch ( \ReflectionException $e ) {
-			throw new \Jolt\Exception('controller_action_not_part_of_class');
+		} catch (\ReflectionException $e) {
+			throw new \jolt\exception('Controller action method '.$this->action.' not actual member of controller class.');
 		}
 
-		$paramCount = $action->getNumberOfRequiredParameters();
-		if ( $paramCount != $argc && $paramCount > $argc ) {
-			$argv = array_pad($argv, $paramCount, NULL);
+		$param_count = $action->getNumberOfRequiredParameters();
+		if ($param_count != $argc && $param_count > $argc) {
+			$argv = array_pad($argv, $param_count, NULL);
 		}
 
 		ob_start();
-			if ( method_exists($this, 'init') ) {
+			if (method_exists($this, 'init')) {
 				$this->init();
 			}
 
-			if ( $action->isPublic() ) {
-				if ( $action->isStatic() ) {
+			if ($action->isPublic()) {
+				if ($action->isStatic()) {
 					$action->invokeArgs(NULL, $argv);
 				} else {
 					$action->invokeArgs($this, $argv);
 				}
 			}
-		$renderedController = ob_get_clean();
+		$rendered_controller = ob_get_clean();
 
-		if ( !empty($renderedController) ) {
-			$this->renderedController = $renderedController;
+		if (!empty($rendered_controller)) {
+			$this->rendered_controller = $rendered_controller;
 		} else {
-			$this->renderedController = $this->renderedView;
+			$this->rendered_controller = $this->rendered_view;
 		}
 
-		return $this->renderedController;
+		return $this->rendered_controller;
 	}
 
-	public function render($viewName=NULL) {
-		if ( empty($viewName) ) {
-			$viewName = $this->action;
+	public function render($view_name=NULL) {
+		if (empty($view_name)) {
+			$view_name = $this->action;
 		}
 
-		$this->renderedView = $this->renderView($viewName);
-		return $this->renderedView;
+		$this->rendered_view = $this->render_view($view_name);
+		return $this->rendered_view;
 	}
 
-	public function renderToBlock($viewName, $blockName) {
-		$renderedView = $this->renderView($viewName);
-		$this->addBlock($blockName, $renderedView);
+	public function render_to_block($view_name, $block_name) {
+		$rendered_view = $this->render_view($view_name);
+		$this->add_block($block_name, $rendered_view);
 
 		return $this;
 	}
 
-	public function renderView($viewName) {
-		$view = $this->checkView();
+	public function render_view($view_name) {
+		$view = $this->check_view();
 
-		$renderedView = $view->render($viewName)
-			->getRenderedView();
-
-		return $renderedView;
+		$rendered_view = $view->render($view_name)
+			->get_rendered_view();
+		return $rendered_view;
 	}
 
 	public function set_action($action) {
@@ -140,25 +139,25 @@ class controller {
 		return $this;
 	}
 
-	public function setResponseCode($responseCode) {
-		$this->responseCode = intval($responseCode);
+	public function set_response_code($response_code) {
+		$this->response_code = intval($response_code);
 		return $this;
 	}
 
-	public function getAction() {
+	public function get_action() {
 		return $this->action;
 	}
 
-	public function getBlockList() {
-		if ( $this->hasView() ) {
-			return $this->view->getBlockList();
+	public function get_block_list() {
+		if ($this->has_view()) {
+			return $this->view->get_block_list();
 		}
 		return array();
 	}
 
-	public function getBlock($blockName) {
-		if ( $this->hasView() ) {
-			return $this->view->getBlock($blockName);
+	public function get_block($block_name) {
+		if ($this->has_view()) {
+			return $this->view->get_block($block_name);
 		}
 		return NULL;
 	}
@@ -178,31 +177,31 @@ class controller {
 		return NULL;
 	}
 
-	public function getRenderedController() {
-		return $this->renderedController;
+	public function get_rendered_controller() {
+		return $this->rendered_controller;
 	}
 
-	public function getRenderedView() {
-		return $this->renderedView;
+	public function get_rendered_view() {
+		return $this->rendered_view;
 	}
 
-	public function getResponseCode() {
-		return $this->responseCode;
+	public function get_response_code() {
+		return $this->response_code;
 	}
 
-	public function getView() {
+	public function get_view() {
 		return $this->view;
 	}
 
-	private function checkView() {
-		if ( !$this->hasView() ) {
-			throw new \Jolt\Exception('controller_view_not_jolt_view');
+	private function check_view() {
+		if (!$this->has_view()) {
+			throw new \jolt\exception('View not properly attached to Controller.');
 		}
 		return $this->view;
 	}
 
-	private function hasView() {
-		return ( $this->view instanceof \Jolt\View );
+	private function has_view() {
+		return ($this->view instanceof \jolt\view);
 	}
 
 }

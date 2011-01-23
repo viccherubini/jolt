@@ -1,46 +1,43 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Form\Loader;
-use \Jolt\Form\Loader;
+namespace jolt\form\loader;
+use \jolt\form\loader;
 
-require_once 'jolt/form/loader.php';
+require_once('jolt/form/loader.php');
 
-class Db extends Loader {
+class db extends loader {
 
 	private $pdo = NULL;
 	private $table = 'form';
 
-	public function attachPdo(\PDO $pdo) {
+	public function attach_pdo(\PDO $pdo) {
 		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 		$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 		$this->pdo = $pdo;
-
 		return $this;
 	}
 
 	public function load() {
-		$pdo = $this->getPdo();
-		if ( is_null($pdo) ) {
+		$pdo = $this->get_pdo();
+		if (is_null($pdo)) {
 			return false;
 		}
 
-		$id = $this->getId();
-		if ( empty($id) ) {
+		$id = $this->get_id();
+		if (empty($id)) {
 			return false;
 		}
 
-		$name = $this->getName();
-		if ( empty($name) ) {
+		$name = $this->get_name();
+		if (empty($name)) {
 			return false;
 		}
 
-		$table = $this->getTable();
+		$table = $this->get_table();
+		$stmt = $pdo->prepare("SELECT form_id, data, errors FROM {$table} WHERE id = :id AND name = :name AND status = 1");
 
-		$sql = "SELECT form_id, data, errors FROM {$table} WHERE id = :id AND name = :name AND status = 1";
-		$stmt = $pdo->prepare($sql);
-
-		if ( !$stmt ) {
+		if (!$stmt) {
 			return false;
 		}
 
@@ -51,49 +48,49 @@ class Db extends Loader {
 
 		$executed = $stmt->execute($parameters);
 
-		if ( $executed ) {
-			$formData = $stmt->fetchObject();
-			if ( !$formData ) {
+		if ($executed) {
+			$form_data = $stmt->fetchObject();
+			if (!$form_data) {
 				return false;
 			}
 
-			$formId = $formData->form_id;
+			$form_id = $form_data->form_id;
 
 			$sql = "UPDATE {$table} SET status = 0 WHERE form_id = :form_id";
 			$stmt = $pdo->prepare($sql);
 
-			if ( false !== $stmt ) {
-				$executed = $stmt->execute(array('form_id' => $formId));
+			if (false !== $stmt) {
+				$executed = $stmt->execute(array('form_id' => $form_id));
 
-				$data = json_decode($formData->data, true);
-				$errors = json_decode($formData->errors, true);
+				$data = json_decode($form_data->data, true);
+				$errors = json_decode($form_data->errors, true);
 
-				if ( is_null($data) ) {
-					$data = array($formData->data);
+				if (is_null($data)) {
+					$data = array($form_data->data);
 				}
 
-				if ( is_null($errors) ) {
-					$errors = array($formData->errors);
+				if (is_null($errors)) {
+					$errors = array($form_data->errors);
 				}
 
-				$this->setData($data)
-					->setErrors($errors);
+				$this->set_data($data)
+					->set_errors($errors);
 			}
 		}
 
 		return $executed;
 	}
 
-	public function setTable($table) {
+	public function set_table($table) {
 		$this->table = trim($table);
 		return $this;
 	}
 
-	public function getPdo() {
+	public function get_pdo() {
 		return $this->pdo;
 	}
 
-	public function getTable() {
+	public function get_table() {
 		return $this->table;
 	}
 

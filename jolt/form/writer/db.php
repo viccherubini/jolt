@@ -1,17 +1,17 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Form\Writer;
-use \Jolt\Form\Writer;
+namespace jolt\form\writer;
+use \jolt\form\writer;
 
-require_once 'jolt/form/writer.php';
+require_once('jolt/form/writer.php');
 
-class Db extends Writer {
+class db extends writer {
 
 	private $pdo = NULL;
 	private $table = 'form';
 
-	public function attachPdo(\PDO $pdo) {
+	public function attach_pdo(\PDO $pdo) {
 		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 		$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 		$this->pdo = $pdo;
@@ -20,28 +20,28 @@ class Db extends Writer {
 	}
 
 	public function write() {
-		$pdo = $this->getPdo();
-		if ( is_null($pdo) ) {
+		$pdo = $this->get_pdo();
+		if (is_null($pdo)) {
 			return false;
 		}
 
-		$data = $this->getData();
-		if ( empty($data) || 0 === count($data) ) {
+		$data = $this->get_data();
+		if (empty($data) || 0 === count($data)) {
 			return false;
 		}
 
-		$id = $this->getId();
-		if ( empty($id) ) {
+		$id = $this->get_id();
+		if (empty($id)) {
 			return false;
 		}
 
 		$created = date('Y-m-d H:i:s', time());
-		$name = $this->getName();
-		$errors = $this->getErrors();
-		$table = $this->getTable();
+		$name = $this->get_name();
+		$errors = $this->get_errors();
+		$table = $this->get_table();
 
-		$dataJson = json_encode($data);
-		$errorsJson = json_encode($errors);
+		$data_json = json_encode($data);
+		$errors_json = json_encode($errors);
 
 		$sql = "INSERT INTO {$table}
 				(created, id, name, data, errors, status)
@@ -51,7 +51,7 @@ class Db extends Writer {
 		$pdo->beginTransaction();
 			$stmt = $pdo->prepare($sql);
 
-			if ( !$stmt ) {
+			if (!$stmt) {
 				$pdo->rollback();
 				return false;
 			}
@@ -60,8 +60,8 @@ class Db extends Writer {
 				'created' => $created,
 				'id' => $id,
 				'name' => $name,
-				'data' => $dataJson,
-				'errors' => $errorsJson,
+				'data' => $data_json,
+				'errors' => $errors_json,
 				'status' => 1
 			);
 
@@ -71,16 +71,16 @@ class Db extends Writer {
 		return $executed;
 	}
 
-	public function setTable($table) {
+	public function set_table($table) {
 		$this->table = trim($table);
 		return $this;
 	}
 
-	public function getPdo() {
+	public function get_pdo() {
 		return $this->pdo;
 	}
 
-	public function getTable() {
+	public function get_table() {
 		return $this->table;
 	}
 

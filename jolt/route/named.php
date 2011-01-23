@@ -1,93 +1,91 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Route;
+namespace jolt\route;
 
-use \Jolt\Route;
+use \jolt\route;
 
-class Named extends Route {
+class named extends route {
 
 	private $action = NULL;
 	private $controller = NULL;
-	private $requestMethod = NULL;
+	private $request_method = NULL;
 
 	private $argv = array();
-	private $requestMethods = array();
+	private $request_methods = array();
 
-	public function __construct($requestMethod, $route, $controller, $action) {
-		$this->requestMethods = array('GET' => true, 'POST' => true, 'PUT' => true, 'DELETE' => true);
+	public function __construct($request_method, $route, $controller, $action) {
+		$this->request_methods = array('GET' => true, 'POST' => true, 'PUT' => true, 'DELETE' => true);
 
-		$this->setRequestMethod($requestMethod)
+		$this->set_request_method($request_method)
 			->set_route($route)
-			->setController($controller)
-			->setAction($action)
-			->setArgv(array());
+			->set_controller($controller)
+			->set_action($action)
+			->set_argv(array());
 	}
 
 	public function __destruct() {
 		$this->route = $this->controller = $this->action = NULL;
 	}
 
-	public function setAction($action) {
-		$action = ( !is_string($action) ? NULL : trim($action) );
-		if ( empty($action) ) {
-			throw new \Jolt\Exception('Passed action is empty and invalid.');
+	public function set_action($action) {
+		$action = (!is_string($action) ? NULL : trim($action));
+		if (empty($action)) {
+			throw new \jolt\exception('Named route action can not be empty.');
 		}
 
 		$this->action = $action;
-
 		return $this;
 	}
 
-	public function setArgv(array $argv) {
+	public function set_argv(array $argv) {
 		$this->argv = $argv;
 		return $this;
 	}
 
-	public function setController($controller) {
-		$controller = ( !is_string($controller) ? NULL : trim($controller) );
-		if ( empty($controller) ) {
-			throw new \Jolt\Exception('Passed Controller is empty and invalid.');
+	public function set_controller($controller) {
+		$controller = (!is_string($controller) ? NULL : trim($controller));
+		if (empty($controller)) {
+			throw new \jolt\exception('Named route controller can not be empty.');
 		}
 
 		$this->controller = $controller;
-
 		return $this;
 	}
 
-	public function setRequestMethod($requestMethod) {
-		$requestMethod = ( !is_string($requestMethod) ? NULL : strtoupper(trim($requestMethod)) );
-		if ( !isset($this->requestMethods[$requestMethod]) ) {
-			throw new \Jolt\Exception("Request Method '{$requestMethod}' is invalid.");
+	public function set_request_method($request_method) {
+		$request_method = (!is_string($request_method) ? NULL : strtoupper(trim($request_method)));
+		if (!isset($this->request_methods[$request_method])) {
+			throw new \jolt\exception("Named route request method '".$request_method."' is invalid.");
 		}
 
-		$this->requestMethod = $requestMethod;
+		$this->request_method = $request_method;
 		return $this;
 	}
 
-	public function getAction() {
+	public function get_action() {
 		return $this->action;
 	}
 
-	public function getArgv() {
+	public function get_argv() {
 		return $this->argv;
 	}
 
-	public function getController() {
+	public function get_controller() {
 		return $this->controller;
 	}
 
-	public function getRequestMethod() {
-		return $this->requestMethod;
+	public function get_request_method() {
+		return $this->request_method;
 	}
 
-	public function is_equal(Route $route) {
+	public function is_equal(route $route) {
 		return (
-			$route instanceof \Jolt\Route\Named &&
-			$route->getRequestMethod() === $this->getRequestMethod() &&
+			$route instanceof \jolt\route\named &&
+			$route->get_request_method() === $this->get_request_method() &&
 			$route->get_route() === $this->get_route() &&
-			$route->getController() === $this->getController() &&
-			$route->getAction() === $this->getAction()
+			$route->get_controller() === $this->get_controller() &&
+			$route->get_action() === $this->get_action()
 		);
 	}
 
@@ -95,7 +93,7 @@ class Named extends Route {
 		$route = $this->get_route();
 
 		/* Special case of a valid route. */
-		if ( '/' == $route ) {
+		if ('/' == $route) {
 			return true;
 		}
 
@@ -105,7 +103,7 @@ class Named extends Route {
 		 *
 		 * @see tests/Jolt/Route/Route/NamedTest.php
 		 */
-		if ( 0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.]*)$#i', $route) ) {
+		if (0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.]*)$#i', $route)) {
 			return false;
 		}
 
@@ -115,64 +113,61 @@ class Named extends Route {
 	public function is_valid_path($uri) {
 		// Remove the beginning / from the URI and route.
 		$uri = ltrim($uri, '/');
-		$uriChunkList = explode('/', $uri);
-		$uriChunkCount = count($uriChunkList);
+		$uri_chunks = explode('/', $uri);
+		$uri_chunks_count = count($uri_chunks);
 
 		$route = $this->get_route();
 		$route = ltrim($route, '/');
-		$routeChunkList = explode('/', $route);
-		$routeChunkCount = count($routeChunkList);
+		$route_chunks = explode('/', $route);
+		$route_chunks_count = count($route_chunks);
 
 		// If all of the chunks eventually match, we have a matched route.
-		$matchedChunkCount = 0;
+		$matched_chunk_count = 0;
 
 		// List of arguments to pass to the action method.
 		$argv = array();
 
-		if ( $uriChunkCount === $routeChunkCount ) {
-			for ( $i=0; $i<$routeChunkCount; $i++ ) {
-				// ucv == uri chunk value
-				$ucv = $uriChunkList[$i];
+		if ($uri_chunks_count === $route_chunks_count) {
+			for ($i=0; $i<$route_chunks_count; $i++) {
+				$uri_chunk_value = $uri_chunks[$i];
+				$route_chunk_value = $route_chunks[$i];
 
-				// rcv = route chunk value
-				$rcv = $routeChunkList[$i];
-
-				if ( $ucv == $rcv ) {
+				if ($uri_chunk_value == $route_chunk_value) {
 					// If the two are exactly the same, no expansion is needed.
-					$matchedChunkCount++;
+					$matched_chunk_count++;
 				} else {
-					$offset = stripos($rcv, '%');
-					if ( false !== $offset && true === isset($rcv[$offset+1]) ) {
-						$rcvType = $rcv[$offset+1];
-						$rcvLength = strlen($rcv);
+					$offset = stripos($route_chunk_value, '%');
+					if (false !== $offset && true === isset($route_chunk_value[$offset+1])) {
+						$route_chunk_value_type = $route_chunk_value[$offset+1];
+						$route_chunk_value_length = strlen($route_chunk_value);
 
-						if ( 0 !== $offset ) {
-							$ucv = trim(substr_replace($ucv, NULL, 0, $offset));
+						if (0 !== $offset) {
+							$uri_chunk_value = trim(substr_replace($uri_chunk_value, NULL, 0, $offset));
 						}
 
-						if ( ($offset+2) < $rcvLength ) {
-							$goto = strlen(substr($rcv, $offset+2));
-							$ucv = substr_replace($ucv, NULL, -$goto);
+						if (($offset+2) < $route_chunk_value_length) {
+							$goto = strlen(substr($route_chunk_value, $offset+2));
+							$uri_chunk_value = substr_replace($uri_chunk_value, NULL, -$goto);
 						}
 
-						// Now that we have the correct $ucv values, let's make sure they're types are correct.
+						// Now that we have the correct $uri_chunk_value values, let's make sure their types are correct.
 						$matched = false;
 
-						switch ( $rcvType ) {
+						switch ($route_chunk_value_type) {
 							case 'n': {
-								$matched = is_numeric($ucv);
+								$matched = is_numeric($uri_chunk_value);
 								break;
 							}
 
 							case 's': {
-								$matched = is_string($ucv) && !is_numeric($ucv);
+								$matched = is_string($uri_chunk_value) && !is_numeric($uri_chunk_value);
 								break;
 							}
 						}
 
-						if ( true === $matched ) {
-							$matchedChunkCount++;
-							$argv[] = $ucv;
+						if (true === $matched) {
+							$matched_chunk_count++;
+							$argv[] = $uri_chunk_value;
 						}
 					}
 				}
@@ -180,7 +175,7 @@ class Named extends Route {
 		}
 
 		$this->argv = $argv;
-
-		return ( $matchedChunkCount === $routeChunkCount );
+		return ($matched_chunk_count === $route_chunks_count);
 	}
+
 }

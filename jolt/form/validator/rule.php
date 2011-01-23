@@ -1,9 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Form\Validator;
+namespace jolt\form\validator;
 
-class Rule {
+class rule {
 
 	private $charset = 'UTF-8';
 
@@ -21,70 +21,70 @@ class Rule {
 		$this->rules = array();
 	}
 
-	public function addRule($ruleKey, $rule) {
-		if ( !empty($ruleKey) ) {
-			$this->rules[$ruleKey] = $rule;
+	public function add_rule($key, $rule) {
+		if (!empty($key)) {
+			$this->rules[$key] = $rule;
 		}
 		return $this;
 	}
 
-	public function addError($ruleKey, $error) {
-		if ( !empty($ruleKey) ) {
-			$this->errors[$ruleKey] = $error;
+	public function add_error($key, $error) {
+		if (!empty($key)) {
+			$this->errors[$key] = $error;
 		}
 		return $this;
 	}
 
-	public function isEmpty() {
-		return ( 0 === count($this->rules) );
+	public function is_empty() {
+		return (0 === count($this->rules));
 	}
 
-	public function isValid($value) {
+	public function is_valid($value) {
 		$isValid = true;
-		foreach ( $this->rules as $op => $rule ) {
-			$opMethod = 'op_' . strtolower($op);
-			if ( method_exists($this, $opMethod) && !$this->$opMethod($rule, $value) ) {
-				$isValid = false;
-				if ( array_key_exists($op, $this->errors) ) {
+		foreach ($this->rules as $op => $rule) {
+			$op_method = 'op_' . strtolower($op);
+			if (method_exists($this, $op_method) && !$this->$op_method($rule, $value) ) {
+				$is_valid = false;
+				if (array_key_exists($op, $this->errors)) {
 					$this->error = sprintf($this->errors[$op], $this->field);
 				}
 				break;
 			}
 		}
-		return $isValid;
+		return $is_valid;
 	}
 
-	public function setField($field) {
+	public function set_field($field) {
 		$this->field = trim($field);
 		return $this;
 	}
 
-	public function getError() {
+	public function get_error() {
 		return $this->error;
 	}
 
-	public function getField() {
+	public function get_field() {
 		return $this->field;
 	}
 
-	public function getErrors() {
+	public function get_errors() {
 		return $this->errors;
 	}
 
 	private function op_empty($empty, $value) {
-		if ( empty($value) ) {
+		if (empty($value)) {
 			return false;
 		}
 		return true;
 	}
 
-	private function op_equal($equalTo, $value) {
-		return ( $equalTo === $value );
+	private function op_equal($equal_to, $value) {
+		return ($equal_to === $value);
 	}
 
 	private function op_minlength($minlength, $value) {
 		$minlength = (int)$minlength;
-		if ( mb_strlen($value, $this->charset) < $minlength ) {
+		if (mb_strlen($value, $this->charset) < $minlength) {
 			return false;
 		}
 		return true;
@@ -92,25 +92,25 @@ class Rule {
 
 	private function op_maxlength($maxlength, $value) {
 		$maxlength = (int)$maxlength;
-		if ( mb_strlen($value, $this->charset) > $maxlength ) {
+		if (mb_strlen($value, $this->charset) > $maxlength) {
 			return false;
 		}
 		return true;
 	}
 
 	private function op_nonzero($nonzero, $value) {
-		if ( !is_numeric($value) ) {
+		if (!is_numeric($value)) {
 			$value = (int)$value;
 		}
 
-		if ( 0 === $value ) {
+		if (0 === $value) {
 			return false;
 		}
 		return true;
 	}
 
 	private function op_numeric($numeric, $value) {
-		if ( !is_numeric($value) ) {
+		if (!is_numeric($value)) {
 			return false;
 		}
 		return true;
@@ -119,7 +119,7 @@ class Rule {
 	private function op_email($email, $value) {
 		// We're not very strict about email addresses. Essentially: anything@anything
 		$value = trim($value);
-		if ( false === stripos($value, '@') ) {
+		if (false === stripos($value, '@')) {
 			return false;
 		}
 
@@ -127,30 +127,30 @@ class Rule {
 		$bits = explode('@', $value);
 
 		// Count must be exactly 2, can't have multiple @ signs
-		if ( 2 !== count($bits) ) {
+		if (2 !== count($bits)) {
 			return false;
 		}
 
 		// Length of each side must be greater than 0
-		return ( mb_strlen($bits[0], $this->charset) > 0 && mb_strlen($bits[1], $this->charset) );
+		return (mb_strlen($bits[0], $this->charset) > 0 && mb_strlen($bits[1], $this->charset));
 	}
 
 	private function op_inarray($inarray, $value) {
-		if ( !in_array($value, $inarray, true) ) {
+		if (!in_array($value, $inarray, true)) {
 			return false;
 		}
 		return true;
 	}
 
 	private function op_regex($regex, $value) {
-		if ( 1 !== preg_match($regex, $value) ) {
+		if (1 !== preg_match($regex, $value)) {
 			return false;
 		}
 		return true;
 	}
 
 	private function op_callback($callback, $value) {
-		if ( !$callback($value) ) {
+		if (!$callback($value)) {
 			return false;
 		}
 		return true;

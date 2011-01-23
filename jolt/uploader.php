@@ -1,13 +1,13 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace jolt;
 
-class Uploader {
+class uploader {
 
-	private $uploadData = array();
+	private $upload_data = array();
 
-	private $fileName = NULL;
+	private $filename = NULL;
 	private $destination = NULL;
 
 	private $unique = true;
@@ -22,55 +22,54 @@ class Uploader {
 	}
 
 	public function upload() {
-		if ( 0 == count($this->uploadData) ) {
-			throw new \Jolt\Exception($lang['error_no_upload_data']);
+		if (0 == count($this->upload_data)) {
+			throw new \jolt\exception('The uploaded data can not be empty.');
 		}
 
-		if ( !is_writable($this->destination) ) {
-			throw new \Jolt\Exception('The destination directory is not writable');
+		if (!is_writable($this->destination)) {
+			throw new \jolt\exception('The destination directory is not writable');
 		}
 
-		$filePath = $this->destination . $this->fileName;
-		if ( is_file($filePath) && !$this->overwrite ) {
-			throw new \Jolt\Exception('The file being uploaded already exists');
+		$file_path = $this->destination . $this->filename;
+		if (is_file($file_path) && !$this->overwrite) {
+			throw new \jolt\exception('The file being uploaded already exists');
 		}
 
-		if ( !move_uploaded_file($this->uploadData['tmp_name'], $filePath) ) {
-			throw new \Jolt\Exception('The file could not be moved from the temporary directory to the destination');
+		if (!move_uploaded_file($this->upload_data['tmp_name'], $file_path)) {
+			throw new \jolt\exception('The file could not be moved from the temporary directory to the destination.');
 		}
-
 		return true;
 	}
 
-	public function setDestination($destination) {
-		$destinationLength = strlen(trim($destination)) - 1;
-		if ( $destinationLength >= 0 && $destination[$destinationLength] != DIRECTORY_SEPARATOR ) {
+	public function set_destination($destination) {
+		$destination_length = strlen(trim($destination)) - 1;
+		if ( $destination_length >= 0 && $destination[$destination_length] != DIRECTORY_SEPARATOR ) {
 			$destination .= DIRECTORY_SEPARATOR;
 		}
 		$this->destination = $destination;
 		return $this;
 	}
 
-	public function setOverwrite($overwrite) {
+	public function set_overwrite($overwrite) {
 		$this->overwrite = $overwrite;
 		return $this;
 	}
 
-	public function setUnique($unique) {
-		if ( !is_bool($unique) ) {
+	public function set_unique($unique) {
+		if (!is_bool($unique)) {
 			$unique = true;
 		}
 		$this->unique = $unique;
 		return $this;
 	}
 
-	public function setUploadData($uploadData) {
-		if ( !is_array($uploadData) || 0 == count($uploadData) ) {
-			throw new \Jolt\Exception('The data attached to be uploaded is empty');
+	public function set_upload_data($upload_data) {
+		if (!is_array($upload_data) || 0 == count($upload_data)) {
+			throw new \jolt\exception('The data attached to be uploaded can not be empty.');
 		}
 
 		$error = NULL;
-		switch ( $uploadData['error'] ) {
+		switch ($upload_data['error']) {
 			case UPLOAD_ERR_INI_SIZE: {
 				$error = 'The file is larger than allowed in php.ini';
 				break;
@@ -107,31 +106,29 @@ class Uploader {
 			}
 		}
 
-		if ( !empty($error) ) {
-			throw new \Jolt\Exception($error);
+		if (!empty($error)) {
+			throw new \jolt\exception($error);
 		}
 
-		$this->uploadData = $uploadData;
-
-		$this->fileName = $uploadData['name'];
-		if ( $this->unique ) {
-			$this->fileName = uniqid('', true) . '-' . $this->fileName;
+		$this->upload_data = $upload_data;
+		$this->filename = $upload_data['name'];
+		if ($this->unique) {
+			$this->filename = uniqid('', true) . '-' . $this->filename;
 		}
-		$this->fileName = str_replace(' ', '-', $this->fileName);
-
+		$this->filename = str_replace(' ', '-', $this->filename);
 		return $this;
 	}
 
-	public function getDestination() {
+	public function get_destination() {
 		return $this->destination;
 	}
 
-	public function getFileName() {
-		return $this->fileName;
+	public function get_filename() {
+		return $this->filename;
 	}
 
-	public function getFilePath() {
-		return $this->destination . $this->fileName;
+	public function get_file_path() {
+		return $this->destination . $this->filename;
 	}
 
 }

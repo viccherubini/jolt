@@ -1,12 +1,12 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Form\Writer;
-use \Jolt\Form\Writer;
+namespace jolt\form\writer;
+use \jolt\form\writer;
 
-require_once 'jolt/form/writer.php';
+require_once('jolt/form/writer.php');
 
-class Session extends Writer {
+class session extends writer {
 
 	public function write() {
 

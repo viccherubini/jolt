@@ -1,23 +1,16 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace jolt;
 
-require_once 'jolt/exception.php';
+require_once('jolt/exception.php');
 
 define('JOLT_VERSION', '0.0.6', false);
 
-/**
- * This class is an entrance for building an application. It is entirely
- * static and gives you access to building new objects, starting the
- * application, and basic CSRF protection.
- *
- * @author vmc <vmc@leftnode.com>
- */
-class Jolt {
+class jolt {
 
 	private $client = NULL;
-	private $controllerLocator = NULL;
+	private $controller_locator = NULL;
 	private $dispatcher = NULL;
 	private $router = NULL;
 	private $settings = NULL;
@@ -27,32 +20,32 @@ class Jolt {
 
 	}
 
-	public function attachClient(\Jolt\Client $client) {
+	public function attach_client(\jolt\client $client) {
 		$this->client = clone $client;
 		return $this;
 	}
 
-	public function attachSettings(\Jolt\Settings $settings) {
+	public function attach_settings(\jolt\settings $settings) {
 		$this->settings = clone $settings;
 		return $this;
 	}
 
-	public function attachControllerLocator(\Jolt\Controller\Locator $locator) {
-		$this->controllerLocator = clone $locator;
+	public function attach_controller_locator(\jolt\controller\locator $locator) {
+		$this->controller_locator = clone $locator;
 		return $this;
 	}
 
-	public function attachDispatcher(\Jolt\Dispatcher $dispatcher) {
+	public function attach_dispatcher(\jolt\dispatcher $dispatcher) {
 		$this->dispatcher = clone $dispatcher;
 		return $this;
 	}
 
-	public function attachRouter(\Jolt\Router $router) {
+	public function attach_router(\jolt\router $router) {
 		$this->router = clone $router;
 		return $this;
 	}
 
-	public function attachView(\Jolt\View $view) {
+	public function attach_view(\jolt\view $view) {
 		$this->view = clone $view;
 		return $this;
 	}
@@ -61,39 +54,35 @@ class Jolt {
 		$settings = $this->settings;
 
 		$this->router
-			->setRouteParameter($settings->route_parameter);
+			->set_route_parameter($settings->route_parameter);
 
 		$this->view
-			->setCssPath($settings->css_path)
-			->setImagePath($settings->image_path)
-			->setJsPath($settings->js_path)
-			->setRouteParameter($settings->route_parameter)
-			->setSecureUrl($settings->secure_url)
-			->setUrl($settings->url)
-			->setUseRewrite($settings->use_rewrite)
-			->setViewPath($settings->view_path);
+			->set_css_path($settings->css_path)
+			->set_images_path($settings->images_path)
+			->set_javascript_path($settings->javascript_path)
+			->set_route_parameter($settings->route_parameter)
+			->set_secure_url($settings->secure_url)
+			->set_url($settings->url)
+			->set_use_rewrite($settings->use_rewrite)
+			->set_view_path($settings->view_path);
 
-		$route = $this->router
-			->execute();
-
+		/*$route = $this->router->execute();
 		$this->dispatcher
-			->setControllerPath($settings->controller_path)
-			->attachLocator($this->controllerLocator)
-			->attachRoute($route)
-			->attachView($this->view)
+			->attach_locator($this->controller_locator)
+			->attach_route($route)
+			->attach_view($this->view)
 			->execute();
+		*/
 
-		$this->client
-			->attachController($this->dispatcher->getController());
-
+		$this->client->attach_controller($this->dispatcher->get_controller());
 		return $this->client;
 	}
 
-	public function getRouter() {
+	public function get_router() {
 		return $this->router;
 	}
 
-	public function getView() {
+	public function get_view() {
 		return $this->view;
 	}
 

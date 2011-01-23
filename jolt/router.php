@@ -1,134 +1,128 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace jolt;
 
-class Router {
+class router {
 
-	private $http404Route = NULL;
+	private $http_404_route = NULL;
 	private $path = NULL;
-	private $requestMethod = NULL;
-	private $routeParameter = '__u';
-	
+	private $request_method = NULL;
+	private $route_parameter = '__u';
+
 	private $parameters = array();
-	private $routeList = array();
-	
+	private $routes = array();
+
 	public function __construct() {
-		$this->routeList = array();
-		$this->setRequestMethod('GET');
+		$this->routes = array();
+		$this->set_request_method('GET');
 	}
-	
+
 	public function __destruct() {
-		unset($this->routeList);
+		unset($this->routes);
 	}
-	
-	public function addRoute(\Jolt\Route $route) {
-		$routeExists = false;
-		array_walk($this->routeList, function ($v, $k) use ($route, &$routeExists) {
+
+	public function add_route(\jolt\route $route) {
+		$route_exists = false;
+		array_walk($this->routes, function ($v, $k) use ($route, &$route_exists) {
 			if ($v->is_equal($route)) {
-				$routeExists = true;
+				$route_exists = true;
 			}
 		});
-		
-		if ( $routeExists ) {
-			$requestMethod = $route->getRequestMethod();
+
+		if ($route_exists) {
 			$route = $route->get_route();
-			throw new \Jolt\Exception("Route '{$requestMethod} {$route}' is a duplicate and can not be added.");
+			throw new \jolt\exception('Duplicate route '.$route.' added to Router.');
 		}
-		
-		$this->routeList[] = clone $route;
-		
+
+		$this->routes[] = clone $route;
 		return $this;
 	}
-	
-	public function addRouteList(array $routeList) {
-		if ( 0 == count($routeList) ) {
-			throw new \Jolt\Exception('Route List is empty.');
+
+	public function add_routes(array $routes) {
+		if (0 == count($routes)) {
+			throw new \jolt\exception('Array of Routes to be added to Router can not be empty.');
 		}
-		
-		foreach ( $routeList as $route ) {
-			$this->addRoute($route);
+
+		foreach ($routes as $route) {
+			$this->add_route($route);
 		}
-		
 		return $this;
 	}
-	
+
 	public function execute() {
-		if ( 0 === count($this->routeList) ) {
-			throw new \Jolt\Exception('No routes have been attached to the Router.');
+		if (0 === count($this->routes)) {
+			throw new \jolt\exception('No routes have been attached to the Router.');
 		}
-		
-		$path = $this->extractPath();
-	
-		if ( is_null($this->http404Route) ) {
-			throw new \Jolt\Exception('A 404 Route has not been attached to the Router.');
+
+		$path = $this->extract_path();
+		if (is_null($this->http_404_route)) {
+			throw new \jolt\exception('A 404 Route has not been attached to the Router.');
 		}
-		
-		$matchedRoute = NULL;
-		foreach ( $this->routeList as $route ) {
-			if ( is_null($matchedRoute) ) { // Short circuiting
-				$routeRm = $route->getRequestMethod();
-				if ( $routeRm === $this->requestMethod && $route->is_valid_path($path) ) {
-					$matchedRoute = clone $route;
+
+		$matched_route = NULL;
+		foreach ($this->routes as $route) {
+			if (is_null($matched_route)) { // Short circuiting
+				$route_request_method = $route->get_request_method();
+				if ($route_request_method === $this->request_method && $route->is_valid_path($path)) {
+					$matched_route = clone $route;
 				}
 			}
 		}
-		
-		if ( is_null($matchedRoute) ) {
-			$matchedRoute = $this->http404Route;
-		}
 
-		return $matchedRoute;
+		if (is_null($matched_route)) {
+			$matched_route = $this->http_404_route;
+		}
+		return $matched_route;
 	}
-	
-	public function setHttp404Route(\Jolt\Route $route) {
-		$this->http404Route = clone $route;
+
+	public function set_http_404_route(\jolt\route $route) {
+		$this->http_404_route = clone $route;
 		return $this;
 	}
-	
-	public function setParameters(array $parameters) {
+
+	public function set_parameters(array $parameters) {
 		$this->parameters = $parameters;
 		return $this;
 	}
-	
-	public function setPath($path) {
+
+	public function set_path($path) {
 		$this->path = trim($path);
 		return $this;
 	}
-	
-	public function setRequestMethod($requestMethod) {
-		$this->requestMethod = strtoupper(trim($requestMethod));
+
+	public function set_request_method($request_method) {
+		$this->request_method = strtoupper(trim($request_method));
 		return $this;
-	}
-	
-	public function setRouteParameter($routeParameter) {
-		$this->routeParameter = $routeParameter;
-		return $this;
-	}
-	
-	public function getPath() {
-		return $this->path;
-	}
-	
-	public function getRequestMethod() {
-		return $this->requestMethod;
-	}
-	
-	public function getRouteList() {
-		return (array)$this->routeList;
-	}
-	
-	public function getRouteParameter() {
-		return $this->routeParameter;
 	}
 
-	private function extractPath() {
+	public function set_route_parameter($route_parameter) {
+		$this->route_parameter = $route_parameter;
+		return $this;
+	}
+
+	public function get_path() {
+		return $this->path;
+	}
+
+	public function get_request_method() {
+		return $this->request_method;
+	}
+
+	public function get_routes() {
+		return (array)$this->routes;
+	}
+
+	public function get_route_parameter() {
+		return $this->route_parameter;
+	}
+
+	private function extract_path() {
 		$path = NULL;
-		if ( isset($this->parameters[$this->routeParameter]) ) {
-			$path = $this->parameters[$this->routeParameter];
+		if (array_key_exists($this->route_parameter, $this->parameters)) {
+			$this->set_path($this->parameters[$this->route_parameter]);
 		}
-		$this->setPath($path);
 		return $path;
 	}
-	
+
 }

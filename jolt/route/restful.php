@@ -1,42 +1,38 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Route;
+namespace jolt\route;
 
-use \Jolt\Route;
+use \jolt\route;
 
-class Restful extends Route {
+class restful extends route {
 
 	private $resource = NULL;
 
 	public function __construct($route, $resource) {
 		$this->set_route($route)
-			->setResource($resource);
+			->set_resource($resource);
 	}
 
-	public function setResource($resource) {
+	public function set_resource($resource) {
 		$resource = trim($resource);
-		if ( empty($resource) ) {
-			throw new \Jolt\Exception('RESTful resource is empty and not valid.');
+		if (empty($resource)) {
+			throw new \jolt\exception('Restful route resource can not be empty.');
 		}
 
 		$this->resource = $resource;
 		return $this;
 	}
 
-	public function getResource() {
-		return $this->resource;
-	}
-
-	public function getRequestMethod() {
+	public function get_resource() {
 		return $this->resource;
 	}
 
 	public function is_equal(Route $route) {
 		return (
-			$route instanceof \Jolt\Route\Restful &&
+			$route instanceof \jolt\route\restful &&
 			$this->get_route() === $route->get_route() &&
-			$this->getResource() === $route->getResource()
+			$this->get_resource() === $route->get_resource()
 		);
 	}
 
@@ -44,11 +40,11 @@ class Restful extends Route {
 		$route = $this->get_route();
 
 		/* Special case of a valid route. */
-		if ( '/' == $route ) {
+		if ('/' == $route) {
 			return true;
 		}
 
-		if ( 0 === preg_match('#^/([a-z]+)([a-z0-9_\-]*)$#i', $route) ) {
+		if (0 === preg_match('#^/([a-z]+)([a-z0-9_\-]*)$#i', $route)) {
 			return false;
 		}
 

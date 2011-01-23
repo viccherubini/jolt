@@ -1,23 +1,23 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace jolt;
 
-class View {
+class view {
 
-	private $cssPath = NULL;
-	private $jsPath = NULL;
-	private $imagePath = NULL;
-	private $secureUrl = NULL;
+	private $css_path = NULL;
+	private $javascript_path = NULL;
+	private $image_path = NULL;
+	private $secure_url = NULL;
 	private $url = NULL;
-	private $useRewrite = false;
-	private $viewPath = NULL;
+	private $use_rewrite = false;
+	private $view_path = NULL;
 
-	private $renderedView = NULL;
+	private $rendered_view = NULL;
 
 	private $variables = array();
 	private $javascripts = array();
-	private $blockList = array();
+	private $blocks = array();
 
 	const EXT = '.phtml';
 
@@ -41,24 +41,24 @@ class View {
 		return NULL;
 	}
 
-	public function addBlock($blockName, $block) {
-		$this->blockList[$blockName] = $block;
+	public function add_block($block_name, $block) {
+		$this->blocks[$block_name] = $block;
 		return $this;
 	}
 
 	public function render($view) {
-		$view = $this->appendExtension($view, self::EXT);
+		$view = $this->append_extension($view, self::EXT);
 
 		// Find the view file
-		$viewFile = $this->viewPath . $view;
-		if ( !is_file($viewFile) ) {
-			throw new \Jolt\Exception("View file '{$viewFile}' not found.");
+		$view_file = $this->view_path . $view;
+		if (!is_file($view_file)) {
+			throw new \Jolt\Exception("View file '".$view_file."' not found.");
 		}
 
 		extract($this->variables);
 		ob_start();
-			require $viewFile;
-		$this->renderedView = ob_get_clean();
+			require($view_file);
+		$this->rendered_view = ob_get_clean();
 
 		return $this;
 	}
@@ -67,74 +67,67 @@ class View {
 		return htmlentities($v, ENT_COMPAT, 'UTF-8');
 	}
 
-	public function css($cssFile, $media='screen', $localFile=true) {
-		$cssFile = $this->appendExtension($cssFile, '.css');
+	public function css($css_file, $media='screen', $local_file=true) {
+		$css_file = $this->append_extension($css_file, '.css');
 
-		if ( $localFile ) {
-			$cssFile = DIRECTORY_SEPARATOR . $this->cssPath . $cssFile;
+		if ($local_file) {
+			$css_file = '/' . $this->css_path . $css_file;
 		}
 
-		$linkTag = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="%s">%s', $cssFile, $media, PHP_EOL);
-
-		return $linkTag;
+		$link_tag = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="%s">%s', $css_file, $media, PHP_EOL);
+		return $link_tag;
 	}
 
-	public function href($url, $text, $tagAttributes=NULL, $localUrl=true, $secure=false) {
-		if ( $localUrl ) {
+	public function href($url, $text, $tag_attributes=NULL, $local_url=true, $secure=false) {
+		if ($local_url) {
 			$url = $this->url($url, $secure);
 		}
 
 		$text = $this->safe($text);
-		$href = sprintf('<a href="%s" %s>%s</a>%s', $url, $tagAttributes, $text, PHP_EOL);
-
+		$href = sprintf('<a href="%s" %s>%s</a>%s', $url, $tag_attributes, $text, PHP_EOL);
 		return $href;
 	}
 
-	public function img($imgSrc, $altText=NULL, $tagAttributes=NULL, $localFile=true) {
-		if ( $localFile ) {
-			$imgSrc = '/' . $this->imagePath . $imgSrc;
+	public function img($img_src, $alt_text=NULL, $tag_attributes=NULL, $local_file=true) {
+		if ($local_file) {
+			$img_src = '/' . $this->image_path . $img_src;
 		}
 
-		$imgTag = sprintf('<img src="%s" alt="%s" title="%s" %s>%s', $imgSrc, $altText, $altText, $tagAttributes, PHP_EOL);
-
-		return $imgTag;
+		$img_tag = sprintf('<img src="%s" alt="%s" title="%s" %s>%s', $img_src, $alt_text, $alt_text, $tag_attributes, PHP_EOL);
+		return $img_tag;
 	}
 
-	public function js($jsFile, $localFile=true) {
-		$jsFile = $this->appendExtension($jsFile, '.js');
+	public function javascript($javascript_file, $local_file=true) {
+		$javascript_file = $this->append_extension($javascript_file, '.js');
 
-		if ( $localFile ) {
-			$jsFile = DIRECTORY_SEPARATOR . $this->jsPath . $jsFile;
+		if ($local_file) {
+			$javascript_file = '/' . $this->javascript_path . $javascript_file;
 		}
 
-		$jsTag = sprintf('<script src="%s" type="text/javascript"></script>%s', $jsFile, PHP_EOL);
-
-		return $jsTag;
+		$script_tag = sprintf('<script src="%s" type="text/javascript"></script>%s', $javascript_file, PHP_EOL);
+		return $script_tag;
 	}
 
-	public function includeJs($type='script') {
-		$javascripts = $this->getJavascripts();
+	public function include_javascript($type='script') {
+		$javascripts = $this->get_javascripts();
 
-		$includeJs = NULL;
-		foreach ( $javascripts as $script ) {
-			if ( array_key_exists($type, $script) ) {
-				$includeJs .= $script[$type];
+		$included_javascript = NULL;
+		foreach ($javascripts as $script) {
+			if (array_key_exists($type, $script)) {
+				$included_javascript .= $script[$type];
 			}
 		}
-
-		return $includeJs;
+		return $included_javascript;
 	}
 
-	public function registerJs($jsScript, $jsClass=NULL) {
-		$js = array();
-
-		$js['script'] = $this->js($jsScript);
-		if ( !empty($jsClass) ) {
-			$js['ready'] = '(new ' . $jsClass . '().ready());';
+	public function register_javascript($javascript, $javascript_class=NULL) {
+		$javascript = array();
+		$javascript['script'] = $this->javascript($jsScript);
+		if (!empty($javascript_class)) {
+			$javascript['ready'] = '(new ' . $javascript_class . '().ready());';
 		}
 
-		$this->javascripts[] = $js;
-
+		$this->javascripts[] = $javascript;
 		return $this;
 	}
 
@@ -142,156 +135,154 @@ class View {
 		$argc = func_num_args();
 		$argv = func_get_args();
 
-		$urlPrefix = $this->url;
-		if ( $argc > 0 && is_bool($argv[$argc-1]) ) {
+		$url_prefix = $this->url;
+		if ($argc > 0 && is_bool($argv[$argc-1])) {
 			$secure = array_pop($argv);
 			$argc = count($argv);
-			if ( $secure ) {
-				$urlPrefix = $this->secureUrl;
+			if ($secure) {
+				$url_prefix = $this->secure_url;
 			}
 		}
 
-		$p = $this->makeUrlParameters($argc, $argv);
-		$url = $urlPrefix . $p;
-
+		$p = $this->make_url_parameters($argc, $argv);
+		$url = $url_prefix . $p;
 		return $url;
 	}
 
-	public function setCssPath($cssPath) {
-		$this->cssPath = $this->appendDirectorySeparator($cssPath);
+	public function set_css_path($css_path) {
+		$this->css_path = $this->append_directory_separator($css_path);
 		return $this;
 	}
 
-	public function setImagePath($imagePath) {
-		$this->imagePath = $this->appendDirectorySeparator($imagePath);
+	public function set_image_path($image_path) {
+		$this->image_path = $this->append_directory_separator($image_path);
 		return $this;
 	}
 
-	public function setJsPath($jsPath) {
-		$this->jsPath = $this->appendDirectorySeparator($jsPath);
+	public function set_javascript_path($javascript_path) {
+		$this->javascript_path = $this->append_directory_separator($javascript_path);
 		return $this;
 	}
 
-	public function setRouteParameter($routeParameter) {
-		$this->routeParameter = trim($routeParameter);
+	public function set_route_parameter($route_parameter) {
+		$this->route_parameter = trim($route_parameter);
 		return $this;
 	}
 
-	public function setSecureUrl($secureUrl) {
-		$this->secureUrl = trim($secureUrl);
+	public function set_secure_url($secure_url) {
+		$this->secure_url = trim($secure_url);
 		return $this;
 	}
 
-	public function setUrl($url) {
+	public function set_url($url) {
 		$this->url = trim($url);
 		return $this;
 	}
 
-	public function setUseRewrite($useRewrite) {
-		if ( !is_bool($useRewrite) ) {
-			$useRewrite = false;
+	public function set_use_rewrite($use_rewrite) {
+		if (!is_bool($use_rewrite)) {
+			$use_rewrite = false;
 		}
 
-		$this->useRewrite = $useRewrite;
+		$this->use_rewrite = $use_rewrite;
 		return $this;
 	}
 
-	public function setViewPath($viewPath) {
-		$this->viewPath = $this->appendDirectorySeparator($viewPath);
+	public function set_view_path($view_path) {
+		$this->view_path = $this->append_directory_separator($view_path);
 		return $this;
 	}
 
-	public function getBlockList() {
-		return $this->blockList;
+	public function get_blocks() {
+		return $this->blocks;
 	}
 
-	public function getBlock($blockName) {
-		if ( isset($this->blockList[$blockName]) ) {
-			return $this->blockList[$blockName];
+	public function get_block($block_name) {
+		if (array_key_exists($block_name, $this->blocks)) {
+			return $this->blocks[$block_name];
 		}
 		return NULL;
 	}
 
-	public function getCssPath() {
-		return $this->cssPath;
+	public function get_css_path() {
+		return $this->css_path;
 	}
 
-	public function getImagePath() {
-		return $this->imagePath;
+	public function get_image_path() {
+		return $this->image_path;
 	}
 
-	public function getJsPath() {
-		return $this->jsPath;
+	public function get_javascript_path() {
+		return $this->javascript_path;
 	}
 
-	public function getRenderedView() {
-		return $this->renderedView;
+	public function get_rendered_view() {
+		return $this->rendered_view;
 	}
 
-	public function getRouteParameter() {
-		return $this->routeParameter;
+	public function get_route_parameter() {
+		return $this->route_parameter;
 	}
 
-	public function getSecureUrl() {
-		return $this->secureUrl;
+	public function get_secure_url() {
+		return $this->secure_url;
 	}
 
-	public function getUrl() {
+	public function get_url() {
 		return $this->url;
 	}
 
-	public function getUseRewrite() {
-		return $this->useRewrite;
+	public function get_use_rewrite() {
+		return $this->use_rewrite;
 	}
 
-	public function getViewPath() {
-		return $this->viewPath;
+	public function get_view_path() {
+		return $this->view_path;
 	}
 
-	public function getVariables() {
+	public function get_variables() {
 		return $this->variables;
 	}
 
-	public function getJavascripts() {
+	public function get_javascripts() {
 		return $this->javascripts;
 	}
 
-	private function appendExtension($file, $ext) {
-		if ( 0 == preg_match("/\\{$ext}$/i", $file) ) {
+	private function append_extension($file, $ext) {
+		if (0 == preg_match('/\\'.$ext.'$/i', $file)) {
 			$file .= $ext;
 		}
 		return $file;
 	}
 
-	private function appendDirectorySeparator($path) {
-		$pathLength = strlen(trim($path)) - 1;
-		if ( $pathLength >= 0 && $path[$pathLength] != DIRECTORY_SEPARATOR ) {
+	private function append_directory_separator($path) {
+		$path_length = strlen(trim($path)) - 1;
+		if ($path_length >= 0 && $path[$path_length] != DIRECTORY_SEPARATOR) {
 			$path .= DIRECTORY_SEPARATOR;
 		}
 		return $path;
 	}
 
-	private function makeUrlParameters($argc, $argv) {
-		if ( 0 == $argc ) {
+	private function make_url_parameters($argc, $argv) {
+		if (0 == $argc) {
 			return NULL;
 		}
 
 		$route = NULL;
-
 		$root = '';
-		if ( '/' != $argv[0] ) {
+		if ('/' != $argv[0]) {
 			$root = $argv[0];
 		}
 
-		if ( $argc > 1 ) {
+		if ($argc > 1) {
 			$route = '/' . implode('/', array_slice($argv, 1));
 		}
 
 		$parameters = $root . $route;
-		if ( !$this->useRewrite ) {
-			$parameters = "index.php?{$this->routeParameter}={$parameters}";
+		if (!$this->use_rewrite) {
+			$route_parameter = $this->get_route_parameter();
+			$parameters = 'index.php?'.$route_parameter.'='.$parameters;
 		}
-
 		return $parameters;
 	}
 

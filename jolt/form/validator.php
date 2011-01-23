@@ -7,10 +7,10 @@ require_once('jolt/form/validator/rule.php');
 
 class validator {
 
-	private $ruleSet = NULL;
+	private $rule_set = NULL;
 	private $rule = NULL;
 
-	private $ruleSets = array();
+	private $rule_sets = array();
 	private $errors = array();
 
 
@@ -23,103 +23,103 @@ class validator {
 	}
 
 	public function __call($method, $argv) {
-		if (!$this->ruleExists()) {
+		if (!$this->rule_exists()) {
 			return $this;
 		}
 
 		$method = strtolower($method);
 		if (isset($argv[0])) {
-			$this->addRule($method, $argv[0]);
+			$this->add_rule($method, $argv[0]);
 
 			if (isset($argv[1])) {
-				$this->addError($method, $argv[1]);
+				$this->add_error($method, $argv[1]);
 			}
 		}
 		return $this;
 	}
 
-	public function ruleSet($ruleSet) {
-		if ( !array_key_exists($ruleSet, $this->ruleSets) ) {
-			$this->ruleSets[$ruleSet] = array();
+	public function rule_set($rule_set) {
+		if (!array_key_exists($rule_set, $this->rule_sets)) {
+			$this->rule_sets[$rule_set] = array();
 		}
-		$this->ruleSet = $ruleSet;
+		$this->rule_set = $rule_set;
 		return $this;
 	}
 
 	public function error($error) {
-		$this->errors[$this->ruleSet] = $error;
+		$this->errors[$this->rule_set] = $error;
 		return $this;
 	}
 
 	public function rule($rule, $field) {
 		$this->rule = $rule;
-		if ( $this->ruleSetExists() ) {
-			$validatorRule = new \Jolt\Form\Validator\Rule;
-			$validatorRule->setField($field);
+		if ($this->rule_set_exists()) {
+			$validator_rule = new \jolt\form\validator\rule;
+			$validator_rule->set_field($field);
 
-			$this->ruleSets[$this->ruleSet][$rule] = $validatorRule;
+			$this->rule_sets[$this->rule_set][$rule] = $validator_rule;
 		}
 		return $this;
 	}
 
-	public function notEmpty($error) {
-		$this->addRule('empty', false, $error);
+	public function not_empty($error) {
+		$this->add_rule('empty', false, $error);
 		return $this;
 	}
 
-	public function minMax($min, $max, $minError, $maxError) {
-		$this->addRule('minlength', $min, $minError)
-			->addRule('maxlength', $max, $maxError);
+	public function min_max($min, $max, $min_error, $max_error) {
+		$this->add_rule('minlength', $min, $minError)
+			->add_rule('maxlength', $max, $max_error);
 		return $this;
 	}
 
-	public function emptyArray($error) {
-		$this->addRule('callback', function($array) {
+	public function empty_array($error) {
+		$this->add_rule('callback', function($array) {
 			return ((!is_array($array) || 0 === count($array)) ? false : true);
 		}, $error);
 		return $this;
 	}
 
-	public function getError() {
-		if ( array_key_exists($this->ruleSet, $this->errors) ) {
-			return $this->errors[$this->ruleSet];
+	public function get_error() {
+		if (array_key_exists($this->rule_set, $this->errors)) {
+			return $this->errors[$this->rule_set];
 		}
 		return NULL;
 	}
 
 	public function is_empty() {
-		if ( $this->ruleSetExists() ) {
-			return ( 0 === count($this->ruleSets[$this->ruleSet]) );
+		if ($this->rule_set_exists()) {
+			return ( 0 === count($this->rule_sets[$this->rule_set]) );
 		}
 		return true;
 	}
 
-	public function getRuleSet() {
-		if ( $this->ruleSetExists() ) {
-			return $this->ruleSets[$this->ruleSet];
+	public function get_rule_set() {
+		if ($this->rule_set_exists()) {
+			return $this->rule_sets[$this->rule_set];
 		}
 		return array();
 	}
 
 
-	private function ruleSetExists() {
-		return (array_key_exists($this->ruleSet, $this->ruleSets));
+	private function rule_set_exists() {
+		return (array_key_exists($this->rule_set, $this->rule_sets));
 	}
 
-	private function ruleExists() {
-		return ($this->ruleSetExists() && array_key_exists($this->rule, $this->ruleSets[$this->ruleSet]));
+	private function rule_exists() {
+		return ($this->rule_set_exists() && array_key_exists($this->rule, $this->rule_sets[$this->rule_set]));
 	}
 
-	private function addRule($ruleKey, $rule) {
-		if ( $this->ruleExists() ) {
-			$this->ruleSets[$this->ruleSet][$this->rule]->addRule($ruleKey, $rule);
+	private function add_rule($key, $rule) {
+		if ($this->rule_exists()) {
+			$this->rule_sets[$this->rule_set][$this->rule]->add_rule($key, $rule);
 		}
 		return $this;
 	}
 
-	private function addError($ruleKey, $error) {
-		if ( $this->ruleExists() ) {
-			$this->ruleSets[$this->ruleSet][$this->rule]->addError($ruleKey, $error);
+	private function add_error($key, $error) {
+		if ($this->rule_exists()) {
+			$this->rule_sets[$this->rule_set][$this->rule]->add_rule($key, $error);
 		}
 		return $this;
 	}

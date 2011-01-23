@@ -1,6 +1,7 @@
 <?php
 
 declare(encoding='UTF-8');
+namespace jolt;
 
 require_once('jolt/exception.php');
 

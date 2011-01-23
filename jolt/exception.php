@@ -1,32 +1,32 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace jolt;
 
-class Exception extends \Exception {
+class exception extends \Exception {
 
 	public function __construct($message=NULL) {
 		$msg = NULL;
-		
+
 		$trace = $this->getTrace();
 		$trace = current($trace);
-		
+
 		$filename = parent::getFile();
-		$lineNumber = parent::getLine();
-		
-		if ( isset($trace['class']) ) {
+		$line_number = parent::getLine();
+
+		if (isset($trace['class'])) {
 			$msg = $trace['class'];
 		}
-		
-		if ( isset($trace['type']) ) {
+
+		if (isset($trace['type'])) {
 			$msg .= $trace['type'];
 		}
-		
-		if ( isset($trace['function']) ) {
+
+		if (isset($trace['function'])) {
 			$msg .= $trace['function'] . '()';
 		}
 
-		$msg .= " [{$message}] ({$filename} +{$lineNumber})";
+		$msg .= " [{$message}] ({$filename} +{$line_number})";
 
 		parent::__construct($msg);
 	}
