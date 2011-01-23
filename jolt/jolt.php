@@ -53,8 +53,7 @@ class jolt {
 	public function execute() {
 		$settings = $this->settings;
 
-		$this->router
-			->set_route_parameter($settings->route_parameter);
+		$this->router->set_route_parameter($settings->route_parameter);
 
 		$this->view
 			->set_css_path($settings->css_path)
@@ -66,13 +65,13 @@ class jolt {
 			->set_use_rewrite($settings->use_rewrite)
 			->set_view_path($settings->view_path);
 
-		/*$route = $this->router->execute();
+		$route = $this->router->execute();
 		$this->dispatcher
 			->attach_locator($this->controller_locator)
 			->attach_route($route)
+			->attach_settings($settings)
 			->attach_view($this->view)
 			->execute();
-		*/
 
 		$this->client->attach_controller($this->dispatcher->get_controller());
 		return $this->client;

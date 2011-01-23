@@ -2,7 +2,6 @@
 
 declare(encoding='UTF-8');
 namespace jolt;
-
 use \jolt\controller\locator as locator;
 
 require_once('jolt/controller/locator.php');
@@ -14,7 +13,10 @@ class dispatcher {
 	private $locator = NULL;
 	private $rendered_controller = NULL;
 	private $route = NULL;
+	private $settings = NULL;
 	private $view = NULL;
+
+	const EXT = '.php';
 
 	public function __construct() {
 
@@ -34,6 +36,11 @@ class dispatcher {
 		return $this;
 	}
 
+	public function attach_settings(\jolt\settings $settings) {
+		$this->settings = clone $settings;
+		return $this;
+	}
+
 	public function attach_view(\jolt\view $view) {
 		$this->view = clone $view;
 		return $this;
@@ -42,9 +49,25 @@ class dispatcher {
 	public function execute() {
 		$locator = $this->check_locator();
 		$route = $this->check_route();
+		$settings = $this->check_settings();
 		$view = $this->check_view();
 
-		$controller = $this->locator->load($this->controller_file, $route->get_controller());
+		$controller = $route->get_controller();
+
+		// If it's a fully namespaced controller, explode everything off
+		// and get the last element, that's the name of the file.
+		$controller_bits = explode('\\', $controller);
+		$controller = end($controller_bits);
+
+		$controller_path = $settings->controller_path;
+		$controller_path_length = strlen($controller_path);
+		if ($controller_path_length > 0 && $controller_path[$controller_path_length-1] != DIRECTORY_SEPARATOR) {
+			$controller_path .= DIRECTORY_SEPARATOR;
+		}
+
+		$controller_path .= $controller.self::EXT;
+		$controller = $this->locator->find($controller_path, $route->get_controller());
+
 		$controller->attach_view($view)
 			->set_action($route->get_action())
 			->execute($route->get_argv());
@@ -78,6 +101,13 @@ class dispatcher {
 			throw new \jolt\exception('Route not properly attached to Dispatcher.');
 		}
 		return $this->route;
+	}
+
+	private function check_settings() {
+		if (is_null($this->settings)) {
+			throw new \jolt\exception('Settings not properly attached to Dispatcher.');
+		}
+		return $this->settings;
 	}
 
 	private function check_view() {
