@@ -186,7 +186,7 @@ class form_test extends testcase {
 	}
 
 	/**
-	 * @expectedException \JoltTest\Exception
+	 * @expectedException \exception
 	 */
 	public function testValidate_ThrowsCustomExceptionIfInvalid() {
 		$validator = $this->getMock('\Jolt\Form\Validator', array('isEmpty', 'getRuleSet'));
@@ -198,7 +198,7 @@ class form_test extends testcase {
 			->will($this->returnValue(array()));
 
 		$form = new Form;
-		$form->attachException(new \JoltTest\Exception);
+		$form->attachException(new \exception);
 		$form->attachValidator($validator);
 		$form->addError('title', 'An error occurred when attempting to do something to the title');
 
@@ -266,5 +266,3 @@ class form_test extends testcase {
 	}
 
 }
-
-class Exception extends \Exception { }

@@ -157,8 +157,8 @@ class router_test extends testcase {
 		$matchedRoute = $router->execute();
 
 		$this->assertTrue($matchedRoute instanceof \Jolt\Route);
-		$this->assertTrue($matchedRoute->isEqual($namedRoute));
-		$this->assertTrue($namedRoute->isEqual($matchedRoute));
+		$this->assertTrue($matchedRoute->is_equal($namedRoute));
+		$this->assertTrue($namedRoute->is_equal($matchedRoute));
 	}
 
 	public function testExecute_UsesHttp404RouteWhenNoPathFound() {
@@ -173,8 +173,8 @@ class router_test extends testcase {
 
 		$matchedRoute = $router->execute();
 
-		$this->assertTrue($matchedRoute->isEqual($this->http404Route));
-		$this->assertTrue($this->http404Route->isEqual($matchedRoute));
+		$this->assertTrue($matchedRoute->is_equal($this->http404Route));
+		$this->assertTrue($this->http404Route->is_equal($matchedRoute));
 	}
 
 	public function testExecute_RouteMustHaveSameRequestMethod() {
@@ -189,8 +189,8 @@ class router_test extends testcase {
 
 		$matchedRoute = $router->execute();
 
-		$this->assertFalse($matchedRoute->isEqual($namedRoute));
-		$this->assertFalse($namedRoute->isEqual($matchedRoute));
+		$this->assertFalse($matchedRoute->is_equal($namedRoute));
+		$this->assertFalse($namedRoute->is_equal($matchedRoute));
 	}
 
 	/**

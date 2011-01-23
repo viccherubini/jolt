@@ -1,9 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt;
+namespace jolt;
 
-abstract class FormController {
+abstract class form_controller {
 
 	private $id = NULL;
 	private $name = NULL;
@@ -27,66 +27,66 @@ abstract class FormController {
 		$this->errors = array();
 	}
 
-	public function addError($field, $error) {
+	public function add_error($field, $error) {
 		$this->errors[$field] = $error;
 		return $this;
 	}
 
 	public function error($field) {
-		if ( array_key_exists($field, $this->errors) ) {
+		if (array_key_exists($field, $this->errors)) {
 			return $this->errors[$field];
 		}
 		return NULL;
 	}
 
 	public function value($field) {
-		if ( array_key_exists($field, $this->data) ) {
+		if (array_key_exists($field, $this->data)) {
 			return $this->data[$field];
 		}
 		return NULL;
 	}
 
-	public function setId($id) {
+	public function set_id($id) {
 		$this->id = trim($id);
 		return $this;
 	}
 
-	public function setName($name) {
+	public function set_name($name) {
 		$this->name = trim($name);
 		return $this;
 	}
 
-	public function setData(array $data) {
+	public function set_data(array $data) {
 		$this->data = $data;
 		return $this;
 	}
 
-	public function setErrors(array $errors) {
+	public function set_errors(array $errors) {
 		$this->errors = $errors;
 		return $this;
 	}
 
-	public function getId() {
+	public function get_id() {
 		return $this->id;
 	}
 
-	public function getName() {
+	public function get_name() {
 		return $this->name;
 	}
 
-	public function getData() {
+	public function get_data() {
 		return $this->data;
 	}
 
-	public function getDataCount() {
+	public function get_data_count() {
 		return count($this->data);
 	}
 
-	public function getErrors() {
+	public function get_errors() {
 		return $this->errors;
 	}
 
-	public function getErrorsCount() {
+	public function get_errors_count() {
 		return count($this->errors);
 	}
 

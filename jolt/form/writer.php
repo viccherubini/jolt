@@ -2,11 +2,11 @@
 
 declare(encoding='UTF-8');
 namespace Jolt\Form;
-use \Jolt\FormController;
+use \jolt\form_controller;
 
-require_once 'jolt/form_controller.php';
+require_once('jolt/form_controller.php');
 
-abstract class Writer extends FormController {
+abstract class writer extends form_controller {
 
 	abstract public function write();
 

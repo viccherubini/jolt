@@ -1,11 +1,11 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Form;
+namespace jolt\form;
 
-require_once 'jolt/form/validator/rule.php';
+require_once('jolt/form/validator/rule.php');
 
-class Validator {
+class validator {
 
 	private $ruleSet = NULL;
 	private $rule = NULL;
@@ -23,15 +23,15 @@ class Validator {
 	}
 
 	public function __call($method, $argv) {
-		if ( !$this->ruleExists() ) {
+		if (!$this->ruleExists()) {
 			return $this;
 		}
 
 		$method = strtolower($method);
-		if ( isset($argv[0]) ) {
+		if (isset($argv[0])) {
 			$this->addRule($method, $argv[0]);
 
-			if ( isset($argv[1]) ) {
+			if (isset($argv[1])) {
 				$this->addError($method, $argv[1]);
 			}
 		}

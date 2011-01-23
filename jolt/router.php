@@ -25,14 +25,14 @@ class Router {
 	public function addRoute(\Jolt\Route $route) {
 		$routeExists = false;
 		array_walk($this->routeList, function ($v, $k) use ($route, &$routeExists) {
-			if ( $v->isEqual($route) ) {
+			if ($v->is_equal($route)) {
 				$routeExists = true;
 			}
 		});
 		
 		if ( $routeExists ) {
 			$requestMethod = $route->getRequestMethod();
-			$route = $route->getRoute();
+			$route = $route->get_route();
 			throw new \Jolt\Exception("Route '{$requestMethod} {$route}' is a duplicate and can not be added.");
 		}
 		
@@ -68,7 +68,7 @@ class Router {
 		foreach ( $this->routeList as $route ) {
 			if ( is_null($matchedRoute) ) { // Short circuiting
 				$routeRm = $route->getRequestMethod();
-				if ( $routeRm === $this->requestMethod && $route->isValidPath($path) ) {
+				if ( $routeRm === $this->requestMethod && $route->is_valid_path($path) ) {
 					$matchedRoute = clone $route;
 				}
 			}
