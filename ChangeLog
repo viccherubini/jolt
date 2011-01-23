@@ -1,4 +1,398 @@
+2011-01-23 07:59
+	* Vic Cherubini <vmc@leftnode.com> Renamed set_image_path() to set_images_path(), updated the get_() version of that method, and replaced the variable image_path with images_path. (07:59:34)
+	* Vic Cherubini <vmc@leftnode.com> Replaced a missed pdoStatement variable with statement. (07:59:03)
+
+2011-01-23 07:58
+	* Vic Cherubini <vmc@leftnode.com> Fixed a bug with extract_path() because the code was expecting the path to be returned. (07:58:47)
+	* Vic Cherubini <vmc@leftnode.com> Passed in the \jolt\settings object into the dispatcher so the full controller path can be constructed here before it's sent to the locator. Because the locator does the actual loading of the controller, it needs the full path so it can be properly tested. (07:58:29)
+
+2011-01-23 07:57
+	* Vic Cherubini <vmc@leftnode.com> Renamed blockList to blocks, but now it looks like it's not needed any longer. (07:57:39)
+
+2011-01-23 07:53
+	* Vic Cherubini <vmc@leftnode.com> Removed an unecessary comment. (07:53:56)
+
+2011-01-23 05:39
+	* Vic Cherubini <vmc@leftnode.com> Finally finished Part 1 of the great rename. While I'm sure nothing works now, everything sould be properly renamed (in the core code, not the tests) and we can begin using it again for development. (05:39:55)
+
+2011-01-22 20:28
+	* Vic Cherubini <vmc@leftnode.com> Working on the rename. (20:28:27)
+
+2011-01-22 15:46
+	* Vic Cherubini <vmc@leftnode.com> Got the rest of the tests to work with the \jolt\controller\locator class. (15:46:44)
+
+2011-01-22 09:15
+	* Vic Cherubini <vmc@leftnode.com> Moved all of the tests to the tests/unit/ directory since I want to separate unit and functional tests. (09:15:19)
+	* Vic Cherubini <vmc@leftnode.com> Made this much more succinct and changed the load() method to find(). (09:15:02)
+
+2011-01-22 09:14
+	* Vic Cherubini <vmc@leftnode.com> Moved the path to ignore the coverage directory to the tests/unit/ directory. (09:14:27)
+
+2011-01-22 05:18
+	* Vic Cherubini <vmc@leftnode.com> More migration to the new naming conventions. Got most of the test suites renamed. (05:18:10)
+
+2011-01-22 05:17
+	* Vic Cherubini <vmc@leftnode.com> Removed the library functions. They're largely useless and take up a lot of space. (05:17:53)
+
+2011-01-21 20:05
+	* Vic Cherubini <vmc@leftnode.com> Renamed the testing namespace to jolt_test. (20:05:31)
+	* Vic Cherubini <vmc@leftnode.com> Moved the route code to lowercase as well, updated the abstract methods so php wouldn't complain. (20:05:15)
+
+2011-01-21 15:04
+	* Vic Cherubini <vmc@leftnode.com> Removed the bogus methods in here until I can get the testcase class working better. (15:04:20)
+
+2011-01-21 15:01
+	* Vic Cherubini <vmc@leftnode.com> Removed the phpunit code includes and added parens around the requires as per the new coding standard. (15:01:35)
+	* Vic Cherubini <vmc@leftnode.com> Migrated the \jolt\settings object over to the new rename. (15:01:12)
+
+2011-01-21 14:53
+	* Vic Cherubini <vmc@leftnode.com> Moving the \jolt\registry object to lowercase. (14:53:31)
+
+2010-12-22 20:10
+	* Vic Cherubini <vmc@leftnode.com> Updated testRender_ViewSet() to test_render__requires_attached_jolt_view() to conform with new naming conventions. (20:10:48)
+
+2010-12-22 07:09
+	* Vic Cherubini <vmc@leftnode.com> Renamed setAction() and setContentType() to the UNIX equivalents. Temporarily removed a few tests that test the different methods of an actual controller until I can figure out how to make them work nicer. (07:09:10)
+
+2010-12-22 06:10
+	* Vic Cherubini <vmc@leftnode.com> Added a test_true() test that always asserts true so that PHPUnit won't complain if a new test suite doesn't have any tests. (06:10:17)
+
+2010-12-22 06:09
+	* Vic Cherubini <vmc@leftnode.com> Refactored the __set(), attach_view(), add_header(), get_headers(), get_header(), and get_content_type() methods to use the UNIX naming conventions. Rewrote tests to do the same. (06:09:17)
+
+2010-12-21 06:23
+	* Vic Cherubini <vmc@leftnode.com> Achieved 100% test coverage by mocking the \jolt\controller objects properly. (06:23:33)
+	* Vic Cherubini <vmc@leftnode.com> Updated the name of the class this test suite extends from TestCase to testcase. (06:23:03)
+
+2010-12-21 06:21
+	* Vic Cherubini <vmc@leftnode.com> Refactoring the \jolt\client class down to the underscore UNIX naming style. (06:21:35)
+
+2010-12-21 05:23
+	* Vic Cherubini <vmc@leftnode.com> Migrating the primary test suite file to the lowercase UNIX names. (05:23:08)
+
+2010-12-20 07:30
+	* Vic Cherubini <vmc@leftnode.com> Migrated the \jolt\controller\locator class to UNIX style underlines. (07:30:11)
+
+2010-12-10 05:58
+	* Vic Cherubini <vmc@leftnode.com> Small change made to test branching (05:58:29)
+
+2010-12-10 05:36
+	* Vic Cherubini <vmc@leftnode.com> Finally got back to 100% test passing with file renames, now need to do classes, methods and variables. (05:36:35)
+
+2010-12-10 04:38
+	* Vic Cherubini <vmc@leftnode.com> The entire test suite can now be executed (04:38:53)
+
+2010-12-09 05:03
+	* Vic Cherubini <vmc@leftnode.com> More of the great rename. (05:03:01)
+
+2010-12-09 05:02
+	* Vic Cherubini <vmc@leftnode.com> Got this test working again. (05:02:28)
+
+2010-12-08 04:40
+	* Vic Cherubini <vmc@leftnode.com> Removed the docblock at the top because it's useless. (04:40:09)
+
+2010-12-08 04:39
+	* Vic Cherubini <vmc@leftnode.com> Removed the docblock at the type because it's mostly useless. (04:39:41)
+
+2010-12-07 20:18
+	* Vic Cherubini <vmc@leftnode.com> Updated all of the references to FormController.php to form_controller.php (20:18:57)
+
+2010-12-07 20:17
+	* Vic Cherubini <vmc@leftnode.com> Removed the helpers directory because it does nothing. (20:17:00)
+
+2010-12-07 20:16
+	* Vic Cherubini <vmc@leftnode.com> Renamed all of the files to lowercase (20:16:28)
+
+2010-12-07 20:11
+	* Vic Cherubini <vmc@leftnode.com> Renamed the primary Jolt directory to jolt and thus begins the great rename to all lowercase underscore methods. (20:11:07)
+
+2010-12-10 06:02
+	* Vic Cherubini <vmc@leftnode.com> Renamed Jolt.dox to jolt.dox to keep with the consistent naming convention. (06:02:23)
+
+2010-12-10 06:00
+	* Vic Cherubini <vmc@leftnode.com> Changed leftnodesoftware.com to leftnode.com (06:00:09)
+
+2010-11-12 05:38
+	* Vic Cherubini <vmc@leftnode.com> Fixed the @todo that was preventing multiple chunks of the same type in a route. (05:38:24)
+
+2010-11-10 07:11
+	* Vic Cherubini <vmc@leftnode.com> Replaced a call to DIRECTORY_SEPARATOR to a '/' because on Windows machine the DIRECTORY_SEPARATOR constant might be a double backslash. (07:11:13)
+
+2010-11-10 07:10
+	* Vic Cherubini <vmc@leftnode.com> Replaced spaces with dashes in the file name. (07:10:42)
+
+2010-11-09 07:22
+	* Vic Cherubini <vmc@leftnode.com> Fixed the query to add the form_id so the proper form can be updated. (07:22:28)
+	* Vic Cherubini <vmc@leftnode.com> New class for uploading files. (07:22:15)
+
+2010-11-04 06:43
+	* Vic Cherubini <vmc@leftnode.com> Updated the calls to settings to use underscores rather than camelCase. (06:43:16)
+
+2010-11-04 06:42
+	* Vic Cherubini <vmc@leftnode.com> Added new operation: equal. This way you can ensure that two values are exactly (===) equal to each other. (06:42:25)
+	* Vic Cherubini <vmc@leftnode.com> Because PDO allocates memory for each field, allocating a ton of memory for the form data only to not use it is unecessary. Thus, I updated this to only select the data and errors fields since they're the only ones used. I also made the fields regular text fields rather than longtext to help with the memory allocation. (06:42:01)
+
+2010-11-04 06:40
+	* Vic Cherubini <vmc@leftnode.com> EOF changes and added new method getView() to get the view attached to the controller. (06:40:51)
+	* Vic Cherubini <vmc@leftnode.com> EOL changes. (06:40:09)
+
+2010-11-04 06:39
+	* Vic Cherubini <vmc@leftnode.com> Updated the __get() method to find the key based on the variable  and to not find the property ->k. (06:39:56)
+	* Vic Cherubini <vmc@leftnode.com> If the url is just a '/' then it sets that as the root, this way url's like http://joltcore.org// can't be created. (06:39:15)
+
+2010-10-28 17:29
+	* Vic Cherubini <vmc@leftnode.com> Small bugfix to ensure the pathLength is greater than -1 before attempting to access an element of the  string. (17:29:29)
+
+2010-10-25 09:12
+	* Vic Cherubini <vmc@leftnode.com> Refactored the entire Form, Validator, and Rule interfaces to allow for a small DSL to define a complete validator. (09:12:39)
+
+2010-10-24 07:46
+	* Vic Cherubini <vmc@leftnode.com> Started to write a mini DSL for easily adding rulesets in bulk. For example, minMax() takes the min and maxlengths, and the errors associated with each. (07:46:49)
+	* Vic Cherubini <vmc@leftnode.com> Added a reset() method to reset the rulesets and message. (07:46:06)
+
+2010-10-24 06:55
+	* Vic Cherubini <vmc@leftnode.com> EOL changes to UNIX. (06:55:50)
+	* Vic Cherubini <vmc@leftnode.com> Added new ability to register a javascript file in a view, and then render them all together in another view. (06:55:00)
+
+2010-10-22 05:16
+	* Vic Cherubini <vmc@leftnode.com> Removed references to dataKey in the form because that can just be determined before any data is sent to the form object. (05:16:28)
+
+2010-10-22 05:02
+	* Vic Cherubini <vmc@leftnode.com> Added the ability to attach an error for each form that is being validated. (05:02:21)
+
+2010-10-21 05:47
+	* Vic Cherubini <vmc@leftnode.com> Wrote all of the gloriously mocked classes for the tests for the \Jolt\Form::validate() method. (05:47:23)
+
+2010-10-21 05:46
+	* Vic Cherubini <vmc@leftnode.com> Finished writing the validate() method and moved all of the error recording to the base FormController class. (05:46:28)
+
+2010-10-21 04:42
+	* Vic Cherubini <vmc@leftnode.com> Moved the RuleSetTest.php test suite from the RuleSet directory to the properly named Validator directory to match the directory names in Jolt. (04:42:21)
+
+2010-10-21 04:39
+	* Vic Cherubini <vmc@leftnode.com> Added the errors field to the sample databases. (04:39:55)
+	* Vic Cherubini <vmc@leftnode.com> The associated tests for writing and loading the errors. (04:39:07)
+
+2010-10-21 04:38
+	* Vic Cherubini <vmc@leftnode.com> Changed all references of messages to errors. (04:38:11)
+
+2010-10-21 04:37
+	* Vic Cherubini <vmc@leftnode.com> Added the code to store the errors with the datastore, and to load the errors from the datastore. (04:37:47)
+
+2010-10-20 07:05
+	* Vic Cherubini <vmc@leftnode.com> Consolidated all references to errors to messages or message. (07:05:01)
+
+2010-10-20 07:04
+	* Vic Cherubini <vmc@leftnode.com> Fixed the error that __toString() wasn't returning a string in the case of Location based headers. It now returns an empty string. (07:04:13)
+
+2010-10-19 06:56
+	* Vic Cherubini <vmc@leftnode.com> Included the correct validator and validator ruleset files. (06:56:15)
+
+2010-10-19 04:42
+	* Vic Cherubini <vmc@leftnode.com> Refactored the code a little bit to get 100% test coverage. (04:42:01)
+
+2010-10-18 05:25
+	* Vic Cherubini <vmc@leftnode.com> Wrote many more tests for the load(), write(), and validate() methods. * Added several private methods to make mock Loader and Writer methods * Made a custom exception class, \JoltTest\Exception for testing custom exceptions (05:25:38)
+	* Vic Cherubini <vmc@leftnode.com> Added a test for the method \Jolt\Form\Validator::count() (05:25:34)
+	* Vic Cherubini <vmc@leftnode.com> Added method getDataCount() which returns the number of fields in the data. Reordered the set/getData and set/getDataKey to put the DataKey methods first. (05:25:06)
+
+2010-10-18 05:24
+	* Vic Cherubini <vmc@leftnode.com> Added method count() to return the number of ruleSets added to the Validator. (05:24:18)
+
+2010-10-18 05:23
+	* Vic Cherubini <vmc@leftnode.com> Wrote the main bodies for load() and write(). Started to write validate() as well. (05:23:48)
+
+2010-10-17 09:25
+	* Vic Cherubini <vmc@leftnode.com> Goddamn I love tests: got the FormController class created and refactored all classes to use it. (09:25:46)
+
+2010-10-17 09:15
+	* Vic Cherubini <vmc@leftnode.com> Renamed this file before moving it to the root directory. (09:15:19)
+
+2010-10-17 09:13
+	* Vic Cherubini <vmc@leftnode.com> Renamed before moving this up to the root directory. (09:13:28)
+	* Vic Cherubini <vmc@leftnode.com> Added new tests for the attach*() methods in \Jolt\Form. (09:13:03)
+
+2010-10-17 09:12
+	* Vic Cherubini <vmc@leftnode.com> Removed all of the getters/setters and included the Jolt/FormController.php file (which currently doesn't exist). (09:12:43)
+
+2010-10-17 08:54
+	* Vic Cherubini <vmc@leftnode.com> New tests to ensure that data is loaded properly. (08:54:48)
+
+2010-10-17 08:53
+	* Vic Cherubini <vmc@leftnode.com> If the UPDATE fails, the load() method returns false. (08:53:06)
+
+2010-10-17 08:50
+	* Vic Cherubini <vmc@leftnode.com> Acheived 100% test coverage by fixing several bugs. * If $formData is false after being fetched, the method returns false * If the UPDATE fails after fetching the form record, nothing else is executed and the method returns false * If the data from the form can't be properly json_decod()'ed, it is put into an array and then passed to setData() (08:50:48)
+	* Vic Cherubini <vmc@leftnode.com> Updated reset() to reset the id and name as well. (08:50:16)
+
+2010-10-17 08:49
+	* Vic Cherubini <vmc@leftnode.com> The coverage docs are now saved in the local tests directory and bootstrap.php deletes the entire coverage/ directory so a new fresh one can be built each time. (08:49:38)
+	* Vic Cherubini <vmc@leftnode.com> Moved the location of the coverage docs to the tests directory. (08:49:04)
+
+2010-10-17 06:21
+	* Vic Cherubini <vmc@leftnode.com> Removed the EOL character from the EOF of AllTests and included the Loader/DbTest.php file for Form/AllTests.php (06:21:27)
+
+2010-10-17 06:13
+	* Vic Cherubini <vmc@leftnode.com> Removed the separate Writer and Loader classes from AllTests and added the new ControllerTest class. (06:13:32)
+
+2010-10-17 06:11
+	* Vic Cherubini <vmc@leftnode.com> The new base class for both Writer and Loader. I will also attempt to make this the base class for Form, but we'll see how that works. (06:11:53)
+	* Vic Cherubini <vmc@leftnode.com> Removed all of the centrally defined methods to these classes and moved them to \Jolt\Controller. They now consist of the abstract methods they need defined. The reason these classes are kept and not made into an interface is because I still want to use type hinting to be able to determine the difference between a Writer sub class and a Loader sub class. (06:11:21)
+
+2010-10-17 06:07
+	* Vic Cherubini <vmc@leftnode.com> Now that the base class for Loader and Writer have been combined into a central class, Controller, the separate test files are no longer necessary. (06:07:39)
+
+2010-10-17 05:53
+	* Vic Cherubini <vmc@leftnode.com> Finished writing most of the loader code and associated tests. Refactoring time. (05:53:55)
+
+2010-10-17 05:52
+	* Vic Cherubini <vmc@leftnode.com> The \Jolt\Form\Loader class is pretty much identical to the \Jolt\Form\Writer class, so I copied the methods into it. However, the two classes can be combined into one base class and then the Writer and Loader classes can extend them. This way I can still test for a \Jolt\Form\Writer and \Jolt\Form\Loader class while not repeating myself. (05:52:50)
+
+2010-10-17 05:51
+	* Vic Cherubini <vmc@leftnode.com> Some more test data. (05:51:23)
+
+2010-10-17 05:07
+	* Vic Cherubini <vmc@leftnode.com> Reformatted the tests slightly to only pass a variable rather than a full expression to the assert() method. This makes each test more expressive and easier to read and to see what is being tested. (05:07:06)
+
+2010-10-17 04:58
+	* Vic Cherubini <vmc@leftnode.com> Added a tearDown() method to explicitly invoke the destructor of the Writer class. (04:58:58)
+
+2010-10-17 04:57
+	* Vic Cherubini <vmc@leftnode.com> Wrote the base abstract class for the loader and the tests associated with it. (04:57:53)
+
+2010-10-17 04:40
+	* Vic Cherubini <vmc@leftnode.com> Changed the save() method to write() to reflect the method in the \Jolt\Form\Writer class. (04:40:25)
+
+2010-10-16 07:24
+	* Vic Cherubini <vmc@leftnode.com> The new directory 'db' holds all of the scripts necessary to get the test suite to run. Generally they're divided by the database type. The DbTest suite provides 100% test coverage for the \Jolt\Form\Writer\Db class. (07:24:07)
+
+2010-10-16 07:22
+	* Vic Cherubini <vmc@leftnode.com> Reformatted some white space. (07:22:57)
+	* Vic Cherubini <vmc@leftnode.com> Separated the two different test suites out from the root level form test suites and and the in depth test suites. Also included the WriterTest test suite to make sure that is covered as well. (07:22:34)
+
+2010-10-16 07:21
+	* Vic Cherubini <vmc@leftnode.com> Added a new define: DIRECTORY_DB. This define points to the full path that the database specific data is stored in. That way Jolt classes that require database access can build the entire database with the scripts in this directory. (07:21:31)
+
+2010-10-16 07:20
+	* Vic Cherubini <vmc@leftnode.com> Wrote the write() method to save the form data as serialized JSON to a datastore. It's not the prettiest thing, but it's very fast and only requires one table. Additionally, added the ability to change the name of the table that the data is stored to. It is 'form' by default, but the user could easily change it to something else. (07:20:31)
+
+2010-10-15 21:03
+	* Vic Cherubini <vmc@leftnode.com> Added the WriterTest, Writer\DbTest and Writer\SessionTest test classes to the Form test suite. (21:03:45)
+
+2010-10-15 21:02
+	* Vic Cherubini <vmc@leftnode.com> Removed the expectedException calls on sendsHeaders() and sendsNonSentHeaders() tests. Not exactly sure why they were there to begin with. (21:02:52)
+
+2010-10-15 21:01
+	* Vic Cherubini <vmc@leftnode.com> Wrote all of the \Form\Writer class and the sub classes. (21:01:47)
+
+2010-10-15 20:59
+	* Vic Cherubini <vmc@leftnode.com> Removed the trailing newline at EOF. (20:59:57)
+	* Vic Cherubini <vmc@leftnode.com> Removed the trailing newline at the end of file. (20:59:15)
+
+2010-10-14 06:04
+	* Vic Cherubini <vmc@leftnode.com> One more small test to ensure no errors are set when isValid passes for all rules. (06:04:46)
+
+2010-10-14 06:03
+	* Vic Cherubini <vmc@leftnode.com> Added the method getError() in \Jolt\Form\Validator\Ruleset to return the latest error, and updated isValid() to set the error if one of the fields returns false. (06:03:20)
+
+2010-10-14 05:49
+	* Vic Cherubini <vmc@leftnode.com> Wrote all of the tests for each of the different operations. (05:49:00)
+
+2010-10-14 05:48
+	* Vic Cherubini <vmc@leftnode.com> Changed the exception message a bit. (05:48:07)
+
+2010-10-14 04:35
+	* Vic Cherubini <vmc@leftnode.com> Small formatting change. (04:35:01)
+
+2010-10-14 04:33
+	* Vic Cherubini <vmc@leftnode.com> Added the destructor. (04:33:06)
+
+2010-10-14 04:30
+	* Vic Cherubini <vmc@leftnode.com> Added and wrote all of the methods for \Jolt\Form\Validator. (04:30:11)
+
+2010-10-14 04:29
+	* Vic Cherubini <vmc@leftnode.com> Upgraded version number, really need to determine how to do this automatically based on the current tag. (04:29:40)
+	* Vic Cherubini <vmc@leftnode.com> Updated two method names that refered to Jolt objects directly to actually have the word Jolt in them. (04:29:13)
+
+2010-10-13 06:59
+	* Vic Cherubini <vmc@leftnode.com> Removed the old throwException() method because it will be replaced at some point. (06:59:35)
+
+2010-10-13 06:57
+	* Vic Cherubini <vmc@leftnode.com> Removed some whitespace, and testing remote tracking. (06:57:46)
+
+2010-10-13 05:56
+	* Vic Cherubini <vmc@leftnode.com> Added the Form directory for all of the tests related to the \Jolt\Form class. (05:56:46)
+
+2010-10-13 05:53
+	* Vic Cherubini <vmc@leftnode.com> Reworking most of the RuleSet class. * Updated constructor to take array of messages * Changed variable name $ruleSet to $rules * Temporarily removed each op_*() method from setting a message (05:53:45)
+	* Vic Cherubini <vmc@leftnode.com> Starting to write the basic class structure for the \Jolt\Form\Validator class. (05:53:34)
+
+2010-10-13 05:52
+	* Vic Cherubini <vmc@leftnode.com> Added the FormTests test suite. (05:52:56)
+	* Vic Cherubini <vmc@leftnode.com> Removed the use alias for \Jolt\Form\RuleSet because it's now handled by the Validator test suite. (05:52:39)
+
+2010-10-13 05:33
+	* Vic Cherubini <vmc@leftnode.com> Removed the ksort() for setData(). (05:33:26)
+
+2010-10-13 05:21
+	* Vic Cherubini <vmc@leftnode.com> Added a test to ensure that message() returns NULL when no message is present for a specific field. (05:21:26)
+
+2010-10-13 05:15
+	* Vic Cherubini <vmc@leftnode.com> Added the method addMessage() and message(). * addMessage() pushes a new message about the form onto the stack * message() returns a message by a key (05:15:19)
+
+2010-10-13 05:09
+	* Vic Cherubini <vmc@leftnode.com> Setting up the general structure of the \Jolt\Form classes. (05:09:27)
+
+2010-10-13 05:07
+	* Vic Cherubini <vmc@leftnode.com> Changed the namespace to put RuleSet into the \Jolt\Form\Validator namespace. (05:07:16)
+
+2010-10-13 05:06
+	* Vic Cherubini <vmc@leftnode.com> Moved the RuleSet class to the Validator directory, the class will be updated to be \Jolt\Validator\RuleSet. (05:06:43)
+
+2010-10-13 05:04
+	* Vic Cherubini <vmc@leftnode.com> Removed most of the tests and replaced them with tests for the new \Jolt\Form class. (05:04:45)
+
+2010-10-13 05:02
+	* Vic Cherubini <vmc@leftnode.com> Starting the refactoring of most of the Jolt\Form code: * Added attachException(), attachLoader(), attachWriter(), and attachValidator() methods * Removed many of the setters/getters * Refactored getData() to return the $data array * Added getDataSet() to return the data via the $dataKey if set * Commented out or removed some private methods no longer being used * Removed the validate() method, will be refactored (05:02:49)
+
+2010-10-11 04:02
+	* Vic Cherubini <vmc@leftnode.com> Changed the exception message when a form was submitted, and added ability to set the ID of the form. (04:02:06)
+
+2010-10-10 13:02
+	* Vic Cherubini <vmc@leftnode.com> Included the correct files for the new Form classes. (13:02:15)
+
+2010-10-10 13:01
+	* Vic Cherubini <vmc@leftnode.com> After each unsuccessful test, a message is set for the offending field. (13:01:00)
+
+2010-10-10 12:59
+	* Vic Cherubini <vmc@leftnode.com> Made the class work better with the users code. (12:59:35)
+
+2010-10-10 09:17
+	* Vic Cherubini <vmc@leftnode.com> The associated test class for the \Jolt\Form class. (09:17:33)
+	* Vic Cherubini <vmc@leftnode.com> Began writing a new Form class. The Form class is primarily for form validation. (09:17:07)
+
+2010-10-10 09:16
+	* Vic Cherubini <vmc@leftnode.com> Removed trailing newline. (09:16:53)
+	* Vic Cherubini <vmc@leftnode.com> Added the FormTest class to the full test suite. (09:16:31)
+
+2010-10-10 06:45
+	* Vic Cherubini <vmc@leftnode.com> Made the call to fetch(\PDO::FETCH_OBJ) just a called to fetchObject(). (06:45:11)
+
+2010-10-07 05:19
+	* Vic Cherubini <vmc@leftnode.com> New feature to allow controller files to have dashes when camelCased controller names are used. This is useful for readability purposes. (05:19:13)
+
+2010-10-04 07:18
+	* Vic Cherubini <vmc@leftnode.com> Added method getView() to return the \Jolt\View object that is used in execute(). (07:18:14)
+
+2010-09-28 06:05
+	* Vic Cherubini <vmc@leftnode.com> Removed the trailing newline. (06:05:32)
+	* Vic Cherubini <vmc@leftnode.com> Added a constructor to the Settings class to set a key/value array that is propagated through the class. (06:05:09)
+
+2010-09-28 05:38
+	* Vic Cherubini <vmc@leftnode.com> Renamed Configuration to Settings because it's shorter and more comprehensive of a name. (05:38:24)
+
 2010-09-23 06:16
+	* Vic Cherubini <vmc@leftnode.com> The changelog right before the 0.0.4 release of Jolt. (06:16:55)
 	* Vic Cherubini <vmc@leftnode.com> Removed the sample application for now, stay tuned at joltcore.org for more information. (06:16:16)
 
 2010-09-23 06:12
