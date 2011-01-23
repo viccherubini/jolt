@@ -26,7 +26,6 @@ class client {
 	}
 
 	public function build_output() {
-		// Must have controller
 		if (is_null($this->controller)) {
 			return '';
 		}
