@@ -120,8 +120,9 @@ class router {
 	private function extract_path() {
 		$path = NULL;
 		if (array_key_exists($this->route_parameter, $this->parameters)) {
-			$this->set_path($this->parameters[$this->route_parameter]);
+			$path = $this->parameters[$this->route_parameter];
 		}
+		$this->set_path($path);
 		return $path;
 	}
 
