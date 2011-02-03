@@ -93,7 +93,7 @@ class named extends route {
 		$route = $this->get_route();
 
 		/* Special case of a valid route. */
-		if ('/' == $route) {
+		if ('/' === $route || '/*' === $route) {
 			return true;
 		}
 
@@ -103,7 +103,7 @@ class named extends route {
 		 *
 		 * @see tests/Jolt/Route/Route/NamedTest.php
 		 */
-		if (0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.]*)$#i', $route)) {
+		if (0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.\*]*)$#i', $route)) {
 			return false;
 		}
 
