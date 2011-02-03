@@ -54,8 +54,8 @@ class form extends form_controller {
 			return false;
 		}
 
-		$this->setData($this->loader->get_data())
-			->setErrors($this->loader->get_errors());
+		$this->set_data($this->loader->get_data())
+			->set_errors($this->loader->get_errors());
 
 		return true;
 	}
@@ -65,10 +65,10 @@ class form extends form_controller {
 			return false;
 		}
 
-		$this->writer->setId($this->get_id())
-			->setName($this->get_name())
-			->setData($this->get_data())
-			->setErrors($this->get_errors());
+		$this->writer->set_id($this->get_id())
+			->set_name($this->get_name())
+			->set_data($this->get_data())
+			->set_errors($this->get_errors());
 
 		$written = $this->writer->write();
 		return $written;
