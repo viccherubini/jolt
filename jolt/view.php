@@ -52,7 +52,7 @@ class view {
 		// Find the view file
 		$view_file = $this->view_path . $view;
 		if (!is_file($view_file)) {
-			throw new \Jolt\Exception("View file '".$view_file."' not found.");
+			throw new \jolt\exception("View file '".$view_file."' not found.");
 		}
 
 		extract($this->variables);
@@ -71,7 +71,8 @@ class view {
 		$css_file = $this->append_extension($css_file, '.css');
 
 		if ($local_file) {
-			$css_file = '/' . $this->css_path . $css_file;
+			$root_url = $this->get_root_url();
+			$css_file = $root_url.$this->css_path.$css_file;
 		}
 
 		$link_tag = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="%s">%s', $css_file, $media, PHP_EOL);
@@ -90,7 +91,8 @@ class view {
 
 	public function img($img_src, $alt_text=NULL, $tag_attributes=NULL, $local_file=true) {
 		if ($local_file) {
-			$img_src = '/' . $this->images_path . $img_src;
+			$root_url = $this->get_root_url();
+			$img_src = $root_url.$this->images_path.$img_src;
 		}
 
 		$img_tag = sprintf('<img src="%s" alt="%s" title="%s" %s>%s', $img_src, $alt_text, $alt_text, $tag_attributes, PHP_EOL);
@@ -101,7 +103,8 @@ class view {
 		$javascript_file = $this->append_extension($javascript_file, '.js');
 
 		if ($local_file) {
-			$javascript_file = '/' . $this->javascript_path . $javascript_file;
+			$root_url = $this->get_root_url();
+			$javascript_file = $root_url.$this->javascript_path.$javascript_file;
 		}
 
 		$script_tag = sprintf('<script src="%s" type="text/javascript"></script>%s', $javascript_file, PHP_EOL);
@@ -120,11 +123,11 @@ class view {
 		return $included_javascript;
 	}
 
-	public function register_javascript($javascript, $javascript_class=NULL) {
+	public function register_javascript($javascript_file, $javascript_class=NULL) {
 		$javascript = array();
-		$javascript['script'] = $this->javascript($jsScript);
+		$javascript['script'] = $this->javascript($javascript_file);
 		if (!empty($javascript_class)) {
-			$javascript['ready'] = '(new ' . $javascript_class . '().ready());';
+			$javascript['init'] = '(new '.$javascript_class.'().init());';
 		}
 
 		$this->javascripts[] = $javascript;
@@ -135,12 +138,12 @@ class view {
 		$argc = func_num_args();
 		$argv = func_get_args();
 
-		$url_prefix = $this->url;
+		$url_prefix = $this->get_url();
 		if ($argc > 0 && is_bool($argv[$argc-1])) {
 			$secure = array_pop($argv);
 			$argc = count($argv);
 			if ($secure) {
-				$url_prefix = $this->secure_url;
+				$url_prefix = $this->get_secure_url();
 			}
 		}
 
@@ -170,12 +173,12 @@ class view {
 	}
 
 	public function set_secure_url($secure_url) {
-		$this->secure_url = trim($secure_url);
+		$this->secure_url = $this->append_url_slash(trim($secure_url));
 		return $this;
 	}
 
 	public function set_url($url) {
-		$this->url = trim($url);
+		$this->url = $this->append_url_slash(trim($url));
 		return $this;
 	}
 
@@ -183,7 +186,6 @@ class view {
 		if (!is_bool($use_rewrite)) {
 			$use_rewrite = false;
 		}
-
 		$this->use_rewrite = $use_rewrite;
 		return $this;
 	}
@@ -248,6 +250,9 @@ class view {
 		return $this->javascripts;
 	}
 
+
+
+
 	private function append_extension($file, $ext) {
 		if (0 == preg_match('/\\'.$ext.'$/i', $file)) {
 			$file .= $ext;
@@ -261,6 +266,33 @@ class view {
 			$path .= DIRECTORY_SEPARATOR;
 		}
 		return $path;
+	}
+
+	private function append_url_slash($url) {
+		$url_last_char_index = strlen($url)-1;
+		if ($url[$url_last_char_index] != '/') {
+			$url .= '/';
+		}
+		return $url;
+	}
+
+	private function get_root_url() {
+		if ($this->is_secure()) {
+			return $this->get_secure_url();
+		}
+		return $this->get_url();
+	}
+
+	private function is_secure() {
+		// Unfortunately only way to detect if a page is secure or
+		// not is to use the $_SERVER superglobal
+		$is_secure = false;
+		if (isset($_SERVER)) {
+			if (array_key_exists('HTTPS', $_SERVER)) {
+				$is_secure = ('on' === strtolower($_SERVER['HTTPS']));
+			}
+		}
+		return $is_secure;
 	}
 
 	private function make_url_parameters($argc, $argv) {
