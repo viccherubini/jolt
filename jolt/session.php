@@ -149,7 +149,6 @@ class session {
 		$statement->execute();
 
 		$session = $statement->fetchObject();
-
 		$session_count = 0;
 		if (property_exists($session, 'session_count')) {
 			$session_count = (int)$session->session_count;
