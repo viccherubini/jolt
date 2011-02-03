@@ -27,12 +27,12 @@ class uploader {
 		}
 
 		if (!is_writable($this->destination)) {
-			throw new \jolt\exception('The destination directory is not writable');
+			throw new \jolt\exception('The destination directory is not writable.');
 		}
 
 		$file_path = $this->destination . $this->filename;
 		if (is_file($file_path) && !$this->overwrite) {
-			throw new \jolt\exception('The file being uploaded already exists');
+			throw new \jolt\exception('The file being uploaded already exists.');
 		}
 
 		if (!move_uploaded_file($this->upload_data['tmp_name'], $file_path)) {
@@ -42,8 +42,8 @@ class uploader {
 	}
 
 	public function set_destination($destination) {
-		$destination_length = strlen(trim($destination)) - 1;
-		if ( $destination_length >= 0 && $destination[$destination_length] != DIRECTORY_SEPARATOR ) {
+		$destination_length = strlen(trim($destination))-1;
+		if ($destination_length >= 0 && $destination[$destination_length] != DIRECTORY_SEPARATOR) {
 			$destination .= DIRECTORY_SEPARATOR;
 		}
 		$this->destination = $destination;
@@ -71,37 +71,52 @@ class uploader {
 		$error = NULL;
 		switch ($upload_data['error']) {
 			case UPLOAD_ERR_INI_SIZE: {
-				$error = 'The file is larger than allowed in php.ini';
+				$filesize = filesize($upload_data['tmp_name']);
+				$ini_size = ini_get('upload_max_filesize');
+
+				$ini_size_last_char_index = strlen($ini_size)-1;
+				$ini_size_last_char = strtoupper($ini_size[$ini_size_last_char_index]);
+
+				$byte_power = 1;
+				if ('M' === $ini_size_last_char) {
+					$byte_power = 2;
+				} elseif ('G' === $ini_size_last_char) {
+					$byte_power = 3;
+				}
+
+				$ini_byte_size = $ini_size * pow(1024, $byte_power);
+				$error = sprintf('The file being uploaded is %d bytes larger than allowed in php.ini.', $ini_byte_size);
 				break;
 			}
 
 			case UPLOAD_ERR_FORM_SIZE: {
-				$error = 'The file is larger than allowed from the submitted form';
+				$error = 'The file is larger than allowed from the submitted form.';
 				break;
 			}
 
 			case UPLOAD_ERR_PARTIAL: {
-				$error = 'Only partial data was uploaded';
+				$error = 'Only partial data was uploaded.';
 				break;
 			}
 
 			case UPLOAD_ERR_NO_FILE: {
-				$error = 'No file was present';
+				$error = 'No file was present.';
 				break;
 			}
 
 			case UPLOAD_ERR_NO_TMP_DIR: {
-				$error = 'The temporary directory does not exist';
+				$tmp_directory = ini_get('upload_tmp_dir');
+				$error = sprintf('The temporary directory %s does not exist.', $tmp_directory);
 				break;
 			}
 
 			case UPLOAD_ERR_CANT_WRITE: {
-				$error = 'The temporary directory is not writable';
+				$error = 'The temporary directory is not writable.';
 				break;
 			}
 
 			case UPLOAD_ERR_EXTENSION: {
-				$error = 'This type of file is not allowed';
+				$error = 'This type of file is not allowed.';
 				break;
 			}
 		}
@@ -113,7 +128,7 @@ class uploader {
 		$this->upload_data = $upload_data;
 		$this->filename = $upload_data['name'];
 		if ($this->unique) {
-			$this->filename = uniqid('', true) . '-' . $this->filename;
+			$this->filename = uniqid() . '-' . $this->filename;
 		}
 		$this->filename = str_replace(' ', '-', $this->filename);
 		return $this;
