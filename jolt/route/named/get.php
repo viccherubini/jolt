@@ -1,11 +1,11 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Route\Named;
+namespace jolt\route\named;
 
-use \Jolt\Route\Named;
+use \jolt\route\named;
 
-class Get extends Named {
+class get extends named {
 
 	public function __construct($route, $controller, $action) {
 		parent::__construct('GET', $route, $controller, $action);
