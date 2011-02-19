@@ -5,6 +5,7 @@ namespace jolt;
 
 class uploader {
 
+
 	private $upload_data = array();
 
 	private $filename = NULL;
@@ -145,5 +146,4 @@ class uploader {
 	public function get_file_path() {
 		return $this->destination . $this->filename;
 	}
-
 }

@@ -2,16 +2,15 @@
 
 declare(encoding='UTF-8');
 namespace jolt\form\loader;
-use \jolt\form\loader;
 
 require_once('jolt/form/loader.php');
 
-class db extends loader {
+class db extends \jolt\form\loader {
 
 	private $pdo = NULL;
 	private $table = 'form';
 
-	public function attach_pdo(\PDO $pdo) {
+	public function attach_pdo(\jolt\pdo $pdo) {
 		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 		$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 		$this->pdo = $pdo;
@@ -35,50 +34,34 @@ class db extends loader {
 		}
 
 		$table = $this->get_table();
-		$stmt = $pdo->prepare("SELECT form_id, data, errors FROM {$table} WHERE id = :id AND name = :name AND status = 1");
+		$form_data = $pdo->select_one('SELECT form_id, data, errors FROM '.$table.' WHERE id = :id AND name = :name AND status = :status',
+			array(':id' => $id, ':name' => $name, ':status' => 1));
 
-		if (!$stmt) {
+		$form_data = $stmt->fetchObject();
+		if (!$form_data) {
 			return false;
 		}
 
-		$parameters = array(
-			'id' => $id,
-			'name' => $name
-		);
+		$form_id = $form_data->form_id;
 
-		$executed = $stmt->execute($parameters);
+		$pdo->modify('UPDATE '.$table.' SET status = :status WHERE form_id = :form_id',
+			array(':status' => 0, ':form_id' => $form_id));
 
-		if ($executed) {
-			$form_data = $stmt->fetchObject();
-			if (!$form_data) {
-				return false;
-			}
+		$data = json_decode($form_data->data, true);
+		$errors = json_decode($form_data->errors, true);
 
-			$form_id = $form_data->form_id;
-
-			$sql = "UPDATE {$table} SET status = 0 WHERE form_id = :form_id";
-			$stmt = $pdo->prepare($sql);
-
-			if (false !== $stmt) {
-				$executed = $stmt->execute(array('form_id' => $form_id));
-
-				$data = json_decode($form_data->data, true);
-				$errors = json_decode($form_data->errors, true);
-
-				if (is_null($data)) {
-					$data = array($form_data->data);
-				}
-
-				if (is_null($errors)) {
-					$errors = array($form_data->errors);
-				}
-
-				$this->set_data($data)
-					->set_errors($errors);
-			}
+		if (is_null($data)) {
+			$data = array($form_data->data);
 		}
 
-		return $executed;
+		if (is_null($errors)) {
+			$errors = array($form_data->errors);
+		}
+
+		$this->set_data($data)
+			->set_errors($errors);
+
+		return true;
 	}
 
 	public function set_table($table) {

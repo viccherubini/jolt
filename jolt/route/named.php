@@ -3,9 +3,7 @@
 declare(encoding='UTF-8');
 namespace jolt\route;
 
-use \jolt\route;
-
-class named extends route {
+class named extends \jolt\route {
 
 	private $action = NULL;
 	private $controller = NULL;
@@ -79,7 +77,7 @@ class named extends route {
 		return $this->request_method;
 	}
 
-	public function is_equal(route $route) {
+	public function is_equal(\jolt\route $route) {
 		return (
 			$route instanceof \jolt\route\named &&
 			$route->get_request_method() === $this->get_request_method() &&

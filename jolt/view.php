@@ -79,6 +79,37 @@ class view {
 		return $link_tag;
 	}
 
+	public function dropdown($name, $values, $texts, $default=NULL, $attributes=NULL, $sanitize=true) {
+		$options = NULL;
+		$i = 0;
+
+		if (!is_array($values) || !is_array($texts) ) {
+			return NULL;
+		}
+
+		$values_length = count($values);
+		$texts_length = count($texts);
+		if (($values_length < 1 || $texts_length < 1) || ($values_length !== $texts_length)) {
+			return NULL;
+		}
+
+		foreach ($texts as $display) {
+			$value = $values[$i];
+			$selected = ($default === $value ? 'selected' : NULL);
+
+			if ($sanitize) {
+				$value = $this->safe($value);
+				$display = $this->safe($display);
+			}
+
+			$options .= sprintf('<option value="%s" %s>%s</option>', $value, $selected, $display);
+			$i++;
+		}
+
+		$select = sprintf('<select name="%s" %s>%s</select>', $name, $attributes, $options);
+		return $select;
+	}
+
 	public function href($url, $text, $tag_attributes=NULL, $local_url=true, $secure=false) {
 		if ($local_url) {
 			$url = $this->url($url, $secure);
@@ -307,10 +338,10 @@ class view {
 		}
 
 		if ($argc > 1) {
-			$route = '/' . implode('/', array_slice($argv, 1));
+			$route = '/'.implode('/', array_slice($argv, 1));
 		}
 
-		$parameters = $root . $route;
+		$parameters = $root.$route;
 		if (!$this->use_rewrite) {
 			$route_parameter = $this->get_route_parameter();
 			$parameters = 'index.php?'.$route_parameter.'='.$parameters;

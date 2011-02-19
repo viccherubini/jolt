@@ -7,6 +7,7 @@ class router {
 
 	private $http_404_route = NULL;
 	private $path = NULL;
+	private $forced_route = NULL;
 	private $request_method = NULL;
 	private $route_parameter = '__u';
 
@@ -24,11 +25,12 @@ class router {
 
 	public function add_route(\jolt\route $route) {
 		$route_exists = false;
-		array_walk($this->routes, function ($v, $k) use ($route, &$route_exists) {
+		foreach ($this->routes as $k => $v) {
 			if ($v->is_equal($route)) {
 				$route_exists = true;
+				break;
 			}
-		});
+		}
 
 		if ($route_exists) {
 			$route = $route->get_route();
@@ -50,22 +52,31 @@ class router {
 		return $this;
 	}
 
-	public function execute() {
+	public function force_route($route) {
+		$this->forced_route = $route;
+		return $this;
+	}
+
+	public function execute($path=NULL) {
 		if (0 === count($this->routes)) {
 			throw new \jolt\exception('No routes have been attached to the Router.');
 		}
 
-		$path = $this->extract_path();
+		if (is_null($path)) {
+			$path = $this->extract_path();
+		}
+
 		if (is_null($this->http_404_route)) {
 			throw new \jolt\exception('A 404 Route has not been attached to the Router.');
 		}
 
 		$matched_route = NULL;
 		foreach ($this->routes as $route) {
-			if (is_null($matched_route)) { // Short circuiting
+			if (is_null($matched_route)) {
 				$route_request_method = $route->get_request_method();
 				if ($route_request_method === $this->request_method && $route->is_valid_path($path)) {
 					$matched_route = clone $route;
+					break;
 				}
 			}
 		}
@@ -119,9 +130,13 @@ class router {
 
 	private function extract_path() {
 		$path = NULL;
-		if (array_key_exists($this->route_parameter, $this->parameters)) {
+
+		if (!empty($this->forced_route)) {
+			$path = $this->forced_route;
+		} elseif (array_key_exists($this->route_parameter, $this->parameters)) {
 			$path = $this->parameters[$this->route_parameter];
 		}
+
 		$this->set_path($path);
 		return $path;
 	}

@@ -3,10 +3,6 @@
 declare(encoding='UTF-8');
 namespace jolt;
 
-require_once('jolt/exception.php');
-
-define('JOLT_VERSION', '0.0.6', false);
-
 class jolt {
 
 	private $client = NULL;
@@ -25,7 +21,7 @@ class jolt {
 		return $this;
 	}
 
-	public function attach_settings(\jolt\settings $settings) {
+	public function attach_settings(\jolt\array $settings) {
 		$this->settings = clone $settings;
 		return $this;
 	}
@@ -50,7 +46,7 @@ class jolt {
 		return $this;
 	}
 
-	public function execute() {
+	public function execute($request_method=NULL, $path=NULL) {
 		$settings = $this->settings;
 
 		$this->router->set_route_parameter($settings->route_parameter);
@@ -65,7 +61,11 @@ class jolt {
 			->set_use_rewrite($settings->use_rewrite)
 			->set_view_path($settings->view_path);
 
-		$route = $this->router->execute();
+		if (!is_null($request_method)) {
+			$this->router->set_request_method($request_method);
+		}
+
+		$route = $this->router->execute($path);
 		$this->dispatcher
 			->attach_locator($this->controller_locator)
 			->attach_route($route)

@@ -72,8 +72,8 @@ class controller {
 		}
 
 		try {
-			$action = new \ReflectionMethod($this, $this->action);
-		} catch (\ReflectionException $e) {
+			$action = new ReflectionMethod($this, $this->action);
+		} catch (ReflectionException $e) {
 			throw new \jolt\exception('Controller action method '.$this->action.' not actual member of controller class.');
 		}
 
@@ -127,6 +127,10 @@ class controller {
 		$rendered_view = $view->render($view_name)
 			->get_rendered_view();
 		return $rendered_view;
+	}
+
+	public function url($path, $secure=false) {
+		return $this->get_view()->url($path, $secure);
 	}
 
 	public function set_action($action) {
@@ -187,6 +191,17 @@ class controller {
 
 	public function get_response_code() {
 		return $this->response_code;
+	}
+
+	public function get_post_params($key=NULL) {
+		if (!empty($key)) {
+			if (array_key_exists($key, $_POST)) {
+				return $_POST[$key];
+			} else {
+				return NULL;
+			}
+		}
+		return $_POST;
 	}
 
 	public function get_view() {

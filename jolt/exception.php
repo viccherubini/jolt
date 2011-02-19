@@ -26,7 +26,7 @@ class exception extends \Exception {
 			$msg .= $trace['function'] . '()';
 		}
 
-		$msg .= " [{$message}] ({$filename} +{$line_number})";
+		$msg .= ' ['.$message.'] ('.$filename.' +'.$line_number.')';
 
 		parent::__construct($msg);
 	}

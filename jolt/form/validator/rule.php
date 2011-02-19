@@ -40,13 +40,17 @@ class rule {
 	}
 
 	public function is_valid($value) {
-		$isValid = true;
+		$is_valid = true;
 		foreach ($this->rules as $op => $rule) {
 			$op_method = 'op_' . strtolower($op);
 			if (method_exists($this, $op_method) && !$this->$op_method($rule, $value) ) {
 				$is_valid = false;
 				if (array_key_exists($op, $this->errors)) {
-					$this->error = sprintf($this->errors[$op], $this->field);
+					if ('minlength' === $op || 'maxlength' === $op) {
+						$this->error = sprintf($this->errors[$op], $this->field, $rule);
+					} else {
+						$this->error = sprintf($this->errors[$op], $this->field);
+					}
 				}
 				break;
 			}
@@ -132,7 +136,7 @@ class rule {
 		}
 
 		// Length of each side must be greater than 0
-		return (mb_strlen($bits[0], $this->charset) > 0 && mb_strlen($bits[1], $this->charset));
+		return (mb_strlen($bits[0], $this->charset) > 0 && mb_strlen($bits[1], $this->charset) > 0);
 	}
 
 	private function op_inarray($inarray, $value) {
@@ -144,6 +148,13 @@ class rule {
 
 	private function op_regex($regex, $value) {
 		if (1 !== preg_match($regex, $value)) {
+			return false;
+		}
+		return true;
+	}
+
+	private function op_url($is_url, $url) {
+		if (false === filter_var($url, FILTER_VALIDATE_URL)) {
 			return false;
 		}
 		return true;
