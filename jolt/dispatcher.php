@@ -36,7 +36,7 @@ class dispatcher {
 		return $this;
 	}
 
-	public function attach_settings(\jolt\array $settings) {
+	public function attach_settings(\jolt\vo $settings) {
 		$this->settings = clone $settings;
 		return $this;
 	}
