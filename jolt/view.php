@@ -169,17 +169,28 @@ class view {
 		$argc = func_num_args();
 		$argv = func_get_args();
 
+		$http_parameters = NULL;
 		$url_prefix = $this->get_url();
 		if ($argc > 0 && is_bool($argv[$argc-1])) {
+			$argc--;
 			$secure = array_pop($argv);
-			$argc = count($argv);
 			if ($secure) {
 				$url_prefix = $this->get_secure_url();
+			}
+
+			if (is_array($argv[$argc-1])) {
+				$argc--;
+				$http_parameters = array_pop($argv);
+				$http_parameters = http_build_query($http_parameters);
 			}
 		}
 
 		$p = $this->make_url_parameters($argc, $argv);
-		$url = $url_prefix . $p;
+		$url = $url_prefix.$p;
+		if (!empty($http_parameters)) {
+			$url .= '?'.$http_parameters;
+		}
+
 		return $url;
 	}
 

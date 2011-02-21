@@ -1,5 +1,6 @@
 <?php
 
+/*
 declare(encoding='UTF-8');
 namespace jolt_test;
 
@@ -24,3 +25,4 @@ require_once('jolt/framework.php');
 
 // Delete all of the coverage docs
 shell_exec('rm -rf coverage');
+*/

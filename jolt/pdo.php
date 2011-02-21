@@ -12,6 +12,10 @@ class pdo extends \PDO {
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
+	public function id() {
+		return $this->lastInsertId();
+	}
+
 	public function modify($query, $parameters=array()) {
 		$this->bind($query, $parameters);
 		$this->stmt->execute();
@@ -24,9 +28,9 @@ class pdo extends \PDO {
 		return $this->stmt;
 	}
 
-	public function select_one($query, $parameters=array()) {
+	public function select_one($query, $parameters=array(), $object='stdClass') {
 		$this->select($query, $parameters);
-		return $this->stmt->fetchObject();
+		return $this->stmt->fetchObject($object);
 	}
 
 	public function stmt() {

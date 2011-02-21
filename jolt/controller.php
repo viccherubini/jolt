@@ -72,8 +72,8 @@ class controller {
 		}
 
 		try {
-			$action = new ReflectionMethod($this, $this->action);
-		} catch (ReflectionException $e) {
+			$action = new \ReflectionMethod($this, $this->action);
+		} catch (\ReflectionException $e) {
 			throw new \jolt\exception('Controller action method '.$this->action.' not actual member of controller class.');
 		}
 

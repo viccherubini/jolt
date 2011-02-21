@@ -5,7 +5,6 @@ namespace jolt;
 
 require_once('jolt/exception.php');
 
-require_once('jolt/array.php');
 require_once('jolt/client.php');
 require_once('jolt/controller.php');
 require_once('jolt/controller/locator.php');
@@ -24,5 +23,6 @@ require_once('jolt/route/named/put.php');
 require_once('jolt/router.php');
 require_once('jolt/session.php');
 require_once('jolt/view.php');
+require_once('jolt/vo.php');
 
 require_once('jolt/jolt.php');
