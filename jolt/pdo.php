@@ -6,6 +6,7 @@ namespace jolt;
 class pdo extends \PDO {
 
 	private $stmt = NULL;
+	private $object = NULL;
 
 	public function __construct($dsn, $username=NULL, $password=NULL, $options=array()) {
 		parent::__construct($dsn, $username, $password, $options);
@@ -16,21 +17,39 @@ class pdo extends \PDO {
 		return $this->lastInsertId();
 	}
 
+	public function prep($query, $object='stdClass') {
+		$this->stmt = $this->prepare($query);
+		$this->object = $object;
+		return $this;
+	}
+
+	public function find_all($parameters=array()) {
+		if (!is_object($this->stmt)) {
+			return array();
+		}
+
+		$this->bind_parameters($parameters)
+			->execute();
+
+		return $this->stmt->fetchAll(\PDO::FETCH_CLASS, $this->object);
+	}
+
 	public function modify($query, $parameters=array()) {
-		$this->bind($query, $parameters);
-		$this->stmt->execute();
-		return true;
+		return $this->prep($query)
+			->bind_parameters($parameters)
+			->execute();
 	}
 
 	public function select($query, $parameters=array()) {
-		$this->bind($query, $parameters);
-		$this->stmt->execute();
+		$this->prep($query)
+			->bind_parameters($parameters)
+			->execute();
 		return $this->stmt;
 	}
 
 	public function select_one($query, $parameters=array(), $object='stdClass') {
-		$this->select($query, $parameters);
-		return $this->stmt->fetchObject($object);
+		return $this->select($query, $parameters)
+			->fetchObject($object);
 	}
 
 	public function stmt() {
@@ -51,13 +70,22 @@ class pdo extends \PDO {
 		return $table_exists;
 	}
 
-	private function bind($query, $parameters=array()) {
-		$this->stmt = $this->prepare($query);
+
+
+	private function bind_parameters(array $parameters) {
+		if (!is_object($this->stmt)) {
+			return false;
+		}
+
 		foreach ($parameters as $parameter => $value) {
 			$type = \PDO::PARAM_STR;
-			if (is_int($value)) { $type = \PDO::PARAM_INT; }
-			if (is_bool($value)) { $type = \PDO::PARAM_BOOL; }
-			if (is_null($value)) { $type = \PDO::PARAM_NULL; }
+			if (is_int($value)) {
+				$type = \PDO::PARAM_INT;
+			} elseif (is_bool($value)) {
+				$type = \PDO::PARAM_BOOL;
+			} elseif (is_null($value)) {
+				$type = \PDO::PARAM_NULL;
+			}
 			$this->stmt->bindValue($parameter, $value, $type);
 		}
 
