@@ -9,11 +9,12 @@ class session {
 
 	private $pdo = NULL;
 	private $save_handler = NULL;
-	private $session_name = NULL;
-	private $session_id = NULL;
 
-	private $ip = NULL;
 	private $agent = NULL;
+	private $agent_hash = NULL;
+	private $id = NULL;
+	private $ip = NULL;
+	private $session_name = NULL;
 
 	private $started = false;
 
@@ -56,7 +57,7 @@ class session {
 	}
 
 
-	public function attach_pdo(\PDO $pdo) {
+	public function attach_pdo(\jolt\pdo $pdo) {
 		$this->pdo = $pdo;
 		return $this;
 	}
@@ -73,7 +74,7 @@ class session {
 					}
 				}
 
-				if ($this->pdo instanceof \PDO) {
+				if (!is_null($this->pdo)) {
 					ini_set('session.save_handler', 'user');
 					register_shutdown_function('session_write_close');
 
@@ -99,7 +100,7 @@ class session {
 				$started = true;
 			}
 
-			$this->session_id = session_id();
+			$this->id = session_id();
 			$this->started = true;
 		}
 
@@ -108,12 +109,17 @@ class session {
 
 	public function delete() {
 		if (array_key_exists($this->session_name, $_COOKIE)) {
-			setcookie($this->session_name, $this->session_id, 1, '/');
+			setcookie($this->session_name, $this->id, 1, '/');
 		}
 
 		session_destroy();
 		return true;
 	}
+
+	public function id() {
+		return $this->id;
+	}
+
 
 	public function open() {
 		return true;
@@ -125,78 +131,68 @@ class session {
 		return true;
 	}
 
-	public function read($session_id) {
-		$data = NULL;
+	public function read($id) {
+		$pdo = $this->check_pdo();
 
-		$statement = $this->pdo->prepare('SELECT data FROM session WHERE session_id = :session_id');
-		$statement->bindValue(':session_id', $session_id, \PDO::PARAM_STR);
-		$statement->execute();
-
-		$session = $statement->fetchObject();
+		$session = $pdo->select_one('SELECT * FROM `session` WHERE id = :id', array(':id' => $id));
 		if (is_object($session) && property_exists($session, 'data')) {
-			$data = $session->data;
+			if ($session->agent_hash !== $this->agent_hash) {
+				$this->destroy();
+				return NULL;
+			} else {
+				$this->set_agent($session->agent)
+					->set_agent_hash($session->agent_hash);
+				return $session->data;
+			}
 		}
-		return $data;
+		return NULL;
 	}
 
-	public function write($session_id, $data) {
+	public function write($id, $data) {
+		$pdo = $this->check_pdo();
+
 		$expiration = time();
 		$now = date('Y-m-d H:i:s');
 
-		// Find the session first
-		$statement = $this->pdo->prepare('SELECT COUNT(*) AS session_count FROM session WHERE session_id = :session_id');
-		$statement->bindValue(':session_id', $session_id, \PDO::PARAM_STR);
-		$statement->execute();
+		$session = $pdo->select_one('SELECT * FROM `session` WHERE id = :id', array(':id' => $id));
+		$session_count = (false === $session ? 0 : 1);
 
-		$session = $statement->fetchObject();
-
-		$session_count = 0;
-		if (property_exists($session, 'session_count')) {
-			$session_count = (int)$session->session_count;
-		}
-
-		if (1 == $session_count) {
-			$statement = $this->pdo->prepare('UPDATE session SET updated = :updated, expiration = :expiration, data = :data WHERE session_id = :session_id');
-			$statement->bindValue(':updated', $now, \PDO::PARAM_STR);
-			$statement->bindValue(':expiration', $expiration, \PDO::PARAM_INT);
-			$statement->bindValue(':data', $data, \PDO::PARAM_LOB);
-			$statement->bindValue(':session_id', $session_id, \PDO::PARAM_STR);
-
-			$statement->execute();
-		} elseif (0 == $session_count) {
-			$agent_hash = sha1($this->agent);
-
-			$sql = 'INSERT INTO session (session_id, created, updated, expiration, ip, agent, agent_hash, data) VALUES (:session_id, :created, :updated, :expiration, :ip, :agent, :agent_hash, :data)';
-			$statement = $this->pdo->prepare($sql);
-			$statement->bindValue(':session_id', $session_id, \PDO::PARAM_STR);
-			$statement->bindValue(':created', $now, \PDO::PARAM_STR);
-			$statement->bindValue(':updated', '', \PDO::PARAM_STR);
-			$statement->bindValue(':expiration', $expiration, \PDO::PARAM_INT);
-			$statement->bindValue(':ip', $this->ip, \PDO::PARAM_STR);
-			$statement->bindValue(':agent', $this->agent, \PDO::PARAM_STR);
-			$statement->bindValue(':agent_hash', $agent_hash, \PDO::PARAM_STR);
-			$statement->bindValue(':data', $data, \PDO::PARAM_LOB);
-
-			$exec = $statement->execute($parameters);
+		if (1 === $session_count) {
+			$pdo->modify('UPDATE `session` SET updated = :updated, expiration = :expiration, data = :data WHERE id = :id',
+				array(':updated' => $now, ':expiration' => $expiration, ':data' => $data, ':id' => $id));
+		} elseif (0 === $session_count) {
+			$pdo->modify('INSERT INTO `session` (id, created, expiration, ip, agent, agent_hash, data) VALUES (:id, :created, :expiration, :ip, :agent, :agent_hash, :data)',
+				array(':id' => $id, ':created' => $now, ':expiration' => $expiration, ':ip' => $this->ip, ':agent' => $this->agent, ':agent_hash' => $this->agent_hash, ':data' => $data));
 		}
 
 		return true;
 	}
 
-	public function destroy($session_id) {
-		$statement = $this->pdo->prepare('DELETE FROM session WHERE session_id = :session_id');
-		$statement->bindValue(':session_id', $session_id, \PDO::PARAM_STR);
-		$statement->execute();
+	public function destroy($id) {
+		$pdo = $this->check_pdo();
+		$pdo->modify('DELETE FROM `session` WHERE id = :id', array(':id' => $id));
+
 		return true;
 	}
 
 	public function gc($lifetime) {
-		$expiration = time() - $lifetime;
+		$pdo = $this->check_pdo();
 
-		$statement = $this->pdo->prepare('DELETE FROM session WHERE expiration < :expiration');
-		$statement->bindValue(':expiration', $expiration, \PDO::PARAM_INT);
-		$statement->execute();
+		$expiration = time() - $lifetime;
+		$pdo->modify('DELETE FROM `session` WHERE expiration < :expiration', array(':expiration' => $expiration));
+
 		return true;
+	}
+
+	public function set_agent($agent) {
+		$this->agent = trim($agent);
+		$this->set_agent_hash(sha1($agent));
+		return $this;
+	}
+
+	public function set_agent_hash($agent_hash) {
+		$this->agent_hash = trim($agent_hash);
+		return $this;
 	}
 
 	public function set_ip($ip) {
@@ -204,9 +200,19 @@ class session {
 		return $this;
 	}
 
-	public function set_agent($agent) {
-		$this->agent = trim($agent);
-		return $this;
+	public function get_agent() {
+		return $this->agent;
+	}
+
+	public function get_agent_hash() {
+		return $this->agent_hash;
+	}
+
+	private function check_pdo() {
+		if (!($this->pdo instanceof \jolt\pdo)) {
+			throw new \jolt\exception('A PDO object is not attached properly.');
+		}
+		return $this->pdo;
 	}
 
 }

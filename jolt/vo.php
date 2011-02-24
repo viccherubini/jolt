@@ -3,12 +3,12 @@
 declare(encoding='UTF-8');
 namespace jolt;
 
-class settings {
+class vo {
 
 	private $length = 0;
-	
-	public function __construct($settings=array()) {
-		foreach ($settings as $k => $v) {
+
+	public function __construct($array=array()) {
+		foreach ($array as $k => $v) {
 			$this->__set($k, $v);
 		}
 	}

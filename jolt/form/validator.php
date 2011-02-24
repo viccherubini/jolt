@@ -54,7 +54,7 @@ class validator {
 	public function rule($rule, $field) {
 		$this->rule = $rule;
 		if ($this->rule_set_exists()) {
-			$validator_rule = new \jolt\form\validator\rule;
+			$validator_rule = new jolt\form\validator\rule;
 			$validator_rule->set_field($field);
 
 			$this->rule_sets[$this->rule_set][$rule] = $validator_rule;
@@ -68,8 +68,10 @@ class validator {
 	}
 
 	public function min_max($min, $max, $min_error, $max_error) {
-		$this->add_rule('minlength', $min, $minError)
-			->add_rule('maxlength', $max, $max_error);
+		$this->add_rule('minlength', $min)
+			->add_rule('maxlength', $max);
+		$this->add_error('minlength', $min_error)
+			->add_error('maxlength', $max_error);
 		return $this;
 	}
 
@@ -89,7 +91,7 @@ class validator {
 
 	public function is_empty() {
 		if ($this->rule_set_exists()) {
-			return ( 0 === count($this->rule_sets[$this->rule_set]) );
+			return (0 === count($this->rule_sets[$this->rule_set]));
 		}
 		return true;
 	}
@@ -119,7 +121,7 @@ class validator {
 
 	private function add_error($key, $error) {
 		if ($this->rule_exists()) {
-			$this->rule_sets[$this->rule_set][$this->rule]->add_rule($key, $error);
+			$this->rule_sets[$this->rule_set][$this->rule]->add_error($key, $error);
 		}
 		return $this;
 	}

@@ -3,9 +3,7 @@
 declare(encoding='UTF-8');
 namespace jolt\route;
 
-use \jolt\route;
-
-class named extends route {
+class named extends \jolt\route {
 
 	private $action = NULL;
 	private $controller = NULL;
@@ -79,7 +77,7 @@ class named extends route {
 		return $this->request_method;
 	}
 
-	public function is_equal(route $route) {
+	public function is_equal(\jolt\route $route) {
 		return (
 			$route instanceof \jolt\route\named &&
 			$route->get_request_method() === $this->get_request_method() &&
@@ -93,7 +91,7 @@ class named extends route {
 		$route = $this->get_route();
 
 		/* Special case of a valid route. */
-		if ('/' == $route) {
+		if ('/' === $route || '/*' === $route) {
 			return true;
 		}
 
@@ -103,7 +101,7 @@ class named extends route {
 		 *
 		 * @see tests/Jolt/Route/Route/NamedTest.php
 		 */
-		if (0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.]*)$#i', $route)) {
+		if (0 === preg_match('#^/([a-z]+)([a-z0-9_\-/%\.\*]*)$#i', $route)) {
 			return false;
 		}
 

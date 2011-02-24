@@ -2,16 +2,15 @@
 
 declare(encoding='UTF-8');
 namespace jolt\form\writer;
-use \jolt\form\writer;
 
 require_once('jolt/form/writer.php');
 
-class db extends writer {
+class db extends \jolt\form\writer {
 
 	private $pdo = NULL;
 	private $table = 'form';
 
-	public function attach_pdo(\PDO $pdo) {
+	public function attach_pdo(\jolt\pdo $pdo) {
 		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 		$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 		$this->pdo = $pdo;
@@ -43,32 +42,10 @@ class db extends writer {
 		$data_json = json_encode($data);
 		$errors_json = json_encode($errors);
 
-		$sql = "INSERT INTO {$table}
-				(created, id, name, data, errors, status)
-			VALUES
-				(:created, :id, :name, :data, :errors, :status)";
+		$pdo->modify('INSERT INTO '.$table.' (created, id, name, data, errors, status) VALUES (:created, :id, :name, :data, :errors, :status)',
+			array('created' => $created, 'id' => $id, 'name' => $name, 'data' => $data_json, 'errors' => $errors_json, 'status' => 1));
 
-		$pdo->beginTransaction();
-			$stmt = $pdo->prepare($sql);
-
-			if (!$stmt) {
-				$pdo->rollback();
-				return false;
-			}
-
-			$parameters = array(
-				'created' => $created,
-				'id' => $id,
-				'name' => $name,
-				'data' => $data_json,
-				'errors' => $errors_json,
-				'status' => 1
-			);
-
-			$executed = $stmt->execute($parameters);
-		$pdo->commit();
-
-		return $executed;
+		return true;
 	}
 
 	public function set_table($table) {

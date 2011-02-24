@@ -129,6 +129,10 @@ class controller {
 		return $rendered_view;
 	}
 
+	public function url($path, $secure=false) {
+		return $this->get_view()->url($path, $secure);
+	}
+
 	public function set_action($action) {
 		$this->action = trim($action);
 		return $this;
@@ -187,6 +191,17 @@ class controller {
 
 	public function get_response_code() {
 		return $this->response_code;
+	}
+
+	public function get_post_params($key=NULL) {
+		if (!empty($key)) {
+			if (array_key_exists($key, $_POST)) {
+				return $_POST[$key];
+			} else {
+				return NULL;
+			}
+		}
+		return $_POST;
 	}
 
 	public function get_view() {

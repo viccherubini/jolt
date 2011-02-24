@@ -44,10 +44,10 @@ class client {
 
 		// Always remove the Content-Type header, let Jolt handle it
 		header_remove('Content-Type');
-		header('Content-Type: ' . $content_type, true, $response_code);
+		header('Content-Type: '.$content_type, true, $response_code);
 
 		if (defined('JOLT_VERSION')) {
-			header('X-Framework: Jolt ' . JOLT_VERSION);
+			header('X-Framework: Jolt '.JOLT_VERSION);
 		}
 
 		foreach ($headers as $complete_header) {
@@ -58,7 +58,7 @@ class client {
 				}
 
 				$controller_header = strtolower($controller_header);
-				header($controller_header . ':' . $controller_header_value, true, $response_code);
+				header($controller_header.':'.$controller_header_value, true, $response_code);
 
 				// Special case for the Location header to prevent __toString() from not outputting anything.
 				if ('location' === $controller_header) {

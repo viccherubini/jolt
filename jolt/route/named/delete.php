@@ -1,11 +1,9 @@
 <?php
 
 declare(encoding='UTF-8');
-namespace Jolt\Route\Named;
+namespace jolt\route\named;
 
-use \Jolt\Route\Named;
-
-class Delete extends Named {
+class delete extends \jolt\route\named {
 
 	public function __construct($route, $controller, $action) {
 		parent::__construct('DELETE', $route, $controller, $action);
