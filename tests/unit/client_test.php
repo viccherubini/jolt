@@ -18,7 +18,7 @@ class client_test extends testcase {
 
 	/**
 	 * @expectedException PHPUnit_Framework_Error
-	 * @dataProvider providerInvalidJoltController
+	 * @dataProvider provider_invalid_controller
 	 */
 	public function test_attach_controller__requires_jolt_controller($controller) {
 		$client = new client;
@@ -121,7 +121,7 @@ class client_test extends testcase {
 		$this->assertEmpty($client->build_output());
 	}
 
-	public function providerInvalidJoltController() {
+	public function provider_invalid_controller() {
 		return array(
 			array('a'),
 			array(10),
