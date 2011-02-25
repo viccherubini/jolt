@@ -59,6 +59,18 @@ class pdo extends \PDO {
 	}
 
 	// Modification methods
+	public function delete(\jolt\model $model) {
+		if (!$model->is_saved()) {
+			return false;
+		}
+
+		$table = get_class($model);
+		$query = 'DELETE FROM '.$table.' WHERE id = :id';
+
+		$modified = $this->modify($query, array('id' => $model->get_id()));
+		return $modified;
+	}
+
 	public function modify($query, $parameters=array()) {
 		$this->stmt = $this->prep($query)
 			->bind_parameters($this->stmt, $parameters);
