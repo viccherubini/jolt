@@ -17,7 +17,11 @@ class client {
 	}
 
 	public function __toString() {
-		return $this->build_output();
+		$output = $this->build_output();
+		if (empty($output)) {
+			$output = '';
+		}
+		return $output;
 	}
 
 	public function attach_controller(\jolt\controller $controller) {
