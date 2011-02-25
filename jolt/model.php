@@ -110,6 +110,11 @@ class model {
 		return $member_values;
 	}
 
+	// Traits
+	public function is_saved() {
+		return ($this->get_id() > 0);
+	}
+
 	// Getters
 	public function get_members() {
 		return $this->members;
