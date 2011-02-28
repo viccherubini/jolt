@@ -149,6 +149,7 @@ class model {
 		$this->compiled = true;
 	}
 
+	// Private traits
 	private function is_compiled() {
 		return $this->compiled;
 	}
