@@ -5,6 +5,7 @@ namespace jolt;
 use \jolt\controller\locator as locator;
 
 require_once('jolt/controller/locator.php');
+require_once('jolt/redirect_exception.php');
 
 class dispatcher {
 
@@ -68,9 +69,14 @@ class dispatcher {
 		$controller_path .= $controller.self::EXT;
 		$controller = $this->locator->find($controller_path, $route->get_controller());
 
-		$controller->attach_view($view)
-			->set_action($route->get_action())
-			->execute($route->get_argv());
+		try {
+			$controller->attach_view($view)
+				->set_action($route->get_action())
+				->execute($route->get_argv());
+		} catch (\jolt\redirect_exception $e) {
+			// Set the right redirection information
+			$this->controller->add_header('location', $e->get_location());
+		}
 
 		$this->controller = $controller;
 		return true;
