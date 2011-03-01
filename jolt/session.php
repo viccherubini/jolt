@@ -184,6 +184,11 @@ class session {
 		return true;
 	}
 
+	public function set($key, $value) {
+		$this->$key = $value;
+		return $this;
+	}
+
 	public function set_agent($agent) {
 		$this->agent = trim($agent);
 		$this->set_agent_hash(sha1($agent));
@@ -198,6 +203,10 @@ class session {
 	public function set_ip($ip) {
 		$this->ip = trim($ip);
 		return $this;
+	}
+
+	public function get($key) {
+		return $this->$key;
 	}
 
 	public function get_agent() {

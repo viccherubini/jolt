@@ -62,11 +62,13 @@ class client {
 				}
 
 				$controller_header = strtolower($controller_header);
-				header($controller_header.':'.$controller_header_value, true, $response_code);
 
 				// Special case for the Location header to prevent __toString() from not outputting anything.
 				if ('location' === $controller_header) {
+					header($controller_header.': '.$controller_header_value);
 					return '';
+				} else {
+					header($controller_header.': '.$controller_header_value, true, $response_code);
 				}
 			}
 		}

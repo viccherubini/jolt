@@ -3,6 +3,8 @@
 declare(encoding='UTF-8');
 namespace jolt;
 
+require_once('jolt/redirect_exception.php');
+
 class exception extends \Exception {
 
 	public function __construct($message=NULL) {

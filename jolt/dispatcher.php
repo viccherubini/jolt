@@ -75,7 +75,7 @@ class dispatcher {
 				->execute($route->get_argv());
 		} catch (\jolt\redirect_exception $e) {
 			// Set the right redirection information
-			$this->controller->add_header('location', $e->get_location());
+			$controller->add_header('location', $e->get_location());
 		}
 
 		$this->controller = $controller;

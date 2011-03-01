@@ -7,13 +7,13 @@ class redirect_exception extends \Exception {
 
 	private $location = NULL;
 
-	public function __construct($message, $location) {
-		parent::__construct($msg);
+	public function __construct($location) {
+		parent::__construct('');
 		$this->location = $location;
 	}
 
 	public function get_location() {
-		return $location;
+		return $this->location;
 	}
-	
+
 }
