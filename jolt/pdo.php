@@ -88,7 +88,6 @@ class pdo extends \PDO {
 			}
 
 			$values = $model->get_values();
-
 			$members = array_keys($values);
 			$members_string = implode(',', $members);
 
@@ -105,8 +104,12 @@ class pdo extends \PDO {
 			}
 
 			$values = $model->get_values();
-			$members = array_keys($values);
 
+			if (isset($model->created)) {
+				unset($values['created']);
+			}
+			
+			$members = array_keys($values);
 			$named_parameters = array_map(function($v) {
 				return ($v.' = :'.$v);
 			}, $members);
