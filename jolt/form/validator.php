@@ -54,7 +54,7 @@ class validator {
 	public function rule($rule, $field) {
 		$this->rule = $rule;
 		if ($this->rule_set_exists()) {
-			$validator_rule = new jolt\form\validator\rule;
+			$validator_rule = new \jolt\form\validator\rule;
 			$validator_rule->set_field($field);
 
 			$this->rule_sets[$this->rule_set][$rule] = $validator_rule;
