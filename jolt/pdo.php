@@ -79,8 +79,9 @@ class pdo extends \PDO {
 	}
 
 	public function save(\jolt\model $model) {
-		$table = strtolower(get_class($model));
-		$table_bits = end(explode('\\', $table));
+		$table_class = strtolower(get_class($model));
+		$table_bits = explode('\\', $table_class);
+		$table = end($table_bits);
 
 		$is_insert = false;
 
@@ -110,7 +111,7 @@ class pdo extends \PDO {
 			if (isset($model->created)) {
 				unset($values['created']);
 			}
-			
+
 			$members = array_keys($values);
 			$named_parameters = array_map(function($v) {
 				return ($v.' = :'.$v);
