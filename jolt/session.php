@@ -134,7 +134,7 @@ class session {
 	public function read($id) {
 		$pdo = $this->check_pdo();
 
-		$session = $pdo->select_one('SELECT * FROM `session` WHERE id = :id', array(':id' => $id));
+		$session = $pdo->select_one('SELECT * FROM session WHERE id = :id', array(':id' => $id));
 		if (is_object($session) && property_exists($session, 'data')) {
 			if ($session->agent_hash !== $this->agent_hash) {
 				$this->destroy();
