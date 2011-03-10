@@ -87,6 +87,13 @@ class model {
 		return $this;
 	}
 
+	public function load(array $model) {
+		foreach ($model as $k => $v) {
+			$this->__set($k, $v);
+		}
+		return $this;
+	}
+
 	public function disable() {
 		$this->set_status(self::status_disabled);
 		return $this;
