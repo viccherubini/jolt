@@ -80,6 +80,8 @@ class pdo extends \PDO {
 
 	public function save(\jolt\model $model) {
 		$table = strtolower(get_class($model));
+		$table_bits = end(explode('\\', $table));
+
 		$is_insert = false;
 
 		if (!$model->is_saved()) {
