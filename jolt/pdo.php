@@ -64,7 +64,7 @@ class pdo extends \PDO {
 			return false;
 		}
 
-		$table = get_class($model);
+		$table = $this->get_table(get_class($model));
 		$query = 'DELETE FROM '.$table.' WHERE id = :id';
 
 		$modified = $this->modify($query, array('id' => $model->get_id()));
@@ -79,11 +79,8 @@ class pdo extends \PDO {
 	}
 
 	public function save(\jolt\model $model) {
-		$table_class = strtolower(get_class($model));
-		$table_bits = explode('\\', $table_class);
-		$table = end($table_bits);
-
 		$is_insert = false;
+		$table = $this->get_table(get_class($model));
 
 		if (!$model->is_saved()) {
 			if (isset($model->created)) {
@@ -171,6 +168,14 @@ class pdo extends \PDO {
 		}
 
 		return $stmt;
+	}
+
+	private function get_table($class) {
+		$table_class = strtolower($class);
+		$table_bits = explode('\\', $table_class);
+		$table = end($table_bits);
+
+		return $table;
 	}
 
 }
