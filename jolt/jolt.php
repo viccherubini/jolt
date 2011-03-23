@@ -49,7 +49,8 @@ class jolt {
 	public function execute($request_method=NULL, $path=NULL) {
 		$settings = $this->settings;
 
-		$this->router->set_route_parameter($settings->route_parameter);
+		$this->router
+			->set_route_parameter($settings->route_parameter);
 
 		$this->view
 			->set_css_path($settings->css_path)
@@ -62,10 +63,12 @@ class jolt {
 			->set_view_path($settings->view_path);
 
 		if (!is_null($request_method)) {
-			$this->router->set_request_method($request_method);
+			$this->router
+				->set_request_method($request_method);
 		}
 
-		$route = $this->router->execute($path);
+		$route = $this->router
+			->execute($path);
 		$this->dispatcher
 			->attach_locator($this->controller_locator)
 			->attach_route($route)
@@ -73,8 +76,14 @@ class jolt {
 			->attach_view($this->view)
 			->execute();
 
-		$this->client->attach_controller($this->dispatcher->get_controller());
+		$this->client
+			->attach_controller($this->dispatcher->get_controller());
 		return $this->client;
+	}
+
+	public function get_controller() {
+		return $this->dispatcher
+			->get_controller();
 	}
 
 	public function get_router() {
