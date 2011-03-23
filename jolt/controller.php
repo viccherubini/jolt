@@ -83,11 +83,12 @@ class controller {
 		}
 
 		ob_start();
+			$init_executed_successfully = true;
 			if (method_exists($this, 'init')) {
-				$this->init();
+				$init_executed_successfully = $this->init();
 			}
 
-			if ($action->isPublic()) {
+			if ($init_executed_successfully && $action->isPublic()) {
 				if ($action->isStatic()) {
 					$action->invokeArgs(NULL, $argv);
 				} else {
@@ -100,6 +101,10 @@ class controller {
 			$this->rendered_controller = $rendered_controller;
 		} else {
 			$this->rendered_controller = $this->rendered_view;
+		}
+
+		if (method_exists($this, 'shutdown')) {
+			$this->shutdown();
 		}
 
 		return $this->rendered_controller;
