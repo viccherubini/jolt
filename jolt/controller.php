@@ -209,6 +209,21 @@ class controller {
 		return $_POST;
 	}
 
+	public function get_input_params($key=NULL) {
+		$input_vars = array();
+		$input_stream = file_get_contents('php://input');
+
+		if (!empty($input_stream)) {
+			parse_str($input_stream, $input_vars);
+			if (array_key_exists($key, $input_vars)) {
+				return $input_vars[$key];
+			} else {
+				return NULL;
+			}
+		}
+		return $input_vars;
+	}
+
 	public function get_view() {
 		return $this->view;
 	}
