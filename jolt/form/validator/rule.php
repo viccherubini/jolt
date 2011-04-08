@@ -43,7 +43,7 @@ class rule {
 		$is_valid = true;
 		foreach ($this->rules as $op => $rule) {
 			$op_method = 'op_' . strtolower($op);
-			if (method_exists($this, $op_method) && !$this->$op_method($rule, $value) ) {
+			if (method_exists($this, $op_method) && !$this->$op_method($rule, $value)) {
 				$is_valid = false;
 				if (array_key_exists($op, $this->errors)) {
 					if ('minlength' === $op || 'maxlength' === $op) {
@@ -103,10 +103,7 @@ class rule {
 	}
 
 	private function op_nonzero($nonzero, $value) {
-		if (!is_numeric($value)) {
-			$value = (int)$value;
-		}
-
+		$value = (int)$value;
 		if (0 === $value) {
 			return false;
 		}
