@@ -108,7 +108,7 @@ class form extends form_controller {
 			if (!is_null($exception)) {
 				throw new $exception($error, $this);
 			} else {
-				throw new jolt_exception($error);
+				throw new \jolt\exception($error);
 			}
 		}
 
