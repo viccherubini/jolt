@@ -87,6 +87,16 @@ class model {
 		return $this;
 	}
 
+	public function merge(\jolt\model $model) {
+		$ext_model_values = $model->get_values();
+		foreach ($ext_model_values as $member => $value) {
+			if (isset($this->$member) && empty($this->$member)) {
+				$this->__set($member, $value);
+			}
+		}
+		return $this;
+	}
+
 	public function load(array $model) {
 		foreach ($model as $k => $v) {
 			$this->__set($k, $v);
