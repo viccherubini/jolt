@@ -54,6 +54,8 @@ class client {
 			header('X-Framework: Jolt '.JOLT_VERSION);
 		}
 
+		header('X-ASCII-Dick: ())==========D');
+
 		foreach ($headers as $complete_header) {
 			foreach ($controller_headers as $controller_header => $controller_header_value) {
 				$controller_header = trim($controller_header);
