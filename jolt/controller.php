@@ -203,7 +203,7 @@ class controller {
 			if (array_key_exists($key, $_POST)) {
 				return $_POST[$key];
 			} else {
-				return NULL;
+				return array();
 			}
 		}
 		return $_POST;
@@ -215,10 +215,12 @@ class controller {
 
 		if (!empty($input_stream)) {
 			parse_str($input_stream, $input_vars);
-			if (array_key_exists($key, $input_vars)) {
-				return $input_vars[$key];
-			} else {
-				return NULL;
+			if (!empty($key)) {
+				if (array_key_exists($key, $input_vars)) {
+					return $input_vars[$key];
+				} else {
+					return array();
+				}
 			}
 		}
 		return $input_vars;
