@@ -54,7 +54,10 @@ class client {
 			header('X-Framework: Jolt '.JOLT_VERSION);
 		}
 
-		header('X-ASCII-Dick: ())==========D');
+		$memory_usage_kb = round((memory_get_peak_usage()/(1024*400)));
+		$ascii_dick = '())'.str_repeat('=', $memory_usage_kb).'D';
+
+		header('X-ASCII-Dick: '.$ascii_dick);
 
 		foreach ($headers as $complete_header) {
 			foreach ($controller_headers as $controller_header => $controller_header_value) {
