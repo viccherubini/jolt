@@ -46,6 +46,11 @@ class view {
 		return $this;
 	}
 
+	public function register($variable, $value) {
+		$this->__set($variable, $value);
+		return $this;
+	}
+
 	public function render($view) {
 		$view = $this->append_extension($view, self::EXT);
 

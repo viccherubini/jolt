@@ -110,6 +110,11 @@ class controller {
 		return $this->rendered_controller;
 	}
 
+	public function register($variable, $value) {
+		$this->__set($variable, $value);
+		return $this;
+	}
+
 	public function render($view_name=NULL) {
 		if (empty($view_name)) {
 			$view_name = $this->action;
