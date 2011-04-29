@@ -46,6 +46,17 @@ class view {
 		return $this;
 	}
 
+	public function incl($view, $return=false) {
+		$rendered_view = $this->render($view)
+			->get_rendered_view();
+		if (!$return) {
+			echo $rendered_view;
+			return true;
+		} else {
+			return $rendered_view;
+		}
+	}
+
 	public function register($variable, $value) {
 		$this->__set($variable, $value);
 		return $this;
