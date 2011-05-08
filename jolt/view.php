@@ -17,9 +17,10 @@ class view {
 
 	private $variables = array();
 	private $javascripts = array();
+	private $css = array();
 	private $blocks = array();
 
-	const EXT = '.phtml';
+	const ext = '.phtml';
 
 	public function __construct() {
 
@@ -63,7 +64,7 @@ class view {
 	}
 
 	public function render($view) {
-		$view = $this->append_extension($view, self::EXT);
+		$view = $this->append_extension($view, self::ext);
 
 		// Find the view file
 		$view_file = $this->view_path . $view;
@@ -158,6 +159,16 @@ class view {
 		return $script_tag;
 	}
 
+	public function include_css() {
+		$css = $this->get_css();
+
+		$included_css = NULL;
+		foreach ($css as $css_tag) {
+			$included_css .= $css_tag;
+		}
+		return $included_css;
+	}
+
 	public function include_javascript($type='script') {
 		$javascripts = $this->get_javascripts();
 
@@ -168,6 +179,11 @@ class view {
 			}
 		}
 		return $included_javascript;
+	}
+
+	public function register_css($css_file, $media='screen', $local_file=true) {
+		$this->css[] = $this->css($css_file, $media, $local_file);
+		return $this;
 	}
 
 	public function register_javascript($javascript_file, $javascript_class=NULL) {
@@ -302,6 +318,10 @@ class view {
 
 	public function get_variables() {
 		return $this->variables;
+	}
+
+	public function get_css() {
+		return $this->css;
 	}
 
 	public function get_javascripts() {
