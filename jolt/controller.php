@@ -139,8 +139,8 @@ class controller {
 		return $rendered_view;
 	}
 
-	public function url($path, $secure=false) {
-		return $this->get_view()->url($path, $secure);
+	public function url($path, $parameters=array(), $secure=false) {
+		return $this->get_view()->url($path, $parameters, $secure);
 	}
 
 	public function set_action($action) {
