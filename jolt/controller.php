@@ -12,8 +12,9 @@ class controller {
 	private $response_code = 200;
 	private $view = NULL;
 
-	private $headers = array();
 	private $blocks = array();
+	private $headers = array();
+	private $input_params = array();
 
 	const EXT = '.php';
 	const VIEWEXT = '.phtml';
@@ -215,20 +216,22 @@ class controller {
 	}
 
 	public function get_input_params($key=NULL) {
-		$input_vars = array();
-		$input_stream = file_get_contents('php://input');
+		// The input stream is stored locally because once it is accessed through php://input,
+		// it can't be accessed again.
+		if (0 === count($this->input_params)) {
+			$this->input_params = array();
+			$input_stream = file_get_contents('php://input');
 
-		if (!empty($input_stream)) {
-			parse_str($input_stream, $input_vars);
-			if (!empty($key)) {
-				if (array_key_exists($key, $input_vars)) {
-					return $input_vars[$key];
-				} else {
-					return array();
-				}
+			parse_str($input_stream, $this->input_params);
+		}
+
+		if (!empty($key)) {
+			if (array_key_exists($key, $this->input_params)) {
+				return $this->input_params[$key];
 			}
 		}
-		return $input_vars;
+
+		return $this->input_params;
 	}
 
 	public function get_view() {
