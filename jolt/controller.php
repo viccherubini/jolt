@@ -96,16 +96,16 @@ class controller {
 					$action->invokeArgs($this, $argv);
 				}
 			}
+
+			if (method_exists($this, 'shutdown')) {
+				$this->shutdown();
+			}
 		$rendered_controller = ob_get_clean();
 
 		if (!empty($rendered_controller)) {
 			$this->rendered_controller = $rendered_controller;
 		} else {
 			$this->rendered_controller = $this->rendered_view;
-		}
-
-		if (method_exists($this, 'shutdown')) {
-			$this->shutdown();
 		}
 
 		return $this->rendered_controller;
