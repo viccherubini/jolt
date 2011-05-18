@@ -204,6 +204,17 @@ class controller {
 		return $this->response_code;
 	}
 
+	public function get_get_params($key=NULL) {
+		if (!empty($key)) {
+			if (array_key_exists($key, $_GET)) {
+				return $_GET[$key];
+			} else {
+				return array();
+			}
+		}
+		return $_GET;
+	}
+
 	public function get_post_params($key=NULL) {
 		if (!empty($key)) {
 			if (array_key_exists($key, $_POST)) {
