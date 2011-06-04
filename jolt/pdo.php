@@ -65,7 +65,7 @@ class pdo extends \PDO {
 		}
 
 		$table = $this->get_table(get_class($model));
-		$query = 'DELETE FROM '.$table.' WHERE id = :id';
+		$query = 'delete from '.$table.' where id = :id';
 
 		$modified = $this->modify($query, array('id' => $model->get_id()));
 		return $modified;
@@ -96,7 +96,7 @@ class pdo extends \PDO {
 			}, $members);
 			$named_parameters_string = implode(',', $named_parameters);
 
-			$query = 'INSERT INTO '.$table.'('.$members_string.') VALUES ('.$named_parameters_string.')';
+			$query = 'insert into '.$table.'('.$members_string.') values ('.$named_parameters_string.')';
 			$is_insert = true;
 		} else {
 			if (isset($model->updated)) {
@@ -115,7 +115,7 @@ class pdo extends \PDO {
 			}, $members);
 			$named_parameters_string = implode(',', $named_parameters);
 
-			$query = 'UPDATE '.$table.' SET '.$named_parameters_string.' WHERE id = :pid';
+			$query = 'update '.$table.' set '.$named_parameters_string.' where id = :pid';
 			$values['pid'] = $values['id'];
 		}
 
