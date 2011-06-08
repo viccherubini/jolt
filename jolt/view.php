@@ -159,6 +159,10 @@ class view {
 		return $script_tag;
 	}
 
+	public function js($javascript_file, $local_file=true) {
+		return $this->javascript($javascript_file, $local_file);
+	}
+
 	public function include_css() {
 		$css = $this->get_css();
 
