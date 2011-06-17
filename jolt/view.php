@@ -85,9 +85,8 @@ class view {
 	}
 
 	public function css($css_file, $media='screen', $local_file=true) {
-		$css_file = $this->append_extension($css_file, '.css');
-
 		if ($local_file) {
+			$css_file = $this->append_extension($css_file, '.css');
 			$root_url = $this->get_root_url();
 			$css_file = $root_url.$this->css_path.$css_file;
 		}
