@@ -7,6 +7,7 @@ class controller {
 
 	private $action = NULL;
 	private $content_type = 'text/html';
+	private $http_accept_type = 'text/html';
 	private $rendered_controller = NULL;
 	private $rendered_view = NULL;
 	private $response_code = 200;
@@ -78,6 +79,8 @@ class controller {
 			throw new \jolt\exception('Controller action method '.$this->action.' not actual member of controller class.');
 		}
 
+		$this->parse_accept_type();
+		
 		$param_count = $action->getNumberOfRequiredParameters();
 		if ($param_count != $argc && $param_count > $argc) {
 			$argv = array_pad($argv, $param_count, NULL);
@@ -247,6 +250,34 @@ class controller {
 
 	public function get_view() {
 		return $this->view;
+	}
+	
+	public function is_accept_type_html() {
+		return ('text/html' === $this->http_accept_type);
+	}
+	
+	public function is_accept_type_json() {
+		return ('text/json' === $this->http_accept_type);
+	}
+	
+	public function is_accept_type_xml() {
+		$xml_accept_types = array('text/xml', 'application/xml', 'application/xhtml+xml');
+		return (in_array($this->http_accept_type, $xml_accept_types));
+	}
+	
+	
+
+	private function parse_accept_type() {
+		// Determine the content type from the headers
+		$http_accept = filter_input(INPUT_SERVER, 'HTTP_ACCEPT');
+		$http_accept_bits = explode(',', $http_accept);
+		
+		if (count($http_accept_bits) > 0) {
+			// First element is the one we're interersted in
+			$this->http_accept_type = trim(strtolower($http_accept_bits[0]));
+		}
+		
+		return $this;
 	}
 
 	private function check_view() {
