@@ -11,6 +11,7 @@ class controller {
 	private $rendered_controller = NULL;
 	private $rendered_view = NULL;
 	private $response_code = 200;
+	private $route = NULL;
 	private $view = NULL;
 
 	private $blocks = array();
@@ -161,6 +162,11 @@ class controller {
 		$this->response_code = intval($response_code);
 		return $this;
 	}
+	
+	public function set_route(\jolt\route $route) {
+		$this->route = $route;
+		return $this;
+	}
 
 	public function get_action() {
 		return $this->action;
@@ -205,6 +211,10 @@ class controller {
 
 	public function get_response_code() {
 		return $this->response_code;
+	}
+	
+	public function get_route() {
+		return $this->route;
 	}
 
 	public function get_get_params($key=NULL) {
