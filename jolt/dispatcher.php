@@ -53,25 +53,35 @@ class dispatcher {
 		$settings = $this->check_settings();
 		$view = $this->check_view();
 
-		$controller = $route->get_controller();
+		// POSIX Systems Only
+		$initial_controller = $route->get_controller();
+		$basename_controller = basename($initial_controller);
+
+		$controller_directory = null;
+		if ($initial_controller !== $basename_controller) {
+			$controller_directory = dirname($initial_controller).DIRECTORY_SEPARATOR;
+		}
 
 		// If it's a fully namespaced controller, explode everything off
 		// and get the last element, that's the name of the file.
-		$controller_bits = explode('\\', $controller);
+		$controller_bits = explode('\\', $basename_controller);
 		$controller = end($controller_bits);
 
-		$controller_path = $settings->controller_path;
+		$controller_path = $settings->controller_path.$controller_directory;
 		$controller_path_length = strlen($controller_path);
 		if ($controller_path_length > 0 && $controller_path[$controller_path_length-1] != DIRECTORY_SEPARATOR) {
 			$controller_path .= DIRECTORY_SEPARATOR;
 		}
 
 		$controller_path .= $controller.self::EXT;
-		$controller = $this->locator->find($controller_path, $route->get_controller());
+		$controller_class = basename($route->get_controller());
+		
+		$controller = $this->locator->find($controller_path, $controller_class);
 
 		try {
 			$controller->attach_view($view)
 				->set_action($route->get_action())
+				->set_route($route)
 				->execute($route->get_argv());
 		} catch (\jolt\redirect_exception $e) {
 			// Set the right redirection information
