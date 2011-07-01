@@ -191,11 +191,21 @@ class view {
 
 	public function register_javascript($javascript_file, $javascript_class=NULL) {
 		$javascript = array();
-		$javascript['script'] = $this->javascript($javascript_file);
-		if (!empty($javascript_class)) {
-			$javascript['init'] = '(new '.$javascript_class.'().init());';
+		
+		if (is_array($javascript_file)) {
+			$javascript_source = NULL;
+			foreach ($javascript_file as $var => $value) {
+				$javascript_source .= 'var '.$var.'='."'".$value."';";
+			}
+			
+			$javascript['script'] = sprintf('<script type="text/javascript">%s</script>%s', $javascript_source, PHP_EOL);
+		} else {
+			$javascript['script'] = $this->javascript($javascript_file);
+			if (!empty($javascript_class)) {
+				$javascript['init'] = '(new '.$javascript_class.'().init());';
+			}
 		}
-
+		
 		$this->javascripts[] = $javascript;
 		return $this;
 	}
