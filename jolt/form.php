@@ -8,13 +8,13 @@ require_once('jolt/form_controller.php');
 
 class form extends form_controller {
 
-	private $exception = NULL;
-	private $loader = NULL;
-	private $validator = NULL;
-	private $writer = NULL;
+	private $exception = null;
+	private $loader = null;
+	private $validator = null;
+	private $writer = null;
 
 	public function __construct() {
-
+		
 	}
 
 	public function __destruct() {
@@ -39,6 +39,35 @@ class form extends form_controller {
 	public function attach_validator(\jolt\form\validator $validator) {
 		$this->validator = $validator;
 		return $this;
+	}
+	
+	public function render_messages() {
+		$single_message_template = '<li>%s</li>';
+		$overall_message_template = '<div class="messages"><ul class="%s">%s</ul></div>';
+		
+		$html = null;
+		$class = null;
+		$messages = array();
+		
+		$message = $this->get_message();
+		$errors = $this->get_errors();
+		
+		if (is_array($errors) && count($errors) > 0) {
+			$messages = $errors;
+			$class = 'error';
+		} elseif (!empty($message)) {
+			$messages = array($message);
+			$class = 'general';
+		}
+		
+		if (count($messages) > 0) {
+			$html = array_reduce($messages, function($html, $message) use ($single_message_template) {
+				return ($html .= sprintf($single_message_template, $message));
+			});
+			$html = sprintf($overall_message_template, $class, $html);
+		}
+		
+		return $html;
 	}
 
 	public function load() {
