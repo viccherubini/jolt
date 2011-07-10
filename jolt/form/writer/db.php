@@ -25,10 +25,6 @@ class db extends \jolt\form\writer {
 		}
 
 		$data = $this->get_data();
-		if (empty($data) || 0 === count($data)) {
-			return false;
-		}
-
 		$id = $this->get_id();
 		if (empty($id)) {
 			return false;
@@ -42,7 +38,7 @@ class db extends \jolt\form\writer {
 		$data_json = json_encode($data);
 		$errors_json = json_encode($errors);
 
-		$pdo->modify('INSERT INTO '.$table.' (created, id, name, data, errors, status) VALUES (:created, :id, :name, :data, :errors, :status)',
+		$pdo->modify('insert into '.$table.' (created, id, name, data, errors, status) values (:created, :id, :name, :data, :errors, :status)',
 			array('created' => $created, 'id' => $id, 'name' => $name, 'data' => $data_json, 'errors' => $errors_json, 'status' => 1));
 
 		return true;

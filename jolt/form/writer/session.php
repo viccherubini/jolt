@@ -22,10 +22,6 @@ class session extends \jolt\form\writer {
 		}
 
 		$data = $this->get_data();
-		if (empty($data) || 0 === count($data)) {
-			return false;
-		}
-
 		$id = $this->get_id();
 		if (empty($id)) {
 			return false;

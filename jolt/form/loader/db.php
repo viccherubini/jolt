@@ -34,7 +34,7 @@ class db extends \jolt\form\loader {
 		}
 
 		$table = $this->get_table();
-		$form_data = $pdo->select_one('SELECT form_id, data, errors FROM '.$table.' WHERE id = :id AND name = :name AND status = :status',
+		$form_data = $pdo->select_one('select form_id, data, errors from '.$table.' where id = :id and name = :name and status = :status',
 			array(':id' => $id, ':name' => $name, ':status' => 1));
 
 		$form_data = $stmt->fetchObject();
@@ -44,7 +44,7 @@ class db extends \jolt\form\loader {
 
 		$form_id = $form_data->form_id;
 
-		$pdo->modify('UPDATE '.$table.' SET status = :status WHERE form_id = :form_id',
+		$pdo->modify('update '.$table.' set status = :status where form_id = :form_id',
 			array(':status' => 0, ':form_id' => $form_id));
 
 		$data = json_decode($form_data->data, true);

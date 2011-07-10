@@ -30,7 +30,7 @@ class form extends form_controller {
 		$this->loader = $loader;
 		return $this;
 	}
-
+	
 	public function attach_writer(\jolt\form\writer $writer) {
 		$this->writer = $writer;
 		return $this;
@@ -113,6 +113,16 @@ class form extends form_controller {
 		}
 
 		return true;
+	}
+	
+	public function set_response($response) {
+		if (is_object($response)) {
+			if ($response->has_errors()) {
+				$this->set_errors($response->errors);
+			}
+		}
+		
+		return $this;
 	}
 
 	public function get_exception() {

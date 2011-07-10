@@ -11,6 +11,8 @@ abstract class form_controller {
 	private $data = array();
 	private $errors = array();
 
+	private $message = null;
+
 	public function __construct() {
 
 	}
@@ -65,6 +67,11 @@ abstract class form_controller {
 		$this->errors = $errors;
 		return $this;
 	}
+	
+	public function set_message($message) {
+		$this->message = trim($message);
+		return $this;
+	}
 
 	public function get_id() {
 		return $this->id;
@@ -88,6 +95,10 @@ abstract class form_controller {
 
 	public function get_errors_count() {
 		return count($this->errors);
+	}
+	
+	public function get_message() {
+		return $this->message;
 	}
 
 }
