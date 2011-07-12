@@ -149,11 +149,11 @@ class controller {
 	}
 	
 	public function get($key, $default=NULL) {
-		return $this->get_param_value($key, '_GET', $default);
+		return $this->get_superglobal_value($key, $_GET, $default);
 	}
 	
 	public function post($key, $default=NULL) {
-		return $this->get_param_value($key, '_POST', $default);
+		return $this->get_superglobal_value($key, $_POST, $default);
 	}
 
 	public function set_action($action) {
@@ -285,12 +285,11 @@ class controller {
 	
 	
 	
-	private function get_param_value($key, $param, $default) {
-		$struct = $$param;
+	private function get_superglobal_value($key, $superglobal, $default) {
 		$return = $default;
 		
-		if (is_array($struct) && array_key_exists($key, $struct)) {
-			$return = $struct[$key];
+		if (is_array($superglobal) && array_key_exists($key, $superglobal)) {
+			$return = $superglobal[$key];
 			
 			if (is_int($default)) {
 				$return = (int)$return;
