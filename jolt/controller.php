@@ -147,6 +147,14 @@ class controller {
 	public function url($path, $parameters=array(), $secure=false) {
 		return $this->get_view()->url($path, $parameters, $secure);
 	}
+	
+	public function get($key, $default=NULL) {
+		return $this->get_param_value($key, '_GET', $default);
+	}
+	
+	public function post($key, $default=NULL) {
+		return $this->get_param_value($key, '_POST', $default);
+	}
 
 	public function set_action($action) {
 		$this->action = trim($action);
@@ -276,7 +284,26 @@ class controller {
 	}
 	
 	
-
+	
+	private function get_param_value($key, $param, $default) {
+		$struct = $$param;
+		$return = $default;
+		
+		if (is_array($struct) && array_key_exists($key, $struct)) {
+			$return = $struct[$key];
+			
+			if (is_int($default)) {
+				$return = (int)$return;
+			} elseif (is_float($default)) {
+				$return = (float)$return;
+			} elseif (is_array($default)) {
+				$return = array($return);
+			}
+		}
+		
+		return $return;
+	}
+	
 	private function parse_accept_type() {
 		// Determine the content type from the headers
 		$http_accept = filter_input(INPUT_SERVER, 'HTTP_ACCEPT');
