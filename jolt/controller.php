@@ -296,7 +296,7 @@ class controller {
 			} elseif (is_float($default)) {
 				$return = (float)$return;
 			} elseif (is_array($default)) {
-				$return = array($return);
+				$return = (array)$return;
 			}
 		}
 		
