@@ -8,7 +8,7 @@ class vo {
 	private $_value_keys = array();
 
 	public function __construct($array=array()) {
-		if (is_array($array)) {
+		if (is_array($array) || is_object($array)) {
 			foreach ($array as $k => $v) {
 				$this->__set($k, $v);
 			}
