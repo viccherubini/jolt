@@ -97,9 +97,11 @@ class model {
 		return $this;
 	}
 
-	public function load(array $model) {
-		foreach ($model as $k => $v) {
-			$this->__set($k, $v);
+	public function load($model) {
+		if (is_array($model) || is_object($model)) {
+			foreach ($model as $k => $v) {
+				$this->__set($k, $v);
+			}
 		}
 		return $this;
 	}
