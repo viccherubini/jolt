@@ -154,6 +154,11 @@ class named extends \jolt\route {
 						switch ($route_chunk_value_type) {
 							case 'n': {
 								$matched = is_numeric($uri_chunk_value);
+								if (false !== strpos($uri_chunk_value, '.')) {
+									$uri_chunk_value = (float)$uri_chunk_value;
+								} else {
+									$uri_chunk_value = (int)$uri_chunk_value;
+								}
 								break;
 							}
 
