@@ -1,7 +1,5 @@
-<?php
-
+<?php namespace jolt\controller;
 declare(encoding='UTF-8');
-namespace jolt\controller;
 
 class locator {
 

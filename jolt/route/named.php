@@ -1,13 +1,11 @@
-<?php
-
+<?php namespace jolt\route;
 declare(encoding='UTF-8');
-namespace jolt\route;
 
 class named extends \jolt\route {
 
-	private $action = NULL;
-	private $controller = NULL;
-	private $request_method = NULL;
+	private $action = null;
+	private $controller = null;
+	private $request_method = null;
 
 	private $argv = array();
 	private $request_methods = array();
@@ -23,11 +21,11 @@ class named extends \jolt\route {
 	}
 
 	public function __destruct() {
-		$this->route = $this->controller = $this->action = NULL;
+		$this->route = $this->controller = $this->action = null;
 	}
 
 	public function set_action($action) {
-		$action = (!is_string($action) ? NULL : trim($action));
+		$action = (!is_string($action) ? null : trim($action));
 		if (empty($action)) {
 			throw new \jolt\exception('Named route action can not be empty.');
 		}
@@ -42,7 +40,7 @@ class named extends \jolt\route {
 	}
 
 	public function set_controller($controller) {
-		$controller = (!is_string($controller) ? NULL : trim($controller));
+		$controller = (!is_string($controller) ? null : trim($controller));
 		if (empty($controller)) {
 			throw new \jolt\exception('Named route controller can not be empty.');
 		}
@@ -52,7 +50,7 @@ class named extends \jolt\route {
 	}
 
 	public function set_request_method($request_method) {
-		$request_method = (!is_string($request_method) ? NULL : strtoupper(trim($request_method)));
+		$request_method = (!is_string($request_method) ? null : strtoupper(trim($request_method)));
 		if (!isset($this->request_methods[$request_method])) {
 			throw new \jolt\exception("Named route request method '".$request_method."' is invalid.");
 		}
@@ -140,12 +138,12 @@ class named extends \jolt\route {
 						$route_chunk_value_length = strlen($route_chunk_value);
 
 						if (0 !== $offset) {
-							$uri_chunk_value = trim(substr_replace($uri_chunk_value, NULL, 0, $offset));
+							$uri_chunk_value = trim(substr_replace($uri_chunk_value, null, 0, $offset));
 						}
 
 						if (($offset+2) < $route_chunk_value_length) {
 							$goto = strlen(substr($route_chunk_value, $offset+2));
-							$uri_chunk_value = substr_replace($uri_chunk_value, NULL, -$goto);
+							$uri_chunk_value = substr_replace($uri_chunk_value, null, -$goto);
 						}
 
 						// Now that we have the correct $uri_chunk_value values, let's make sure their types are correct.

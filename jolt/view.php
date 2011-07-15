@@ -1,19 +1,17 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class view {
 
-	private $css_path = NULL;
-	private $javascript_path = NULL;
-	private $images_path = NULL;
-	private $secure_url = NULL;
-	private $url = NULL;
+	private $css_path = null;
+	private $javascript_path = null;
+	private $images_path = null;
+	private $secure_url = null;
+	private $url = null;
 	private $use_rewrite = false;
-	private $view_path = NULL;
+	private $view_path = null;
 
-	private $rendered_view = NULL;
+	private $rendered_view = null;
 
 	private $variables = array();
 	private $javascripts = array();
@@ -39,7 +37,7 @@ class view {
 		if (array_key_exists($k, $this->variables)) {
 			return $this->variables[$k];
 		}
-		return NULL;
+		return null;
 	}
 
 	public function add_block($block_name, $block) {
@@ -95,23 +93,23 @@ class view {
 		return $link_tag;
 	}
 
-	public function dropdown($name, $values, $texts, $default=NULL, $attributes=NULL, $sanitize=true) {
-		$options = NULL;
+	public function dropdown($name, $values, $texts, $default=null, $attributes=null, $sanitize=true) {
+		$options = null;
 		$i = 0;
 
 		if (!is_array($values) || !is_array($texts) ) {
-			return NULL;
+			return null;
 		}
 
 		$values_length = count($values);
 		$texts_length = count($texts);
 		if (($values_length < 1 || $texts_length < 1) || ($values_length !== $texts_length)) {
-			return NULL;
+			return null;
 		}
 
 		foreach ($texts as $display) {
 			$value = $values[$i];
-			$selected = ($default === $value ? 'selected' : NULL);
+			$selected = ($default === $value ? 'selected' : null);
 
 			if ($sanitize) {
 				$value = $this->safe($value);
@@ -126,7 +124,7 @@ class view {
 		return $select;
 	}
 
-	public function href($url, $text, $tag_attributes=NULL, $local_url=true, $secure=false) {
+	public function href($url, $text, $tag_attributes=null, $local_url=true, $secure=false) {
 		if ($local_url) {
 			$url = $this->url($url, $secure);
 		}
@@ -136,7 +134,7 @@ class view {
 		return $href;
 	}
 
-	public function img($img_src, $alt_text=NULL, $tag_attributes=NULL, $local_file=true) {
+	public function img($img_src, $alt_text=null, $tag_attributes=null, $local_file=true) {
 		if ($local_file) {
 			$root_url = $this->get_root_url();
 			$img_src = $root_url.$this->images_path.$img_src;
@@ -165,7 +163,7 @@ class view {
 	public function include_css() {
 		$css = $this->get_css();
 
-		$included_css = NULL;
+		$included_css = null;
 		foreach ($css as $css_tag) {
 			$included_css .= $css_tag;
 		}
@@ -175,7 +173,7 @@ class view {
 	public function include_javascript($type='script') {
 		$javascripts = $this->get_javascripts();
 
-		$included_javascript = NULL;
+		$included_javascript = null;
 		foreach ($javascripts as $script) {
 			if (array_key_exists($type, $script)) {
 				$included_javascript .= $script[$type];
@@ -189,11 +187,11 @@ class view {
 		return $this;
 	}
 
-	public function register_javascript($javascript_file, $javascript_class=NULL) {
+	public function register_javascript($javascript_file, $javascript_class=null) {
 		$javascript = array();
 		
 		if (is_array($javascript_file)) {
-			$javascript_source = NULL;
+			$javascript_source = null;
 			foreach ($javascript_file as $var => $value) {
 				$javascript_source .= 'var '.$var.'='."'".$value."';";
 			}
@@ -214,7 +212,7 @@ class view {
 		$argc = func_num_args();
 		$argv = func_get_args();
 
-		$http_parameters = NULL;
+		$http_parameters = null;
 		$url_prefix = $this->get_url();
 		if ($argc > 0 && is_bool($argv[$argc-1])) {
 			$argc--;
@@ -290,7 +288,7 @@ class view {
 		if (array_key_exists($block_name, $this->blocks)) {
 			return $this->blocks[$block_name];
 		}
-		return NULL;
+		return null;
 	}
 
 	public function get_css_path() {
@@ -388,10 +386,10 @@ class view {
 
 	private function make_url_parameters($argc, $argv) {
 		if (0 == $argc) {
-			return NULL;
+			return null;
 		}
 
-		$route = NULL;
+		$route = null;
 		$root = '';
 		if ('/' != $argv[0]) {
 			$root = $argv[0];

@@ -1,7 +1,6 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
+
 use \jolt\controller\locator as locator;
 
 require_once('jolt/controller/locator.php');
@@ -9,13 +8,13 @@ require_once('jolt/redirect_exception.php');
 
 class dispatcher {
 
-	private $controller = NULL;
-	private $controller_file = NULL;
-	private $locator = NULL;
-	private $rendered_controller = NULL;
-	private $route = NULL;
-	private $settings = NULL;
-	private $view = NULL;
+	private $controller = null;
+	private $controller_file = null;
+	private $locator = null;
+	private $rendered_controller = null;
+	private $route = null;
+	private $settings = null;
+	private $view = null;
 
 	const EXT = '.php';
 

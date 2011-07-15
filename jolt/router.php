@@ -1,14 +1,12 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class router {
 
-	private $http_404_route = NULL;
-	private $path = NULL;
-	private $forced_route = NULL;
-	private $request_method = NULL;
+	private $http_404_route = null;
+	private $path = null;
+	private $forced_route = null;
+	private $request_method = null;
 	private $route_parameter = '__u';
 
 	private $parameters = array();
@@ -57,7 +55,7 @@ class router {
 		return $this;
 	}
 
-	public function execute($path=NULL) {
+	public function execute($path=null) {
 		if (0 === count($this->routes)) {
 			throw new \jolt\exception('No routes have been attached to the Router.');
 		}
@@ -70,7 +68,7 @@ class router {
 			throw new \jolt\exception('A 404 Route has not been attached to the Router.');
 		}
 
-		$matched_route = NULL;
+		$matched_route = null;
 		foreach ($this->routes as $route) {
 			if (is_null($matched_route)) {
 				$route_request_method = $route->get_request_method();
@@ -129,7 +127,7 @@ class router {
 	}
 
 	private function extract_path() {
-		$path = NULL;
+		$path = null;
 
 		if (!empty($this->forced_route)) {
 			$path = $this->forced_route;

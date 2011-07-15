@@ -1,20 +1,18 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class session {
 
-	private static $instance = NULL;
+	private static $instance = null;
 
-	private $pdo = NULL;
-	private $save_handler = NULL;
+	private $pdo = null;
+	private $save_handler = null;
 
-	private $agent = NULL;
-	private $agent_hash = NULL;
-	private $id = NULL;
-	private $ip = NULL;
-	private $session_name = NULL;
+	private $agent = null;
+	private $agent_hash = null;
+	private $id = null;
+	private $ip = null;
+	private $session_name = null;
 
 	private $started = false;
 
@@ -35,7 +33,7 @@ class session {
 		if (array_key_exists($k, $_SESSION)) {
 			return $_SESSION[$k];
 		}
-		return NULL;
+		return null;
 	}
 
 	public function __isset($k) {
@@ -50,7 +48,7 @@ class session {
 	}
 
 	public static function get_instance() {
-		if (NULL === self::$instance) {
+		if (null === self::$instance) {
 			self::$instance = new self;
 		}
 		return self::$instance;
@@ -62,7 +60,7 @@ class session {
 		return $this;
 	}
 
-	public function start($session_name=NULL) {
+	public function start($session_name=null) {
 		$started = false;
 
 		if (php_sapi_name() != 'cli') {
@@ -70,7 +68,7 @@ class session {
 				if (!empty($session_name)) {
 					$matched_alpha_num = preg_match('/^[a-zA-Z0-9]+$/', $session_name);
 					if (!$matched_alpha_num || is_numeric($session_name)) {
-						$session_name = NULL;
+						$session_name = null;
 					}
 				}
 
@@ -138,14 +136,14 @@ class session {
 		if (is_object($session) && property_exists($session, 'data')) {
 			if ($session->agent_hash !== $this->agent_hash) {
 				$this->destroy();
-				return NULL;
+				return null;
 			} else {
 				$this->set_agent($session->agent)
 					->set_agent_hash($session->agent_hash);
 				return $session->data;
 			}
 		}
-		return NULL;
+		return null;
 	}
 
 	public function write($id, $data) {

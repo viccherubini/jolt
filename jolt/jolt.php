@@ -1,16 +1,14 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class jolt {
 
-	private $client = NULL;
-	private $controller_locator = NULL;
-	private $dispatcher = NULL;
-	private $router = NULL;
-	private $settings = NULL;
-	private $view = NULL;
+	private $client = null;
+	private $controller_locator = null;
+	private $dispatcher = null;
+	private $router = null;
+	private $settings = null;
+	private $view = null;
 
 	public function __construct() {
 
@@ -46,7 +44,7 @@ class jolt {
 		return $this;
 	}
 
-	public function execute($request_method=NULL, $path=NULL) {
+	public function execute($request_method=null, $path=null) {
 		$settings = $this->settings;
 
 		$this->router

@@ -1,13 +1,11 @@
-<?php
-
+<?php namespace jolt\form;
 declare(encoding='UTF-8');
-namespace jolt\form;
 
 require_once('jolt/form_controller.php');
 
 class writer extends \jolt\form_controller {
 
-	private $session = NULL;
+	private $session = null;
 	private $key = 'jolt.form';
 
 	public function attach_session(\jolt\session $session) {

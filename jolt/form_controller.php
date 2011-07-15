@@ -1,7 +1,5 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 abstract class form_controller {
 

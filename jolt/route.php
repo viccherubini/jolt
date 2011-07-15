@@ -1,11 +1,9 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 abstract class route {
 
-	private $route = NULL;
+	private $route = null;
 
 	public function __construct() {
 

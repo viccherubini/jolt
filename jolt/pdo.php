@@ -1,17 +1,15 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class pdo extends \PDO {
 
-	private $stmt = NULL;
-	private $save_stmt = NULL;
+	private $stmt = null;
+	private $save_stmt = null;
 
-	private $object = NULL;
-	private $query_hash = NULL;
+	private $object = null;
+	private $query_hash = null;
 
-	public function __construct($dsn, $username=NULL, $password=NULL, $options=array()) {
+	public function __construct($dsn, $username=null, $password=null, $options=array()) {
 		parent::__construct($dsn, $username, $password, $options);
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		$this->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);

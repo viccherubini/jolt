@@ -1,18 +1,16 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class controller {
 
-	private $action = NULL;
+	private $action = null;
 	private $content_type = 'text/html';
 	private $http_accept_type = 'text/html';
-	private $rendered_controller = NULL;
-	private $rendered_view = NULL;
+	private $rendered_controller = null;
+	private $rendered_view = null;
 	private $response_code = 200;
-	private $route = NULL;
-	private $view = NULL;
+	private $route = null;
+	private $view = null;
 
 	private $blocks = array();
 	private $headers = array();
@@ -40,7 +38,7 @@ class controller {
 		if ($this->has_view()) {
 			return $this->view->$k;
 		}
-		return NULL;
+		return null;
 	}
 
 	public function add_block($block_name, $block) {
@@ -84,7 +82,7 @@ class controller {
 		
 		$param_count = $action->getNumberOfRequiredParameters();
 		if ($param_count != $argc && $param_count > $argc) {
-			$argv = array_pad($argv, $param_count, NULL);
+			$argv = array_pad($argv, $param_count, null);
 		}
 
 		ob_start();
@@ -95,7 +93,7 @@ class controller {
 
 			if ($init_executed_successfully && $action->isPublic()) {
 				if ($action->isStatic()) {
-					$action->invokeArgs(NULL, $argv);
+					$action->invokeArgs(null, $argv);
 				} else {
 					$action->invokeArgs($this, $argv);
 				}
@@ -120,7 +118,7 @@ class controller {
 		return $this;
 	}
 
-	public function render($view_name=NULL) {
+	public function render($view_name=null) {
 		if (empty($view_name)) {
 			$view_name = $this->action;
 		}
@@ -148,11 +146,11 @@ class controller {
 		return $this->get_view()->url($path, $parameters, $secure);
 	}
 	
-	public function get($key, $default=NULL, $expected=array()) {
+	public function get($key, $default=null, $expected=array()) {
 		return $this->get_superglobal_value($key, $_GET, $default, $expected);
 	}
 	
-	public function post($key, $default=NULL, $expected=array()) {
+	public function post($key, $default=null, $expected=array()) {
 		return $this->get_superglobal_value($key, $_POST, $default, $expected);
 	}
 
@@ -191,7 +189,7 @@ class controller {
 		if ($this->has_view()) {
 			return $this->view->get_block($block_name);
 		}
-		return NULL;
+		return null;
 	}
 
 	public function get_content_type() {
@@ -206,7 +204,7 @@ class controller {
 		if (isset($this->headers[$header])) {
 			return $this->headers[$header];
 		}
-		return NULL;
+		return null;
 	}
 
 	public function get_rendered_controller() {
@@ -225,7 +223,7 @@ class controller {
 		return $this->route;
 	}
 
-	public function get_get_params($key=NULL) {
+	public function get_get_params($key=null) {
 		if (!empty($key)) {
 			if (array_key_exists($key, $_GET)) {
 				return $_GET[$key];
@@ -236,7 +234,7 @@ class controller {
 		return $_GET;
 	}
 
-	public function get_post_params($key=NULL) {
+	public function get_post_params($key=null) {
 		if (!empty($key)) {
 			if (array_key_exists($key, $_POST)) {
 				return $_POST[$key];
@@ -247,7 +245,7 @@ class controller {
 		return $_POST;
 	}
 
-	public function get_input_params($key=NULL) {
+	public function get_input_params($key=null) {
 		// The input stream is stored locally because once it is accessed through php://input,
 		// it can't be accessed again.
 		if (0 === count($this->input_params)) {

@@ -1,7 +1,5 @@
-<?php
-
+<?php namespace jolt\form;
 declare(encoding='UTF-8');
-namespace jolt\form;
 
 require_once('jolt/form_controller.php');
 

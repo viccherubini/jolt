@@ -1,7 +1,5 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class model {
 
@@ -76,7 +74,7 @@ class model {
 		if (array_key_exists($k, $this->values)) {
 			return $this->values[$k];
 		}
-		return NULL;
+		return null;
 	}
 
 	public function copy(\jolt\model $model) {

@@ -1,7 +1,5 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class registry {
 
@@ -25,7 +23,7 @@ class registry {
 	}
 
 	public static function pop($name, $delete=false) {
-		$item = NULL;
+		$item = null;
 		if (array_key_exists($name, self::$registry)) {
 			$item = self::$registry[$name];
 		}

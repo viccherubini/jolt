@@ -1,7 +1,5 @@
-<?php
-
+<?php namespace jolt\route\named;
 declare(encoding='UTF-8');
-namespace jolt\route\named;
 
 class get extends \jolt\route\named {
 

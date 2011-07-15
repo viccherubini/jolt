@@ -1,14 +1,12 @@
-<?php
-
+<?php namespace jolt\form;
 declare(encoding='UTF-8');
-namespace jolt\form;
 
 require_once('jolt/form/validator/rule.php');
 
 class validator {
 
-	private $rule_set = NULL;
-	private $rule = NULL;
+	private $rule_set = null;
+	private $rule = null;
 
 	private $rule_sets = array();
 	private $errors = array();
@@ -86,7 +84,7 @@ class validator {
 		if (array_key_exists($this->rule_set, $this->errors)) {
 			return $this->errors[$this->rule_set];
 		}
-		return NULL;
+		return null;
 	}
 
 	public function is_empty() {

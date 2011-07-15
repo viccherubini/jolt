@@ -1,11 +1,9 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class redirect_exception extends \Exception {
 
-	private $location = NULL;
+	private $location = null;
 
 	public function __construct($location) {
 		parent::__construct('');

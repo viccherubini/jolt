@@ -1,14 +1,12 @@
-<?php
-
+<?php namespace jolt\form\validator;
 declare(encoding='UTF-8');
-namespace jolt\form\validator;
 
 class rule {
 
 	private $charset = 'UTF-8';
 
-	private $field = NULL;
-	private $error = NULL;
+	private $field = null;
+	private $error = null;
 
 	private $errors = array();
 	private $rules = array();

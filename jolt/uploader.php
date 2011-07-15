@@ -1,14 +1,12 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class uploader {
 
 	private $upload_data = array();
 
-	private $filename = NULL;
-	private $destination = NULL;
+	private $filename = null;
+	private $destination = null;
 
 	private $unique = true;
 	private $overwrite = false;
@@ -68,7 +66,7 @@ class uploader {
 			throw new \jolt\exception('The data attached to be uploaded can not be empty.');
 		}
 
-		$error = NULL;
+		$error = null;
 		switch ($upload_data['error']) {
 			case UPLOAD_ERR_INI_SIZE: {
 				$filesize = filesize($upload_data['tmp_name']);

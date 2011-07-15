@@ -1,11 +1,9 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class client {
 
-	private $controller = NULL;
+	private $controller = null;
 	private $headers = array();
 
 	public function __construct() {

@@ -1,7 +1,5 @@
-<?php
-
+<?php namespace jolt;
 declare(encoding='UTF-8');
-namespace jolt;
 
 class vo {
 
@@ -25,7 +23,7 @@ class vo {
 	}
 
 	public function __get($k) {
-		$retval = (!property_exists($this, $k) ? NULL : $this->$k);
+		$retval = (!property_exists($this, $k) ? null : $this->$k);
 		return $retval;
 	}
 
