@@ -5,8 +5,8 @@ namespace jolt;
 
 abstract class form_controller {
 
-	private $id = NULL;
-	private $name = NULL;
+	private $id = null;
+	private $name = null;
 
 	private $data = array();
 	private $errors = array();
@@ -22,8 +22,8 @@ abstract class form_controller {
 	}
 
 	public function reset() {
-		$this->id = NULL;
-		$this->name = NULL;
+		$this->id = null;
+		$this->name = null;
 
 		$this->data = array();
 		$this->errors = array();
@@ -38,14 +38,14 @@ abstract class form_controller {
 		if (array_key_exists($field, $this->errors)) {
 			return $this->errors[$field];
 		}
-		return NULL;
+		return null;
 	}
 
 	public function value($field) {
 		if (array_key_exists($field, $this->data)) {
 			return $this->data[$field];
 		}
-		return NULL;
+		return null;
 	}
 
 	public function set_id($id) {
@@ -58,13 +58,13 @@ abstract class form_controller {
 		return $this;
 	}
 
-	public function set_data(array $data) {
-		$this->data = $data;
+	public function set_data($data) {
+		$this->data = (array)$data;
 		return $this;
 	}
 
-	public function set_errors(array $errors) {
-		$this->errors = $errors;
+	public function set_errors($errors) {
+		$this->errors = (array)$errors;
 		return $this;
 	}
 	
