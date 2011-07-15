@@ -148,12 +148,12 @@ class controller {
 		return $this->get_view()->url($path, $parameters, $secure);
 	}
 	
-	public function get($key, $default=NULL) {
-		return $this->get_superglobal_value($key, $_GET, $default);
+	public function get($key, $default=NULL, $expected=array()) {
+		return $this->get_superglobal_value($key, $_GET, $default, $expected);
 	}
 	
-	public function post($key, $default=NULL) {
-		return $this->get_superglobal_value($key, $_POST, $default);
+	public function post($key, $default=NULL, $expected=array()) {
+		return $this->get_superglobal_value($key, $_POST, $default, $expected);
 	}
 
 	public function set_action($action) {
@@ -285,7 +285,7 @@ class controller {
 	
 	
 	
-	private function get_superglobal_value($key, $superglobal, $default) {
+	private function get_superglobal_value($key, $superglobal, $default, $expected) {
 		$return = $default;
 		
 		if (is_array($superglobal) && array_key_exists($key, $superglobal)) {
@@ -297,6 +297,16 @@ class controller {
 				$return = (float)$return;
 			} elseif (is_array($default)) {
 				$return = (array)$return;
+				
+				// Now, go through here and see if any of the keys in the expected are not in the return.
+				// If so, push them in there with their default values.
+				if (is_array($expected)) {
+					foreach ($expected as $k => $v) {
+						if (!array_key_exists($k, $return)) {
+							$return[$k] = $v;
+						}
+					}
+				}
 			}
 		}
 		
