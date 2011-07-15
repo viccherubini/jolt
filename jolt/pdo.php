@@ -14,6 +14,7 @@ class pdo extends \PDO {
 	public function __construct($dsn, $username=NULL, $password=NULL, $options=array()) {
 		parent::__construct($dsn, $username, $password, $options);
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		$this->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 	}
 
 	// Helper functions
@@ -51,6 +52,13 @@ class pdo extends \PDO {
 			->bind_parameters($this->stmt, $parameters);
 		$this->stmt->execute();
 		return $this->stmt;
+	}
+	
+	public function select_exists($query, $parameters=array()) {
+		$field_count = (int)$this->select($query, $parameters)
+			->fetchColumn(0);
+		
+		return (0 === $field_count ? false : true);
 	}
 
 	public function select_one($query, $parameters=array(), $object='stdClass') {
