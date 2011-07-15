@@ -298,14 +298,8 @@ class controller {
 			} elseif (is_array($default)) {
 				$return = (array)$return;
 				
-				// Now, go through here and see if any of the keys in the expected are not in the return.
-				// If so, push them in there with their default values.
 				if (is_array($expected)) {
-					foreach ($expected as $k => $v) {
-						if (!array_key_exists($k, $return)) {
-							$return[$k] = $v;
-						}
-					}
+					$return = array_merge($expected, $return);
 				}
 			}
 		}
