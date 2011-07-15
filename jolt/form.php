@@ -5,6 +5,8 @@ namespace jolt;
 use \jolt\form_controller;
 
 require_once('jolt/form_controller.php');
+require_once('jolt/form/loader.php');
+require_once('jolt/form/writer.php');
 
 class form extends form_controller {
 
@@ -42,32 +44,14 @@ class form extends form_controller {
 	}
 	
 	public function render_messages() {
-		$single_message_template = '<li>%s</li>';
-		$overall_message_template = '<div class="messages"><ul class="%s">%s</ul></div>';
-		
-		$html = null;
-		$class = null;
-		$messages = array();
-		
 		$message = $this->get_message();
-		$errors = $this->get_errors();
-		
-		if (is_array($errors) && count($errors) > 0) {
-			$messages = $errors;
-			$class = 'error';
-		} elseif (!empty($message)) {
-			$messages = array($message);
-			$class = 'general';
+		$message_html = null;
+		if (!empty($message)) {
+			$message_html_template = '<div class="messages"><ul class="error"><li>%s</li></ul></div>';
+			$message_html = sprintf($message_html_template, $this->get_message());
 		}
 		
-		if (count($messages) > 0) {
-			$html = array_reduce($messages, function($html, $message) use ($single_message_template) {
-				return ($html .= sprintf($single_message_template, $message));
-			});
-			$html = sprintf($overall_message_template, $class, $html);
-		}
-		
-		return $html;
+		return $message_html;
 	}
 
 	public function load() {
@@ -84,7 +68,8 @@ class form extends form_controller {
 		}
 
 		$this->set_data($this->loader->get_data())
-			->set_errors($this->loader->get_errors());
+			->set_errors($this->loader->get_errors())
+			->set_message($this->loader->get_message());
 
 		return true;
 	}
@@ -97,7 +82,8 @@ class form extends form_controller {
 		$this->writer->set_id($this->get_id())
 			->set_name($this->get_name())
 			->set_data($this->get_data())
-			->set_errors($this->get_errors());
+			->set_errors($this->get_errors())
+			->set_message($this->get_message());
 
 		$written = $this->writer->write();
 		return $written;
@@ -117,7 +103,7 @@ class form extends form_controller {
 
 		$rule_set = $this->validator->get_rule_set();
 		foreach ($rule_set as $field => $set) {
-			$value = NULL;
+			$value = null;
 			if (array_key_exists($field, $data)) {
 				$value = $data[$field];
 			}
@@ -130,7 +116,7 @@ class form extends form_controller {
 		if ($this->get_errors_count() > 0 ) {
 			$error = $this->validator->get_error();
 			if (empty($error)) {
-				$error = 'The form '.$name.' failed to validate.';
+				$error = "The form {$name} failed to validate.";
 			}
 
 			$exception = $this->exception;
@@ -149,6 +135,8 @@ class form extends form_controller {
 			if ($response->has_errors()) {
 				$this->set_errors($response->errors);
 			}
+			$this->set_message($response->message)
+				->set_data($response->content);
 		}
 		
 		return $this;
