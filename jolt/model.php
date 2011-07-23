@@ -16,9 +16,13 @@ class model {
 	const status_enabled = 1;
 	const status_disabled = 0;
 
-	public function __construct() {
+	public function __construct($model_data=null) {
 		if (!$this->is_compiled()) {
 			$this->compile();
+		}
+		
+		if (!is_null($model_data)) {
+			$this->load($model_data);
 		}
 	}
 
@@ -54,7 +58,7 @@ class model {
 		if (!$this->is_compiled()) {
 			$this->compile();
 		}
-
+		
 		if (array_key_exists($k, $this->members)) {
 			if ($this->is_type_int($k)) {
 				$v = (int)$v;
@@ -131,6 +135,15 @@ class model {
 	public function is_saved() {
 		return ($this->get_id() > 0);
 	}
+
+	public function is_disabled() {
+		return ($this->get_status() == self::status_disabled);
+	}
+	
+	public function is_enabled() {
+		return ($this->get_status() == self::status_enabled);
+	}
+
 
 	// Getters
 	public function get_members() {
