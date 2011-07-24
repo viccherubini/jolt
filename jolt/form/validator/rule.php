@@ -72,6 +72,14 @@ class rule {
 	public function get_errors() {
 		return $this->errors;
 	}
+	
+	private function op_array($array, $value) {
+		if (!is_array($value)) {
+			return false;
+		}
+		
+		return (count($value) > 0);
+	}
 
 	private function op_empty($empty, $value) {
 		if (empty($value)) {
