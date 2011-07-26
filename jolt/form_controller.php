@@ -18,6 +18,10 @@ abstract class form_controller {
 	public function __destruct() {
 		$this->reset();
 	}
+	
+	public function __get($k) {
+		return $this->value($k);
+	}
 
 	public function reset() {
 		$this->id = null;
