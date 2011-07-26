@@ -296,7 +296,7 @@ class controller {
 			} elseif (is_array($default)) {
 				$return = (array)$return;
 				
-				if (is_array($expected)) {
+				if (is_array($expected) && count($expected) > 0) {
 					$return = array_merge($expected, $return);
 				}
 			}
