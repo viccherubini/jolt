@@ -87,55 +87,12 @@ class form extends form_controller {
 		$written = $this->writer->write();
 		return $written;
 	}
-
-	public function validate() {
-		if (is_null($this->validator)) {
-			return false;
-		}
-
-		if ($this->validator->is_empty()) {
-			return true;
-		}
-
-		$name = $this->get_name();
-		$data = $this->get_data();
-
-		$rule_set = $this->validator->get_rule_set();
-		foreach ($rule_set as $field => $set) {
-			$value = null;
-			if (array_key_exists($field, $data)) {
-				$value = $data[$field];
-			}
-
-			if (!$set->is_valid($value)) {
-				$this->add_error($field, $set->get_error());
-			}
-		}
-
-		if ($this->get_errors_count() > 0 ) {
-			$error = $this->validator->get_error();
-			if (empty($error)) {
-				$error = "The form {$name} failed to validate.";
-			}
-
-			$exception = $this->exception;
-			if (!is_null($exception)) {
-				throw new $exception($error, $this);
-			} else {
-				throw new \jolt\exception($error);
-			}
-		}
-
-		return true;
-	}
 	
 	public function set_response($response) {
 		if (is_object($response)) {
-			if ($response->has_errors()) {
-				$this->set_errors($response->errors);
-			}
-			$this->set_message($response->message)
-				->set_data($response->content);
+			$this->set_errors($response->get_errors())
+				->set_message($response->get_message())
+				->set_data($response->get_content());
 		}
 		
 		return $this;
