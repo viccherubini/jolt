@@ -1,39 +1,49 @@
 <?php namespace jolt\form;
 declare(encoding='UTF-8');
 
-require_once('jolt/form_controller.php');
+class loader {
 
-class loader extends \jolt\form_controller {
-
-	private $session;
+	private $id = '';
+	private $name = '';
+	private $message = '';
 	private $key = 'jolt.form';
+	
+	private $data = array();
+	private $errors = array();
 
+	private $session = null;
+	
+	public function __construct() {
+		
+	}
+	
+	public function __destruct() {
+		
+	}
+	
 	public function attach_session(\jolt\session $session) {
 		$this->session = $session;
 		return $this;
 	}
 
 	public function load() {
-		$session = $this->get_session();
-		if (is_null($session)) {
+		if (is_null($this->session)) {
 			return false;
 		}
 
-		$id = $this->get_id();
-		if (empty($id)) {
+		if (empty($this->id)) {
 			return false;
 		}
 
-		$name = $this->get_name();
-		if (empty($name)) {
+		if (empty($this->name)) {
 			return false;
 		}
 
-		$key = $this->get_key();
-		if (isset($session->$key)) {
-			$jolt_forms = $session->$key;
-			if (array_key_exists($name, $jolt_forms)) {
-				$form_data = $jolt_forms[$name];
+		$key = $this->key;
+		if (isset($this->session->$key)) {
+			$jolt_forms = $this->session->$key;
+			if (array_key_exists($this->name, $jolt_forms)) {
+				$form_data = $jolt_forms[$this->name];
 
 				$data = json_decode($form_data['data'], true);
 				$errors = json_decode($form_data['errors'], true);
@@ -50,8 +60,8 @@ class loader extends \jolt\form_controller {
 					->set_errors($errors)
 					->set_message($form_data['message']);
 
-				unset($jolt_forms[$name]);
-				$session->$key = $jolt_forms;
+				unset($jolt_forms[$this->name]);
+				$this->session->$key = $jolt_forms;
 
 				return true;
 			}
@@ -60,17 +70,50 @@ class loader extends \jolt\form_controller {
 		return false;
 	}
 
+
+
 	public function set_key($key) {
 		$this->key = trim($key);
 		return $this;
 	}
-
-	public function get_key() {
-		return $this->key;
+	
+	public function set_id($id) {
+		$this->id = trim($id);
+		return $this;
 	}
 
-	public function get_session() {
-		return $this->session;
+	public function set_name($name) {
+		$this->name = trim($name);
+		return $this;
 	}
 
+	public function set_data($data) {
+		$this->data = (array)$data;
+		return $this;
+	}
+
+	public function set_errors($errors) {
+		$this->errors = (array)$errors;
+		return $this;
+	}
+	
+	public function set_message($message) {
+		$this->message = trim($message);
+		return $this;
+	}
+
+
+
+	public function get_data() {
+		return $this->data;
+	}
+	
+	public function get_errors() {
+		return $this->errors;
+	}
+	
+	public function get_message() {
+		return $this->message;
+	}
+	
 }

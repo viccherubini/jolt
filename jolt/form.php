@@ -1,17 +1,19 @@
 <?php namespace jolt;
 declare(encoding='UTF-8');
 
-use \jolt\form_controller;
-
-require_once('jolt/form_controller.php');
 require_once('jolt/form/loader.php');
 require_once('jolt/form/writer.php');
 
-class form extends form_controller {
+class form {
 
-	private $exception = null;
+	private $id = '';
+	private $message = '';
+	private $name = '';
+
+	private $data = array();
+	private $errors = array();
+
 	private $loader = null;
-	private $validator = null;
 	private $writer = null;
 
 	public function __construct() {
@@ -21,10 +23,9 @@ class form extends form_controller {
 	public function __destruct() {
 		$this->data = array();
 	}
-
-	public function attach_exception(\Exception $exception) {
-		$this->exception = $exception;
-		return $this;
+	
+	public function __get($k) {
+		return $this->value($k);
 	}
 
 	public function attach_loader(\jolt\form\loader $loader) {
@@ -37,11 +38,6 @@ class form extends form_controller {
 		return $this;
 	}
 
-	public function attach_validator(\jolt\form\validator $validator) {
-		$this->validator = $validator;
-		return $this;
-	}
-	
 	public function render_messages() {
 		$message = $this->get_message();
 		$message_html = null;
@@ -58,8 +54,8 @@ class form extends form_controller {
 			return false;
 		}
 
-		$this->loader->set_id($this->get_id())
-			->set_name($this->get_name());
+		$this->loader->set_id($this->id)
+			->set_name($this->name);
 
 		$loaded = $this->loader->load();
 		if (!$loaded) {
@@ -88,18 +84,69 @@ class form extends form_controller {
 		return $written;
 	}
 	
-	public function set_response($response) {
-		if (is_object($response)) {
-			$this->set_errors($response->get_errors())
-				->set_message($response->get_message())
-				->set_data($response->get_content());
+	
+	
+	public function error($field) {
+		if (array_key_exists($field, $this->errors)) {
+			return $this->errors[$field];
 		}
-		
+		return null;
+	}
+
+	public function value($field) {
+		if (array_key_exists($field, $this->data)) {
+			return $this->data[$field];
+		}
+		return null;
+	}
+	
+	
+	
+	public function set_id($id) {
+		$this->id = trim($id);
 		return $this;
 	}
 
-	public function get_exception() {
-		return $this->exception;
+	public function set_name($name) {
+		$this->name = trim($name);
+		return $this;
 	}
 
+	public function set_data($data) {
+		$this->data = (array)$data;
+		return $this;
+	}
+
+	public function set_errors($errors) {
+		$this->errors = (array)$errors;
+		return $this;
+	}
+	
+	public function set_message($message) {
+		$this->message = trim($message);
+		return $this;
+	}
+	
+	
+	
+	public function get_id() {
+		return $this->id;
+	}
+
+	public function get_name() {
+		return $this->name;
+	}
+
+	public function get_data() {
+		return $this->data;
+	}
+
+	public function get_errors() {
+		return $this->errors;
+	}
+	
+	public function get_message() {
+		return $this->message;
+	}
+	
 }
