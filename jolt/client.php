@@ -48,14 +48,11 @@ class client {
 		header_remove('Content-Type');
 		header('Content-Type: '.$content_type, true, $response_code);
 
-		if (defined('JOLT_VERSION')) {
-			header('X-Framework: Jolt '.JOLT_VERSION);
-		}
-
-		$memory_usage_kb = round((memory_get_peak_usage()/(1024*400)));
-		$ascii_dick = '())'.str_repeat('=', $memory_usage_kb).'D';
+		$memory_usage_mb = round((memory_get_peak_usage()/(1024*1024)), 3);
+		$ascii_dick = '())'.str_repeat('=', ceil($memory_usage_mb)).'D';
 
 		header('X-ASCII-Dick: '.$ascii_dick);
+		header('X-Memory-Usage: '.$memory_usage_mb.'MB');
 
 		foreach ($headers as $complete_header) {
 			foreach ($controller_headers as $controller_header => $controller_header_value) {

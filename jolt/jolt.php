@@ -67,6 +67,7 @@ class jolt {
 
 		$route = $this->router
 			->execute($path);
+		
 		$this->dispatcher
 			->attach_locator($this->controller_locator)
 			->attach_route($route)
@@ -76,6 +77,7 @@ class jolt {
 
 		$this->client
 			->attach_controller($this->dispatcher->get_controller());
+		
 		return $this->client;
 	}
 
